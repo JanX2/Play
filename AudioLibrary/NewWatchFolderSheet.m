@@ -96,8 +96,8 @@
 	
 	if(NSOKButton == [panel runModalForTypes:nil]) {
 		NSArray		*URLs			= [panel URLs];
-		unsigned	count			= [URLs count];
-		unsigned	i;
+		NSUInteger	count			= [URLs count];
+		NSUInteger	i;
 		NSURL		*url;
 		
 		for(i = 0; i < count; ++i) {

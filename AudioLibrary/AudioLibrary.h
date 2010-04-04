@@ -109,8 +109,8 @@ extern NSString * const		PlayQueueKey;
 	BOOL					_streamReorderingAllowed;
 
 	NSMutableArray			*_playQueue;	
-	unsigned				_playbackIndex;
-	unsigned				_nextPlaybackIndex;
+	NSUInteger				_playbackIndex;
+	NSUInteger				_nextPlaybackIndex;
 	
 	BOOL					_sentNextStreamRequest;
 	
@@ -163,7 +163,7 @@ extern NSString * const		PlayQueueKey;
 - (IBAction)	playNextStream:(id)sender;
 - (IBAction)	playPreviousStream:(id)sender;
 
-- (void)		playStreamAtIndex:(unsigned)index;
+- (void)		playStreamAtIndex:(NSUInteger)index;
 
 - (BOOL)		isPlaying;
 
@@ -230,18 +230,18 @@ extern NSString * const		PlayQueueKey;
 - (void)			addTracksToPlayQueueByComposer:(NSString *)composer;
 - (void)			addTracksToPlayQueueByGenre:(NSString *)genre;
 
-- (unsigned)		countOfPlayQueue;
-- (AudioStream *)	objectInPlayQueueAtIndex:(unsigned)index;
+- (NSUInteger)		countOfPlayQueue;
+- (AudioStream *)	objectInPlayQueueAtIndex:(NSUInteger)index;
 - (void)			getPlayQueue:(id *)buffer range:(NSRange)aRange;
 
-- (void)			insertObject:(AudioStream *)stream inPlayQueueAtIndex:(unsigned)index;
-- (void)			removeObjectFromPlayQueueAtIndex:(unsigned)index;
+- (void)			insertObject:(AudioStream *)stream inPlayQueueAtIndex:(NSUInteger)index;
+- (void)			removeObjectFromPlayQueueAtIndex:(NSUInteger)index;
 
 - (void)			addStreamToPlayQueue:(AudioStream *)stream;
 - (void)			addStreamsToPlayQueue:(NSArray *)streams;
 - (void)			sortStreamsAndAddToPlayQueue:(NSArray *)streams;
 
-- (void)			insertStreams:(NSArray *)streams inPlayQueueAtIndex:(unsigned)index;
+- (void)			insertStreams:(NSArray *)streams inPlayQueueAtIndex:(NSUInteger)index;
 - (void)			insertStreams:(NSArray *)streams inPlayQueueAtIndexes:(NSIndexSet *)indexes;
 
 - (IBAction)		clearPlayQueue:(id)sender;

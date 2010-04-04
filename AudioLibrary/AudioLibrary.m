@@ -174,8 +174,8 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 // Callback Methods (for sheets, etc.)
 // ========================================
 @interface AudioLibrary (CallbackMethods)
-- (void) openDocumentSheetDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode  contextInfo:(void *)contextInfo;
-- (void) showNewWatchFolderSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void) openDocumentSheetDidEnd:(NSOpenPanel *)panel returnCode:(NSInteger)returnCode  contextInfo:(void *)contextInfo;
+- (void) showNewWatchFolderSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 // ========================================
@@ -186,15 +186,15 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 - (void) setPlayButtonEnabled:(BOOL)playButtonEnabled;
 
-- (unsigned) playbackIndex;
-- (void) setPlaybackIndex:(unsigned)playbackIndex;
+- (NSUInteger) playbackIndex;
+- (void) setPlaybackIndex:(NSUInteger)playbackIndex;
 
-- (unsigned) nextPlaybackIndex;
-- (void) setNextPlaybackIndex:(unsigned)nextPlaybackIndex;
+- (NSUInteger) nextPlaybackIndex;
+- (void) setNextPlaybackIndex:(NSUInteger)nextPlaybackIndex;
 
 - (void) setPlayQueueFromArray:(NSArray *)streams;
 
-- (void) addRandomTracksFromLibraryToPlayQueue:(unsigned)count;
+- (void) addRandomTracksFromLibraryToPlayQueue:(NSUInteger)count;
 
 - (BOOL) addStreamsFromExternalCueSheet:(NSString *)filename;
 
@@ -510,7 +510,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 - (id) 			copyWithZone:(NSZone *)zone			{ return self; }
 - (id) 			retain								{ return self; }
-- (unsigned) 	retainCount							{ return UINT_MAX;  /* denotes an object that cannot be released */ }
+- (NSUInteger) 	retainCount							{ return NSUIntegerMax;  /* denotes an object that cannot be released */ }
 - (void) 		release								{ /* do nothing */ }
 - (id) 			autorelease							{ return self; }
 
@@ -584,7 +584,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	else if([menuItem action] == @selector(toggleLoopPlayback:))
 		return (0 != [self countOfPlayQueue] && NO == [self randomPlayback]);
 	else if([menuItem action] == @selector(toggleBrowser:)) {
-		int state = [_browserDrawer state];
+		NSInteger state = [_browserDrawer state];
 		if(NSDrawerClosingState == state || NSDrawerClosedState == state)
 			[menuItem setTitle:NSLocalizedStringFromTable(@"Show Browser", @"Menus", @"")];
 		else
@@ -603,7 +603,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	else if([menuItem action] == @selector(scramblePlayQueue:))
 		return (1 < [self countOfPlayQueue]);
 	else if([menuItem action] == @selector(prunePlayQueue:)) {
-		unsigned count = [[_playQueueController selectionIndexes] count];
+		NSUInteger count = [[_playQueueController selectionIndexes] count];
 		return (0 < count && count < [self countOfPlayQueue]);
 	}
 	
@@ -1147,13 +1147,13 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	
 	if(NO == [[self player] hasValidStream]) {
 		if(0 != [self countOfPlayQueue]) {
-			unsigned playIndex = ([self randomPlayback] ? (unsigned)(genrand_real2() * [self countOfPlayQueue]) : 0);			
+			NSUInteger playIndex = ([self randomPlayback] ? (NSUInteger)(genrand_real2() * [self countOfPlayQueue]) : 0);			
 			[self playStreamAtIndex:playIndex];
 		}
 		else if([self randomPlayback]) {
 			NSArray		*streams			= (1 < [[_streamController selectedObjects] count] ? [_streamController selectedObjects] : [_streamController arrangedObjects]);
 			double		randomNumber		= genrand_real2();
-			unsigned	randomIndex			= (unsigned)(randomNumber * [streams count]);
+			NSUInteger	randomIndex			= (NSUInteger)(randomNumber * [streams count]);
 			
 			[self setPlayQueueFromArray:streams];
 			[self playStreamAtIndex:randomIndex];
@@ -1270,7 +1270,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	}
 	
 	AudioStream		*stream			= [self nowPlaying];
-	unsigned		streamIndex;
+	NSUInteger		streamIndex;
 	
 	[stream setPlaying:NO];
 	
@@ -1282,10 +1282,10 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	}
 	else if([self randomPlayback]) {
 		double			randomNumber;
-		unsigned		randomIndex;
+		NSUInteger		randomIndex;
 		
 		randomNumber	= genrand_real2();
-		randomIndex		= (unsigned)(randomNumber * [streams count]);
+		randomIndex		= (NSUInteger)(randomNumber * [streams count]);
 		
 		[self playStreamAtIndex:randomIndex];
 	}
@@ -1314,7 +1314,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	}
 
 	AudioStream		*stream			= [self nowPlaying];
-	unsigned		streamIndex;
+	NSUInteger		streamIndex;
 	
 	[stream setPlaying:NO];
 	
@@ -1324,10 +1324,10 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 		[self setPlaybackIndex:NSNotFound];
 	else if([self randomPlayback]) {
 		double			randomNumber;
-		unsigned		randomIndex;
+		NSUInteger		randomIndex;
 		
 		randomNumber	= genrand_real2();
-		randomIndex		= (unsigned)(randomNumber * [streams count]);
+		randomIndex		= (NSUInteger)(randomNumber * [streams count]);
 		
 		[self playStreamAtIndex:randomIndex];
 	}
@@ -1355,7 +1355,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	
 	if(nil != currentStream) {
 		NSNumber		*skipCount		= [currentStream valueForKey:StatisticsSkipCountKey];
-		NSNumber		*newSkipCount	= [NSNumber numberWithUnsignedInt:[skipCount unsignedIntValue] + 1];
+		NSNumber		*newSkipCount	= [NSNumber numberWithUnsignedInteger:[skipCount unsignedIntegerValue] + 1];
 
 		[currentStream setPlaying:NO];
 
@@ -1417,12 +1417,12 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 - (NSNumber *) volume
 {
-	return [NSNumber numberWithFloat:(float)([[self player] volume]*100.0f)];
+	return [NSNumber numberWithDouble:(float)([[self player] volume]*100.0f)];
 }
 
 - (void) setVolume:(NSNumber *)volume
 {
-	[[self player] setVolume:(Float32)([volume floatValue]/100.0f)];
+	[[self player] setVolume:(Float32)([volume doubleValue]/100.0f)];
 }
 
 - (NSTimeInterval) playerPosition
@@ -1433,7 +1433,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 #pragma mark Play Queue management
 
-- (unsigned) countOfPlayQueue
+- (NSUInteger) countOfPlayQueue
 {
 	return [_playQueue count];
 }
@@ -1536,9 +1536,9 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 - (IBAction) scramblePlayQueue:(id)sender
 {
-	unsigned	i;
+	NSUInteger	i;
 	double		randomNumber;
-	unsigned	randomIndex;
+	NSUInteger	randomIndex;
 	
 	[self willChangeValueForKey:PlayQueueKey];
 	for(i = 0; i < [self countOfPlayQueue]; ++i) {
@@ -1548,7 +1548,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 		
 		do {
 			randomNumber	= genrand_real2();
-			randomIndex		= (unsigned)(randomNumber * [self countOfPlayQueue]);
+			randomIndex		= (NSUInteger)(randomNumber * [self countOfPlayQueue]);
 		} while(randomIndex == [self playbackIndex]);
 		
 		[_playQueue exchangeObjectAtIndex:i withObjectAtIndex:randomIndex];
@@ -1675,7 +1675,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 @implementation AudioLibrary (NSTableViewDelegateMethods)
 
-- (NSString *) tableView:(NSTableView *)tableView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)aTableColumn row:(int)row mouseLocation:(NSPoint)mouseLocation
+- (NSString *) tableView:(NSTableView *)tableView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation
 {
     if([cell isKindOfClass:[NSTextFieldCell class]]) {
         if([[cell attributedStringValue] size].width > rect->size.width)
@@ -1685,7 +1685,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
     return nil;
 }
 
-- (void) tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void) tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	if(tableView == _playQueueTable) {
 		NSDictionary *infoForBinding = [tableView infoForBinding:NSContentBinding];
@@ -1693,7 +1693,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 		if(nil != infoForBinding) {
 			NSArrayController	*arrayController	= [infoForBinding objectForKey:NSObservedObjectKey];
 			AudioStream			*stream				= [[arrayController arrangedObjects] objectAtIndex:rowIndex];
-			BOOL				highlight			= ([stream isPlaying] && rowIndex == (int)[self playbackIndex]);
+			BOOL				highlight			= ([stream isPlaying] && rowIndex == (NSInteger)[self playbackIndex]);
 			
 			// Icon for now playing
 			if([[aTableColumn identifier] isEqual:@"nowPlaying"])
@@ -1736,7 +1736,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 		NSMutableDictionary		*sizes			= [NSMutableDictionary dictionary];
 		
 		for(id column in [_streamTable tableColumns])
-			[sizes setObject:[NSNumber numberWithFloat:[column width]] forKey:[column identifier]];
+			[sizes setObject:[NSNumber numberWithDouble:(double)[column width]] forKey:[column identifier]];
 		
 		[[NSUserDefaults standardUserDefaults] setObject:sizes forKey:@"streamTableColumnSizes"];
 	}
@@ -1744,7 +1744,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 		NSMutableDictionary		*sizes			= [NSMutableDictionary dictionary];
 		
 		for(id column in [_playQueueTable tableColumns])
-			[sizes setObject:[NSNumber numberWithFloat:[column width]] forKey:[column identifier]];
+			[sizes setObject:[NSNumber numberWithDouble:(double)[column width]] forKey:[column identifier]];
 		
 		[[NSUserDefaults standardUserDefaults] setObject:sizes forKey:@"playQueueTableColumnSizes"];
 	}
@@ -1808,7 +1808,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 	// If the row is selected but isn't being edited and the current drawing isn't being used to create a drag image,
 	// colour the text white; otherwise, colour it black
-	int rowIndex = [outlineView rowForItem:item];
+	NSInteger rowIndex = [outlineView rowForItem:item];
 	NSColor *fontColor = ([[outlineView selectedRowIndexes] containsIndex:rowIndex] && [outlineView editedRow] != rowIndex) ? [NSColor whiteColor] : [NSColor blackColor];
 	[cell setTextColor:fontColor];
 }
@@ -1816,7 +1816,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 - (void) outlineViewSelectionDidChange:(NSNotification *)notification
 {
 	NSOutlineView				*outlineView		= [notification object];
-	int							selectedRow			= [outlineView selectedRow];
+	NSInteger							selectedRow			= [outlineView selectedRow];
 	id							opaqueNode			= [outlineView itemAtRow:selectedRow];
 	NSArray						*selected			= [_streamController selectedObjects];
 	NSDictionary				*bindingInfo		= [_streamController infoForBinding:@"contentArray"];
@@ -1892,7 +1892,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 @implementation AudioLibrary (NSBrowserDelegateMethods)
 
-- (int) browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column
+- (NSInteger) browser:(NSBrowser *)sender numberOfRowsInColumn:(NSInteger)column
 {
 	if(0 == column) {
 		NSString	*keyName	= [NSString stringWithFormat:@"@distinctUnionOfObjects.%@", MetadataArtistKey];
@@ -1932,7 +1932,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	return nil;
 }*/
 
-- (void) browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column
+- (void) browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(NSInteger)row column:(NSInteger)column
 {
 	if(0 == column) {
 		NSString	*keyName	= [NSString stringWithFormat:@"@distinctUnionOfObjects.%@", MetadataArtistKey];
@@ -1956,11 +1956,11 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 @implementation AudioLibrary (CallbackMethods)
 
-- (void) openDocumentSheetDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode  contextInfo:(void *)contextInfo
+- (void) openDocumentSheetDidEnd:(NSOpenPanel *)panel returnCode:(NSInteger)returnCode  contextInfo:(void *)contextInfo
 {
 	if(NSOKButton == returnCode) {
 #if SQL_DEBUG
-		unsigned startCount = [[[[CollectionManager manager] streamManager] streams] count];
+		NSUInteger startCount = [[[[CollectionManager manager] streamManager] streams] count];
 		clock_t start = clock();
 #endif
 		
@@ -1988,17 +1988,17 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 #if SQL_DEBUG
 		clock_t end = clock();
-		unsigned endCount = [[[[CollectionManager manager] streamManager] streams] count];
-		unsigned filesAdded = endCount - startCount;
+		NSUInteger endCount = [[[[CollectionManager manager] streamManager] streams] count];
+		NSUInteger filesAdded = endCount - startCount;
 		double elapsed = (end - start) / (double)CLOCKS_PER_SEC;
-		NSLog(@"Added %i files in %f seconds (%f files per second)", filesAdded, elapsed, (double)filesAdded / elapsed);
+		NSLog(@"Added %lu files in %f seconds (%f files per second)", (long)filesAdded, elapsed, (double)filesAdded / elapsed);
 #endif
 		
 		[_streamController rearrangeObjects];
 	}
 }
 
-- (void) showNewWatchFolderSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void) showNewWatchFolderSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	NewWatchFolderSheet *newWatchFolderSheet = (NewWatchFolderSheet *)contextInfo;
 	
@@ -2129,7 +2129,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 {
 	AudioStream		*stream			= [self nowPlaying];	
 	NSNumber		*playCount		= [stream valueForKey:StatisticsPlayCountKey];
-	NSNumber		*newPlayCount	= [NSNumber numberWithUnsignedInt:[playCount unsignedIntValue] + 1];
+	NSNumber		*newPlayCount	= [NSNumber numberWithUnsignedInteger:[playCount unsignedIntegerValue] + 1];
 	
 	[stream setPlaying:NO];
 	
@@ -2177,7 +2177,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 {
 	AudioStream		*stream			= [self nowPlaying];	
 	NSNumber		*playCount		= [stream valueForKey:StatisticsPlayCountKey];
-	NSNumber		*newPlayCount	= [NSNumber numberWithUnsignedInt:[playCount unsignedIntValue] + 1];
+	NSNumber		*newPlayCount	= [NSNumber numberWithUnsignedInteger:[playCount unsignedIntegerValue] + 1];
 	
 	[stream setPlaying:NO];
 	
@@ -2217,14 +2217,14 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 - (void) requestNextStream
 {
 	AudioStream		*stream			= [self nowPlaying];
-	unsigned		streamIndex;
+	NSUInteger		streamIndex;
 	NSArray			*streams		= _playQueue;
 	
 	if(nil == stream || 0 == [streams count])
 		[self setNextPlaybackIndex:NSNotFound];
 	else if([self randomPlayback]) {
 		double		randomNumber;
-		unsigned	randomIndex;
+		NSUInteger	randomIndex;
 		
 		if([[NSUserDefaults standardUserDefaults] boolForKey:@"removeStreamsFromPlayQueueWhenFinished"]) {
 			if(1 == [streams count])
@@ -2232,13 +2232,13 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 			else {
 				do {
 					randomNumber	= genrand_real2();
-					randomIndex		= (unsigned)(randomNumber * [streams count]);
+					randomIndex		= (NSUInteger)(randomNumber * [streams count]);
 				} while(randomIndex == [self playbackIndex]);
 			}
 		}
 		else {
 			randomNumber	= genrand_real2();
-			randomIndex		= (unsigned)(randomNumber * [streams count]);
+			randomIndex		= (NSUInteger)(randomNumber * [streams count]);
 		}
 		
 		[self setNextPlaybackIndex:randomIndex];
@@ -2291,11 +2291,11 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 - (void)		setPlayButtonEnabled:(BOOL)playButtonEnabled		{ _playButtonEnabled = playButtonEnabled; }
 
-- (unsigned)	playbackIndex										{ return _playbackIndex; }
+- (NSUInteger)	playbackIndex										{ return _playbackIndex; }
 
-- (void) setPlaybackIndex:(unsigned)playbackIndex
+- (void) setPlaybackIndex:(NSUInteger)playbackIndex
 {
-	unsigned oldPlaybackIndex = _playbackIndex;
+	NSUInteger oldPlaybackIndex = _playbackIndex;
 	
 	_playbackIndex = playbackIndex;
 	
@@ -2309,8 +2309,8 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	[_playQueueTable setNeedsDisplayInRect:[_playQueueTable rectOfRow:oldPlaybackIndex]];
 }
 
-- (unsigned)	nextPlaybackIndex									{ return _nextPlaybackIndex; }
-- (void)		setNextPlaybackIndex:(unsigned)nextPlaybackIndex	{ _nextPlaybackIndex = nextPlaybackIndex; }
+- (NSUInteger)	nextPlaybackIndex									{ return _nextPlaybackIndex; }
+- (void)		setNextPlaybackIndex:(NSUInteger)nextPlaybackIndex	{ _nextPlaybackIndex = nextPlaybackIndex; }
 
 - (void) setPlayQueueFromArray:(NSArray *)streams
 {
@@ -2320,17 +2320,17 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	[self didChangeValueForKey:PlayQueueKey];
 }
 
-- (void) addRandomTracksFromLibraryToPlayQueue:(unsigned)count
+- (void) addRandomTracksFromLibraryToPlayQueue:(NSUInteger)count
 {
 	NSArray			*streams		= [[[CollectionManager manager] streamManager] streams];
 	double			randomNumber;
-	unsigned		randomIndex;
-	unsigned		i;
+	NSUInteger		randomIndex;
+	NSUInteger		i;
 	
 	[self willChangeValueForKey:PlayQueueKey];
 	for(i = 0; i < count; ++i) {
 		randomNumber	= genrand_real2();
-		randomIndex		= (unsigned)(randomNumber * [streams count]);
+		randomIndex		= (NSUInteger)(randomNumber * [streams count]);
 		[_playQueue addObject:[streams objectAtIndex:randomIndex]];
 	}
 	[self didChangeValueForKey:PlayQueueKey];
@@ -2370,7 +2370,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 - (void) updatePlayQueueHistory
 {
 	if(NO == [[NSUserDefaults standardUserDefaults] boolForKey:@"removeStreamsFromPlayQueueWhenFinished"] && [[NSUserDefaults standardUserDefaults] boolForKey:@"limitPlayQueueHistorySize"] && NO == [self randomPlayback]) {
-		unsigned playQueueHistorySize	= [[NSUserDefaults standardUserDefaults] integerForKey:@"playQueueHistorySize"];
+		NSUInteger playQueueHistorySize	= [[NSUserDefaults standardUserDefaults] integerForKey:@"playQueueHistorySize"];
 		NSUInteger thisIndex					= [self playbackIndex];
 		
 		[self willChangeValueForKey:PlayQueueKey];
@@ -2492,7 +2492,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 - (void) saveBrowserStateToDefaults
 {
-	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:[_browserDrawer state]] forKey:@"browserDrawerState"];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:[_browserDrawer state]] forKey:@"browserDrawerState"];
 	[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:[_browserController selectionIndexPath]] forKey:@"browserSelectionIndexPathArchive"];
 }
 
@@ -2534,7 +2534,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 - (void) setupStreamTableColumns
 {
 	NSMenuItem		*contextMenuItem;	
-	int				menuIndex, i;
+	NSInteger				menuIndex, i;
 	
 	// Setup stream table columns
 	NSDictionary	*visibleDictionary	= [[NSUserDefaults standardUserDefaults] objectForKey:@"streamTableColumnVisibility"];
@@ -2595,7 +2595,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 		[contextMenuItem setState:([[visibleDictionary objectForKey:[obj identifier]] boolValue] ? NSOnState : NSOffState)];
 		
 //		NSLog(@"setting width of %@ to %f", [obj identifier], [[sizesDictionary objectForKey:[obj identifier]] floatValue]);
-		[obj setWidth:[[sizesDictionary objectForKey:[obj identifier]] floatValue]];
+		[obj setWidth:(CGFloat)[[sizesDictionary objectForKey:[obj identifier]] doubleValue]];
 		
 		if([[visibleDictionary objectForKey:[obj identifier]] boolValue])
 			[_streamTableVisibleColumns addObject:obj];
@@ -2619,7 +2619,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 - (void) setupPlayQueueTableColumns
 {
 	NSMenuItem		*contextMenuItem;	
-	int				menuIndex, i;
+	NSInteger				menuIndex, i;
 	
 	// Setup stream table columns
 	NSDictionary	*visibleDictionary	= [[NSUserDefaults standardUserDefaults] objectForKey:@"playQueueTableColumnVisibility"];
@@ -2679,7 +2679,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 		[contextMenuItem setState:([[visibleDictionary objectForKey:[obj identifier]] boolValue] ? NSOnState : NSOffState)];
 		
 //		NSLog(@"setting width of %@ to %f", [obj identifier], [[sizesDictionary objectForKey:[obj identifier]] floatValue]);
-		[obj setWidth:[[sizesDictionary objectForKey:[obj identifier]] floatValue]];
+		[obj setWidth:(CGFloat)[[sizesDictionary objectForKey:[obj identifier]] doubleValue]];
 		
 		if([[visibleDictionary objectForKey:[obj identifier]] boolValue])
 			[_playQueueTableVisibleColumns addObject:obj];
@@ -2913,7 +2913,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 @implementation AudioLibrary (ScriptingAdditions)
 
-- (unsigned) countOfTracks
+- (NSUInteger) countOfTracks
 {
 	return [[[[CollectionManager manager] streamManager] streams] count];
 }
@@ -2933,7 +2933,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	return [[[CollectionManager manager] streamManager] streamForID:uniqueID];	
 }
 
-- (unsigned) countOfPlaylists
+- (NSUInteger) countOfPlaylists
 {
 	return [[[[CollectionManager manager] playlistManager] playlists] count];
 }
@@ -2953,7 +2953,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	return [[[CollectionManager manager] playlistManager] playlistForID:uniqueID];	
 }
 
-- (unsigned) countOfSmartPlaylists
+- (NSUInteger) countOfSmartPlaylists
 {
 	return [[[[CollectionManager manager] smartPlaylistManager] smartPlaylists] count];
 }
@@ -2973,7 +2973,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	return [[[CollectionManager manager] smartPlaylistManager] smartPlaylistForID:uniqueID];	
 }
 
-- (unsigned) countOfWatchFolders
+- (NSUInteger) countOfWatchFolders
 {
 	return [[[[CollectionManager manager] watchFolderManager] watchFolders] count];
 }

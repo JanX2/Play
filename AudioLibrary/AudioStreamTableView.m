@@ -56,22 +56,22 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 {
 	NSLog(@"mSampleRate         %f", asbd->mSampleRate);
 	NSLog(@"mFormatID           %.4s", (const char *)(&asbd->mFormatID));
-	NSLog(@"mFormatFlags        %u", asbd->mFormatFlags);
-	NSLog(@"mBytesPerPacket     %u", asbd->mBytesPerPacket);
-	NSLog(@"mFramesPerPacket    %u", asbd->mFramesPerPacket);
-	NSLog(@"mBytesPerFrame      %u", asbd->mBytesPerFrame);
-	NSLog(@"mChannelsPerFrame   %u", asbd->mChannelsPerFrame);
-	NSLog(@"mBitsPerChannel     %u", asbd->mBitsPerChannel);
-	NSLog(@"mReserved           %u", asbd->mReserved);
+	NSLog(@"mFormatFlags        " PRIu32, asbd->mFormatFlags);
+	NSLog(@"mBytesPerPacket     " PRIu32, asbd->mBytesPerPacket);
+	NSLog(@"mFramesPerPacket    " PRIu32, asbd->mFramesPerPacket);
+	NSLog(@"mBytesPerFrame      " PRIu32, asbd->mBytesPerFrame);
+	NSLog(@"mChannelsPerFrame   " PRIu32, asbd->mChannelsPerFrame);
+	NSLog(@"mBitsPerChannel     " PRIu32, asbd->mBitsPerChannel);
+	NSLog(@"mReserved           " PRIu32, asbd->mReserved);
 }
 #endif
 
 @interface AudioStreamTableView (Private)
-- (void) openWithPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-- (void) showStreamInformationSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-- (void) showMetadataEditingSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-- (void) showMusicBrainzMatchesSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-- (void) showMusicBrainzSearchSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void) openWithPanelDidEnd:(NSOpenPanel *)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void) showStreamInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void) showMetadataEditingSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void) showMusicBrainzMatchesSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void) showMusicBrainzSearchSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (void) performReplayGainCalculationForStreams:(NSArray *)streams calculateAlbumGain:(BOOL)calculateAlbumGain;
 - (void) performPUIDCalculationForStreams:(NSArray *)streams;
 @end
@@ -917,7 +917,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 	AudioFileTypeID outputTypeID;
 	
 	// Iterate through them and determine which support this format
-	unsigned i;
+	NSUInteger i;
 	for(i = 0; i < numWritableTypes; ++i) {
 		AudioFileTypeAndFormatID typeAndFormatID;
 		
@@ -1192,13 +1192,13 @@ bail:
 
 @implementation AudioStreamTableView (Private)
 
-- (void) openWithPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void) openWithPanelDidEnd:(NSOpenPanel *)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {	
 	if(NSOKButton == returnCode) {
 		NSString		*path				= nil;
 		NSArray			*applications		= [panel filenames];
 		NSString		*applicationPath	= nil;
-		unsigned		i;
+		NSUInteger		i;
 		
 		for(i = 0; i < [applications count]; ++i) {
 			applicationPath		= [applications objectAtIndex:i];
@@ -1211,7 +1211,7 @@ bail:
 	}
 }
 
-- (void) showStreamInformationSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void) showStreamInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	AudioStreamInformationSheet *streamInformationSheet = (AudioStreamInformationSheet *)contextInfo;
 	
@@ -1219,7 +1219,7 @@ bail:
 	[streamInformationSheet release];
 }
 
-- (void) showMetadataEditingSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void) showMetadataEditingSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	AudioMetadataEditingSheet *metadataEditingSheet = (AudioMetadataEditingSheet *)contextInfo;
 	
@@ -1241,7 +1241,7 @@ bail:
 	[metadataEditingSheet release];
 }
 
-- (void) showMusicBrainzMatchesSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void) showMusicBrainzMatchesSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	MusicBrainzMatchesSheet *matchesSheet = (MusicBrainzMatchesSheet *)contextInfo;
 	
@@ -1278,7 +1278,7 @@ bail:
 	[matchesSheet release];
 }
 
-- (void) showMusicBrainzSearchSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void) showMusicBrainzSearchSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	MusicBrainzSearchSheet *searchSheet = (MusicBrainzSearchSheet *)contextInfo;
 	
@@ -1300,7 +1300,7 @@ bail:
 }
 
 #if 0
-- (void) showFileConversionSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void) showFileConversionSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	FileConversionSheet *fileConversionSheet = (FileConversionSheet *)contextInfo;
 	

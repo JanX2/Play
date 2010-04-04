@@ -32,14 +32,14 @@
 NSString * const PlayQueueTableMovedRowsPboardType	= @"org.sbooth.Play.AudioLibrary.PlayQueueTable.MovedRowsPboardType";
 
 @interface AudioLibrary (Private)
-- (unsigned) playbackIndex;
-- (void) setPlaybackIndex:(unsigned)playbackIndex;
+- (NSUInteger) playbackIndex;
+- (void) setPlaybackIndex:(NSUInteger)playbackIndex;
 @end
 
 @interface AudioStreamArrayController (Private)
-- (void) moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet toIndex:(unsigned)insertIndex;
+- (void) moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet toIndex:(NSUInteger)insertIndex;
 - (NSIndexSet *) indexSetForRows:(NSArray *)rows;
-- (int) rowsAboveRow:(int)row inIndexSet:(NSIndexSet *)indexSet;
+- (NSInteger) rowsAboveRow:(NSInteger)row inIndexSet:(NSIndexSet *)indexSet;
 @end
 
 @implementation PlayQueueArrayController
@@ -50,7 +50,7 @@ NSString * const PlayQueueTableMovedRowsPboardType	= @"org.sbooth.Play.AudioLibr
 	NSMutableArray		*objectIDs		= [NSMutableArray array];
 	AudioStream			*stream			= nil;
 	BOOL				success			= NO;
-	unsigned			i;
+	NSUInteger			i;
 	
 	for(i = 0; i < [objects count]; ++i) {
 		stream = [objects objectAtIndex:i];		
@@ -69,7 +69,7 @@ NSString * const PlayQueueTableMovedRowsPboardType	= @"org.sbooth.Play.AudioLibr
 	return success;
 }
 
-- (NSDragOperation) tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op
+- (NSDragOperation) tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)op
 {
 	NSDragOperation dragOperation = NSDragOperationNone;
 	
@@ -87,7 +87,7 @@ NSString * const PlayQueueTableMovedRowsPboardType	= @"org.sbooth.Play.AudioLibr
 	return dragOperation;
 }
 
-- (BOOL) tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)op
+- (BOOL) tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
 {
     if(0 > row)
 		row = 0;
@@ -96,15 +96,15 @@ NSString * const PlayQueueTableMovedRowsPboardType	= @"org.sbooth.Play.AudioLibr
     if(tableView == [info draggingSource]) {
 		NSData			*indexData		= [[info draggingPasteboard] dataForType:PlayQueueTableMovedRowsPboardType];
 		NSIndexSet		*rowIndexes		= [NSKeyedUnarchiver unarchiveObjectWithData:indexData];
-		unsigned		playbackIndex	= NSNotFound;
-		int				rowsAbove;
+		NSUInteger		playbackIndex	= NSNotFound;
+		NSInteger				rowsAbove;
 		NSRange			range;
 		
 		// If the currently playing stream is being dragged, determine what its new index will be
 		// First count how many rows with indexes less than the currently playing stream's index are being dragged
 		if([rowIndexes containsIndex:[[AudioLibrary library] playbackIndex]]) {
-			unsigned count		= 0;
-			unsigned index		= [rowIndexes lastIndex];
+			NSUInteger count		= 0;
+			NSUInteger index		= [rowIndexes lastIndex];
 			
 			while(NSNotFound != index) {
 				if(index < [[AudioLibrary library] playbackIndex]) {

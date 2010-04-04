@@ -115,7 +115,7 @@ enum {
 	NSNumber		*attributeType			= [representedObject valueForKey:@"attributeType"];
 	
 	[self setKeyPath:keyPath];
-	[self setAttributeType:[attributeType intValue]];
+	[self setAttributeType:[attributeType integerValue]];
 }
 
 - (NSView *) view
@@ -203,7 +203,7 @@ enum {
 	id				representedObject	= [self propertiesDictionaryForKeyPath:[self keyPath]];
 	
 	// Update our attribute type, which could swap out the view
-	[self setAttributeType:[[representedObject valueForKey:@"attributeType"] intValue]];
+	[self setAttributeType:[[representedObject valueForKey:@"attributeType"] integerValue]];
 
 	// Sync the popUpButton's selection (necessary since our view could have changed)
 	popUpButton = [[self view] viewWithTag:KeyPathPopupButtonTag];
@@ -444,7 +444,7 @@ enum {
 
 - (NSAttributeType) attributeTypeForKeyPath:(NSString *)keyPath
 {
-	return [[[self propertiesDictionaryForKeyPath:keyPath] valueForKey:@"attributeType"] intValue];
+	return [[[self propertiesDictionaryForKeyPath:keyPath] valueForKey:@"attributeType"] integerValue];
 }
 
 - (NSString *) displayNameForKeyPath:(NSString *)keyPath
@@ -585,7 +585,7 @@ enum {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		keyPath,									@"keyPath",
 		displayName,								@"displayName",
-		[NSNumber numberWithInt:attributeType],		@"attributeType",
+		[NSNumber numberWithInteger:attributeType],		@"attributeType",
 		nil];
 }
 

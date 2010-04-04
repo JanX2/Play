@@ -28,9 +28,9 @@ extern NSString * const		PlayQueueTableMovedRowsPboardType;
 
 @interface PlayQueueTableView : AudioStreamTableView 
 {
-	int _highlightedRow;
+	NSInteger _highlightedRow;
 }
 
-- (void) setHighlightedRow:(int)row;
+- (void) setHighlightedRow:(NSInteger)row;
 
 @end

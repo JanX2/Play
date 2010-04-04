@@ -25,7 +25,7 @@
 #import "CTGradient.h"
 
 @interface AudioLibrary (Private)
-- (unsigned) playbackIndex;
+- (NSUInteger) playbackIndex;
 @end
 
 @interface PlayQueueTableView (Private)
@@ -82,7 +82,7 @@
 	return NSLocalizedStringFromTable(@"Play Queue Empty", @"Library", @"");	
 }
 
-- (void) setHighlightedRow:(int)row
+- (void) setHighlightedRow:(NSInteger)row
 {
 	_highlightedRow = row;
 }

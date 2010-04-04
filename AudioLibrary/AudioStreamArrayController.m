@@ -33,14 +33,14 @@ NSString * const AudioStreamTableMovedRowsPboardType	= @"org.sbooth.Play.AudioLi
 NSString * const iTunesPboardType						= @"CorePasteboardFlavorType 0x6974756E";
 
 @interface AudioLibrary (Private)
-- (unsigned) playbackIndex;
-- (void) setPlaybackIndex:(unsigned)playbackIndex;
+- (NSUInteger) playbackIndex;
+- (void) setPlaybackIndex:(NSUInteger)playbackIndex;
 @end
 
 @interface AudioStreamArrayController (Private)
-- (void) moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet toIndex:(unsigned)insertIndex;
+- (void) moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet toIndex:(NSUInteger)insertIndex;
 - (NSIndexSet *) indexSetForRows:(NSArray *)rows;
-- (int) rowsAboveRow:(int)row inIndexSet:(NSIndexSet *)indexSet;
+- (NSInteger) rowsAboveRow:(NSInteger)row inIndexSet:(NSIndexSet *)indexSet;
 @end
 
 @implementation AudioStreamArrayController
@@ -51,7 +51,7 @@ NSString * const iTunesPboardType						= @"CorePasteboardFlavorType 0x6974756E";
 	NSMutableArray		*objectIDs		= [NSMutableArray array];
 	AudioStream			*stream			= nil;
 	BOOL				success			= NO;
-	unsigned			i;
+	NSUInteger			i;
 		
 	for(i = 0; i < [objects count]; ++i) {
 		stream = [objects objectAtIndex:i];				
@@ -70,7 +70,7 @@ NSString * const iTunesPboardType						= @"CorePasteboardFlavorType 0x6974756E";
 	return success;
 }
 
-- (NSDragOperation) tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op
+- (NSDragOperation) tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)op
 {
 	NSDragOperation dragOperation = NSDragOperationNone;
 	
@@ -88,7 +88,7 @@ NSString * const iTunesPboardType						= @"CorePasteboardFlavorType 0x6974756E";
 	return dragOperation;
 }
 
-- (BOOL) tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)op
+- (BOOL) tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
 {
     if(0 > row)
 		row = 0;
@@ -100,7 +100,7 @@ NSString * const iTunesPboardType						= @"CorePasteboardFlavorType 0x6974756E";
 		
 		NSData			*indexData		= [[info draggingPasteboard] dataForType:AudioStreamTableMovedRowsPboardType];
 		NSIndexSet		*rowIndexes		= [NSKeyedUnarchiver unarchiveObjectWithData:indexData];
-		int				rowsAbove;
+		NSInteger				rowsAbove;
 		NSRange			range;
 		
 		[self moveObjectsInArrangedObjectsFromIndexes:rowIndexes toIndex:row];
@@ -171,12 +171,12 @@ NSString * const iTunesPboardType						= @"CorePasteboardFlavorType 0x6974756E";
 
 @implementation AudioStreamArrayController (Private)
 
-- (void) moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet*)indexSet toIndex:(unsigned)insertIndex
+- (void) moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet*)indexSet toIndex:(NSUInteger)insertIndex
 {
 	NSArray			*objects					= [self arrangedObjects];
-	unsigned		index						= [indexSet lastIndex];
-	unsigned		aboveInsertIndexCount		= 0;
-	unsigned		removeIndex;
+	NSUInteger		index						= [indexSet lastIndex];
+	NSUInteger		aboveInsertIndexCount		= 0;
+	NSUInteger		removeIndex;
 	id				object;
 	
 	[[CollectionManager manager] beginUpdate];
@@ -215,13 +215,13 @@ NSString * const iTunesPboardType						= @"CorePasteboardFlavorType 0x6974756E";
 	return indexSet;
 }
 
-- (int) rowsAboveRow:(int)row inIndexSet:(NSIndexSet *)indexSet
+- (NSInteger) rowsAboveRow:(NSInteger)row inIndexSet:(NSIndexSet *)indexSet
 {
-	int				i				= 0;
-	unsigned		currentIndex	= [indexSet firstIndex];
+	NSInteger				i				= 0;
+	NSUInteger		currentIndex	= [indexSet firstIndex];
 	
 	while(NSNotFound != currentIndex) {
-		if(currentIndex < (unsigned)row)
+		if(currentIndex < (NSUInteger)row)
 			++i;
 		
 		currentIndex = [indexSet indexGreaterThanIndex:currentIndex];

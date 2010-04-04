@@ -109,7 +109,7 @@
 
 	// BPM
 	if(MP4GetMetadataTempo(mp4FileHandle, &bpm))
-		[metadataDictionary setValue:[NSNumber numberWithInteger:bpm] forKey:MetadataBPMKey];
+		[metadataDictionary setValue:[NSNumber numberWithInteger:(NSInteger)bpm] forKey:MetadataBPMKey];
 	
 	// Album art
 /*	artCount = MP4GetMetadataCoverArtCount(mp4FileHandle);

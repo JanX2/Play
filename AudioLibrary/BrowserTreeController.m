@@ -49,7 +49,7 @@ NSString * const SmartPlaylistPboardType				= @"org.sbooth.Play.SmartPlaylist.Pb
 // Just return 0 and nil to fall back to bindings
 #pragma mark Required data source methods
 
-- (int) outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSInteger) outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
 	return 0;
 }
@@ -59,7 +59,7 @@ NSString * const SmartPlaylistPboardType				= @"org.sbooth.Play.SmartPlaylist.Pb
 	return NO;
 }
 
-- (id) outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
+- (id) outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
 	return nil;
 }
@@ -125,7 +125,7 @@ NSString * const SmartPlaylistPboardType				= @"org.sbooth.Play.SmartPlaylist.Pb
 	NSMutableArray		*objectIDs		= [NSMutableArray array];
 	AudioStream			*stream			= nil;
 	BOOL				success			= NO;
-	unsigned			i;
+	NSUInteger			i;
 	
 	while((node = [[enumerator nextObject] observedObject])) {
 
@@ -176,14 +176,14 @@ NSString * const SmartPlaylistPboardType				= @"org.sbooth.Play.SmartPlaylist.Pb
 	return success;
 }
 
-- (NSDragOperation) outlineView:(NSOutlineView *)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(int)index
+- (NSDragOperation) outlineView:(NSOutlineView *)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
 	BrowserNode *node = [item observedObject];
 	
 	return ([node isKindOfClass:[PlaylistNode class]] ? NSDragOperationCopy : NSDragOperationNone);
 }
 
-- (BOOL) outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(int)index
+- (BOOL) outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
 {
 	BrowserNode		*node		= [item observedObject];
 	NSArray			*objectIDs	= [[info draggingPasteboard] propertyListForType:AudioStreamPboardType];

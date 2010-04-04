@@ -68,7 +68,7 @@
 	NSNumberFormatter *bitrateFormatter = [[NSNumberFormatter alloc] init];
 	[bitrateFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	[bitrateFormatter setRoundingMode:NSNumberFormatterRoundHalfEven];
-	[bitrateFormatter setRoundingIncrement:[NSNumber numberWithInt:100]];
+	[bitrateFormatter setRoundingIncrement:[NSNumber numberWithInteger:100]];
 //	[bitrateFormatter setMultiplier:[NSNumber numberWithFloat:0.001]];
 	[bitrateFormatter setPositiveSuffix:NSLocalizedStringFromTable(@" bps", @"Formats", @"")];
 

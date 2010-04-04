@@ -32,8 +32,8 @@
 #import "CTGradient.h"
 #import "CTBadge.h"
 
-static float widthOffset	= 5.0;
-static float heightOffset	= 3.0;
+static CGFloat widthOffset	= 5.0;
+static CGFloat heightOffset	= 3.0;
 
 // ========================================
 // Completely bogus NSTreeController bindings hack
@@ -43,9 +43,9 @@ static float heightOffset	= 3.0;
 @end
 
 @interface BrowserOutlineView (Private)
-- (void) showPlaylistInformationSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-- (void) showSmartPlaylistInformationSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-- (void) showWatchFolderInformationSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void) showPlaylistInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void) showSmartPlaylistInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void) showWatchFolderInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation BrowserOutlineView
@@ -90,7 +90,7 @@ static float heightOffset	= 3.0;
 - (void) keyDown:(NSEvent *)event
 {
 	unichar			key		= [[event charactersIgnoringModifiers] characterAtIndex:0];    
-	unsigned int	flags	= [event modifierFlags] & 0x00FF;
+	NSUInteger	flags	= [event modifierFlags] & 0x00FF;
     
 	if((NSDeleteCharacter == key || NSBackspaceCharacter == key || 0xF728 == key) && 0 == flags)
 		[self remove:event];
@@ -128,7 +128,7 @@ static float heightOffset	= 3.0;
 {
 	NSPoint		location		= [event locationInWindow];
 	NSPoint		localLocation	= [self convertPoint:location fromView:nil];
-	int			row				= [self rowAtPoint:localLocation];
+	NSInteger			row				= [self rowAtPoint:localLocation];
 	
 	if(-1 != row) {
 		
@@ -150,7 +150,7 @@ static float heightOffset	= 3.0;
 
 // Only bad people override private methods!
 // TOOD: Remove hardcoded colors
--(void) _drawDropHighlightOnRow:(int)rowIndex
+-(void) _drawDropHighlightOnRow:(NSInteger)rowIndex
 {
 	[self lockFocus];
 	
@@ -179,7 +179,7 @@ static float heightOffset	= 3.0;
 
 - (void) highlightSelectionInClipRect:(NSRect)clipRect
 {
-	int selectedRow = [self selectedRow];
+	NSInteger selectedRow = [self selectedRow];
 	if(-1 == selectedRow)
 		return;
 	
@@ -307,7 +307,7 @@ static float heightOffset	= 3.0;
 
 @implementation BrowserOutlineView (Private)
 
-- (void) showPlaylistInformationSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void) showPlaylistInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	PlaylistInformationSheet *playlistInformationSheet = (PlaylistInformationSheet *)contextInfo;
 	
@@ -323,7 +323,7 @@ static float heightOffset	= 3.0;
 	[playlistInformationSheet release];
 }
 
-- (void) showSmartPlaylistInformationSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void) showSmartPlaylistInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	SmartPlaylistInformationSheet *playlistInformationSheet = (SmartPlaylistInformationSheet *)contextInfo;
 	
@@ -339,7 +339,7 @@ static float heightOffset	= 3.0;
 	[playlistInformationSheet release];
 }
 
-- (void) showWatchFolderInformationSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void) showWatchFolderInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	WatchFolderInformationSheet *watchFolderInformationSheet = (WatchFolderInformationSheet *)contextInfo;
 	
