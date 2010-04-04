@@ -40,7 +40,7 @@ writeCallback(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, cons
 	// Normalize audio
 	float scaleFactor = (1L << ((((frame->header.bits_per_sample + 7) / 8) * 8) - 1));
 	
-	unsigned channel, sample;
+	NSUInteger channel, sample;
 	for(channel = 0; channel < frame->header.channels; ++channel) {
 		float *floatBuffer = bufferList->mBuffers[channel].mData;
 		
@@ -125,14 +125,17 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 		}
 		
 		// Allocate the buffer list
+#warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 		_bufferList = calloc(sizeof(AudioBufferList) + (sizeof(AudioBuffer) * (_format.mChannelsPerFrame - 1)), 1);
 		NSAssert(NULL != _bufferList, @"Unable to allocate memory");
 		
 		_bufferList->mNumberBuffers = _format.mChannelsPerFrame;
 		
-		unsigned i;
+		NSUInteger i;
 		for(i = 0; i < _bufferList->mNumberBuffers; ++i) {
 			_bufferList->mBuffers[i].mData = calloc(_streamInfo.max_blocksize, sizeof(float));
+#warning 64BIT: Inspect use of sizeof
 			NSAssert(NULL != _bufferList->mBuffers[i].mData, @"Unable to allocate memory");
 
 			_bufferList->mBuffers[i].mNumberChannels = 1;
@@ -149,7 +152,7 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 	FLAC__stream_decoder_delete(_flac), _flac = NULL;
 	
 	if(_bufferList) {
-		unsigned i;
+		NSUInteger i;
 		for(i = 0; i < _bufferList->mNumberBuffers; ++i)
 			free(_bufferList->mBuffers[i].mData), _bufferList->mBuffers[i].mData = NULL;	
 		free(_bufferList), _bufferList = NULL;
@@ -175,7 +178,7 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 	
 	if(result) {
 		_currentFrame = frame;
-		unsigned i;
+		NSUInteger i;
 		for(i = 0; i < _bufferList->mNumberBuffers; ++i)
 			_bufferList->mBuffers[i].mDataByteSize = 0;	
 	}
@@ -192,7 +195,7 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 	UInt32 framesRead = 0;
 	
 	// Reset output buffer data size
-	unsigned i;
+	NSUInteger i;
 	for(i = 0; i < bufferList->mNumberBuffers; ++i)
 		bufferList->mBuffers[i].mDataByteSize = 0;
 	
@@ -200,6 +203,8 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 		UInt32	framesRemaining	= frameCount - framesRead;
 		UInt32	framesToSkip	= bufferList->mBuffers[0].mDataByteSize / sizeof(float);
 		UInt32	framesInBuffer	= _bufferList->mBuffers[0].mDataByteSize / sizeof(float);
+#warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 		UInt32	framesToCopy	= (framesInBuffer > framesRemaining ? framesRemaining : framesInBuffer);
 		
 		// Copy data from the buffer to output
@@ -207,14 +212,18 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 			float *floatBuffer = bufferList->mBuffers[i].mData;
 			memcpy(floatBuffer + framesToSkip, _bufferList->mBuffers[i].mData, framesToCopy * sizeof(float));
 			bufferList->mBuffers[i].mDataByteSize += (framesToCopy * sizeof(float));
+#warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 			
 			// Move remaining data in buffer to beginning
 			if(framesToCopy != framesInBuffer) {
 				floatBuffer = _bufferList->mBuffers[i].mData;
 				memmove(floatBuffer, floatBuffer + framesToCopy, (framesInBuffer - framesToCopy) * sizeof(float));
+#warning 64BIT: Inspect use of sizeof
 			}
 			
 			_bufferList->mBuffers[i].mDataByteSize -= (framesToCopy * sizeof(float));
+#warning 64BIT: Inspect use of sizeof
 		}
 		
 		framesRead += framesToCopy;
@@ -238,7 +247,8 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 
 - (NSString *) sourceFormatDescription
 {
-	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@, %u channels, %u Hz", @"Formats", @""), NSLocalizedStringFromTable(@"FLAC", @"Formats", @""), [self format].mChannelsPerFrame, (unsigned)[self format].mSampleRate];
+#warning 64BIT: Check formatting arguments
+	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@, %u channels, %u Hz", @"Formats", @""), NSLocalizedStringFromTable(@"FLAC", @"Formats", @""), (unsigned)[self format].mChannelsPerFrame, (unsigned)[self format].mSampleRate];
 }
 
 @end
@@ -252,6 +262,7 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 
 - (void) setStreamInfo:(FLAC__StreamMetadata_StreamInfo)streamInfo
 {
+#warning 64BIT: Inspect use of sizeof
 	memcpy(&_streamInfo, &streamInfo, sizeof(streamInfo));
 }
 

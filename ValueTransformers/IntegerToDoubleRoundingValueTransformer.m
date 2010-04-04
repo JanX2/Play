@@ -38,13 +38,13 @@
 		return nil;
 	}
 
-    if(NO == [value respondsToSelector:@selector(intValue)]) {
+    if(NO == [value respondsToSelector:@selector(integerValue)]) {
 		@throw [NSException exceptionWithName:NSInternalInconsistencyException 
 									   reason:[NSString stringWithFormat:@"Value (%@) does not respond to -intValue.", [value class]]
 									 userInfo:nil];
     }
 
-	return [NSNumber numberWithDouble:[value intValue]];
+	return [NSNumber numberWithDouble:[value integerValue]];
 }
 
 - (id) reverseTransformedValue:(id)value
@@ -59,7 +59,7 @@
 									 userInfo:nil];
     }
 	
-	return [NSNumber numberWithInt:(double)([value doubleValue] + 0.5)];
+	return [NSNumber numberWithInteger:(double)([value doubleValue] + 0.5)];
 }
 
 @end

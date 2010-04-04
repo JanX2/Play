@@ -39,6 +39,7 @@
 			if(nil != error) {
 				NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
 				
+#warning 64BIT: Check formatting arguments
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The file \"%@\" could not be found.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"File Not Found", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"The file may have been renamed or deleted, or exist on removable media.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -56,6 +57,7 @@
 			if(nil != error) {
 				NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
 				
+#warning 64BIT: Check formatting arguments
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The format of the file \"%@\" was not recognized.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"File Format Not Recognized", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"The file's extension may not match the file's type.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -69,6 +71,7 @@
 		}
 		
 		// Query file format
+#warning 64BIT: Inspect use of sizeof
 		UInt32 dataSize = sizeof(_sourceFormat);
 		result = ExtAudioFileGetProperty(_extAudioFile, kExtAudioFileProperty_FileDataFormat, &dataSize, &_sourceFormat);
 		NSAssert1(noErr == result, @"AudioFileGetProperty failed: %@", UTCreateStringForOSType(result));
@@ -77,10 +80,12 @@
 		_format.mSampleRate			= _sourceFormat.mSampleRate;
 		_format.mChannelsPerFrame	= _sourceFormat.mChannelsPerFrame;
 		
+#warning 64BIT: Inspect use of sizeof
 		result = ExtAudioFileSetProperty(_extAudioFile, kExtAudioFileProperty_ClientDataFormat, sizeof(_format), &_format);
 		NSAssert1(noErr == result, @"ExtAudioFileSetProperty failed: %@", UTCreateStringForOSType(result));
 		
 		// Setup the channel layout
+#warning 64BIT: Inspect use of sizeof
 		dataSize = sizeof(_channelLayout);
 		result = ExtAudioFileGetProperty(_extAudioFile, kExtAudioFileProperty_FileChannelLayout, &dataSize, &_channelLayout);
 		NSAssert1(noErr == result, @"AudioFileGetProperty failed: %@", UTCreateStringForOSType(result));
@@ -103,6 +108,7 @@
 - (SInt64) totalFrames
 {
 	SInt64 totalFrames = -1;
+#warning 64BIT: Inspect use of sizeof
 	UInt32 dataSize = sizeof(totalFrames);
 	
 	OSStatus result = ExtAudioFileGetProperty(_extAudioFile, kExtAudioFileProperty_FileLengthFrames, &dataSize, &totalFrames);
@@ -147,6 +153,7 @@
 	
 	OSStatus result = ExtAudioFileRead(_extAudioFile, &frameCount, bufferList);
 	if(noErr != result)
+#warning 64BIT: Check formatting arguments
 		NSLog(@"Error reading from ExtAudioFile: %i",result);
 	
 	return frameCount;

@@ -230,7 +230,7 @@
 
 - (NSString *) sourceFormatDescription
 {
-	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@, %u channels, %u Hz", @"Formats", @""), NSLocalizedStringFromTable(@"Musepack", @"Formats", @""), [self format].mChannelsPerFrame, (unsigned)[self format].mSampleRate];
+	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@, %u channels, %u Hz", @"Formats", @""), NSLocalizedStringFromTable(@"Musepack", @"Formats", @""), (unsigned)[self format].mChannelsPerFrame, (unsigned)[self format].mSampleRate];
 }
 
 @end

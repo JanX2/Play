@@ -33,8 +33,8 @@ extern NSString * const		ScheduledAudioRegionObjectKey;		// ScheduledAudioRegion
 
 @interface AudioScheduler : NSObject
 {
-	unsigned				_numberSlices;
-	unsigned				_framesPerSlice;
+	NSUInteger				_numberSlices;
+	NSUInteger				_framesPerSlice;
 	
 	AudioUnit				_audioUnit;
 	
@@ -56,8 +56,8 @@ extern NSString * const		ScheduledAudioRegionObjectKey;		// ScheduledAudioRegion
 }
 
 // Buffer size information (set at object creation)
-- (unsigned) numberOfSlicesInBuffer;
-- (unsigned) numberOfFramesPerSlice;
+- (NSUInteger) numberOfSlicesInBuffer;
+- (NSUInteger) numberOfFramesPerSlice;
 
 // The ScheduledSoundPlayer AudioUnit on which to schedule audio slices
 - (AudioUnit) audioUnit;

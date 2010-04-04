@@ -215,7 +215,7 @@
 	NSParameterAssert(nil != criterion);
 	
 	NSView	*criterionView	= [criterion view];	
-	float	viewHeight		= [criterionView bounds].size.height;
+	CGFloat	viewHeight		= [criterionView bounds].size.height;
 	
 	if(0 < [[self criteria] count]) {
 		NSRect			windowFrame;
@@ -250,7 +250,7 @@
 		return;
 	
 	NSView	*criterionView	= [criterion view];
-	float	viewHeight		= [criterionView bounds].size.height;
+	CGFloat	viewHeight		= [criterionView bounds].size.height;
 	
 	[[self criteria] removeObject:criterion];
 	[criterionView removeFromSuperview];

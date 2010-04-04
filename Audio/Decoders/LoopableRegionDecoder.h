@@ -30,20 +30,20 @@
 	
 	SInt64			_startingFrame;
 	UInt32			_frameCount;
-	unsigned		_loopCount;
+	NSUInteger		_loopCount;
 	
 	UInt32			_framesReadInCurrentLoop;
 	SInt64			_totalFramesRead;
-	unsigned		_completedLoops;
+	NSUInteger		_completedLoops;
 }
 
 + (id) decoderWithURL:(NSURL *)URL startingFrame:(SInt64)startingFrame error:(NSError **)error;
-+ (id) decoderWithURL:(NSURL *)URL startingFrame:(SInt64)startingFrame frameCount:(unsigned)frameCount error:(NSError **)error;
-+ (id) decoderWithURL:(NSURL *)URL startingFrame:(SInt64)startingFrame frameCount:(unsigned)frameCount loopCount:(unsigned)loopCount error:(NSError **)error;
++ (id) decoderWithURL:(NSURL *)URL startingFrame:(SInt64)startingFrame frameCount:(NSUInteger)frameCount error:(NSError **)error;
++ (id) decoderWithURL:(NSURL *)URL startingFrame:(SInt64)startingFrame frameCount:(NSUInteger)frameCount loopCount:(NSUInteger)loopCount error:(NSError **)error;
 
 - (id) initWithURL:(NSURL *)URL startingFrame:(SInt64)startingFrame error:(NSError **)error;
-- (id) initWithURL:(NSURL *)URL startingFrame:(SInt64)startingFrame frameCount:(unsigned)frameCount error:(NSError **)error;
-- (id) initWithURL:(NSURL *)URL startingFrame:(SInt64)startingFrame frameCount:(unsigned)frameCount loopCount:(unsigned)loopCount error:(NSError **)error;
+- (id) initWithURL:(NSURL *)URL startingFrame:(SInt64)startingFrame frameCount:(NSUInteger)frameCount error:(NSError **)error;
+- (id) initWithURL:(NSURL *)URL startingFrame:(SInt64)startingFrame frameCount:(NSUInteger)frameCount loopCount:(NSUInteger)loopCount error:(NSError **)error;
 
 // The starting frame for this audio file region
 - (SInt64) startingFrame;
@@ -54,10 +54,10 @@
 - (void) setFrameCount:(UInt32)frameCount;
 
 // The number of times to loop the audio
-- (unsigned) loopCount;
-- (void) setLoopCount:(unsigned)loopCount;
+- (NSUInteger) loopCount;
+- (void) setLoopCount:(NSUInteger)loopCount;
 
-- (unsigned) completedLoops;
+- (NSUInteger) completedLoops;
 
 // Reset to initial state
 - (void) reset;

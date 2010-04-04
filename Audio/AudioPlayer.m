@@ -26,6 +26,7 @@
 
 #include <CoreServices/CoreServices.h>
 #include <CoreAudio/CoreAudio.h>
+#include <tgmath.h>
 
 // ========================================
 // Utility functions
@@ -46,7 +47,8 @@ channelLayoutsAreEqual(AudioChannelLayout *layoutA,
 		if(layoutA->mNumberChannelDescriptions != layoutB->mNumberChannelDescriptions)
 			return NO;
 		
-		unsigned bytesToCompare = layoutA->mNumberChannelDescriptions * sizeof(AudioChannelDescription);
+#warning 64BIT: Inspect use of sizeof
+		NSUInteger bytesToCompare = layoutA->mNumberChannelDescriptions * sizeof(AudioChannelDescription);
 		return (0 == memcmp(&layoutA->mChannelDescriptions, &layoutB->mChannelDescriptions, bytesToCompare));
 	}
 	
@@ -236,6 +238,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = AUListenerDispose(_auEventListener);
 	if(noErr != err)
+#warning 64BIT: Check formatting arguments
 		NSLog(@"AudioPlayer: AUListenerDispose failed: %i", err);
 
 	[[self scheduler] stopScheduling];
@@ -275,6 +278,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 	OSStatus err = [self resetAUGraph];
 	if(noErr != err)
+#warning 64BIT: Check formatting arguments
 		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: %i", err);
 	
 	id <AudioDecoderMethods> decoder = [stream decoder:error];
@@ -301,6 +305,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 				NSMutableDictionary		*errorDictionary	= [NSMutableDictionary dictionary];
 				NSString				*path				= [[stream valueForKey:StreamURLKey] path];
 				
+#warning 64BIT: Check formatting arguments
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The format of the file \"%@\" is not supported.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"File Format Not Supported", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"The current DSP effects may not support this track's sample rate or channel layout.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -324,6 +329,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 				NSMutableDictionary		*errorDictionary	= [NSMutableDictionary dictionary];
 				NSString				*path				= [[stream valueForKey:StreamURLKey] path];
 				
+#warning 64BIT: Check formatting arguments
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The format of the file \"%@\" is not supported.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"File Format Not Supported", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"The current DSP effects may not support this track's sample rate or channel layout.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -428,8 +434,10 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 										kAudioUnitScope_Global, 
 										0,
 										&timeStamp, 
+#warning 64BIT: Inspect use of sizeof
 										sizeof(timeStamp));
 	if(noErr != err)
+#warning 64BIT: Check formatting arguments
 		NSLog(@"AudioPlayer error: Unable to start AUScheduledSoundPlayer: %i", err);
 
 /*	UInt32 dataSize = sizeof(timeStamp);
@@ -630,11 +638,13 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = [self resetAUGraph];
 	if(noErr != err)
+#warning 64BIT: Check formatting arguments
 		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: %i", err);
 
 	Float64 graphLatency;
 	err = [self getAUGraphLatency:&graphLatency];
 	if(noErr != err)
+#warning 64BIT: Check formatting arguments
 		NSLog(@"AudioPlayer error: Unable to determine AUGraph latency: %i", err);
 	
 	UInt32 graphLatencyFrames = graphLatency * [self format].mSampleRate;
@@ -656,6 +666,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 #if DEBUG
 	if([self startingFrame] != currentFrame)
+#warning 64BIT: Check formatting arguments
 		NSLog(@"Seek failed: requested frame %qi, got %qi", currentFrame, [self startingFrame]);
 #endif
 		
@@ -963,6 +974,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			return err;
 		
 		Float64 latency;
+#warning 64BIT: Inspect use of sizeof
 		UInt32 dataSize = sizeof(latency);
 		err = AudioUnitGetProperty(au, kAudioUnitProperty_Latency, kAudioUnitScope_Global, 0, &latency, &dataSize);
 		if(noErr != err)
@@ -998,6 +1010,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			return err;
 		
 		Float64 tailTime;
+#warning 64BIT: Inspect use of sizeof
 		UInt32 dataSize = sizeof(tailTime);
 		err = AudioUnitGetProperty(au, kAudioUnitProperty_TailTime, kAudioUnitScope_Global, 0, &tailTime, &dataSize);
 		if(noErr != err)
@@ -1019,7 +1032,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	NSMutableArray *effects = [NSMutableArray array];
 	
-	unsigned i;
+	UInt32 i;
 	for(i = 0; i < connectionCount; ++i) {
 		AUNode node;
 		err = AUGraphGetConnectionInfo([self auGraph], i, &node, NULL, NULL, NULL);
@@ -1092,11 +1105,12 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	if(noErr != err)
 		return err;
 	
+#warning 64BIT: Inspect use of sizeof
 	connections = calloc(connectionCount, sizeof(AudioUnitNodeConnection));
 	if(NULL == connections)
 		return memFullErr;
 	
-	unsigned i;
+	UInt32 i;
 	for(i = 0; i < connectionCount; ++i) {
 		err = AUGraphGetConnectionInfo([self auGraph], i,
 									   &connections[i].sourceNode, &connections[i].sourceOutputNumber,
@@ -1114,12 +1128,15 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	}
 	
 	// Attempt to set the new stream format
+#warning 64BIT: Inspect use of sizeof
 	err = [self setPropertyOnAUGraphNodes:kAudioUnitProperty_StreamFormat data:&format dataSize:sizeof(format)];
 	if(noErr != err) {
 		// If the new format could not be set, restore the old format to ensure a working graph
 		format = [self format];
+#warning 64BIT: Inspect use of sizeof
 		OSStatus newErr = [self setPropertyOnAUGraphNodes:kAudioUnitProperty_StreamFormat data:&format dataSize:sizeof(format)];
 		if(noErr != newErr)
+#warning 64BIT: Check formatting arguments
 			NSLog(@"AudioPlayer error: Unable to restore AUGraph format: %i", newErr);
 
 		// Do not free connections here, so graph can be rebuilt
@@ -1132,6 +1149,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 									  connections[i].sourceNode, connections[i].sourceOutputNumber,
 									  connections[i].destNode, connections[i].destInputNumber);
 		if(noErr != err) {
+#warning 64BIT: Check formatting arguments
 			NSLog(@"AudioPlayer error: Unable to restore AUGraph connection: %i", err);
 			free(connections);
 			return err;
@@ -1192,7 +1210,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		return err;
 
 	// Iterate through the nodes and attempt to set the property
-	unsigned i;
+	UInt32 i;
 	for(i = 0; i < nodeCount; ++i) {
 		AUNode node;
 		err = AUGraphGetIndNode([self auGraph], i, &node);
@@ -1217,12 +1235,13 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		}
 		else {
 			UInt32 elementCount = 0;
+#warning 64BIT: Inspect use of sizeof
 			UInt32 dataSize = sizeof(elementCount);
 			err = AudioUnitGetProperty(au, kAudioUnitProperty_ElementCount, kAudioUnitScope_Input, 0, &elementCount, &dataSize);
 			if(noErr != err)
 				return err;
 			
-			unsigned j;
+			UInt32 j;
 			for(j = 0; j < elementCount; ++j) {
 /*				Boolean writable;
 				err = AudioUnitGetPropertyInfo(au, propertyID, kAudioUnitScope_Input, j, &dataSize, &writable);
@@ -1238,6 +1257,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			}
 			
 			elementCount = 0;
+#warning 64BIT: Inspect use of sizeof
 			dataSize = sizeof(elementCount);
 			err = AudioUnitGetProperty(au, kAudioUnitProperty_ElementCount, kAudioUnitScope_Output, 0, &elementCount, &dataSize);
 			if(noErr != err)
@@ -1285,6 +1305,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = AUEventListenerAddEventType(_auEventListener, NULL, &parameterEvent);	
 	if(noErr != err)
+#warning 64BIT: Check formatting arguments
 		NSLog(@"AudioPlayer error: AUEventListenerAddEventType failed: %i", err);	
 }
 
@@ -1301,6 +1322,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = AUEventListenerRemoveEventType(_auEventListener, NULL, &parameterEvent);	
 	if(noErr != err)
+#warning 64BIT: Check formatting arguments
 		NSLog(@"AudioPlayer error: AUEventListenerRemoveEventType failed: %i", err);	
 }
 
@@ -1318,7 +1340,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	NSMutableArray *effects = [[NSMutableArray alloc] init];
 	
-	unsigned i;
+	UInt32 i;
 	for(i = 0; i < connectionCount; ++i) {
 		AUNode node;
 		err = AUGraphGetConnectionInfo([self auGraph], i, &node, NULL, NULL, NULL);
@@ -1360,7 +1382,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			NSString *auInformation = (NSString *)CFStringCreateWithPascalString(kCFAllocatorDefault, (ConstStr255Param)(*componentInformationHandle), kCFStringEncodingUTF8);
 			[auDictionary setValue:[auInformation autorelease] forKey:AUInformationStringKey];
 
-			unsigned int index = [auNameAndManufacturer rangeOfString:@":" options:NSLiteralSearch].location;
+			UInt32 index = [auNameAndManufacturer rangeOfString:@":" options:NSLiteralSearch].location;
 			if(NSNotFound != index) {
 				[auDictionary setValue:[auNameAndManufacturer substringToIndex:index] forKey:AUManufacturerStringKey];
 				
@@ -1379,6 +1401,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			
 			// Use the AU icon if present
 			NSURL *auURL = nil;
+#warning 64BIT: Inspect use of sizeof
 			UInt32 dataSize = sizeof(auURL);
 			OSStatus err = AudioUnitGetProperty(au, kAudioUnitProperty_IconLocation, kAudioUnitScope_Global, 0, &auURL, &dataSize);
 			if(noErr == err && nil != auURL) {
@@ -1401,7 +1424,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		DisposeHandle(componentIconHandle);
 
 		[auDictionary setValue:(id)classData forKey:AUClassDataKey];
-		[auDictionary setValue:[NSNumber numberWithInt:node] forKey:AUNodeKey];
+		[auDictionary setValue:[NSNumber numberWithInteger:node] forKey:AUNodeKey];
 		
 		[effects addObject:auDictionary];
 	}
@@ -1447,7 +1470,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			NSString *auInformation = (NSString *)CFStringCreateWithPascalString(kCFAllocatorDefault, (ConstStr255Param)(*componentInformationHandle), kCFStringEncodingUTF8);
 			[auDictionary setValue:[auInformation autorelease] forKey:AUInformationStringKey];
 			
-			unsigned int index = [auNameAndManufacturer rangeOfString:@":" options:NSLiteralSearch].location;
+			UInt32 index = [auNameAndManufacturer rangeOfString:@":" options:NSLiteralSearch].location;
 			if(NSNotFound != index) {
 				[auDictionary setValue:[auNameAndManufacturer substringToIndex:index] forKey:AUManufacturerStringKey];
 				
@@ -1466,6 +1489,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			
 			// Use the AU icon if present
 			NSURL *auURL = nil;
+#warning 64BIT: Inspect use of sizeof
 			UInt32 dataSize = sizeof(auURL);
 			OSStatus err = AudioUnitGetProperty((AudioUnit)effectAU, kAudioUnitProperty_IconLocation, kAudioUnitScope_Global, 0, &auURL, &dataSize);
 			if(noErr == err && nil != auURL) {
@@ -1516,6 +1540,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	if(noErr != err)
 		return NO;
 	
+#warning 64BIT: Inspect use of sizeof
 	AudioUnitNodeConnection *connections = calloc(numConnections, sizeof(AudioUnitNodeConnection));
 	if(NULL == connections)
 		return NO;
@@ -1547,12 +1572,14 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		return NO;
 	
 	AudioStreamBasicDescription inputASBD;
+#warning 64BIT: Inspect use of sizeof
 	UInt32 dataSize = sizeof(inputASBD);
 	err = AudioUnitGetProperty(au, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &inputASBD, &dataSize);
 	if(noErr != err)
 		return NO;
 	
 	AudioStreamBasicDescription outputASBD;
+#warning 64BIT: Inspect use of sizeof
 	dataSize = sizeof(outputASBD);
 	err = AudioUnitGetProperty(au, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &outputASBD, &dataSize);
 	if(noErr != err)
@@ -1577,16 +1604,19 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	if(noErr != err)
 		return NO;
 	
+#warning 64BIT: Inspect use of sizeof
 	err = AudioUnitSetProperty(au, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &inputASBD, sizeof(inputASBD));
 	if(noErr != err) {
 		// If the property couldn't be set (the AU may not support this format), remove the new node
 		err = AUGraphRemoveNode([self auGraph], *newNode);
 		if(noErr != err)
+#warning 64BIT: Check formatting arguments
 			NSLog(@"AudioPlayer error: Unable to remove node: %i", err);
 		
 		if(nil != error) {
 			NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
 			
+#warning 64BIT: Check formatting arguments
 			[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The DSP effect \"%@\" does not support this audio format.", @"Errors", @""), [auDictionary valueForKey:AUNameStringKey]] forKey:NSLocalizedDescriptionKey];
 			[errorDictionary setObject:NSLocalizedStringFromTable(@"DSP Effect Not Supported", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 			[errorDictionary setObject:NSLocalizedStringFromTable(@"The current track's sample rate or channel layout is not supported by this DSP effect.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -1599,16 +1629,19 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		return NO;
 	}
 	
+#warning 64BIT: Inspect use of sizeof
 	err = AudioUnitSetProperty(au, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &outputASBD, sizeof(outputASBD));
 	if(noErr != err) {
 		// If the property couldn't be set (the AU may not support this format), remove the new node
 		err = AUGraphRemoveNode([self auGraph], *newNode);
 		if(noErr != err)
+#warning 64BIT: Check formatting arguments
 			NSLog(@"AudioPlayer error: Unable to remove node: %i", err);
 		
 		if(nil != error) {
 			NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
 			
+#warning 64BIT: Check formatting arguments
 			[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The DSP effect \"%@\" does not support this format.", @"Errors", @""), [auDictionary valueForKey:AUNameStringKey]] forKey:NSLocalizedDescriptionKey];
 			[errorDictionary setObject:NSLocalizedStringFromTable(@"DSP Effect Not Supported", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 			[errorDictionary setObject:NSLocalizedStringFromTable(@"The current track's sample rate or channel layout is not supported by this DSP effect.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -1665,6 +1698,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	if(noErr != err)
 		return NO;
 	
+#warning 64BIT: Inspect use of sizeof
 	AudioUnitNodeConnection *connections = calloc(numConnections, sizeof(AudioUnitNodeConnection));
 	if(NULL == connections)
 		return NO;
@@ -1790,6 +1824,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	OSStatus			status			= noErr;
 	
 	if(nil == deviceUID || [deviceUID isEqual:[NSNull null]] || [deviceUID isEqualToString:@""]) {
+#warning 64BIT: Inspect use of sizeof
 		specifierSize = sizeof(deviceID);
 		status = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultOutputDevice, 
 										  &specifierSize, 
@@ -1799,9 +1834,12 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		AudioValueTranslation translation;
 		
 		translation.mInputData			= &deviceUID;
+#warning 64BIT: Inspect use of sizeof
 		translation.mInputDataSize		= sizeof(deviceUID);
 		translation.mOutputData			= &deviceID;
+#warning 64BIT: Inspect use of sizeof
 		translation.mOutputDataSize		= sizeof(deviceID);
+#warning 64BIT: Inspect use of sizeof
 		specifierSize					= sizeof(translation);
 		
 		status = AudioHardwareGetProperty(kAudioHardwarePropertyDeviceForUID, 
@@ -1827,6 +1865,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 									  kAudioUnitScope_Global,
 									  0,
 									  &deviceID,
+#warning 64BIT: Inspect use of sizeof
 									  sizeof(deviceID));
 
 		// Hog the device, if specified
@@ -1851,6 +1890,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	UInt32				specifierSize	= 0;
 	OSStatus			status			= noErr;
 	
+#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(deviceID);
 	status = AudioUnitGetProperty(_outputUnit,
 								  kAudioOutputUnitProperty_CurrentDevice,
@@ -1866,6 +1906,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	// Determine if this actually is a change
 	Float64 currentSampleRate;
+#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(currentSampleRate);
 	status = AudioDeviceGetProperty(deviceID, 0, NO, kAudioDevicePropertyNominalSampleRate, &specifierSize, &currentSampleRate);
 	if(noErr != status) {
@@ -1878,7 +1919,9 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		return noErr;
 	
 	// Set the sample rate
+#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(sampleRate);
+#warning 64BIT: Inspect use of sizeof
 	status = AudioDeviceSetProperty(deviceID, NULL, 0, NO, kAudioDevicePropertyNominalSampleRate, sizeof(sampleRate), &sampleRate);
 
 	if(kAudioHardwareNoError != status)
@@ -1894,6 +1937,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	UInt32				specifierSize	= 0;
 	OSStatus			status			= noErr;
 	
+#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(deviceID);
 	status = AudioUnitGetProperty(_outputUnit,
 								  kAudioOutputUnitProperty_CurrentDevice,
@@ -1909,6 +1953,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 	// Is it hogged by us?
 	pid_t hogPID;
+#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(hogPID);
 	status = AudioDeviceGetProperty(deviceID, 0, NO, kAudioDevicePropertyHogMode, &specifierSize, &hogPID);
 
@@ -1930,6 +1975,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	UInt32				specifierSize	= 0;
 	OSStatus			status			= noErr;
 	
+#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(deviceID);
 	status = AudioUnitGetProperty(_outputUnit,
 								  kAudioOutputUnitProperty_CurrentDevice,
@@ -1945,6 +1991,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	// Is it hogged already?
 	pid_t hogPID;
+#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(hogPID);
 	status = AudioDeviceGetProperty(deviceID, 0, NO, kAudioDevicePropertyHogMode, &specifierSize, &hogPID);
 	
@@ -1956,6 +2003,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	// The device isn't hogged, so attempt to hog it
 	if(hogPID == (pid_t)-1) {
 		hogPID = getpid();
+#warning 64BIT: Inspect use of sizeof
 		status = AudioDeviceSetProperty(deviceID, NULL, 0, NO, kAudioDevicePropertyHogMode, sizeof(hogPID), &hogPID);
 
 		if(kAudioHardwareNoError != status) {
@@ -1964,6 +2012,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		}
 	}
 	else
+#warning 64BIT: Check formatting arguments
 		NSLog(@"Device is already hogged by pid: %d", hogPID);
 	
 	return noErr;
@@ -1982,6 +2031,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	UInt32				specifierSize	= 0;
 	OSStatus			status			= noErr;
 	
+#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(deviceID);
 	status = AudioUnitGetProperty(_outputUnit,
 								  kAudioOutputUnitProperty_CurrentDevice,
@@ -2005,6 +2055,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	UInt32				specifierSize	= 0;
 	OSStatus			status			= noErr;
 	
+#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(deviceID);
 	status = AudioUnitGetProperty(_outputUnit,
 								  kAudioOutputUnitProperty_CurrentDevice,
@@ -2028,6 +2079,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	UInt32				specifierSize	= 0;
 	OSStatus			status			= noErr;
 	
+#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(deviceID);
 	status = AudioUnitGetProperty(_outputUnit,
 								  kAudioOutputUnitProperty_CurrentDevice,
@@ -2043,6 +2095,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 	// Query sample rate
 	Float64 sampleRate = 0;
+#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(sampleRate);
 	status = AudioDeviceGetProperty(deviceID, 0, NO, kAudioDevicePropertyNominalSampleRate, &specifierSize, &sampleRate);
 	
@@ -2067,6 +2120,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	[alert release];
 	
 #if DEBUG
+#warning 64BIT: Check formatting arguments
 	NSLog(@"External sample rate change: %f (stream sample rate %f)", sampleRate, [self format].mSampleRate);
 #endif
 }
@@ -2124,6 +2178,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = AUParameterSet(NULL, NULL, &auParameter, preGain, 0);
 	if(noErr != err)
+#warning 64BIT: Check formatting arguments
 		NSLog(@"AudioPlayer error: Unable to set ReplayGain: %i", err);
 }
 
@@ -2131,7 +2186,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 {
 	NSParameterAssert(nil != stream);
 	
-	int				replayGain		= [[NSUserDefaults standardUserDefaults] integerForKey:@"replayGain"];
+	NSInteger				replayGain		= [[NSUserDefaults standardUserDefaults] integerForKey:@"replayGain"];
 	NSNumber		*trackGain		= [stream valueForKey:ReplayGainTrackGainKey];
 	NSNumber		*albumGain		= [stream valueForKey:ReplayGainAlbumGainKey];
 	

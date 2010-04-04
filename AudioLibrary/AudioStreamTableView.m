@@ -270,7 +270,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 - (void) keyDown:(NSEvent *)event
 {
 	unichar			key		= [[event charactersIgnoringModifiers] characterAtIndex:0];    
-	unsigned int	flags	= [event modifierFlags] & 0x00FF;
+	NSUInteger	flags	= [event modifierFlags] & 0x00FF;
 
 	if(0x0020 == key && 0 == flags)
 		[[AudioLibrary library] playPause:self];
@@ -310,7 +310,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 {
 	NSPoint		location		= [event locationInWindow];
 	NSPoint		localLocation	= [self convertPoint:location fromView:nil];
-	int			row				= [self rowAtPoint:localLocation];
+	NSInteger			row				= [self rowAtPoint:localLocation];
 	BOOL		shiftPressed	= 0 != ([event modifierFlags] & NSShiftKeyMask);
 //	BOOL		commandPressed	= 0 != ([event modifierFlags] & NSCommandKeyMask);
 
@@ -337,8 +337,8 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 	// Draw the empty message
 	if(nil != [self emptyMessage] && 0 == [self numberOfRows]) {
 		NSRect	rect	= [self frame];
-		float	deltaY	= rect.size.height / 2;
-		float	deltaX	= rect.size.width / 2;
+		CGFloat	deltaY	= rect.size.height / 2;
+		CGFloat	deltaX	= rect.size.width / 2;
 		
 		rect.origin.y		+= deltaY / 2;
 		rect.origin.x		+= deltaX / 2;
@@ -349,7 +349,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 			NSDictionary	*attributes		= nil;
 			NSString		*empty			= [self emptyMessage];
 			NSRect			bounds			= NSZeroRect;
-			float			fontSize		= 36;
+			CGFloat			fontSize		= 36;
 			
 			do {
 				attributes = [NSDictionary dictionaryWithObjectsAndKeys:

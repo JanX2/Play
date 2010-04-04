@@ -136,14 +136,17 @@ audio_linear_round(unsigned int bits,
 		_sourceFormat.mBytesPerFrame		= _sourceFormat.mBytesPerPacket * _sourceFormat.mFramesPerPacket;		
 		
 		// Allocate the buffer list
+#warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 		_bufferList = calloc(sizeof(AudioBufferList) + (sizeof(AudioBuffer) * (_format.mChannelsPerFrame - 1)), 1);
 		NSAssert(NULL != _bufferList, @"Unable to allocate memory");
 		
 		_bufferList->mNumberBuffers = _format.mChannelsPerFrame;
 		
-		unsigned i;
+		NSUInteger i;
 		for(i = 0; i < _bufferList->mNumberBuffers; ++i) {
 			_bufferList->mBuffers[i].mData = calloc(_samplesPerMPEGFrame, sizeof(float));
+#warning 64BIT: Inspect use of sizeof
 			NSAssert(NULL != _bufferList->mBuffers[i].mData, @"Unable to allocate memory");
 			
 			_bufferList->mBuffers[i].mNumberChannels = 1;
@@ -162,7 +165,7 @@ audio_linear_round(unsigned int bits,
 	fclose(_file), _file = NULL;
 	
 	if(_bufferList) {
-		unsigned i;
+		NSUInteger i;
 		for(i = 0; i < _bufferList->mNumberBuffers; ++i)
 			free(_bufferList->mBuffers[i].mData), _bufferList->mBuffers[i].mData = NULL;	
 		free(_bufferList), _bufferList = NULL;
@@ -201,7 +204,7 @@ audio_linear_round(unsigned int bits,
 	UInt32			framesRead				= 0;
 
 	// Reset output buffer data size
-	unsigned i;
+	NSUInteger i;
 	for(i = 0; i < bufferList->mNumberBuffers; ++i)
 		bufferList->mBuffers[i].mDataByteSize = 0;
 	
@@ -210,6 +213,8 @@ audio_linear_round(unsigned int bits,
 		UInt32	framesRemaining	= frameCount - framesRead;
 		UInt32	framesToSkip	= bufferList->mBuffers[0].mDataByteSize / sizeof(float);
 		UInt32	framesInBuffer	= _bufferList->mBuffers[0].mDataByteSize / sizeof(float);
+#warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 		UInt32	framesToCopy	= (framesInBuffer > framesRemaining ? framesRemaining : framesInBuffer);
 		
 		// Copy data from the buffer to output
@@ -217,14 +222,18 @@ audio_linear_round(unsigned int bits,
 			float *floatBuffer = bufferList->mBuffers[i].mData;
 			memcpy(floatBuffer + framesToSkip, _bufferList->mBuffers[i].mData, framesToCopy * sizeof(float));
 			bufferList->mBuffers[i].mDataByteSize += (framesToCopy * sizeof(float));
+#warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 			
 			// Move remaining data in buffer to beginning
 			if(framesToCopy != framesInBuffer) {
 				floatBuffer = _bufferList->mBuffers[i].mData;
 				memmove(floatBuffer, floatBuffer + framesToCopy, (framesInBuffer - framesToCopy) * sizeof(float));
+#warning 64BIT: Inspect use of sizeof
 			}
 			
 			_bufferList->mBuffers[i].mDataByteSize -= (framesToCopy * sizeof(float));
+#warning 64BIT: Inspect use of sizeof
 		}
 		
 		framesRead += framesToCopy;
@@ -364,6 +373,7 @@ audio_linear_round(unsigned int bits,
 			
 			_bufferList->mBuffers[channel].mNumberChannels	= 1;
 			_bufferList->mBuffers[channel].mDataByteSize	= (sampleCount - startingSample) * sizeof(float);
+#warning 64BIT: Inspect use of sizeof
 		}
 		
 		_samplesDecoded += (sampleCount - startingSample);
@@ -637,6 +647,7 @@ audio_linear_round(unsigned int bits,
 - (SInt64) seekToFrameApproximately:(SInt64)frame
 {
 	double	fraction	= (double)frame / [self totalFrames];
+#warning 64BIT: Inspect use of long
 	long	seekPoint	= 0;
 	
 	// If a Xing header was found, interpolate in TOC
@@ -654,9 +665,11 @@ audio_linear_round(unsigned int bits,
 			secondOffset = _xingTOC[firstIndex + 1];;
 			
 			double x = firstOffset + (secondOffset - firstOffset) * (percent - firstIndex);
+#warning 64BIT: Inspect use of long
 			seekPoint = (long)((1.0 / 256.0) * x * _fileBytes); 
 	}
 	else
+#warning 64BIT: Inspect use of long
 		seekPoint = (long)_fileBytes * fraction;
 	
 	int result = fseek(_file, seekPoint, SEEK_SET);

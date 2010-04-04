@@ -68,6 +68,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 
 #if DEBUG
 	if(kScheduledAudioSliceFlag_BeganToRenderLate & slice->mFlags)
+#warning 64BIT: Check formatting arguments
 		NSLog(@"AudioScheduler error: kScheduledAudioSliceFlag_BeganToRenderLate (starting sample %qi)", (SInt64)slice->mTimeStamp.mSampleTime);
 #endif
 
@@ -143,12 +144,12 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 	[super dealloc];
 }
 
-- (unsigned) numberOfSlicesInBuffer
+- (NSUInteger) numberOfSlicesInBuffer
 {
 	return _numberSlices;
 }
 
-- (unsigned) numberOfFramesPerSlice
+- (NSUInteger) numberOfFramesPerSlice
 {
 	return _framesPerSlice;
 }
@@ -327,6 +328,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 {
 	// Determine the last sample that was rendered
 	AudioTimeStamp		timeStamp	= { 0 };
+#warning 64BIT: Inspect use of sizeof
 	UInt32				dataSize	= sizeof(AudioTimeStamp);
 	ComponentResult		result		= AudioUnitGetProperty([self audioUnit],
 														   kAudioUnitProperty_CurrentPlayTime,
@@ -388,7 +390,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 	ScheduledAudioSlice		*slice				= NULL;
 	UInt32					frameCount			= 0;
 	BOOL					allFramesScheduled	= NO;
-	unsigned				i;
+	NSUInteger				i;
 	
 	// Make this a high-priority thread
 	[self setThreadPolicy];
@@ -471,14 +473,17 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 															   kAudioUnitScope_Global, 
 															   0,
 															   slice, 
+#warning 64BIT: Inspect use of sizeof
 															   sizeof(ScheduledAudioSlice));
 					if(noErr != err) {
+#warning 64BIT: Check formatting arguments
 						NSLog(@"AudioScheduler: Unable to schedule audio slice: %i", err);
 						slice->mFlags = kScheduledAudioSliceFlag_Complete;
 						continue;
 					}
 
 #if EXTENDED_DEBUG
+#warning 64BIT: Check formatting arguments
 					NSLog(@"AudioScheduler: Scheduling slice %i (%i frames) to start at sample %qi", i, frameCount, (SInt64)slice->mTimeStamp.mSampleTime);
 #endif
 

@@ -34,8 +34,8 @@ oggStreamType(NSURL *url)
 	
 	OggStreamType			streamType				= kOggStreamTypeInvalid;
 	
-	int						fd						= -1;
-	int						result;
+	NSInteger						fd						= -1;
+	NSInteger						result;
 	ssize_t					bytesRead;
 	
 	ogg_sync_state			oy;
@@ -84,8 +84,8 @@ oggStreamType(NSURL *url)
 		if(kOggStreamTypeUnknown == streamType) {
 			oggpack_buffer		opb;
 			char				buffer[6];
-			int					packtype;
-			unsigned			i;
+			NSInteger					packtype;
+			NSUInteger			i;
 			
 			memset(buffer, 0, 6);
 			oggpack_readinit(&opb, op.packet, op.bytes);
@@ -111,13 +111,14 @@ oggStreamType(NSURL *url)
 		// This code "borrowed" from ogg_decoder_aspect.c in libOggFLAC
 		if(kOggStreamTypeUnknown == streamType) {
 			uint8_t			*bytes			= (uint8_t *)op.packet;
-			unsigned		headerLength	= 
+			NSUInteger		headerLength	= 
 				1 /*OggFLAC__MAPPING_PACKET_TYPE_LENGTH*/ +
 				4 /*OggFLAC__MAPPING_MAGIC_LENGTH*/ +
 				1 /*OggFLAC__MAPPING_VERSION_MAJOR_LENGTH*/ +
 				1 /*OggFLAC__MAPPING_VERSION_MINOR_LENGTH*/ +
 				2 /*OggFLAC__MAPPING_NUM_HEADERS_LENGTH*/;
 			
+#warning 64BIT: Inspect use of long
 			if(op.bytes >= (long)headerLength) {
 				bytes += 1 /*OggFLAC__MAPPING_PACKET_TYPE_LENGTH*/;
 				if(0 == memcmp(bytes, "FLAC" /*OggFLAC__MAPPING_MAGIC*/, 4 /*OggFLAC__MAPPING_MAGIC_LENGTH*/)) {
@@ -159,6 +160,7 @@ getCoreAudioExtensions()
 	
 	@synchronized(sCoreAudioExtensions) {
 		if(nil == sCoreAudioExtensions) {
+#warning 64BIT: Inspect use of sizeof
 			size	= sizeof(sCoreAudioExtensions);
 			err		= AudioFileGetGlobalInfo(kAudioFileGlobalInfo_AllExtensions, 0, NULL, &size, &sCoreAudioExtensions);
 			NSCAssert2(noErr == err, @"The call to %@ failed (%@).", @"AudioFileGetGlobalInfo", UTCreateStringForOSType(err));

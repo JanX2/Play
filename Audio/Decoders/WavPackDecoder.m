@@ -162,7 +162,7 @@
 
 - (NSString *) sourceFormatDescription
 {
-	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@, %u channels, %u Hz", @"Formats", @""), NSLocalizedStringFromTable(@"WavPack", @"Formats", @""), [self format].mChannelsPerFrame, (unsigned)[self format].mSampleRate];
+	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@, %u channels, %u Hz", @"Formats", @""), NSLocalizedStringFromTable(@"WavPack", @"Formats", @""), (unsigned)[self format].mChannelsPerFrame, (unsigned)[self format].mSampleRate];
 }
 
 @end

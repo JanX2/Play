@@ -124,6 +124,7 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 		}
 		
 		// Allocate the buffer list
+#warning 64BIT: Inspect use of sizeof
 		_bufferList = calloc(sizeof(AudioBufferList) + (sizeof(AudioBuffer) * (_format.mChannelsPerFrame - 1)), 1);
 		NSAssert(NULL != _bufferList, @"Unable to allocate memory");
 		
@@ -237,7 +238,7 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 
 - (NSString *) sourceFormatDescription
 {
-	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@, %u channels, %u Hz", @"Formats", @""), NSLocalizedStringFromTable(@"FLAC", @"Formats", @""), [self format].mChannelsPerFrame, (unsigned)[self format].mSampleRate];
+	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@, %u channels, %u Hz", @"Formats", @""), NSLocalizedStringFromTable(@"FLAC", @"Formats", @""), (unsigned)[self format].mChannelsPerFrame, (unsigned)[self format].mSampleRate];
 }
 
 @end

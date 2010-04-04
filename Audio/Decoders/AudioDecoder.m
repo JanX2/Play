@@ -70,6 +70,7 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 		if(nil != error) {
 			NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
 			
+#warning 64BIT: Check formatting arguments
 			[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The file \"%@\" could not be found.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 			[errorDictionary setObject:NSLocalizedStringFromTable(@"File Not Found", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 			[errorDictionary setObject:NSLocalizedStringFromTable(@"The file may have been renamed or deleted, or exist on removable media.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -93,18 +94,21 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 				
 				switch(type) {
 					case kOggStreamTypeInvalid:
+#warning 64BIT: Check formatting arguments
 						[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The file \"%@\" is not a valid Ogg file.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 						[errorDictionary setObject:NSLocalizedStringFromTable(@"Not an Ogg file", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 						[errorDictionary setObject:NSLocalizedStringFromTable(@"The file's extension may not match the file's type.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];						
 						break;
 						
 					case kOggStreamTypeUnknown:
+#warning 64BIT: Check formatting arguments
 						[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The type of Ogg data in the file \"%@\" could not be determined.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 						[errorDictionary setObject:NSLocalizedStringFromTable(@"Unknown Ogg file type", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 						[errorDictionary setObject:NSLocalizedStringFromTable(@"This data format is not supported for the Ogg container.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];						
 						break;
 						
 					default:
+#warning 64BIT: Check formatting arguments
 						[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The file \"%@\" is not a valid Ogg file.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 						[errorDictionary setObject:NSLocalizedStringFromTable(@"Not an Ogg file", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 						[errorDictionary setObject:NSLocalizedStringFromTable(@"The file's extension may not match the file's type.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];						
@@ -140,6 +144,7 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 		if(nil != error) {
 			NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
 			
+#warning 64BIT: Check formatting arguments
 			[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The format of the file \"%@\" was not recognized.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 			[errorDictionary setObject:NSLocalizedStringFromTable(@"File Format Not Recognized", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 			[errorDictionary setObject:NSLocalizedStringFromTable(@"The file's extension may not match the file's type.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -194,14 +199,17 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 - (NSString *) formatDescription
 {
 	NSString	*description	= nil;
+#warning 64BIT: Inspect use of sizeof
 	UInt32		specifierSize	= sizeof(description);
 	
 	OSStatus err = AudioFormatGetProperty(kAudioFormatProperty_FormatName, 
+#warning 64BIT: Inspect use of sizeof
 										  sizeof(_format), 
 										  &_format, 
 										  &specifierSize, 
 										  &description);
 	if(noErr != err)
+#warning 64BIT: Check formatting arguments
 		NSLog(@"AudioFormatGetProperty (kAudioFormatProperty_FormatName) failed: %i", err);
 	
 	return [description autorelease];
@@ -215,14 +223,17 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 - (NSString *) channelLayoutDescription
 {
 	NSString	*description	= nil;
+#warning 64BIT: Inspect use of sizeof
 	UInt32		specifierSize	= sizeof(description);
 	
 	OSStatus err = AudioFormatGetProperty(kAudioFormatProperty_ChannelLayoutName, 
+#warning 64BIT: Inspect use of sizeof
 										  sizeof(_channelLayout), 
 										  &_channelLayout, 
 										  &specifierSize, 
 										  &description);
 	if(noErr != err)
+#warning 64BIT: Check formatting arguments
 		NSLog(@"AudioFormatGetProperty (kAudioFormatProperty_ChannelLayoutName) failed: %i", err);
 			
 	return [description autorelease];
@@ -247,8 +258,10 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 {
 	AudioStreamBasicDescription		sourceFormat			= [self sourceFormat];	
 	NSString						*sourceFormatName		= nil;
+#warning 64BIT: Inspect use of sizeof
 	UInt32							sourceFormatNameSize	= sizeof(sourceFormatName);
 	
+#warning 64BIT: Inspect use of sizeof
 	OSStatus err = AudioFormatGetProperty(kAudioFormatProperty_FormatName, sizeof(sourceFormat), &sourceFormat, &sourceFormatNameSize, &sourceFormatName);
 	if(noErr != err)
 		return nil;	
