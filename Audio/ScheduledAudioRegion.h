@@ -34,8 +34,8 @@
 	
 	ScheduledAudioSlice			*_sliceBuffer;
 
-	unsigned					_numberSlices;
-	unsigned					_framesPerSlice;
+	NSUInteger					_numberSlices;
+	NSUInteger					_framesPerSlice;
 
 	SInt64						_framesScheduled;
 	SInt64						_framesRendered;
@@ -58,20 +58,20 @@
 - (SInt64) framesScheduled;
 - (SInt64) framesRendered;
 
-- (unsigned) numberOfSlicesInBuffer;
-- (unsigned) numberOfFramesPerSlice;
+- (NSUInteger) numberOfSlicesInBuffer;
+- (NSUInteger) numberOfFramesPerSlice;
 
-- (void) allocateBuffersWithSliceCount:(unsigned)sliceCount frameCount:(unsigned)frameCount;
+- (void) allocateBuffersWithSliceCount:(NSUInteger)sliceCount frameCount:(NSUInteger)frameCount;
 - (void) clearSliceBuffer;
-- (void) clearSlice:(unsigned)sliceIndex;
+- (void) clearSlice:(NSUInteger)sliceIndex;
 
 - (void) clearFramesScheduled;
 - (void) clearFramesRendered;
 
-- (UInt32) readAudioInSlice:(unsigned)sliceIndex;
+- (UInt32) readAudioInSlice:(NSUInteger)sliceIndex;
 
 - (ScheduledAudioSlice *) buffer;
-- (ScheduledAudioSlice *) sliceAtIndex:(unsigned)sliceIndex;
+- (ScheduledAudioSlice *) sliceAtIndex:(NSUInteger)sliceIndex;
 
 - (void) scheduledAdditionalFrames:(UInt32)frameCount;
 - (void) renderedAdditionalFrames:(UInt32)frameCount;

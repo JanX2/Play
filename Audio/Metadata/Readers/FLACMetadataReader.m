@@ -120,21 +120,21 @@
 					else if(NSOrderedSame == [key caseInsensitiveCompare:@"TITLE"])
 						[metadataDictionary setValue:value forKey:MetadataTitleKey];
 					else if(NSOrderedSame == [key caseInsensitiveCompare:@"TRACKNUMBER"])
-						[metadataDictionary setValue:[NSNumber numberWithUnsignedInt:(UInt32)[value intValue]] forKey:MetadataTrackNumberKey];
+						[metadataDictionary setValue:[NSNumber numberWithUnsignedInteger:(NSUInteger)[value integerValue]] forKey:MetadataTrackNumberKey];
 					else if(NSOrderedSame == [key caseInsensitiveCompare:@"TRACKTOTAL"])
-						[metadataDictionary setValue:[NSNumber numberWithUnsignedInt:(UInt32)[value intValue]] forKey:MetadataTrackTotalKey];
+						[metadataDictionary setValue:[NSNumber numberWithUnsignedInteger:(NSUInteger)[value integerValue]] forKey:MetadataTrackTotalKey];
 					else if(NSOrderedSame == [key caseInsensitiveCompare:@"COMPILATION"])
-						[metadataDictionary setValue:[NSNumber numberWithBool:(BOOL)[value intValue]] forKey:MetadataCompilationKey];
+						[metadataDictionary setValue:[NSNumber numberWithBool:(BOOL)[value integerValue]] forKey:MetadataCompilationKey];
 					else if(NSOrderedSame == [key caseInsensitiveCompare:@"DISCNUMBER"])
-						[metadataDictionary setValue:[NSNumber numberWithUnsignedInt:(UInt32)[value intValue]] forKey:MetadataDiscNumberKey];
+						[metadataDictionary setValue:[NSNumber numberWithUnsignedInteger:(NSUInteger)[value integerValue]] forKey:MetadataDiscNumberKey];
 					else if(NSOrderedSame == [key caseInsensitiveCompare:@"DISCTOTAL"])
-						[metadataDictionary setValue:[NSNumber numberWithUnsignedInt:(UInt32)[value intValue]] forKey:MetadataDiscTotalKey];
+						[metadataDictionary setValue:[NSNumber numberWithUnsignedInteger:(NSUInteger)[value integerValue]] forKey:MetadataDiscTotalKey];
 					else if(NSOrderedSame == [key caseInsensitiveCompare:@"ISRC"])
 						[metadataDictionary setValue:value forKey:MetadataISRCKey];
 					else if(NSOrderedSame == [key caseInsensitiveCompare:@"MCN"])
 						[metadataDictionary setValue:value forKey:MetadataMCNKey];
 					else if(NSOrderedSame == [key caseInsensitiveCompare:@"BPM"])
-						[metadataDictionary setValue:[NSNumber numberWithUnsignedInt:(UInt32)[value intValue]] forKey:MetadataBPMKey];
+						[metadataDictionary setValue:[NSNumber numberWithUnsignedInteger:(NSUInteger)[value integerValue]] forKey:MetadataBPMKey];
 					else if(NSOrderedSame == [key caseInsensitiveCompare:@"REPLAYGAIN_REFERENCE_LOUDNESS"]) {
 						NSScanner	*scanner		= [NSScanner scannerWithString:value];						
 						double		doubleValue		= 0.0;

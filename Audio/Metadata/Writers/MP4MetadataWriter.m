@@ -110,8 +110,8 @@
 		result = MP4DeleteMetadataTrack(mp4FileHandle);
 	else
 		result = MP4SetMetadataTrack(mp4FileHandle,
-									 (nil == trackNumber ? 0 : [trackNumber unsignedIntValue]),
-									 (nil == trackTotal ? 0 : [trackTotal unsignedIntValue]));
+									 (nil == trackNumber ? 0 : [trackNumber unsignedIntegerValue]),
+									 (nil == trackTotal ? 0 : [trackTotal unsignedIntegerValue]));
 	
 	// Compilation
 	NSNumber *compilation = [metadata valueForKey:MetadataCompilationKey];
@@ -127,8 +127,8 @@
 		result = MP4DeleteMetadataDisk(mp4FileHandle);
 	else	
 		result = MP4SetMetadataDisk(mp4FileHandle,
-									(nil == discNumber ? 0 : [discNumber unsignedIntValue]),
-									(nil == discTotal ? 0 : [discTotal unsignedIntValue]));
+									(nil == discNumber ? 0 : [discNumber unsignedIntegerValue]),
+									(nil == discTotal ? 0 : [discTotal unsignedIntegerValue]));
 	
 	// BPM
 	NSNumber *bpm = [metadata valueForKey:MetadataBPMKey];

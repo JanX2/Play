@@ -98,27 +98,27 @@ getWavPackTag(WavpackContext	*wpc,
 	// Track number
 	NSString *trackNumber = getWavPackTag(wpc, "TRACK");
 	if(nil != trackNumber)
-		[metadataDictionary setValue:[NSNumber numberWithInt:[trackNumber intValue]] forKey:MetadataTrackNumberKey];	
+		[metadataDictionary setValue:[NSNumber numberWithInteger:[trackNumber integerValue]] forKey:MetadataTrackNumberKey];	
 	
 	// Total tracks
 	NSString *trackTotal = getWavPackTag(wpc, "TRACKTOTAL");
 	if(nil != trackTotal)
-		[metadataDictionary setValue:[NSNumber numberWithInt:[trackTotal intValue]] forKey:MetadataTrackTotalKey];	
+		[metadataDictionary setValue:[NSNumber numberWithInteger:[trackTotal integerValue]] forKey:MetadataTrackTotalKey];	
 	
 	// Disc number
 	NSString *discNumber = getWavPackTag(wpc, "DISCNUMBER");
 	if(nil != discNumber)
-		[metadataDictionary setValue:[NSNumber numberWithInt:[discNumber intValue]] forKey:MetadataDiscNumberKey];	
+		[metadataDictionary setValue:[NSNumber numberWithInteger:[discNumber integerValue]] forKey:MetadataDiscNumberKey];	
 	
 	// Discs in set
 	NSString *discTotal = getWavPackTag(wpc, "DISCTOTAL");
 	if(nil != discTotal)
-		[metadataDictionary setValue:[NSNumber numberWithInt:[discTotal intValue]] forKey:MetadataDiscTotalKey];	
+		[metadataDictionary setValue:[NSNumber numberWithInteger:[discTotal integerValue]] forKey:MetadataDiscTotalKey];	
 	
 	// Compilation
 	NSString *compilation = getWavPackTag(wpc, "COMPILATION");
 	if(nil != compilation)
-		[metadataDictionary setValue:[NSNumber numberWithBool:[compilation intValue]] forKey:MetadataCompilationKey];	
+		[metadataDictionary setValue:[NSNumber numberWithBool:[compilation integerValue]] forKey:MetadataCompilationKey];	
 	
 	// ISRC
 	[metadataDictionary setValue:getWavPackTag(wpc, "ISRC") forKey:MetadataISRCKey];
@@ -129,7 +129,7 @@ getWavPackTag(WavpackContext	*wpc,
 	// BPM
 	NSString *bpm = getWavPackTag(wpc, "BPM");
 	if(nil != bpm)
-		[metadataDictionary setValue:[NSNumber numberWithInt:[bpm intValue]] forKey:MetadataBPMKey];	
+		[metadataDictionary setValue:[NSNumber numberWithInteger:[bpm integerValue]] forKey:MetadataBPMKey];	
 	
 	// ReplayGain
 	NSString *referenceLoudness = getWavPackTag(wpc, "REPLAYGAIN_REFERENCE_LOUDNESS");
