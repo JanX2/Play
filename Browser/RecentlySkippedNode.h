@@ -26,7 +26,7 @@
 // ========================================
 @interface RecentlySkippedNode : AudioStreamCollectionNode
 {
-	unsigned	_count;
+	NSUInteger	_count;
 }
 
 @end

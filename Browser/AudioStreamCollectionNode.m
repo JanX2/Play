@@ -56,19 +56,19 @@
 
 #pragma mark KVC Accessors
 
-- (unsigned)		countOfStreams											{ return [[self streamsArray] count]; }
-- (AudioStream *)	objectInStreamsAtIndex:(unsigned)index					{ return [[self streamsArray] objectAtIndex:index]; }
+- (NSUInteger)		countOfStreams											{ return [[self streamsArray] count]; }
+- (AudioStream *)	objectInStreamsAtIndex:(NSUInteger)index					{ return [[self streamsArray] objectAtIndex:index]; }
 - (void)			getStreams:(id *)buffer range:(NSRange)aRange			{ return [[self streamsArray] getObjects:buffer range:aRange]; }
 
 #pragma mark KVC Mutators
 
-- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(unsigned)index
+- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)index
 {
 	NSAssert([self canInsertStream], @"Attempt to insert a stream in an immutable AudioStreamCollectionNode");
 	[[self streamsArray] insertObject:stream atIndex:index];
 }
 
-- (void) removeObjectFromStreamsAtIndex:(unsigned)index
+- (void) removeObjectFromStreamsAtIndex:(NSUInteger)index
 {
 	NSAssert([self canRemoveStream], @"Attempt to remove a stream from an immutable AudioStreamCollectionNode");	
 	[[self streamsArray] removeObjectAtIndex:index];

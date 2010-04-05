@@ -84,12 +84,12 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 
 + (id) insertStreamForURL:(NSURL *)URL withInitialValues:(NSDictionary *)keyedValues
 {
-	return [self insertStreamForURL:URL startingFrame:[NSNumber numberWithInt:-1] frameCount:[NSNumber numberWithInt:-1] withInitialValues:keyedValues];
+	return [self insertStreamForURL:URL startingFrame:[NSNumber numberWithInteger:-1] frameCount:[NSNumber numberWithInteger:-1] withInitialValues:keyedValues];
 }
 
 + (id) insertStreamForURL:(NSURL *)URL startingFrame:(NSNumber *)startingFrame withInitialValues:(NSDictionary *)keyedValues
 {
-	return [self insertStreamForURL:URL startingFrame:startingFrame frameCount:[NSNumber numberWithInt:-1] withInitialValues:keyedValues];
+	return [self insertStreamForURL:URL startingFrame:startingFrame frameCount:[NSNumber numberWithInteger:-1] withInitialValues:keyedValues];
 }
 
 + (id) insertStreamForURL:(NSURL *)URL startingFrame:(NSNumber *)startingFrame frameCount:(NSNumber *)frameCount withInitialValues:(NSDictionary *)keyedValues
@@ -225,12 +225,12 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 	[self clearMetadata:sender];
 
 	NSDictionary	*metadata		= [metadataReader metadata];
-	NSString		*key;
+	NSString		*thisKey;
 	id				value;
 	
-	for(NSString *key in [metadata allKeys]) {
-		value = [metadata valueForKey:key];
-		[self setValue:value forKey:key];
+	for(NSString *thisKey in [metadata allKeys]) {
+		value = [metadata valueForKey:thisKey];
+		[self setValue:value forKey:thisKey];
 	}
 }
 
@@ -302,14 +302,14 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 - (NSNumber *) duration
 {
 	if([self isPartOfCueSheet])
-		return [NSNumber numberWithDouble:[[self valueForKey:StreamFrameCountKey] longLongValue] / [[self valueForKey:PropertiesSampleRateKey] floatValue]];
+		return [NSNumber numberWithDouble:[[self valueForKey:StreamFrameCountKey] longLongValue] / [[self valueForKey:PropertiesSampleRateKey] doubleValue]];
 	else
 		return [self totalDuration];
 }
 
 - (NSNumber *) totalDuration
 {
-	return [NSNumber numberWithDouble:[[self valueForKey:PropertiesTotalFramesKey] longLongValue] / [[self valueForKey:PropertiesSampleRateKey] floatValue]];
+	return [NSNumber numberWithDouble:[[self valueForKey:PropertiesTotalFramesKey] longLongValue] / [[self valueForKey:PropertiesSampleRateKey] doubleValue]];
 }
 
 - (BOOL) isPlaying							{ return _playing; }
@@ -321,7 +321,7 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 	NSNumber	*frameCount		= [self valueForKey:StreamFrameCountKey];
 	
 	// For reasons related to SQLite (see http://sqlite.org/nulls.html), -1 is used instead of NULL
-	return (-1 != [startingFrame longLongValue] && -1 != [frameCount intValue]);
+	return (-1 != [startingFrame longLongValue] && -1 != [frameCount integerValue]);
 }
 
 - (id <AudioDecoderMethods>) decoder:(NSError **)error
@@ -329,7 +329,7 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 	if([self isPartOfCueSheet])
 		return [LoopableRegionDecoder decoderWithURL:[self valueForKey:StreamURLKey] 
 									  startingFrame:[[self valueForKey:StreamStartingFrameKey] longLongValue]
-										 frameCount:[[self valueForKey:StreamFrameCountKey] unsignedIntValue]
+										 frameCount:[[self valueForKey:StreamFrameCountKey] unsignedIntegerValue]
 											  error:error];
 	else
 		return [AudioDecoder decoderWithURL:[self valueForKey:StreamURLKey] error:error];
@@ -354,7 +354,7 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 
 - (NSString *) debugDescription
 {
-	return [NSString stringWithFormat:@"<%@: %x> [%@] %@",
+	return [NSString stringWithFormat:@"<%@: %p> [%@] %@",
 		[self class], 
 		self, 
 		[self valueForKey:ObjectIDKey], 

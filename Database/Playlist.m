@@ -71,9 +71,9 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 	return [[_streams retain] autorelease];
 }
 
-- (AudioStream *) streamAtIndex:(unsigned)index
+- (AudioStream *) streamAtIndex:(NSUInteger)thisIndex
 {
-	return [self objectInStreamsAtIndex:index];
+	return [self objectInStreamsAtIndex:thisIndex];
 }
 
 - (void) addStream:(AudioStream *)stream
@@ -81,9 +81,9 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 	[self insertObject:stream inStreamsAtIndex:[_streams count]];
 }
 
-- (void) insertStream:(AudioStream *)stream atIndex:(unsigned)index
+- (void) insertStream:(AudioStream *)stream atIndex:(NSUInteger)thisIndex
 {
-	[self insertObject:stream inStreamsAtIndex:index];
+	[self insertObject:stream inStreamsAtIndex:thisIndex];
 }
 
 - (void) addStreams:(NSArray *)streams
@@ -106,8 +106,8 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 	NSParameterAssert(0 != [streams count]);
 	NSParameterAssert([streams count] == [indexes count]);
 	
-	unsigned	i, count;
-	unsigned	*indexBuffer	= (unsigned *)calloc([indexes count], sizeof(unsigned));
+	NSUInteger	i, count;
+	NSUInteger	*indexBuffer	= (NSUInteger *)calloc([indexes count], sizeof(NSUInteger));
 	NSAssert(NULL != indexBuffer, NSLocalizedStringFromTable(@"Unable to allocate memory.", @"Errors", @""));
 	
 	count = [indexes getIndexes:indexBuffer maxCount:[indexes count] inIndexRange:nil];
@@ -131,12 +131,12 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 	[self insertObject:stream inStreamsAtIndex:[_streams count]];
 }
 
-- (void) insertStreamWithID:(NSNumber *)objectID atIndex:(unsigned)index
+- (void) insertStreamWithID:(NSNumber *)objectID atIndex:(NSUInteger)thisIndex
 {
 	NSParameterAssert(nil != objectID);
 
 	AudioStream *stream = [[[CollectionManager manager] streamManager] streamForID:objectID];
-	[self insertObject:stream inStreamsAtIndex:index];
+	[self insertObject:stream inStreamsAtIndex:thisIndex];
 }
 
 - (void) addStreamsWithIDs:(NSArray *)objectIDs
@@ -163,8 +163,8 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 	NSParameterAssert(0 != [objectIDs count]);
 	NSParameterAssert([objectIDs count] == [indexes count]);
 	
-	unsigned	i, count;
-	unsigned	*indexBuffer	= (unsigned *)calloc([indexes count], sizeof(unsigned));
+	NSUInteger	i, count;
+	NSUInteger	*indexBuffer	= (NSUInteger *)calloc([indexes count], sizeof(NSUInteger));
 	NSAssert(NULL != indexBuffer, NSLocalizedStringFromTable(@"Unable to allocate memory.", @"Errors", @""));
 	
 	count = [indexes getIndexes:indexBuffer maxCount:[indexes count] inIndexRange:nil];
@@ -180,21 +180,21 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 	free(indexBuffer);
 }
 
-- (void) removeStreamAtIndex:(unsigned)index
+- (void) removeStreamAtIndex:(NSUInteger)thisIndex
 {
-	[self removeObjectFromStreamsAtIndex:index];
+	[self removeObjectFromStreamsAtIndex:thisIndex];
 }
 
 #pragma mark KVC Accessors
 
-- (unsigned) countOfStreams
+- (NSUInteger) countOfStreams
 {
 	return [_streams count];
 }
 
-- (AudioStream *) objectInStreamsAtIndex:(unsigned)index
+- (AudioStream *) objectInStreamsAtIndex:(NSUInteger)thisIndex
 {
-	return [_streams objectAtIndex:index];
+	return [_streams objectAtIndex:thisIndex];
 }
 
 - (void) getStreams:(id *)buffer range:(NSRange)range
@@ -204,20 +204,20 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 
 #pragma mark KVC Mutators
 
-- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(unsigned)index
+- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)thisIndex
 {
 	NSParameterAssert(nil != stream);
 
-	[[[CollectionManager manager] playlistManager] playlist:self willInsertStream:stream atIndex:index];
-	[_streams insertObject:stream atIndex:index];
-	[[[CollectionManager manager] playlistManager] playlist:self didInsertStream:stream atIndex:index];
+	[[[CollectionManager manager] playlistManager] playlist:self willInsertStream:stream atIndex:thisIndex];
+	[_streams insertObject:stream atIndex:thisIndex];
+	[[[CollectionManager manager] playlistManager] playlist:self didInsertStream:stream atIndex:thisIndex];
 }
 
-- (void) removeObjectFromStreamsAtIndex:(unsigned)index
+- (void) removeObjectFromStreamsAtIndex:(NSUInteger)thisIndex
 {
-	[[[CollectionManager manager] playlistManager] playlist:self willRemoveStreamAtIndex:index];
-	[_streams removeObjectAtIndex:index];
-	[[[CollectionManager manager] playlistManager] playlist:self didRemoveStreamAtIndex:index];
+	[[[CollectionManager manager] playlistManager] playlist:self willRemoveStreamAtIndex:thisIndex];
+	[_streams removeObjectAtIndex:thisIndex];
+	[[[CollectionManager manager] playlistManager] playlist:self didRemoveStreamAtIndex:thisIndex];
 }
 
 - (BOOL) isPlaying							{ return _playing; }
@@ -240,7 +240,7 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 
 - (NSString *) debugDescription
 {
-	return [NSString stringWithFormat:@"<%@, %x> [%@] %@", [self class], self, [self valueForKey:ObjectIDKey], [self valueForKey:PlaylistNameKey]];
+	return [NSString stringWithFormat:@"<%@, %p> [%@] %@", [self class], self, [self valueForKey:ObjectIDKey], [self valueForKey:PlaylistNameKey]];
 }
 
 #pragma mark Reimplementations

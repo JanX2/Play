@@ -79,7 +79,7 @@ bindParameter(sqlite3_stmt		*statement,
 				result = sqlite3_bind_int64(statement, parameterIndex, [value longLongValue]);	
 				break;
 			case eObjectTypeFloat:	
-				result = sqlite3_bind_double(statement, parameterIndex, [value floatValue]);
+				result = sqlite3_bind_double(statement, parameterIndex, [value doubleValue]);
 				break;
 			case eObjectTypeDouble:	
 				result = sqlite3_bind_double(statement, parameterIndex, [value doubleValue]);	
@@ -157,7 +157,7 @@ bindNamedParameter(sqlite3_stmt		*statement,
 				result = sqlite3_bind_int64(statement, parameterIndex, [value longLongValue]);
 				break;
 			case eObjectTypeFloat:	
-				result = sqlite3_bind_double(statement, parameterIndex, [value floatValue]);
+				result = sqlite3_bind_double(statement, parameterIndex, [value doubleValue]);
 				break;
 			case eObjectTypeDouble:	
 				result = sqlite3_bind_double(statement, parameterIndex, [value doubleValue]);	
@@ -232,7 +232,7 @@ getColumnValue(sqlite3_stmt		*statement,
 			[object initValue:[NSNumber numberWithLongLong:sqlite3_column_int64(statement, columnIndex)] forKey:key];
 			break;
 		case eObjectTypeFloat:	
-			[object initValue:[NSNumber numberWithFloat:sqlite3_column_double(statement, columnIndex)] forKey:key];
+			[object initValue:[NSNumber numberWithDouble:sqlite3_column_double(statement, columnIndex)] forKey:key];
 			break;
 		case eObjectTypeDouble:	
 			[object initValue:[NSNumber numberWithDouble:sqlite3_column_double(statement, columnIndex)] forKey:key];

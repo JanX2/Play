@@ -33,11 +33,11 @@
 {
 	NSNumberFormatter *audioSlicesFormatter = [[NSNumberFormatter alloc] init];
 	[audioSlicesFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-	[audioSlicesFormatter setMinimum:[NSNumber numberWithUnsignedInt:10]];
+	[audioSlicesFormatter setMinimum:[NSNumber numberWithUnsignedInteger:10]];
 
 	NSNumberFormatter *audioFramesFormatter = [[NSNumberFormatter alloc] init];
 	[audioFramesFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-	[audioFramesFormatter setMinimum:[NSNumber numberWithUnsignedInt:2048]];
+	[audioFramesFormatter setMinimum:[NSNumber numberWithUnsignedInteger:2048]];
 	
 	[_audioSlicesInBufferTextField setFormatter:audioSlicesFormatter];
 	[_audioFramesPerSliceTextField setFormatter:audioFramesFormatter];

@@ -52,6 +52,7 @@
 - (id) init
 {
 	if((self = [super init])) {
+#warning 64BIT: Check callbacks
 		_registeredStreams	= NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 4096);		
 		_sql				= [[NSMutableDictionary alloc] init];
 		_insertedStreams	= [[NSMutableSet alloc] init];
@@ -144,7 +145,7 @@
 		return stream;
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"select_stream_by_id"];
-	int				result			= SQLITE_OK;
+	int			result			= SQLITE_OK;
 				
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));
@@ -175,12 +176,12 @@
 
 - (AudioStream *) streamForURL:(NSURL *)url
 {
-	return [self streamForURL:url startingFrame:[NSNumber numberWithInt:-1] frameCount:[NSNumber numberWithInt:-1]];
+	return [self streamForURL:url startingFrame:[NSNumber numberWithInteger:-1] frameCount:[NSNumber numberWithInteger:-1]];
 }
 
 - (AudioStream *) streamForURL:(NSURL *)url startingFrame:(NSNumber *)startingFrame
 {
-	return [self streamForURL:url startingFrame:startingFrame frameCount:[NSNumber numberWithInt:-1]];
+	return [self streamForURL:url startingFrame:startingFrame frameCount:[NSNumber numberWithInteger:-1]];
 }
 
 - (AudioStream *) streamForURL:(NSURL *)url startingFrame:(NSNumber *)startingFrame frameCount:(NSNumber *)frameCount
@@ -206,7 +207,7 @@
 	result = sqlite3_bind_int64(statement, sqlite3_bind_parameter_index(statement, ":starting_frame"), [startingFrame longLongValue]);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
-	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":frame_count"), [frameCount unsignedIntValue]);
+	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":frame_count"), [frameCount unsignedIntegerValue]);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 	while(SQLITE_ROW == (result = sqlite3_step(statement)))
@@ -477,10 +478,10 @@
 	NSParameterAssert(nil != stream);
 	NSParameterAssert(nil != key);
 
-	unsigned index = [_cachedStreams indexOfObject:stream];
+	NSUInteger thisIndex = [_cachedStreams indexOfObject:stream];
 	
-	if(NSNotFound != index)
-		[self willChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:key];
+	if(NSNotFound != thisIndex)
+		[self willChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:thisIndex] forKey:key];
 }
 
 - (void) stream:(AudioStream *)stream didChangeValueForKey:(NSString *)key
@@ -488,11 +489,11 @@
 	NSParameterAssert(nil != stream);
 	NSParameterAssert(nil != key);
 
-	unsigned index = [_cachedStreams indexOfObject:stream];
+	NSUInteger thisIndex = [_cachedStreams indexOfObject:stream];
 
-	if(NSNotFound != index) {
+	if(NSNotFound != thisIndex) {
 		[self saveStream:stream];
-		[self didChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:key];
+		[self didChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:thisIndex] forKey:key];
 	}
 }
 
@@ -516,7 +517,8 @@
 	clock_t start = clock();
 #endif
 	
-	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":playlist_id"), [[playlist valueForKey:ObjectIDKey] unsignedIntValue]);
+#warning 64BIT: This is probably not what you want
+	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":playlist_id"), [[playlist valueForKey:ObjectIDKey] integerValue]);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 	
 	while(SQLITE_ROW == (result = sqlite3_step(statement))) {
@@ -532,7 +534,7 @@
 #if SQL_DEBUG
 	clock_t end = clock();
 	double elapsed = (end - start) / (double)CLOCKS_PER_SEC;
-	NSLog(@"Loaded %i streams in %f seconds (%f per second)", [streams count], elapsed, (double)[streams count] / elapsed);
+	NSLog(@"Loaded %ld streams in %f seconds (%f per second)", (long)[streams count], elapsed, (double)[streams count] / elapsed);
 #endif
 	
 	return [streams autorelease];
@@ -705,7 +707,7 @@
 	NSParameterAssert(NULL != statement);
 	
 	AudioStream		*stream			= nil;
-	unsigned		objectID;
+	NSUInteger		objectID;
 	
 	// The ID should never be NULL
 	NSAssert(SQLITE_NULL != sqlite3_column_type(statement, 0), @"No ID found for stream");
@@ -718,7 +720,7 @@
 	stream = [[AudioStream alloc] init];
 	
 	// Stream ID and location
-	[stream initValue:[NSNumber numberWithUnsignedInt:objectID] forKey:ObjectIDKey];
+	[stream initValue:[NSNumber numberWithUnsignedInteger:objectID] forKey:ObjectIDKey];
 //	getColumnValue(statement, 0, stream, ObjectIDKey, eObjectTypeUnsignedInt);
 	getColumnValue(statement, 1, stream, StreamURLKey, eObjectTypeURL);
 	getColumnValue(statement, 2, stream, StreamStartingFrameKey, eObjectTypeLongLong);
@@ -850,7 +852,7 @@
 		result = sqlite3_step(statement);
 		NSAssert2(SQLITE_DONE == result, @"Unable to insert a record for %@ (%@).", [[NSFileManager defaultManager] displayNameAtPath:[[stream valueForKey:StreamURLKey] path]], [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 		
-		[stream initValue:[NSNumber numberWithInt:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
+		[stream initValue:[NSNumber numberWithLongLong:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
 		
 		result = sqlite3_reset(statement);
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to reset sql statement (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
@@ -859,7 +861,7 @@
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to clear sql statement bindings (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 		// Register the object	
-		NSMapInsert(_registeredStreams, (void *)[[stream valueForKey:ObjectIDKey] unsignedIntValue], (void *)stream);
+		NSMapInsert(_registeredStreams, (void *)[[stream valueForKey:ObjectIDKey] unsignedIntegerValue], (void *)stream);
 	}
 	
 	@catch(NSException *exception) {

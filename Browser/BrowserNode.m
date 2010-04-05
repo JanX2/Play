@@ -135,7 +135,7 @@
 	return [[_parent retain] autorelease];
 }
 
-- (unsigned) childCount
+- (NSUInteger) childCount
 {
 	return [_children count];
 }
@@ -150,19 +150,19 @@
 	return [_children lastObject];
 }
 
-- (BrowserNode *) childAtIndex:(unsigned)index
+- (BrowserNode *) childAtIndex:(NSUInteger)index
 {
 	return [_children objectAtIndex:index];
 }
 
-- (unsigned) indexOfChild:(BrowserNode *)child
+- (NSUInteger) indexOfChild:(BrowserNode *)child
 {
 	NSParameterAssert(nil != child);
 
 	return [_children indexOfObject:child];
 }
 
-- (unsigned) indexOfChildIdenticalTo:(BrowserNode *)child
+- (NSUInteger) indexOfChildIdenticalTo:(BrowserNode *)child
 {
 	NSParameterAssert(nil != child);
 	
@@ -194,7 +194,7 @@
 
 - (BrowserNode *) nextSibling
 {
-	unsigned myIndex = [[self parent] indexOfChild:self];
+	NSUInteger myIndex = [[self parent] indexOfChild:self];
 	if(myIndex + 1 < [[self parent] childCount])
 		return [[self parent] childAtIndex:myIndex + 1];
 	return nil;
@@ -202,7 +202,7 @@
 
 - (BrowserNode *) previousSibling
 {
-	unsigned myIndex = [[self parent] indexOfChild:self];
+	NSUInteger myIndex = [[self parent] indexOfChild:self];
 	if(0 < myIndex - 1 && myIndex - 1 > [[self parent] childCount])
 		return [[self parent] childAtIndex:myIndex - 1];
 	return nil;
@@ -225,7 +225,7 @@
 	[self insertObject:child inChildrenAtIndex:[_children count]];
 }
 
-- (void) insertChild:(BrowserNode *)child atIndex:(unsigned)index
+- (void) insertChild:(BrowserNode *)child atIndex:(NSUInteger)index
 {
 	[self insertObject:child inChildrenAtIndex:index];
 }
@@ -235,7 +235,7 @@
 	[self removeObjectFromChildrenAtIndex:[self indexOfChild:child]];
 }
 
-- (void) removeChildAtIndex:(unsigned)index
+- (void) removeChildAtIndex:(NSUInteger)index
 {
 	[self removeObjectFromChildrenAtIndex:index];
 }
@@ -274,12 +274,12 @@
 	[self didChangeValueForKey:@"children"];
 }
 
-- (unsigned) countOfChildren
+- (NSUInteger) countOfChildren
 {
 	return [_children count];
 }
 
-- (BrowserNode *) objectInChildrenAtIndex:(unsigned)index
+- (BrowserNode *) objectInChildrenAtIndex:(NSUInteger)index
 {
 	return [_children objectAtIndex:index];
 }
@@ -289,7 +289,7 @@
 	return [_children getObjects:buffer range:range];
 }
 
-- (void) insertObject:(BrowserNode *)object inChildrenAtIndex:(unsigned)index
+- (void) insertObject:(BrowserNode *)object inChildrenAtIndex:(NSUInteger)index
 {
 	NSParameterAssert(nil != object);
 
@@ -297,7 +297,7 @@
 	[_children insertObject:object atIndex:index];
 }
 
-- (void) removeObjectFromChildrenAtIndex:(unsigned)index
+- (void) removeObjectFromChildrenAtIndex:(NSUInteger)index
 {
 	[[_children objectAtIndex:index] setParent:nil];
 	[_children removeObjectAtIndex:index];

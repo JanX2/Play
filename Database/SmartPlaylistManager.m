@@ -49,6 +49,7 @@
 - (id) init
 {
 	if((self = [super init])) {
+#warning 64BIT: Check callbacks
 		_registeredPlaylists	= NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 4096);		
 		_sql					= [[NSMutableDictionary alloc] init];
 		_insertedPlaylists		= [[NSMutableSet alloc] init];
@@ -92,12 +93,12 @@
 {
 	NSParameterAssert(nil != objectID);
 	
-	SmartPlaylist *playlist = (SmartPlaylist *)NSMapGet(_registeredPlaylists, (void *)[objectID unsignedIntValue]);
+	SmartPlaylist *playlist = (SmartPlaylist *)NSMapGet(_registeredPlaylists, (void *)[objectID unsignedIntegerValue]);
 	if(nil != playlist)
 		return playlist;
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"select_smart_playlist_by_id"];
-	int				result			= SQLITE_OK;
+	NSInteger				result			= SQLITE_OK;
 				
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));
@@ -367,19 +368,19 @@
 
 - (void) smartPlaylist:(SmartPlaylist *)playlist willChangeValueForKey:(NSString *)key
 {
-	unsigned index = [_cachedPlaylists indexOfObject:playlist];
+	NSUInteger thisIndex = [_cachedPlaylists indexOfObject:playlist];
 	
-	if(NSNotFound != index)
-		[self willChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:key];
+	if(NSNotFound != thisIndex)
+		[self willChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:thisIndex] forKey:key];
 }
 
 - (void) smartPlaylist:(SmartPlaylist *)playlist didChangeValueForKey:(NSString *)key
 {
-	unsigned index = [_cachedPlaylists indexOfObject:playlist];
+	NSUInteger thisIndex = [_cachedPlaylists indexOfObject:playlist];
 	
-	if(NSNotFound != index) {
+	if(NSNotFound != thisIndex) {
 		[self saveSmartPlaylist:playlist];	
-		[self didChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:key];
+		[self didChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:thisIndex] forKey:key];
 	}
 }
 
@@ -501,7 +502,7 @@
 #if SQL_DEBUG
 	clock_t end = clock();
 	double elapsed = (end - start) / (double)CLOCKS_PER_SEC;
-	NSLog(@"Loaded %i smart playlists in %f seconds (%f per second)", [playlists count], elapsed, (double)[playlists count] / elapsed);
+	NSLog(@"Loaded %ld smart playlists in %f seconds (%f per second)", (long)[playlists count], elapsed, (double)[playlists count] / elapsed);
 #endif
 	
 	return [playlists autorelease];
@@ -510,7 +511,7 @@
 - (SmartPlaylist *) loadSmartPlaylist:(sqlite3_stmt *)statement
 {
 	SmartPlaylist	*playlist		= nil;
-	unsigned		objectID;
+	NSUInteger		objectID;
 	
 	// The ID should never be NULL
 	NSAssert(SQLITE_NULL != sqlite3_column_type(statement, 0), @"No ID found for playlist");
@@ -523,7 +524,7 @@
 	playlist = [[SmartPlaylist alloc] init];
 	
 	// Playlist ID and name
-	[playlist initValue:[NSNumber numberWithUnsignedInt:objectID] forKey:ObjectIDKey];
+	[playlist initValue:[NSNumber numberWithUnsignedInteger:objectID] forKey:ObjectIDKey];
 	//	getColumnValue(statement, 0, playlist, ObjectIDKey, eObjectTypeUnsignedInt);
 	getColumnValue(statement, 1, playlist, PlaylistNameKey, eObjectTypeString);
 	getColumnValue(statement, 2, playlist, SmartPlaylistPredicateKey, eObjectTypePredicate);
@@ -569,7 +570,7 @@
 		result = sqlite3_step(statement);
 		NSAssert2(SQLITE_DONE == result, @"Unable to insert a record for %@ (%@).", [playlist valueForKey:PlaylistNameKey], [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 		
-		[playlist initValue:[NSNumber numberWithInt:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
+		[playlist initValue:[NSNumber numberWithLongLong:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
 		
 		result = sqlite3_reset(statement);
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to reset sql statement (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
@@ -578,7 +579,7 @@
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to clear sql statement bindings (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 		// Register the object	
-		NSMapInsert(_registeredPlaylists, (void *)[[playlist valueForKey:ObjectIDKey] unsignedIntValue], (void *)playlist);
+		NSMapInsert(_registeredPlaylists, (void *)[[playlist valueForKey:ObjectIDKey] unsignedIntegerValue], (void *)playlist);
 	}
 	
 	@catch(NSException *exception) {
@@ -654,7 +655,7 @@
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"delete_smart_playlist"];
 	int				result			= SQLITE_OK;
-	unsigned		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntValue];
+	NSUInteger		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntegerValue];
 	
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));

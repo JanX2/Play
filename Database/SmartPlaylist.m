@@ -68,21 +68,21 @@ NSString * const	SmartPlaylistPredicateKey				= @"predicate";
 	return [[_streams retain] autorelease];
 }
 
-- (AudioStream *) streamAtIndex:(unsigned)index
+- (AudioStream *) streamAtIndex:(NSUInteger)thisIndex
 {
-	return [self objectInStreamsAtIndex:index];
+	return [self objectInStreamsAtIndex:thisIndex];
 }
 
 #pragma mark KVC Accessors
 
-- (unsigned) countOfStreams
+- (NSUInteger) countOfStreams
 {
 	return [_streams count];
 }
 
-- (AudioStream *) objectInStreamsAtIndex:(unsigned)index
+- (AudioStream *) objectInStreamsAtIndex:(NSUInteger)thisIndex
 {
-	return [_streams objectAtIndex:index];
+	return [_streams objectAtIndex:thisIndex];
 }
 
 - (void) getStreams:(id *)buffer range:(NSRange)range
@@ -110,7 +110,7 @@ NSString * const	SmartPlaylistPredicateKey				= @"predicate";
 
 - (NSString *) debugDescription
 {
-	return [NSString stringWithFormat:@"<%@, %x> [%@] %@", [self class], self, [self valueForKey:ObjectIDKey], [self valueForKey:PlaylistNameKey]];
+	return [NSString stringWithFormat:@"<%@, %p> [%@] %@", [self class], self, [self valueForKey:ObjectIDKey], [self valueForKey:PlaylistNameKey]];
 }
 
 #pragma mark Reimplementations

@@ -51,6 +51,7 @@
 - (id) init
 {
 	if((self = [super init])) {
+#warning 64BIT: Check callbacks
 		_registeredFolders	= NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 4096);		
 		_sql				= [[NSMutableDictionary alloc] init];
 		_insertedFolders	= [[NSMutableSet alloc] init];
@@ -94,7 +95,7 @@
 {
 	NSParameterAssert(nil != objectID);
 	
-	WatchFolder *folder = (WatchFolder *)NSMapGet(_registeredFolders, (void *)[objectID unsignedIntValue]);
+	WatchFolder *folder = (WatchFolder *)NSMapGet(_registeredFolders, (void *)[objectID unsignedIntegerValue]);
 	if(nil != folder)
 		return folder;
 	
@@ -369,19 +370,19 @@
 
 - (void) watchFolder:(WatchFolder *)folder willChangeValueForKey:(NSString *)key
 {
-	unsigned index = [_cachedFolders indexOfObject:folder];
+	NSUInteger thisIndex = [_cachedFolders indexOfObject:folder];
 		
-	if(NSNotFound != index)
-		[self willChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:key];
+	if(NSNotFound != thisIndex)
+		[self willChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:thisIndex] forKey:key];
 }
 
 - (void) watchFolder:(WatchFolder *)folder didChangeValueForKey:(NSString *)key
 {
-	unsigned index = [_cachedFolders indexOfObject:folder];
+	NSUInteger thisIndex = [_cachedFolders indexOfObject:folder];
 	
-	if(NSNotFound != index) {
+	if(NSNotFound != thisIndex) {
 		[self saveWatchFolder:folder];	
-		[self didChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:key];
+		[self didChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:thisIndex] forKey:key];
 	}
 }
 
@@ -511,7 +512,7 @@
 - (WatchFolder *) loadWatchFolder:(sqlite3_stmt *)statement
 {
 	WatchFolder		*folder		= nil;
-	unsigned		objectID;
+	NSUInteger		objectID;
 	
 	// The ID should never be NULL
 	NSAssert(SQLITE_NULL != sqlite3_column_type(statement, 0), @"No ID found for folder");
@@ -524,7 +525,7 @@
 	folder = [[WatchFolder alloc] init];
 	
 	// WatchFolder ID and name
-	[folder initValue:[NSNumber numberWithUnsignedInt:objectID] forKey:ObjectIDKey];
+	[folder initValue:[NSNumber numberWithUnsignedInteger:objectID] forKey:ObjectIDKey];
 	//	getColumnValue(statement, 0, folder, ObjectIDKey, eObjectTypeUnsignedInt);
 	getColumnValue(statement, 1, folder, WatchFolderURLKey, eObjectTypeURL);
 	getColumnValue(statement, 2, folder, WatchFolderNameKey, eObjectTypeString);
@@ -557,7 +558,7 @@
 		result = sqlite3_step(statement);
 		NSAssert2(SQLITE_DONE == result, @"Unable to insert a record for %@ (%@).", [folder valueForKey:WatchFolderNameKey], [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 		
-		[folder initValue:[NSNumber numberWithInt:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
+		[folder initValue:[NSNumber numberWithLongLong:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
 		
 		result = sqlite3_reset(statement);
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to reset sql statement (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
@@ -566,7 +567,7 @@
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to clear sql statement bindings (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 		// Register the object	
-		NSMapInsert(_registeredFolders, (void *)[[folder valueForKey:ObjectIDKey] unsignedIntValue], (void *)folder);
+		NSMapInsert(_registeredFolders, (void *)[[folder valueForKey:ObjectIDKey] unsignedIntegerValue], (void *)folder);
 	}
 	
 	@catch(NSException *exception) {
@@ -634,7 +635,7 @@
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"delete_watch_folder"];
 	int				result			= SQLITE_OK;
-	unsigned		objectID		= [[folder valueForKey:ObjectIDKey] unsignedIntValue];
+	NSUInteger		objectID		= [[folder valueForKey:ObjectIDKey] unsignedIntegerValue];
 	
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));

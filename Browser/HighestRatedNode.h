@@ -26,7 +26,7 @@
 // ========================================
 @interface HighestRatedNode : AudioStreamCollectionNode
 {
-	unsigned	_count;
+	NSUInteger	_count;
 }
 
 @end

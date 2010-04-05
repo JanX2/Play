@@ -50,12 +50,12 @@ extern NSString * const		SmartPlaylistPredicateKey;
 // ========================================
 // Stream management
 - (NSArray *) streams;
-- (AudioStream *) streamAtIndex:(unsigned)index;
+- (AudioStream *) streamAtIndex:(NSUInteger)thisIndex;
 
 // ========================================
 // KVC Accessors
-- (unsigned)		countOfStreams;
-- (AudioStream *)	objectInStreamsAtIndex:(unsigned)index;
+- (NSUInteger)		countOfStreams;
+- (AudioStream *)	objectInStreamsAtIndex:(NSUInteger)thisIndex;
 - (void)			getStreams:(id *)buffer range:(NSRange)range;
 
 // ========================================

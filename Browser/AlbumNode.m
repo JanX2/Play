@@ -47,7 +47,7 @@
 
 #pragma mark KVC Mutator Overrides
 
-- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(unsigned)index
+- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)index
 {
 	NSAssert([self canInsertStream], @"Attempt to insert a stream in an immutable AlbumNode");
 
@@ -57,7 +57,7 @@
 	}
 }
 
-- (void) removeObjectFromStreamsAtIndex:(unsigned)index
+- (void) removeObjectFromStreamsAtIndex:(NSUInteger)index
 {
 	NSAssert([self canRemoveStream], @"Attempt to remove a stream from an immutable AlbumNode");	
 	

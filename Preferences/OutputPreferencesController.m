@@ -48,7 +48,7 @@
 		return;
 	}
 	   
-	unsigned deviceCount = specifierSize / sizeof(AudioDeviceID);
+	NSUInteger deviceCount = specifierSize / sizeof(AudioDeviceID);
 	
 	AudioDeviceID *audioDevices = calloc(1, specifierSize);
 	if(NULL == audioDevices) {
@@ -67,7 +67,7 @@
 	   return;
    }
 
-	unsigned i;
+	NSUInteger i;
 	for(i = 0; i < deviceCount; ++i) {
 
 		// Query device UID
@@ -136,7 +136,7 @@
 
 - (IBAction) outputDeviceChanged:(id)sender
 {
-	unsigned index = [_devicePopUpButton indexOfSelectedItem];	
+	NSUInteger index = [_devicePopUpButton indexOfSelectedItem];	
 	[[NSUserDefaults standardUserDefaults] setObject:[[_outputDevices objectAtIndex:index] valueForKey:@"UID"] forKey:@"outputAudioDeviceUID"];
 }
 

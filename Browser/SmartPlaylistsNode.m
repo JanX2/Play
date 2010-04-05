@@ -54,11 +54,11 @@
 {
 	NSArray			*old			= [change valueForKey:NSKeyValueChangeOldKey];
 	NSArray			*new			= [change valueForKey:NSKeyValueChangeNewKey];
-	int				changeKind		= [[change valueForKey:NSKeyValueChangeKindKey] intValue];
+	NSInteger				changeKind		= [[change valueForKey:NSKeyValueChangeKindKey] integerValue];
 	BOOL			needsSort		= NO;
 	BrowserNode		*node			= nil;
 	SmartPlaylist	*playlist		= nil;
-	unsigned		i;
+	NSUInteger		i;
 	
 	switch(changeKind) {
 		case NSKeyValueChangeInsertion:
@@ -100,7 +100,7 @@
 
 #pragma mark KVC Mutator Overrides
 
-- (void) removeObjectFromChildrenAtIndex:(unsigned)index
+- (void) removeObjectFromChildrenAtIndex:(NSUInteger)index
 {
 	SmartPlaylistNode *node = [[self childAtIndex:index] retain];
 	

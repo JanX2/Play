@@ -87,6 +87,7 @@ calculateReplayGain(NSArray *streams, BOOL calculateAlbumGain, NSModalSession mo
 			sampleRate = [decoder format].mSampleRate;
 			
 			int result = InitGainAnalysis((long)sampleRate);
+#warning 64BIT: Inspect use of long
 			if(INIT_GAIN_ANALYSIS_OK != result)
 				goto cleanup;
 		}
@@ -96,6 +97,7 @@ calculateReplayGain(NSArray *streams, BOOL calculateAlbumGain, NSModalSession mo
 			sampleRate = [decoder format].mSampleRate;
 			
 			int result = ResetSampleFrequency((long)sampleRate);
+#warning 64BIT: Inspect use of long
 			if(INIT_GAIN_ANALYSIS_OK != result)
 				goto cleanup;			
 		}

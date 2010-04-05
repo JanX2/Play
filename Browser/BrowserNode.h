@@ -61,14 +61,14 @@
 
 - (BrowserNode *) 	parent;
 
-- (unsigned) 		childCount;
+- (NSUInteger) 		childCount;
 
 - (BrowserNode *) 	firstChild;
 - (BrowserNode *) 	lastChild;
 
-- (BrowserNode *) 	childAtIndex:(unsigned)index;
-- (unsigned) 		indexOfChild:(BrowserNode *)child;
-- (unsigned) 		indexOfChildIdenticalTo:(BrowserNode *)child;
+- (BrowserNode *) 	childAtIndex:(NSUInteger)index;
+- (NSUInteger) 		indexOfChild:(BrowserNode *)child;
+- (NSUInteger) 		indexOfChildIdenticalTo:(BrowserNode *)child;
 
 - (BrowserNode *) 	findChildNamed:(NSString *)name;
 
@@ -82,10 +82,10 @@
 - (void) setParent:(BrowserNode *)parent;
 
 - (void) addChild:(BrowserNode *)child;
-- (void) insertChild:(BrowserNode *)child atIndex:(unsigned)index;
+- (void) insertChild:(BrowserNode *)child atIndex:(NSUInteger)index;
 
 - (void) removeChild:(BrowserNode *)child;
-- (void) removeChildAtIndex:(unsigned)index;
+- (void) removeChildAtIndex:(NSUInteger)index;
 
 - (void) removeChildrenAtIndexes:(NSIndexSet *)indexes;
 - (void) removeAllChildren;
@@ -95,13 +95,13 @@
 
 // ========================================
 // KVC Accessors
-- (unsigned) 		countOfChildren;
-- (BrowserNode *) 	objectInChildrenAtIndex:(unsigned)index;
+- (NSUInteger) 		countOfChildren;
+- (BrowserNode *) 	objectInChildrenAtIndex:(NSUInteger)index;
 - (void) 			getChildren:(id *)buffer range:(NSRange)range;
 
 // ========================================
 // KVC Mutators
-- (void) insertObject:(BrowserNode *)object inChildrenAtIndex:(unsigned)index;
-- (void) removeObjectFromChildrenAtIndex:(unsigned)index;
+- (void) insertObject:(BrowserNode *)object inChildrenAtIndex:(NSUInteger)index;
+- (void) removeObjectFromChildrenAtIndex:(NSUInteger)index;
 
 @end

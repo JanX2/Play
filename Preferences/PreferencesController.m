@@ -72,7 +72,7 @@ NSString * const	AdvancedPreferencesToolbarItemIdentifier					= @"org.sbooth.Pla
 
 - (id)			copyWithZone:(NSZone *)zone						{ return self; }
 - (id)			retain											{ return self; }
-- (unsigned)	retainCount										{ return UINT_MAX;  /* denotes an object that cannot be released */ }
+- (NSUInteger)	retainCount										{ return NSUIntegerMax;  /* denotes an object that cannot be released */ }
 - (void)		release											{ /* do nothing */ }
 - (id)			autorelease										{ return self; }
 
@@ -115,7 +115,7 @@ NSString * const	AdvancedPreferencesToolbarItemIdentifier					= @"org.sbooth.Pla
 	Class					prefPaneClass;
 	NSWindowController		*prefPaneObject;
 	NSView					*prefView, *oldContentView;
-	float					toolbarHeight, windowHeight, newWindowHeight, newWindowWidth;
+	CGFloat					toolbarHeight, windowHeight, newWindowHeight, newWindowWidth;
 	NSRect					windowFrame, newFrameRect, newWindowFrame;
 	NSWindow				*myWindow;
 	

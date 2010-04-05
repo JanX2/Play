@@ -186,7 +186,7 @@ contextInfo:NULL];*/
 
 @implementation DSPPreferencesController (NSTableViewDelegateMethods)
 
-- (void) tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void) tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	if(tableView == _effectsTable) {
 		NSDictionary *infoForBinding = [tableView infoForBinding:NSContentBinding];

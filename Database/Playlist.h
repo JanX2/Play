@@ -48,32 +48,32 @@ extern NSString * const		PlaylistStreamsKey;
 // ========================================
 // Stream management
 - (NSArray *) streams;
-- (AudioStream *) streamAtIndex:(unsigned)index;
+- (AudioStream *) streamAtIndex:(NSUInteger)thisIndex;
 
 - (void) addStream:(AudioStream *)stream;
-- (void) insertStream:(AudioStream *)stream atIndex:(unsigned)index;
+- (void) insertStream:(AudioStream *)stream atIndex:(NSUInteger)thisIndex;
 
 - (void) addStreams:(NSArray *)streams;
 - (void) insertStreams:(NSArray *)streams atIndexes:(NSIndexSet *)indexes;
 
 - (void) addStreamWithID:(NSNumber *)objectID;
-- (void) insertStreamWithID:(NSNumber *)objectID atIndex:(unsigned)index;
+- (void) insertStreamWithID:(NSNumber *)objectID atIndex:(NSUInteger)thisIndex;
 
 - (void) addStreamsWithIDs:(NSArray *)objectIDs;
 - (void) insertStreamWithIDs:(NSArray *)objectIDs atIndexes:(NSIndexSet *)indexes;
 
-- (void) removeStreamAtIndex:(unsigned)index;
+- (void) removeStreamAtIndex:(NSUInteger)thisIndex;
 
 // ========================================
 // KVC Accessors
-- (unsigned)		countOfStreams;
-- (AudioStream *)	objectInStreamsAtIndex:(unsigned)index;
+- (NSUInteger)		countOfStreams;
+- (AudioStream *)	objectInStreamsAtIndex:(NSUInteger)thisIndex;
 - (void)			getStreams:(id *)buffer range:(NSRange)range;
 
 // ========================================
 // KVC Mutators
-- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(unsigned)index;
-- (void) removeObjectFromStreamsAtIndex:(unsigned)index;
+- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)thisIndex;
+- (void) removeObjectFromStreamsAtIndex:(NSUInteger)thisIndex;
 
 // ========================================
 // Object state

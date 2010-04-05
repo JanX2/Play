@@ -87,7 +87,7 @@
 
 #pragma mark KVC Mutator Overrides
 
-- (void) removeObjectFromStreamsAtIndex:(unsigned)index
+- (void) removeObjectFromStreamsAtIndex:(NSUInteger)index
 {
 	NSAssert([self canRemoveStream], @"Attempt to remove a stream from an immutable LibraryNode");	
 	AudioStream *stream = [[self streamsArray] objectAtIndex:index];

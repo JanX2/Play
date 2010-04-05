@@ -26,7 +26,7 @@
 // ========================================
 @interface MostPopularNode : AudioStreamCollectionNode
 {
-	unsigned	_count;
+	NSUInteger	_count;
 }
 
 @end

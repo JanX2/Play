@@ -81,7 +81,7 @@
 	NSArray				*allStreams			= [[[CollectionManager manager] streamManager] streams];
 	NSArray				*sortedStreams		= [allStreams sortedArrayUsingDescriptors:[NSArray arrayWithObject:descriptor]];
 	NSArray				*filteredStreams	= [sortedStreams filteredArrayUsingPredicate:predicate];	
-	unsigned			count				= (_count > [filteredStreams count] ? [filteredStreams count] : _count);
+	NSUInteger			count				= (_count > [filteredStreams count] ? [filteredStreams count] : _count);
 	
 	[self willChangeValueForKey:@"streams"];
 	[[self streamsArray] replaceObjectsInRange:NSMakeRange(0, [[self streamsArray] count]) withObjectsFromArray:filteredStreams range:NSMakeRange(0, count)];
@@ -97,7 +97,7 @@
 	NSArray				*allStreams			= [[[CollectionManager manager] streamManager] streams];
 	NSArray				*sortedStreams		= [allStreams sortedArrayUsingDescriptors:[NSArray arrayWithObject:descriptor]];
 	NSArray				*filteredStreams	= [sortedStreams filteredArrayUsingPredicate:predicate];
-	unsigned			count				= (_count > [filteredStreams count] ? [filteredStreams count] : _count);
+	NSUInteger			count				= (_count > [filteredStreams count] ? [filteredStreams count] : _count);
 	
 	[self willChangeValueForKey:@"streams"];
 	[[self streamsArray] replaceObjectsInRange:NSMakeRange(0, [[self streamsArray] count]) withObjectsFromArray:filteredStreams range:NSMakeRange(0, count)];
@@ -108,20 +108,20 @@
 
 #pragma mark KVC Mutator Overrides
 
-- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(unsigned)index
+- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)thisIndex
 {}
 
-- (void) removeObjectFromStreamsAtIndex:(unsigned)index
+- (void) removeObjectFromStreamsAtIndex:(NSUInteger)thisIndex
 {
 	NSAssert([self canRemoveStream], @"Attempt to remove a stream from an immutable RecentlyPlayedNode");	
-	AudioStream *stream = [[self streamsArray] objectAtIndex:index];
+	AudioStream *stream = [[self streamsArray] objectAtIndex:thisIndex];
 	
 	if([stream isPlaying]) {
 		[[AudioLibrary library] stop:self];
 	}
 	
 	[stream delete];
-	[[self streamsArray] removeObjectAtIndex:index];
+	[[self streamsArray] removeObjectAtIndex:thisIndex];
 }
 
 @end

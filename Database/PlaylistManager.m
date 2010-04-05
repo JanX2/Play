@@ -51,6 +51,7 @@
 - (id) init
 {
 	if((self = [super init])) {
+#warning 64BIT: Check callbacks
 		_registeredPlaylists	= NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 4096);		
 		_sql					= [[NSMutableDictionary alloc] init];
 		_insertedPlaylists		= [[NSMutableSet alloc] init];
@@ -94,7 +95,7 @@
 {
 	NSParameterAssert(nil != objectID);
 	
-	Playlist *playlist = (Playlist *)NSMapGet(_registeredPlaylists, (void *)[objectID unsignedIntValue]);
+	Playlist *playlist = (Playlist *)NSMapGet(_registeredPlaylists, (void *)[objectID unsignedIntegerValue]);
 	if(nil != playlist)
 		return playlist;
 	
@@ -108,7 +109,8 @@
 	clock_t start = clock();
 #endif
 	
-	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":id"), [objectID unsignedIntValue]);
+#warning 64BIT: This is probably not what you want
+	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":id"), [objectID integerValue]);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 	
 	while(SQLITE_ROW == (result = sqlite3_step(statement)))
@@ -369,19 +371,19 @@
 
 - (void) playlist:(Playlist *)playlist willChangeValueForKey:(NSString *)key
 {
-	unsigned index = [_cachedPlaylists indexOfObject:playlist];
+	NSUInteger thisIndex = [_cachedPlaylists indexOfObject:playlist];
 	
-	if(NSNotFound != index)
-		[self willChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:key];
+	if(NSNotFound != thisIndex)
+		[self willChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:thisIndex] forKey:key];
 }
 
 - (void) playlist:(Playlist *)playlist didChangeValueForKey:(NSString *)key
 {
-	unsigned index = [_cachedPlaylists indexOfObject:playlist];
+	NSUInteger thisIndex = [_cachedPlaylists indexOfObject:playlist];
 	
-	if(NSNotFound != index) {
+	if(NSNotFound != thisIndex) {
 		[self savePlaylist:playlist];
-		[self didChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:key];
+		[self didChange:NSKeyValueChangeSetting valuesAtIndexes:[NSIndexSet indexSetWithIndex:thisIndex] forKey:key];
 	}
 }
 
@@ -389,18 +391,18 @@
 
 @implementation PlaylistManager (PlaylistMethods)
 
-- (void) playlist:(Playlist *)playlist willInsertStream:(AudioStream *)stream atIndex:(unsigned)index
+- (void) playlist:(Playlist *)playlist willInsertStream:(AudioStream *)stream atIndex:(NSUInteger)thisIndex
 {}
 
-- (void) playlist:(Playlist *)playlist didInsertStream:(AudioStream *)stream atIndex:(unsigned)index
+- (void) playlist:(Playlist *)playlist didInsertStream:(AudioStream *)stream atIndex:(NSUInteger)thisIndex
 {
 	[self doUpdatePlaylistEntriesForPlaylist:playlist];
 }
 
-- (void) playlist:(Playlist *)playlist willRemoveStreamAtIndex:(unsigned)index
+- (void) playlist:(Playlist *)playlist willRemoveStreamAtIndex:(NSUInteger)thisIndex
 {}
 
-- (void) playlist:(Playlist *)playlist didRemoveStreamAtIndex:(unsigned)index
+- (void) playlist:(Playlist *)playlist didRemoveStreamAtIndex:(NSUInteger)thisIndex
 {
 	[self doUpdatePlaylistEntriesForPlaylist:playlist];
 }
@@ -532,7 +534,7 @@
 - (Playlist *) loadPlaylist:(sqlite3_stmt *)statement
 {
 	Playlist		*playlist		= nil;
-	unsigned		objectID;
+	NSUInteger		objectID;
 	
 	// The ID should never be NULL
 	NSAssert(SQLITE_NULL != sqlite3_column_type(statement, 0), @"No ID found for playlist");
@@ -545,7 +547,7 @@
 	playlist = [[Playlist alloc] init];
 	
 	// Playlist ID and name
-	[playlist initValue:[NSNumber numberWithUnsignedInt:objectID] forKey:ObjectIDKey];
+	[playlist initValue:[NSNumber numberWithUnsignedInteger:objectID] forKey:ObjectIDKey];
 	//	getColumnValue(statement, 0, playlist, ObjectIDKey, eObjectTypeUnsignedInt);
 	getColumnValue(statement, 1, playlist, PlaylistNameKey, eObjectTypeString);
 	
@@ -589,7 +591,7 @@
 		result = sqlite3_step(statement);
 		NSAssert2(SQLITE_DONE == result, @"Unable to insert a record for %@ (%@).", [playlist valueForKey:PlaylistNameKey], [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 		
-		[playlist initValue:[NSNumber numberWithInt:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
+		[playlist initValue:[NSNumber numberWithLongLong:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
 		
 		result = sqlite3_reset(statement);
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to reset sql statement (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
@@ -598,7 +600,7 @@
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to clear sql statement bindings (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 		// Register the object	
-		NSMapInsert(_registeredPlaylists, (void *)[[playlist valueForKey:ObjectIDKey] unsignedIntValue], (void *)playlist);
+		NSMapInsert(_registeredPlaylists, (void *)[[playlist valueForKey:ObjectIDKey] unsignedIntegerValue], (void *)playlist);
 	}
 	
 	@catch(NSException *exception) {
@@ -671,7 +673,7 @@
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"delete_playlist"];
 	int				result			= SQLITE_OK;
-	unsigned		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntValue];
+	NSUInteger		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntegerValue];
 	
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));
@@ -710,7 +712,7 @@
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"delete_playlist_entries_for_playlist"];
 	int				result			= SQLITE_OK;
-	unsigned		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntValue];
+	NSUInteger		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntegerValue];
 	
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));
@@ -736,21 +738,21 @@
 	statement = [self preparedStatementForAction:@"insert_playlist_entry"];
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));
 	
-	unsigned		index		= 0;
+	int				thisIndex	= 0;
 	NSArray			*streams	= [playlist streams];
 	AudioStream		*stream		= nil;
 	
-	for(index = 0; index < [streams count]; ++index) {
-		stream = [streams objectAtIndex:index];
+	for(thisIndex = 0; thisIndex < (int)[streams count]; ++thisIndex) {
+		stream = [streams objectAtIndex:thisIndex];
 		
 		bindParameter(statement, 1, playlist, ObjectIDKey, eObjectTypeUnsignedInt);
 		bindParameter(statement, 2, stream, ObjectIDKey, eObjectTypeUnsignedInt);
 //		bindParameter(statement, 3, playlist, StatisticsLastPlayedDateKey, eObjectTypeDate);
-		result = sqlite3_bind_int(statement, 3, index);	
+		result = sqlite3_bind_int(statement, 3, thisIndex);	
 		NSAssert1(SQLITE_OK == result, @"Unable to bind parameter %i to sql statement.", 3/*, [NSString stringWithUTF8String:sqlite3_errmsg(_db)]*/);
 
 		result = sqlite3_step(statement);
-		NSAssert4(SQLITE_DONE == result, @"Unable to insert a record for %@ in %@ at index %i (%@).", stream, playlist, index, [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
+		NSAssert4(SQLITE_DONE == result, @"Unable to insert a record for %@ in %@ at index %ld (%@).", stream, playlist, (long)thisIndex, [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 		
 		result = sqlite3_reset(statement);
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to reset sql statement (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);

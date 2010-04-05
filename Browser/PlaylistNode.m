@@ -99,19 +99,19 @@
 
 #pragma mark KVC Accessor Overrides
 
-- (unsigned)		countOfStreams											{ return [[self playlist] countOfStreams]; }
-- (AudioStream *)	objectInStreamsAtIndex:(unsigned)index					{ return [[self playlist] objectInStreamsAtIndex:index]; }
+- (NSUInteger)		countOfStreams											{ return [[self playlist] countOfStreams]; }
+- (AudioStream *)	objectInStreamsAtIndex:(NSUInteger)index					{ return [[self playlist] objectInStreamsAtIndex:index]; }
 - (void)			getStreams:(id *)buffer range:(NSRange)aRange			{ return [[self playlist] getStreams:buffer range:aRange]; }
 
 #pragma mark KVC Mutators Overrides
 
-- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(unsigned)index
+- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)index
 {
 	NSAssert([self canInsertStream], @"Attempt to insert a stream in an immutable PlaylistNode");
 	[[self playlist] insertObject:stream inStreamsAtIndex:index];
 }
 
-- (void) removeObjectFromStreamsAtIndex:(unsigned)index
+- (void) removeObjectFromStreamsAtIndex:(NSUInteger)index
 {
 	NSAssert([self canRemoveStream], @"Attempt to remove a stream from an immutable PlaylistNode");	
 	[[self playlist] removeObjectFromStreamsAtIndex:index];
