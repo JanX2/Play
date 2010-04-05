@@ -128,16 +128,16 @@
 	free(audioDevices);
 	
 	NSString *outputDevice = [[NSUserDefaults standardUserDefaults] objectForKey:@"outputAudioDeviceUID"];
-	unsigned index = [[_outputDevices valueForKey:@"UID"] indexOfObject:outputDevice];
-	if(NSNotFound != index) {
-		[_devicePopUpButton selectItemAtIndex:index];
+	NSUInteger thisIndex = [[_outputDevices valueForKey:@"UID"] indexOfObject:outputDevice];
+	if(NSNotFound != thisIndex) {
+		[_devicePopUpButton selectItemAtIndex:thisIndex];
 	}
 }
 
 - (IBAction) outputDeviceChanged:(id)sender
 {
-	NSUInteger index = [_devicePopUpButton indexOfSelectedItem];	
-	[[NSUserDefaults standardUserDefaults] setObject:[[_outputDevices objectAtIndex:index] valueForKey:@"UID"] forKey:@"outputAudioDeviceUID"];
+	NSUInteger thisIndex = [_devicePopUpButton indexOfSelectedItem];	
+	[[NSUserDefaults standardUserDefaults] setObject:[[_outputDevices objectAtIndex:thisIndex] valueForKey:@"UID"] forKey:@"outputAudioDeviceUID"];
 }
 
 @end

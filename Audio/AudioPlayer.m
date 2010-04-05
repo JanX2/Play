@@ -47,7 +47,6 @@ channelLayoutsAreEqual(AudioChannelLayout *layoutA,
 		if(layoutA->mNumberChannelDescriptions != layoutB->mNumberChannelDescriptions)
 			return NO;
 		
-#warning 64BIT: Inspect use of sizeof
 		NSUInteger bytesToCompare = layoutA->mNumberChannelDescriptions * sizeof(AudioChannelDescription);
 		return (0 == memcmp(&layoutA->mChannelDescriptions, &layoutB->mChannelDescriptions, bytesToCompare));
 	}
@@ -434,7 +433,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 										kAudioUnitScope_Global, 
 										0,
 										&timeStamp, 
-#warning 64BIT: Inspect use of sizeof
 										sizeof(timeStamp));
 	if(noErr != err)
 #warning 64BIT: Check formatting arguments
@@ -974,7 +972,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			return err;
 		
 		Float64 latency;
-#warning 64BIT: Inspect use of sizeof
 		UInt32 dataSize = sizeof(latency);
 		err = AudioUnitGetProperty(au, kAudioUnitProperty_Latency, kAudioUnitScope_Global, 0, &latency, &dataSize);
 		if(noErr != err)
@@ -1010,7 +1007,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			return err;
 		
 		Float64 tailTime;
-#warning 64BIT: Inspect use of sizeof
 		UInt32 dataSize = sizeof(tailTime);
 		err = AudioUnitGetProperty(au, kAudioUnitProperty_TailTime, kAudioUnitScope_Global, 0, &tailTime, &dataSize);
 		if(noErr != err)
@@ -1105,7 +1101,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	if(noErr != err)
 		return err;
 	
-#warning 64BIT: Inspect use of sizeof
 	connections = calloc(connectionCount, sizeof(AudioUnitNodeConnection));
 	if(NULL == connections)
 		return memFullErr;
@@ -1128,12 +1123,10 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	}
 	
 	// Attempt to set the new stream format
-#warning 64BIT: Inspect use of sizeof
 	err = [self setPropertyOnAUGraphNodes:kAudioUnitProperty_StreamFormat data:&format dataSize:sizeof(format)];
 	if(noErr != err) {
 		// If the new format could not be set, restore the old format to ensure a working graph
 		format = [self format];
-#warning 64BIT: Inspect use of sizeof
 		OSStatus newErr = [self setPropertyOnAUGraphNodes:kAudioUnitProperty_StreamFormat data:&format dataSize:sizeof(format)];
 		if(noErr != newErr)
 #warning 64BIT: Check formatting arguments
@@ -1235,7 +1228,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		}
 		else {
 			UInt32 elementCount = 0;
-#warning 64BIT: Inspect use of sizeof
 			UInt32 dataSize = sizeof(elementCount);
 			err = AudioUnitGetProperty(au, kAudioUnitProperty_ElementCount, kAudioUnitScope_Input, 0, &elementCount, &dataSize);
 			if(noErr != err)
@@ -1257,7 +1249,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			}
 			
 			elementCount = 0;
-#warning 64BIT: Inspect use of sizeof
 			dataSize = sizeof(elementCount);
 			err = AudioUnitGetProperty(au, kAudioUnitProperty_ElementCount, kAudioUnitScope_Output, 0, &elementCount, &dataSize);
 			if(noErr != err)
@@ -1334,8 +1325,8 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 {
 	// Save the effects
 	UInt32 connectionCount;
-	OSStatus err = AUGraphGetNumberOfConnections([self auGraph], &connectionCount);
-	if(noErr != err)
+	OSStatus thisErr = AUGraphGetNumberOfConnections([self auGraph], &connectionCount);
+	if(noErr != thisErr)
 		return nil;
 	
 	NSMutableArray *effects = [[NSMutableArray alloc] init];
@@ -1343,8 +1334,8 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	UInt32 i;
 	for(i = 0; i < connectionCount; ++i) {
 		AUNode node;
-		err = AUGraphGetConnectionInfo([self auGraph], i, &node, NULL, NULL, NULL);
-		if(noErr != err)
+		thisErr = AUGraphGetConnectionInfo([self auGraph], i, &node, NULL, NULL, NULL);
+		if(noErr != thisErr)
 			continue;
 		
 		// Skip the Generator and Peak Limiter nodes
@@ -1355,8 +1346,8 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		CFPropertyListRef		classData;
 		AudioUnit				au;
 		
-		err = AUGraphGetNodeInfo([self auGraph], node, &desc, NULL, (void **)&classData, &au);
-		if(noErr != err)
+		thisErr = AUGraphGetNodeInfo([self auGraph], node, &desc, NULL, (void **)&classData, &au);
+		if(noErr != thisErr)
 			continue;
 		
 		Handle componentNameHandle = NewHandle(sizeof(void *));
@@ -1370,8 +1361,8 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		
 		NSMutableDictionary *auDictionary = [NSMutableDictionary dictionary];
 		
-		OSErr err = GetComponentInfo((Component)au, &desc, componentNameHandle, componentInformationHandle, componentIconHandle);
-		if(noErr == err) {
+		OSErr thisErr = GetComponentInfo((Component)au, &desc, componentNameHandle, componentInformationHandle, componentIconHandle);
+		if(noErr == thisErr) {
 			[auDictionary setValue:[NSNumber numberWithUnsignedLong:desc.componentType] forKey:AUTypeKey];
 			[auDictionary setValue:[NSNumber numberWithUnsignedLong:desc.componentSubType] forKey:AUSubTypeKey];
 			[auDictionary setValue:[NSNumber numberWithUnsignedLong:desc.componentManufacturer] forKey:AUManufacturerKey];
@@ -1403,8 +1394,8 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			NSURL *auURL = nil;
 #warning 64BIT: Inspect use of sizeof
 			UInt32 dataSize = sizeof(auURL);
-			OSStatus err = AudioUnitGetProperty(au, kAudioUnitProperty_IconLocation, kAudioUnitScope_Global, 0, &auURL, &dataSize);
-			if(noErr == err && nil != auURL) {
+			OSStatus thisErr = AudioUnitGetProperty(au, kAudioUnitProperty_IconLocation, kAudioUnitScope_Global, 0, &auURL, &dataSize);
+			if(noErr == thisErr && nil != auURL) {
 				iconImage = [[NSImage alloc] initByReferencingURL:auURL];
 				[iconImage setSize:NSMakeSize(16, 16)];
 			}
@@ -1540,7 +1531,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	if(noErr != err)
 		return NO;
 	
-#warning 64BIT: Inspect use of sizeof
 	AudioUnitNodeConnection *connections = calloc(numConnections, sizeof(AudioUnitNodeConnection));
 	if(NULL == connections)
 		return NO;
@@ -1572,14 +1562,12 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		return NO;
 	
 	AudioStreamBasicDescription inputASBD;
-#warning 64BIT: Inspect use of sizeof
 	UInt32 dataSize = sizeof(inputASBD);
 	err = AudioUnitGetProperty(au, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &inputASBD, &dataSize);
 	if(noErr != err)
 		return NO;
 	
 	AudioStreamBasicDescription outputASBD;
-#warning 64BIT: Inspect use of sizeof
 	dataSize = sizeof(outputASBD);
 	err = AudioUnitGetProperty(au, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &outputASBD, &dataSize);
 	if(noErr != err)
@@ -1604,7 +1592,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	if(noErr != err)
 		return NO;
 	
-#warning 64BIT: Inspect use of sizeof
 	err = AudioUnitSetProperty(au, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &inputASBD, sizeof(inputASBD));
 	if(noErr != err) {
 		// If the property couldn't be set (the AU may not support this format), remove the new node
@@ -1629,13 +1616,11 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		return NO;
 	}
 	
-#warning 64BIT: Inspect use of sizeof
 	err = AudioUnitSetProperty(au, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &outputASBD, sizeof(outputASBD));
 	if(noErr != err) {
 		// If the property couldn't be set (the AU may not support this format), remove the new node
 		err = AUGraphRemoveNode([self auGraph], *newNode);
 		if(noErr != err)
-#warning 64BIT: Check formatting arguments
 			NSLog(@"AudioPlayer error: Unable to remove node: %i", err);
 		
 		if(nil != error) {
@@ -1698,7 +1683,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	if(noErr != err)
 		return NO;
 	
-#warning 64BIT: Inspect use of sizeof
 	AudioUnitNodeConnection *connections = calloc(numConnections, sizeof(AudioUnitNodeConnection));
 	if(NULL == connections)
 		return NO;
@@ -1824,7 +1808,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	OSStatus			status			= noErr;
 	
 	if(nil == deviceUID || [deviceUID isEqual:[NSNull null]] || [deviceUID isEqualToString:@""]) {
-#warning 64BIT: Inspect use of sizeof
 		specifierSize = sizeof(deviceID);
 		status = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultOutputDevice, 
 										  &specifierSize, 
@@ -1834,12 +1817,9 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		AudioValueTranslation translation;
 		
 		translation.mInputData			= &deviceUID;
-#warning 64BIT: Inspect use of sizeof
 		translation.mInputDataSize		= sizeof(deviceUID);
 		translation.mOutputData			= &deviceID;
-#warning 64BIT: Inspect use of sizeof
 		translation.mOutputDataSize		= sizeof(deviceID);
-#warning 64BIT: Inspect use of sizeof
 		specifierSize					= sizeof(translation);
 		
 		status = AudioHardwareGetProperty(kAudioHardwarePropertyDeviceForUID, 
@@ -1865,7 +1845,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 									  kAudioUnitScope_Global,
 									  0,
 									  &deviceID,
-#warning 64BIT: Inspect use of sizeof
 									  sizeof(deviceID));
 
 		// Hog the device, if specified
@@ -1890,7 +1869,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	UInt32				specifierSize	= 0;
 	OSStatus			status			= noErr;
 	
-#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(deviceID);
 	status = AudioUnitGetProperty(_outputUnit,
 								  kAudioOutputUnitProperty_CurrentDevice,
@@ -1906,7 +1884,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	// Determine if this actually is a change
 	Float64 currentSampleRate;
-#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(currentSampleRate);
 	status = AudioDeviceGetProperty(deviceID, 0, NO, kAudioDevicePropertyNominalSampleRate, &specifierSize, &currentSampleRate);
 	if(noErr != status) {
@@ -1919,9 +1896,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		return noErr;
 	
 	// Set the sample rate
-#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(sampleRate);
-#warning 64BIT: Inspect use of sizeof
 	status = AudioDeviceSetProperty(deviceID, NULL, 0, NO, kAudioDevicePropertyNominalSampleRate, sizeof(sampleRate), &sampleRate);
 
 	if(kAudioHardwareNoError != status)
@@ -1937,7 +1912,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	UInt32				specifierSize	= 0;
 	OSStatus			status			= noErr;
 	
-#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(deviceID);
 	status = AudioUnitGetProperty(_outputUnit,
 								  kAudioOutputUnitProperty_CurrentDevice,
@@ -1953,7 +1927,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 	// Is it hogged by us?
 	pid_t hogPID;
-#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(hogPID);
 	status = AudioDeviceGetProperty(deviceID, 0, NO, kAudioDevicePropertyHogMode, &specifierSize, &hogPID);
 
@@ -1975,7 +1948,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	UInt32				specifierSize	= 0;
 	OSStatus			status			= noErr;
 	
-#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(deviceID);
 	status = AudioUnitGetProperty(_outputUnit,
 								  kAudioOutputUnitProperty_CurrentDevice,
@@ -1991,7 +1963,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	// Is it hogged already?
 	pid_t hogPID;
-#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(hogPID);
 	status = AudioDeviceGetProperty(deviceID, 0, NO, kAudioDevicePropertyHogMode, &specifierSize, &hogPID);
 	
@@ -2003,7 +1974,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	// The device isn't hogged, so attempt to hog it
 	if(hogPID == (pid_t)-1) {
 		hogPID = getpid();
-#warning 64BIT: Inspect use of sizeof
 		status = AudioDeviceSetProperty(deviceID, NULL, 0, NO, kAudioDevicePropertyHogMode, sizeof(hogPID), &hogPID);
 
 		if(kAudioHardwareNoError != status) {
@@ -2031,7 +2001,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	UInt32				specifierSize	= 0;
 	OSStatus			status			= noErr;
 	
-#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(deviceID);
 	status = AudioUnitGetProperty(_outputUnit,
 								  kAudioOutputUnitProperty_CurrentDevice,
@@ -2055,7 +2024,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	UInt32				specifierSize	= 0;
 	OSStatus			status			= noErr;
 	
-#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(deviceID);
 	status = AudioUnitGetProperty(_outputUnit,
 								  kAudioOutputUnitProperty_CurrentDevice,
@@ -2079,7 +2047,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	UInt32				specifierSize	= 0;
 	OSStatus			status			= noErr;
 	
-#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(deviceID);
 	status = AudioUnitGetProperty(_outputUnit,
 								  kAudioOutputUnitProperty_CurrentDevice,
@@ -2095,7 +2062,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 	// Query sample rate
 	Float64 sampleRate = 0;
-#warning 64BIT: Inspect use of sizeof
 	specifierSize = sizeof(sampleRate);
 	status = AudioDeviceGetProperty(deviceID, 0, NO, kAudioDevicePropertyNominalSampleRate, &specifierSize, &sampleRate);
 	
