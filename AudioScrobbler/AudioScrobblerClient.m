@@ -93,9 +93,9 @@ addressForHost(NSString *hostname)
 - (void) send:(NSString *)data
 {	
 	const char		*utf8data		= [data UTF8String];
-	unsigned		len				= strlen(utf8data);	
-	unsigned		bytesToSend		= len;
-	unsigned		totalBytesSent	= 0;
+	size_t			len				= strlen(utf8data);	
+	size_t			bytesToSend		= len;
+	size_t			totalBytesSent	= 0;
 	ssize_t			bytesSent		= 0;
 
 	if(NO == [self isConnected]) {
@@ -116,7 +116,7 @@ addressForHost(NSString *hostname)
 - (NSString *) receive
 {
 	char		buffer			[ kBufferSize ];
-	int			readSize		= kBufferSize - 1;
+	size_t		readSize		= kBufferSize - 1;
 	ssize_t		bytesRead		= 0;
 	BOOL		keepGoing		= YES;
 	NSString	*result			= nil;

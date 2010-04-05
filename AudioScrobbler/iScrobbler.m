@@ -115,8 +115,9 @@
 	[userInfo setValue:[stream valueForKey:MetadataDiscNumberKey] forKey:@"Disc Number"];
 	[userInfo setValue:[stream valueForKey:MetadataDiscTotalKey] forKey:@"Disc Count"];
 
-	UInt32 durationInMilliseconds = 1000 * [[stream valueForKey:PropertiesTotalFramesKey] longLongValue] / [[stream valueForKey:PropertiesSampleRateKey] floatValue];
-	[userInfo setObject:[NSNumber numberWithInt:durationInMilliseconds] forKey:@"Total Time"];
+	double durationInMilliseconds = 1000.0f * [[stream valueForKey:PropertiesTotalFramesKey] doubleValue] / [[stream valueForKey:PropertiesSampleRateKey] doubleValue];
+	// We could round here if we don't want the fractional digits
+	[userInfo setObject:[NSNumber numberWithDouble:durationInMilliseconds] forKey:@"Total Time"];
 
 	return [[userInfo retain] autorelease];
 }

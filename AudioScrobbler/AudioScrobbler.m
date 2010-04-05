@@ -104,13 +104,13 @@ escapeForLastFM(NSString *string)
 
 - (void) start:(AudioStream *)stream
 {
-	[self sendCommand:[NSString stringWithFormat:@"START c=%@&a=%@&t=%@&b=%@&m=%@&l=%i&p=%@\n", 
+	[self sendCommand:[NSString stringWithFormat:@"START c=%@&a=%@&t=%@&b=%@&m=%@&l=%ld&p=%@\n", 
 		[self pluginID],
 		escapeForLastFM([stream valueForKey:MetadataArtistKey]), 
 		escapeForLastFM([stream valueForKey:MetadataTitleKey]), 
 		escapeForLastFM([stream valueForKey:MetadataAlbumTitleKey]), 
 		escapeForLastFM([stream valueForKey:MetadataMusicBrainzIDKey]), 
-		[[stream duration] intValue], 
+		(long)[[stream duration] integerValue], 
 		escapeForLastFM([[stream valueForKey:StreamURLKey] path])
 		]];	
 }
