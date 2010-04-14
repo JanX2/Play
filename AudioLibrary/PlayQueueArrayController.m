@@ -140,7 +140,8 @@ NSString * const PlayQueueTableMovedRowsPboardType	= @"org.sbooth.Play.AudioLibr
 	if([bestType isEqualToString:AudioStreamPboardType]) {
 		AudioStream		*stream			= nil;
 			
-		for(NSNumber *objectID in [[info draggingPasteboard] propertyListForType:AudioStreamPboardType]) {
+		// We insert the objects in reverse order, because we would otherwise reverse the order of the tracks as we keep inserting to the same absolute row number. 
+		for(NSNumber *objectID in [[[info draggingPasteboard] propertyListForType:AudioStreamPboardType] reverseObjectEnumerator]) {
 			stream = [[[CollectionManager manager] streamManager] streamForID:objectID];
 			[self insertObject:stream atArrangedObjectIndex:row];
 		}
