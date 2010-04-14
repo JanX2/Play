@@ -104,13 +104,13 @@ NSString * const PlayQueueTableMovedRowsPboardType	= @"org.sbooth.Play.AudioLibr
 		// First count how many rows with indexes less than the currently playing stream's index are being dragged
 		if([rowIndexes containsIndex:[[AudioLibrary library] playbackIndex]]) {
 			NSUInteger count		= 0;
-			NSUInteger index		= [rowIndexes lastIndex];
+			NSUInteger thisIndex		= [rowIndexes lastIndex];
 			
-			while(NSNotFound != index) {
-				if(index < [[AudioLibrary library] playbackIndex]) {
+			while(NSNotFound != thisIndex) {
+				if(thisIndex < [[AudioLibrary library] playbackIndex]) {
 					++count;				
 				}
-				index = [rowIndexes indexLessThanIndex:index];
+				thisIndex = [rowIndexes indexLessThanIndex:thisIndex];
 			}
 			
 			playbackIndex = count;
