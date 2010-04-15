@@ -68,8 +68,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 
 #if DEBUG
 	if(kScheduledAudioSliceFlag_BeganToRenderLate & slice->mFlags)
-#warning 64BIT: Check formatting arguments
-		NSLog(@"AudioScheduler error: kScheduledAudioSliceFlag_BeganToRenderLate (starting sample %qi)", (SInt64)slice->mTimeStamp.mSampleTime);
+		NSLog(@"AudioScheduler error: kScheduledAudioSliceFlag_BeganToRenderLate (starting sample " PRId64 ")", (SInt64)slice->mTimeStamp.mSampleTime);
 #endif
 
 	// Determine if this render represents a  new region
@@ -476,15 +475,13 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 #warning 64BIT: Inspect use of sizeof
 															   sizeof(ScheduledAudioSlice));
 					if(noErr != err) {
-#warning 64BIT: Check formatting arguments
-						NSLog(@"AudioScheduler: Unable to schedule audio slice: %i", err);
+						NSLog(@"AudioScheduler: Unable to schedule audio slice: " PRId32 "", err);
 						slice->mFlags = kScheduledAudioSliceFlag_Complete;
 						continue;
 					}
 
 #if EXTENDED_DEBUG
-#warning 64BIT: Check formatting arguments
-					NSLog(@"AudioScheduler: Scheduling slice %i (%i frames) to start at sample %qi", i, frameCount, (SInt64)slice->mTimeStamp.mSampleTime);
+					NSLog(@"AudioScheduler: Scheduling slice " PRId32 " (" PRId32 " frames) to start at sample " PRId64 "", i, frameCount, (SInt64)slice->mTimeStamp.mSampleTime);
 #endif
 
 					[self scheduledAdditionalFrames:frameCount];

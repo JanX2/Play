@@ -170,7 +170,7 @@ bool parse_xml(const string &doc, TrackInformation *info, string &err)
 
     err = string(XML_ErrorString(XML_GetErrorCode(parser)));
     char num[10];
-    sprintf(num, "%d", XML_GetCurrentLineNumber(parser));
+    sprintf(num, "%lu", (unsigned long)XML_GetCurrentLineNumber(parser));
     err += string(" on line ") + string(num);
     XML_ParserFree(parser);
 

@@ -243,7 +243,6 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 
 - (NSString *) sourceFormatDescription
 {
-#warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@, %u channels, %u Hz", @"Formats", @""), NSLocalizedStringFromTable(@"FLAC", @"Formats", @""), (unsigned)[self format].mChannelsPerFrame, (unsigned)[self format].mSampleRate];
 }
 

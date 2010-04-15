@@ -39,7 +39,6 @@
 			if(nil != error) {
 				NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
 				
-#warning 64BIT: Check formatting arguments
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The file \"%@\" could not be found.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"File Not Found", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"The file may have been renamed or deleted, or exist on removable media.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -57,7 +56,6 @@
 			if(nil != error) {
 				NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
 				
-#warning 64BIT: Check formatting arguments
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The format of the file \"%@\" was not recognized.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"File Format Not Recognized", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"The file's extension may not match the file's type.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -153,8 +151,7 @@
 	
 	OSStatus result = ExtAudioFileRead(_extAudioFile, &frameCount, bufferList);
 	if(noErr != result)
-#warning 64BIT: Check formatting arguments
-		NSLog(@"Error reading from ExtAudioFile: %i",result);
+		NSLog(@"Error reading from ExtAudioFile: " PRId32 "", result);
 	
 	return frameCount;
 }

@@ -237,8 +237,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = AUListenerDispose(_auEventListener);
 	if(noErr != err)
-#warning 64BIT: Check formatting arguments
-		NSLog(@"AudioPlayer: AUListenerDispose failed: %i", err);
+		NSLog(@"AudioPlayer: AUListenerDispose failed: " PRId32 "", err);
 
 	[[self scheduler] stopScheduling];
 	[self teardownAUGraph];
@@ -277,8 +276,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 	OSStatus resetAUGraphErr = [self resetAUGraph];
 	if(noErr != resetAUGraphErr)
-#warning 64BIT: Check formatting arguments
-		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: %i", resetAUGraphErr);
+		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: " PRId32 , resetAUGraphErr);
 	
 	id <AudioDecoderMethods> decoder = [stream decoder:error];
 	if(nil == decoder)
@@ -304,7 +302,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 				NSMutableDictionary		*errorDictionary	= [NSMutableDictionary dictionary];
 				NSString				*path				= [[stream valueForKey:StreamURLKey] path];
 				
-#warning 64BIT: Check formatting arguments
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The format of the file \"%@\" is not supported.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"File Format Not Supported", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"The current DSP effects may not support this track's sample rate or channel layout.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -328,7 +325,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 				NSMutableDictionary		*errorDictionary	= [NSMutableDictionary dictionary];
 				NSString				*path				= [[stream valueForKey:StreamURLKey] path];
 				
-#warning 64BIT: Check formatting arguments
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The format of the file \"%@\" is not supported.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"File Format Not Supported", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"The current DSP effects may not support this track's sample rate or channel layout.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -435,8 +431,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 										&timeStamp, 
 										sizeof(timeStamp));
 	if(noErr != err)
-#warning 64BIT: Check formatting arguments
-		NSLog(@"AudioPlayer error: Unable to start AUScheduledSoundPlayer: %i", err);
+		NSLog(@"AudioPlayer error: Unable to start AUScheduledSoundPlayer: " PRId32 "", err);
 
 /*	UInt32 dataSize = sizeof(timeStamp);
 	err = AudioUnitGetProperty(_generatorUnit, kAudioUnitProperty_ScheduleStartTimeStamp, kAudioUnitScope_Global, 0, &timeStamp, &dataSize);
@@ -636,14 +631,12 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = [self resetAUGraph];
 	if(noErr != err)
-#warning 64BIT: Check formatting arguments
-		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: %i", err);
+		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: " PRId32 "", err);
 
 	Float64 graphLatency;
 	err = [self getAUGraphLatency:&graphLatency];
 	if(noErr != err)
-#warning 64BIT: Check formatting arguments
-		NSLog(@"AudioPlayer error: Unable to determine AUGraph latency: %i", err);
+		NSLog(@"AudioPlayer error: Unable to determine AUGraph latency: " PRId32 "", err);
 	
 	UInt32 graphLatencyFrames = graphLatency * [self format].mSampleRate;
 
@@ -664,8 +657,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 #if DEBUG
 	if([self startingFrame] != currentFrame)
-#warning 64BIT: Check formatting arguments
-		NSLog(@"Seek failed: requested frame %qi, got %qi", currentFrame, [self startingFrame]);
+		NSLog(@"Seek failed: requested frame " PRId64 ", got " PRId64 "", currentFrame, [self startingFrame]);
 #endif
 		
 	[[self scheduler] startScheduling];
@@ -1129,8 +1121,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		format = [self format];
 		OSStatus newErr = [self setPropertyOnAUGraphNodes:kAudioUnitProperty_StreamFormat data:&format dataSize:sizeof(format)];
 		if(noErr != newErr)
-#warning 64BIT: Check formatting arguments
-			NSLog(@"AudioPlayer error: Unable to restore AUGraph format: %i", newErr);
+			NSLog(@"AudioPlayer error: Unable to restore AUGraph format: " PRId32 , newErr);
 
 		// Do not free connections here, so graph can be rebuilt
 		result = err;
@@ -1142,8 +1133,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 									  connections[i].sourceNode, connections[i].sourceOutputNumber,
 									  connections[i].destNode, connections[i].destInputNumber);
 		if(noErr != err) {
-#warning 64BIT: Check formatting arguments
-			NSLog(@"AudioPlayer error: Unable to restore AUGraph connection: %i", err);
+			NSLog(@"AudioPlayer error: Unable to restore AUGraph connection: " PRId32 "", err);
 			free(connections);
 			return err;
 		}
@@ -1184,7 +1174,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 //		OSStatus newErr = [self setPropertyOnAUGraphNodes:kAudioUnitProperty_AudioChannelLayout data:&channelLayout dataSize:sizeof(channelLayout)];
 		OSStatus newErr = AudioUnitSetProperty(_outputUnit, kAudioUnitProperty_AudioChannelLayout, kAudioUnitScope_Input, 0, &channelLayout, sizeof(channelLayout));
 		if(noErr != newErr)
-			NSLog(@"AudioPlayer error: Unable to restore AUGraph channel layout: %i", newErr);
+			NSLog(@"AudioPlayer error: Unable to restore AUGraph channel layout: " PRId32 , newErr);
 		
 		return err;
 	}
@@ -1296,8 +1286,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = AUEventListenerAddEventType(_auEventListener, NULL, &parameterEvent);	
 	if(noErr != err)
-#warning 64BIT: Check formatting arguments
-		NSLog(@"AudioPlayer error: AUEventListenerAddEventType failed: %i", err);	
+		NSLog(@"AudioPlayer error: AUEventListenerAddEventType failed: " PRId32 "", err);	
 }
 
 - (void) stopListeningForParameterChangesOnAudioUnit:(AudioUnit)audioUnit
@@ -1313,8 +1302,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = AUEventListenerRemoveEventType(_auEventListener, NULL, &parameterEvent);	
 	if(noErr != err)
-#warning 64BIT: Check formatting arguments
-		NSLog(@"AudioPlayer error: AUEventListenerRemoveEventType failed: %i", err);	
+		NSLog(@"AudioPlayer error: AUEventListenerRemoveEventType failed: " PRId32 "", err);	
 }
 
 @end
@@ -1598,13 +1586,11 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		// If the property couldn't be set (the AU may not support this format), remove the new node
 		err = AUGraphRemoveNode([self auGraph], *newNode);
 		if(noErr != err)
-#warning 64BIT: Check formatting arguments
-			NSLog(@"AudioPlayer error: Unable to remove node: %i", err);
+			NSLog(@"AudioPlayer error: Unable to remove node: " PRId32 "", err);
 		
 		if(nil != error) {
 			NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
 			
-#warning 64BIT: Check formatting arguments
 			[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The DSP effect \"%@\" does not support this audio format.", @"Errors", @""), [auDictionary valueForKey:AUNameStringKey]] forKey:NSLocalizedDescriptionKey];
 			[errorDictionary setObject:NSLocalizedStringFromTable(@"DSP Effect Not Supported", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 			[errorDictionary setObject:NSLocalizedStringFromTable(@"The current track's sample rate or channel layout is not supported by this DSP effect.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -1622,12 +1608,11 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		// If the property couldn't be set (the AU may not support this format), remove the new node
 		err = AUGraphRemoveNode([self auGraph], *newNode);
 		if(noErr != err)
-			NSLog(@"AudioPlayer error: Unable to remove node: %i", err);
+			NSLog(@"AudioPlayer error: Unable to remove node: " PRId32 "", err);
 		
 		if(nil != error) {
 			NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
 			
-#warning 64BIT: Check formatting arguments
 			[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The DSP effect \"%@\" does not support this format.", @"Errors", @""), [auDictionary valueForKey:AUNameStringKey]] forKey:NSLocalizedDescriptionKey];
 			[errorDictionary setObject:NSLocalizedStringFromTable(@"DSP Effect Not Supported", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 			[errorDictionary setObject:NSLocalizedStringFromTable(@"The current track's sample rate or channel layout is not supported by this DSP effect.", @"Errors", @"") forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -1983,8 +1968,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		}
 	}
 	else
-#warning 64BIT: Check formatting arguments
-		NSLog(@"Device is already hogged by pid: %d", hogPID);
+		NSLog(@"Device is already hogged by pid: " PRId32 "", hogPID);
 	
 	return noErr;
 }
@@ -2087,7 +2071,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	[alert release];
 	
 #if DEBUG
-#warning 64BIT: Check formatting arguments
 	NSLog(@"External sample rate change: %f (stream sample rate %f)", sampleRate, [self format].mSampleRate);
 #endif
 }
@@ -2145,8 +2128,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = AUParameterSet(NULL, NULL, &auParameter, preGain, 0);
 	if(noErr != err)
-#warning 64BIT: Check formatting arguments
-		NSLog(@"AudioPlayer error: Unable to set ReplayGain: %i", err);
+		NSLog(@"AudioPlayer error: Unable to set ReplayGain: " PRId32 "", err);
 }
 
 - (NSNumber *) setReplayGainForStream:(AudioStream *)stream
