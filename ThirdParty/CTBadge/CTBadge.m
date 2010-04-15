@@ -10,10 +10,10 @@
 
 #import "CTBadge.h"
 
-const float CTLargeBadgeSize = 46.;
-const float CTSmallBadgeSize = 23.;
-const float CTLargeLabelSize = 24.;
-const float CTSmallLabelSize = 11.;
+const float CTLargeBadgeSize = 46.0f;
+const float CTSmallBadgeSize = 23.0f;
+const float CTLargeLabelSize = 24.0f;
+const float CTSmallLabelSize = 11.0f;
 
 @interface CTBadge (Private)
 - (NSImage *)badgeMaskOfSize:(float)size length:(unsigned)length;			//return a badge with height of <size> to fit <length> characters
@@ -143,13 +143,13 @@ const float CTSmallLabelSize = 11.;
   
   if(size <= CTSmallBadgeSize)
 	{
-	shadowOpacity    = .6;
+	shadowOpacity    = 0.6f;
 	shadowOffset     = floorf(1*scaleFactor);
 	shadowBlurRadius = ceilf(1*scaleFactor);
 	}
   else
 	{
-	shadowOpacity    = .8;
+	shadowOpacity    = 0.8f;
 	shadowOffset     = ceilf(1*scaleFactor);
 	shadowBlurRadius = ceilf(2*scaleFactor);
 	}
@@ -228,9 +228,9 @@ const float CTSmallLabelSize = 11.;
 #pragma mark Misc.
 - (CTGradient *)badgeGradient
   {
-  CTGradient *aGradient = [CTGradient gradientWithBeginningColor:[self badgeColor] endingColor:[[self badgeColor] shadowWithLevel:(1./3.)]];
+  CTGradient *aGradient = [CTGradient gradientWithBeginningColor:[self badgeColor] endingColor:[[self badgeColor] shadowWithLevel:(1.0f/3.0f)]];
   
-  aGradient = [aGradient addColorStop:[self badgeColor] atPosition:(1./3.)];
+  aGradient = [aGradient addColorStop:[self badgeColor] atPosition:(1.0f/3.0f)];
   
   return aGradient;
   }

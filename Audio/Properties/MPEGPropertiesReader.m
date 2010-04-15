@@ -337,7 +337,7 @@
 			}
 			
 			// Just estimate the number of frames based on the file's size
-			unsigned totalFrames = frame.header.samplerate * ((thisStat.st_size - id3_length) / (frame.header.bitrate / 8.0));
+			unsigned totalFrames = frame.header.samplerate * ((thisStat.st_size - id3_length) / (frame.header.bitrate / 8.0f));
 
 			[propertiesDictionary setValue:[NSNumber numberWithUnsignedLong:totalFrames] forKey:PropertiesTotalFramesKey];
 

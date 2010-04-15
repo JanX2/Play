@@ -125,7 +125,7 @@
 			
 			for(sample = channel; sample < samplesRead * _format.mChannelsPerFrame; sample += _format.mChannelsPerFrame) {
 				audioSample = inputBuffer[sample];				
-				*floatBuffer++	= (audioSample < -1.0 ? -1.0 : (audioSample > 1.0 ? 1.0 : audioSample));
+				*floatBuffer++	= (audioSample < -1.0f ? -1.0f : (audioSample > 1.0f ? 1.0f : audioSample));
 			}
 			
 			bufferList->mBuffers[channel].mNumberChannels	= 1;

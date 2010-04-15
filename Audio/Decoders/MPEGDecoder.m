@@ -652,7 +652,7 @@ audio_linear_round(unsigned int bits,
 			
 			double x = firstOffset + (secondOffset - firstOffset) * (percent - firstIndex);
 #warning 64BIT: Inspect use of long
-			seekPoint = (long)((1.0 / 256.0) * x * _fileBytes); 
+			seekPoint = (long)((1.0f / 256.0f) * x * _fileBytes); 
 	}
 	else
 #warning 64BIT: Inspect use of long

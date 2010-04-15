@@ -8,14 +8,14 @@
 #import "AIPlasticButton.h"
 //#import "ESImageAdditions.h"
 
-#define LABEL_OFFSET_X	1
-#define LABEL_OFFSET_Y	0
+#define LABEL_OFFSET_X	1.0f
+#define LABEL_OFFSET_Y	0.0f
 
-#define IMAGE_OFFSET_X	0
-#define IMAGE_OFFSET_Y	0
+#define IMAGE_OFFSET_X	0.0f
+#define IMAGE_OFFSET_Y	0.0f
 
 #define PLASTIC_ARROW_WIDTH		8
-#define PLASTIC_ARROW_HEIGHT	(PLASTIC_ARROW_WIDTH/2.0)
+#define PLASTIC_ARROW_HEIGHT	(PLASTIC_ARROW_WIDTH/2.0f)
 #define PLASTIC_ARROW_XOFFSET	12
 #define PLASTIC_ARROW_YOFFSET	12
 #define PLASTIC_ARROW_PADDING	8
@@ -96,7 +96,7 @@
     //Precalc some sizes
     NSSize capsSize = [caps size];
     frame = [self bounds];
-    capWidth = capsSize.width / 2.0;
+    capWidth = capsSize.width / 2.0f;
     capHeight = capsSize.height;
     middleRight = ((frame.origin.x + frame.size.width) - capWidth);
 
@@ -105,7 +105,7 @@
     [caps drawInRect:destRect
 			fromRect:NSMakeRect(0, 0, capWidth, capHeight)
 		   operation:NSCompositeSourceOver
-			fraction:1.0];
+			fraction:1.0f];
 
     //Draw the middle, which tiles across the button (excepting the areas drawn by the left and right caps)
     NSSize middleSize = [middle size];
@@ -121,7 +121,7 @@
         [middle drawInRect:destRect
 				  fromRect:sourceRect
 				 operation:NSCompositeSourceOver
-				  fraction:1.0];
+				  fraction:1.0f];
         destRect.origin.x += destRect.size.width;
     }
 	
@@ -130,7 +130,7 @@
 	[caps drawInRect:destRect
 			fromRect:NSMakeRect(capWidth, 0, capWidth, capHeight)
 		   operation:NSCompositeSourceOver
-			fraction:1.0];
+			fraction:1.0f];
 	
     //Draw Label
     NSString *title = [self title];
@@ -144,14 +144,14 @@
         if([self isEnabled]) {
             color = [NSColor blackColor];
         } else {
-            color = [NSColor colorWithCalibratedWhite:0.0 alpha:0.5];
+            color = [NSColor colorWithCalibratedWhite:0.0f alpha:0.5f];
         }
         attributes = [NSDictionary dictionaryWithObjectsAndKeys:[self font], NSFontAttributeName, color, NSForegroundColorAttributeName, nil];
 
         //Calculate center
         size = [title sizeWithAttributes:attributes];
-        centeredPoint = NSMakePoint(frame.origin.x + round((frame.size.width - size.width) / 2.0) + LABEL_OFFSET_X,
-                                    frame.origin.y + round((frame.size.height - size.height) / 2.0) + LABEL_OFFSET_Y);
+        centeredPoint = NSMakePoint(frame.origin.x + (CGFloat) round((frame.size.width - size.width) / 2.0f) + LABEL_OFFSET_X,
+                                    frame.origin.y + (CGFloat) round((frame.size.height - size.height) / 2.0f) + LABEL_OFFSET_Y);
 
         //Draw
         [title drawAtPoint:centeredPoint withAttributes:attributes];
@@ -165,8 +165,8 @@
 
 		if([self menu]) frame.size.width -= PLASTIC_ARROW_PADDING;
 		
-        centeredRect = NSMakeRect(frame.origin.x + (int)((frame.size.width - size.width) / 2.0) + IMAGE_OFFSET_X,
-                                  frame.origin.y + (int)((frame.size.height - size.height) / 2.0) + IMAGE_OFFSET_Y,
+        centeredRect = NSMakeRect(frame.origin.x + (int)((frame.size.width - size.width) / 2.0f) + IMAGE_OFFSET_X,
+                                  frame.origin.y + (int)((frame.size.height - size.height) / 2.0f) + IMAGE_OFFSET_Y,
                                   size.width,
                                   size.height);
 		
@@ -174,12 +174,12 @@
         [image drawInRect:centeredRect
 				 fromRect:NSMakeRect(0,0,size.width,size.height) 
 				operation:NSCompositeSourceOver 
-				 fraction:([self isEnabled] ? 1.0 : 0.5)];
+				 fraction:([self isEnabled] ? 1.0f : 0.5f)];
     }
     
 	//Draw the arrow, if needed
 	if([self menu]){
-		[[[NSColor blackColor] colorWithAlphaComponent:0.70] set];
+		[[[NSColor blackColor] colorWithAlphaComponent:0.70f] set];
 		[[self popUpArrowPath] fill];
 	}
 }
@@ -193,7 +193,7 @@
 		arrowPath = [[NSBezierPath bezierPath] retain];
 		[arrowPath moveToPoint:NSMakePoint(NSWidth(frame)-PLASTIC_ARROW_XOFFSET, NSHeight(frame)-PLASTIC_ARROW_YOFFSET)];
 		[arrowPath relativeLineToPoint:NSMakePoint( PLASTIC_ARROW_WIDTH, 0)];
-		[arrowPath relativeLineToPoint:NSMakePoint(-(PLASTIC_ARROW_WIDTH/2.0), (PLASTIC_ARROW_WIDTH/2.0))];
+		[arrowPath relativeLineToPoint:NSMakePoint(-(PLASTIC_ARROW_WIDTH/2.0f), (PLASTIC_ARROW_WIDTH/2.0f))];
 		[arrowPath closePath];
 	}
 	

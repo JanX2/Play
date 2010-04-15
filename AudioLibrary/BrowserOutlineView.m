@@ -32,8 +32,8 @@
 #import "CTGradient.h"
 #import "CTBadge.h"
 
-static CGFloat widthOffset	= 5.0;
-static CGFloat heightOffset	= 3.0;
+static CGFloat widthOffset	= 5.0f;
+static CGFloat heightOffset	= 3.0f;
 
 // ========================================
 // Completely bogus NSTreeController bindings hack
@@ -118,7 +118,7 @@ static CGFloat heightOffset	= 3.0;
 	
 	[dragImage lockFocus];
 	[badgeImage compositeToPoint:NSMakePoint(48 - badgeSize.width, 48 - badgeSize.height) operation:NSCompositeSourceOver];  
-	[genericIcon compositeToPoint:NSZeroPoint operation:NSCompositeDestinationOver fraction:0.75];
+	[genericIcon compositeToPoint:NSZeroPoint operation:NSCompositeDestinationOver fraction:0.75f];
 	[dragImage unlockFocus];
 	
 	return [dragImage autorelease];
@@ -157,17 +157,17 @@ static CGFloat heightOffset	= 3.0;
 	NSRect drawRect = [self rectOfRow:rowIndex];
 	
 	drawRect.size.width -= widthOffset;
-	drawRect.origin.x += widthOffset/2.0;
+	drawRect.origin.x += widthOffset/2.0f;
 	
 	drawRect.size.height -= heightOffset;
-	drawRect.origin.y += heightOffset/2.0;
+	drawRect.origin.y += heightOffset/2.0f;
 	
-	[[NSColor colorWithCalibratedRed:(172/255.f) green:(193/255.f) blue:(226/255.f) alpha:0.2] set];
-	[NSBezierPath fillRoundRectInRect:drawRect radius:7.0];
+	[[NSColor colorWithCalibratedRed:(172.0f/255.f) green:(193.0f/255.0f) blue:(226.0f/255.0f) alpha:0.2f] set];
+	[NSBezierPath fillRoundRectInRect:drawRect radius:7.0f];
 	
-	[[NSColor colorWithCalibratedRed:(7/255.f) green:(82/255.f) blue:(215/255.f) alpha:0.8] set];
-	[NSBezierPath setDefaultLineWidth:2.0];
-	[NSBezierPath strokeRoundRectInRect:drawRect radius:7.0];
+	[[NSColor colorWithCalibratedRed:(7.0f/255.f) green:(82.0f/255.f) blue:(215.0f/255.0f) alpha:0.8f] set];
+	[NSBezierPath setDefaultLineWidth:2.0f];
+	[NSBezierPath strokeRoundRectInRect:drawRect radius:7.0f];
 	
 	[self unlockFocus];
 }

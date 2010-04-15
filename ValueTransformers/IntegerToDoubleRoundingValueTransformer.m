@@ -59,7 +59,7 @@
 									 userInfo:nil];
     }
 	
-	return [NSNumber numberWithInteger:(double)([value doubleValue] + 0.5)];
+	return [NSNumber numberWithInteger:(NSInteger)([value doubleValue] + 0.5f)];
 }
 
 @end

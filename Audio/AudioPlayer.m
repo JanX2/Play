@@ -195,7 +195,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		
 		OSStatus err = AUEventListenerCreate(myAUEventListenerProc, self,
 											 CFRunLoopGetCurrent(), kCFRunLoopDefaultMode,
-											 0.1, 0.1,
+											 0.1f, 0.1f,
 											 &_auEventListener);
 		if(noErr != err) {
 			[self release];
@@ -2108,7 +2108,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			
 			// If clipping will occur, reduce the preamp gain so the peak will be +/- 1.0
 			if(1.0 < magnitude)
-				[self setPreAmplification:(20 * log10f(1.0 / peakSample)) - [self replayGain]];
+				[self setPreAmplification:(20.0f * log10f(1.0f / peakSample)) - [self replayGain]];
 		}
 	}
 

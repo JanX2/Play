@@ -298,7 +298,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 		
 		[dragImage lockFocus];
 		[badgeImage compositeToPoint:NSMakePoint(48 - badgeSize.width, 48 - badgeSize.height) operation:NSCompositeSourceOver];  
-		[genericIcon compositeToPoint:NSZeroPoint operation:NSCompositeDestinationOver fraction:0.75];
+		[genericIcon compositeToPoint:NSZeroPoint operation:NSCompositeDestinationOver fraction:0.75f];
 		[dragImage unlockFocus];
 				
 		return [dragImage autorelease];
@@ -354,7 +354,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 			do {
 				attributes = [NSDictionary dictionaryWithObjectsAndKeys:
 					[NSFont systemFontOfSize:fontSize], NSFontAttributeName,
-					[[NSColor blackColor] colorWithAlphaComponent:0.4], NSForegroundColorAttributeName,
+					[[NSColor blackColor] colorWithAlphaComponent:0.4f], NSForegroundColorAttributeName,
 					nil];
 				
 				bounds = [empty boundingRectWithSize:rect.size options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes];

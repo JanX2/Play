@@ -148,7 +148,7 @@
 						// Special handling for the last audio track
 						// FIXME: Is it safe the assume the lead out will always be the final track in the cue sheet?
 						if(i == block->data.cue_sheet.num_tracks - 1 - 1) {
-							unsigned frameCount = [[propertiesDictionary valueForKey:PropertiesTotalFramesKey] unsignedLongLongValue] - block->data.cue_sheet.tracks[i].offset + 1;
+							unsigned frameCount = [[propertiesDictionary valueForKey:PropertiesTotalFramesKey] unsignedLongLongValue] - block->data.cue_sheet.tracks[i].offset + 1.0f;
 
 							[trackDictionary setValue:[NSNumber numberWithUnsignedInt:frameCount] forKey:StreamFrameCountKey];
 						}

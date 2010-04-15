@@ -936,10 +936,10 @@
     }
     if (size.width >= size.height) {
         newSize.width  = iconWidth;
-        newSize.height = floor( (float) iconWidth * size.height / size.width + 0.5 );
+        newSize.height = (CGFloat) floor( (CGFloat) iconWidth * size.height / size.width + 0.5f );
     } else {
         newSize.height = iconWidth;
-        newSize.width  = floor( (float) iconWidth * size.width / size.height + 0.5 );
+        newSize.width  = (CGFloat) floor( (CGFloat) iconWidth * size.width / size.height + 0.5f );
     }
     [workingImage setSize:newSize];
 
@@ -960,8 +960,8 @@
     [graphicsContext setImageInterpolation:imageInterpolation];
     
     // Composite the working image into the icon bitmap, centered.
-    targetRect.origin.x = ((float)iconWidth - newSize.width ) / 2.0;
-    targetRect.origin.y = ((float)iconWidth - newSize.height) / 2.0;
+    targetRect.origin.x = ((CGFloat)iconWidth - newSize.width ) / 2.0f;
+    targetRect.origin.y = ((CGFloat)iconWidth - newSize.height) / 2.0f;
     targetRect.size.width = newSize.width;
     targetRect.size.height = newSize.height;
     [workingImageRep drawInRect:targetRect];
