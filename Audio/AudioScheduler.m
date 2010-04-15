@@ -327,7 +327,6 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 {
 	// Determine the last sample that was rendered
 	AudioTimeStamp		timeStamp	= { 0 };
-#warning 64BIT: Inspect use of sizeof
 	UInt32				dataSize	= sizeof(AudioTimeStamp);
 	ComponentResult		result		= AudioUnitGetProperty([self audioUnit],
 														   kAudioUnitProperty_CurrentPlayTime,
@@ -472,7 +471,6 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 															   kAudioUnitScope_Global, 
 															   0,
 															   slice, 
-#warning 64BIT: Inspect use of sizeof
 															   sizeof(ScheduledAudioSlice));
 					if(noErr != err) {
 						NSLog(@"AudioScheduler: Unable to schedule audio slice: " PRId32 "", err);

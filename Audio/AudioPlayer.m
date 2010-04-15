@@ -1381,7 +1381,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			
 			// Use the AU icon if present
 			NSURL *auURL = nil;
-#warning 64BIT: Inspect use of sizeof
 			UInt32 dataSize = sizeof(auURL);
 			OSStatus audioUnitGetPropertyErr = AudioUnitGetProperty(au, kAudioUnitProperty_IconLocation, kAudioUnitScope_Global, 0, &auURL, &dataSize);
 			if(noErr == audioUnitGetPropertyErr && nil != auURL) {
@@ -1469,7 +1468,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			
 			// Use the AU icon if present
 			NSURL *auURL = nil;
-#warning 64BIT: Inspect use of sizeof
 			UInt32 dataSize = sizeof(auURL);
 			err = AudioUnitGetProperty((AudioUnit)effectAU, kAudioUnitProperty_IconLocation, kAudioUnitScope_Global, 0, &auURL, &dataSize);
 			if(noErr == err && nil != auURL) {

@@ -121,8 +121,6 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 		}
 		
 		// Allocate the buffer list
-#warning 64BIT: Inspect use of sizeof
-#warning 64BIT: Inspect use of sizeof
 		_bufferList = calloc(sizeof(AudioBufferList) + (sizeof(AudioBuffer) * (_format.mChannelsPerFrame - 1)), 1);
 		NSAssert(NULL != _bufferList, @"Unable to allocate memory");
 		
@@ -131,7 +129,6 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 		NSUInteger i;
 		for(i = 0; i < _bufferList->mNumberBuffers; ++i) {
 			_bufferList->mBuffers[i].mData = calloc(_streamInfo.max_blocksize, sizeof(float));
-#warning 64BIT: Inspect use of sizeof
 			NSAssert(NULL != _bufferList->mBuffers[i].mData, @"Unable to allocate memory");
 
 			_bufferList->mBuffers[i].mNumberChannels = 1;
@@ -199,8 +196,6 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 		UInt32	framesRemaining	= frameCount - framesRead;
 		UInt32	framesToSkip	= bufferList->mBuffers[0].mDataByteSize / sizeof(float);
 		UInt32	framesInBuffer	= _bufferList->mBuffers[0].mDataByteSize / sizeof(float);
-#warning 64BIT: Inspect use of sizeof
-#warning 64BIT: Inspect use of sizeof
 		UInt32	framesToCopy	= (framesInBuffer > framesRemaining ? framesRemaining : framesInBuffer);
 		
 		// Copy data from the buffer to output
@@ -208,18 +203,14 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 			float *floatBuffer = bufferList->mBuffers[i].mData;
 			memcpy(floatBuffer + framesToSkip, _bufferList->mBuffers[i].mData, framesToCopy * sizeof(float));
 			bufferList->mBuffers[i].mDataByteSize += (framesToCopy * sizeof(float));
-#warning 64BIT: Inspect use of sizeof
-#warning 64BIT: Inspect use of sizeof
 			
 			// Move remaining data in buffer to beginning
 			if(framesToCopy != framesInBuffer) {
 				floatBuffer = _bufferList->mBuffers[i].mData;
 				memmove(floatBuffer, floatBuffer + framesToCopy, (framesInBuffer - framesToCopy) * sizeof(float));
-#warning 64BIT: Inspect use of sizeof
 			}
 			
 			_bufferList->mBuffers[i].mDataByteSize -= (framesToCopy * sizeof(float));
-#warning 64BIT: Inspect use of sizeof
 		}
 		
 		framesRead += framesToCopy;
@@ -257,7 +248,6 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 
 - (void) setStreamInfo:(FLAC__StreamMetadata_StreamInfo)streamInfo
 {
-#warning 64BIT: Inspect use of sizeof
 	memcpy(&_streamInfo, &streamInfo, sizeof(streamInfo));
 }
 

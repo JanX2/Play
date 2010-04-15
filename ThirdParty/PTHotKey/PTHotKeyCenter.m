@@ -226,7 +226,6 @@ static id _sharedHotKeyCenter = nil;
 								kEventParamDirectObject, 
 								typeEventHotKeyID,
 								nil,
-#warning 64BIT: Inspect use of sizeof
 								sizeof(EventHotKeyID),
 								nil,
 								&hotKeyID );

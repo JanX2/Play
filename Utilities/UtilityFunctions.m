@@ -160,7 +160,6 @@ getCoreAudioExtensions()
 	
 	@synchronized(sCoreAudioExtensions) {
 		if(nil == sCoreAudioExtensions) {
-#warning 64BIT: Inspect use of sizeof
 			size	= sizeof(sCoreAudioExtensions);
 			err		= AudioFileGetGlobalInfo(kAudioFileGlobalInfo_AllExtensions, 0, NULL, &size, &sCoreAudioExtensions);
 			NSCAssert2(noErr == err, @"The call to %@ failed (%@).", @"AudioFileGetGlobalInfo", UTCreateStringForOSType(err));

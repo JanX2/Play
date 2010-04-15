@@ -69,7 +69,6 @@
 		}
 		
 		// Query file format
-#warning 64BIT: Inspect use of sizeof
 		UInt32 dataSize = sizeof(_sourceFormat);
 		result = ExtAudioFileGetProperty(_extAudioFile, kExtAudioFileProperty_FileDataFormat, &dataSize, &_sourceFormat);
 		NSAssert1(noErr == result, @"AudioFileGetProperty failed: %@", UTCreateStringForOSType(result));
@@ -78,12 +77,10 @@
 		_format.mSampleRate			= _sourceFormat.mSampleRate;
 		_format.mChannelsPerFrame	= _sourceFormat.mChannelsPerFrame;
 		
-#warning 64BIT: Inspect use of sizeof
 		result = ExtAudioFileSetProperty(_extAudioFile, kExtAudioFileProperty_ClientDataFormat, sizeof(_format), &_format);
 		NSAssert1(noErr == result, @"ExtAudioFileSetProperty failed: %@", UTCreateStringForOSType(result));
 		
 		// Setup the channel layout
-#warning 64BIT: Inspect use of sizeof
 		dataSize = sizeof(_channelLayout);
 		result = ExtAudioFileGetProperty(_extAudioFile, kExtAudioFileProperty_FileChannelLayout, &dataSize, &_channelLayout);
 		NSAssert1(noErr == result, @"AudioFileGetProperty failed: %@", UTCreateStringForOSType(result));
@@ -106,7 +103,6 @@
 - (SInt64) totalFrames
 {
 	SInt64 totalFrames = -1;
-#warning 64BIT: Inspect use of sizeof
 	UInt32 dataSize = sizeof(totalFrames);
 	
 	OSStatus result = ExtAudioFileGetProperty(_extAudioFile, kExtAudioFileProperty_FileLengthFrames, &dataSize, &totalFrames);

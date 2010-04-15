@@ -194,11 +194,9 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 - (NSString *) formatDescription
 {
 	NSString	*description	= nil;
-#warning 64BIT: Inspect use of sizeof
 	UInt32		specifierSize	= sizeof(description);
 	
 	OSStatus err = AudioFormatGetProperty(kAudioFormatProperty_FormatName, 
-#warning 64BIT: Inspect use of sizeof
 										  sizeof(_format), 
 										  &_format, 
 										  &specifierSize, 
@@ -217,11 +215,9 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 - (NSString *) channelLayoutDescription
 {
 	NSString	*description	= nil;
-#warning 64BIT: Inspect use of sizeof
 	UInt32		specifierSize	= sizeof(description);
 	
 	OSStatus err = AudioFormatGetProperty(kAudioFormatProperty_ChannelLayoutName, 
-#warning 64BIT: Inspect use of sizeof
 										  sizeof(_channelLayout), 
 										  &_channelLayout, 
 										  &specifierSize, 
@@ -251,10 +247,8 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 {
 	AudioStreamBasicDescription		sourceFormat			= [self sourceFormat];	
 	NSString						*sourceFormatName		= nil;
-#warning 64BIT: Inspect use of sizeof
 	UInt32							sourceFormatNameSize	= sizeof(sourceFormatName);
 	
-#warning 64BIT: Inspect use of sizeof
 	OSStatus err = AudioFormatGetProperty(kAudioFormatProperty_FormatName, sizeof(sourceFormat), &sourceFormat, &sourceFormatNameSize, &sourceFormatName);
 	if(noErr != err)
 		return nil;	
