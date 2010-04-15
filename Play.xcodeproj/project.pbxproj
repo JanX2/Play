@@ -126,12 +126,9 @@
 		8C5574E70BBC1FB40047B89C /* mad.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5574E10BBC1FA80047B89C /* mad.framework */; };
 		8C55786E0BBCD97C0047B89C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5578500BBCD97C0047B89C /* QuartzCore.framework */; };
 		8C55A8960CA5B98C00C7B3F9 /* AppleRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C55A8880CA5B98C00C7B3F9 /* AppleRemote.m */; };
-		8C55A8980CA5B98C00C7B3F9 /* GlobalKeyboardDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C55A88A0CA5B98C00C7B3F9 /* GlobalKeyboardDevice.m */; };
 		8C55A89A0CA5B98C00C7B3F9 /* HIDRemoteControlDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C55A88C0CA5B98C00C7B3F9 /* HIDRemoteControlDevice.m */; };
-		8C55A89C0CA5B98C00C7B3F9 /* KeyspanFrontRowControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C55A88E0CA5B98C00C7B3F9 /* KeyspanFrontRowControl.m */; };
 		8C55A89E0CA5B98C00C7B3F9 /* MultiClickRemoteBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C55A8900CA5B98C00C7B3F9 /* MultiClickRemoteBehavior.m */; };
 		8C55A8A00CA5B98C00C7B3F9 /* RemoteControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C55A8920CA5B98C00C7B3F9 /* RemoteControl.m */; };
-		8C55A8A20CA5B98C00C7B3F9 /* RemoteControlContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C55A8940CA5B98C00C7B3F9 /* RemoteControlContainer.m */; };
 		8C55A8C00CA5B9EF00C7B3F9 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C55A8BD0CA5B9EF00C7B3F9 /* IOKit.framework */; };
 		8C58380C0BDFBCCF00E43C9E /* AudioStream.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8C5837F80BDFBCCF00E43C9E /* AudioStream.strings */; };
 		8C58380D0BDFBCCF00E43C9E /* Database.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8C5837FA0BDFBCCF00E43C9E /* Database.strings */; };
@@ -505,18 +502,12 @@
 		8C5578500BBCD97C0047B89C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		8C55A8870CA5B98C00C7B3F9 /* AppleRemote.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AppleRemote.h; path = ThirdParty/RemoteControlWrapper/AppleRemote.h; sourceTree = "<group>"; };
 		8C55A8880CA5B98C00C7B3F9 /* AppleRemote.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AppleRemote.m; path = ThirdParty/RemoteControlWrapper/AppleRemote.m; sourceTree = "<group>"; };
-		8C55A8890CA5B98C00C7B3F9 /* GlobalKeyboardDevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GlobalKeyboardDevice.h; path = ThirdParty/RemoteControlWrapper/GlobalKeyboardDevice.h; sourceTree = "<group>"; };
-		8C55A88A0CA5B98C00C7B3F9 /* GlobalKeyboardDevice.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GlobalKeyboardDevice.m; path = ThirdParty/RemoteControlWrapper/GlobalKeyboardDevice.m; sourceTree = "<group>"; };
 		8C55A88B0CA5B98C00C7B3F9 /* HIDRemoteControlDevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = HIDRemoteControlDevice.h; path = ThirdParty/RemoteControlWrapper/HIDRemoteControlDevice.h; sourceTree = "<group>"; };
 		8C55A88C0CA5B98C00C7B3F9 /* HIDRemoteControlDevice.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = HIDRemoteControlDevice.m; path = ThirdParty/RemoteControlWrapper/HIDRemoteControlDevice.m; sourceTree = "<group>"; };
-		8C55A88D0CA5B98C00C7B3F9 /* KeyspanFrontRowControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = KeyspanFrontRowControl.h; path = ThirdParty/RemoteControlWrapper/KeyspanFrontRowControl.h; sourceTree = "<group>"; };
-		8C55A88E0CA5B98C00C7B3F9 /* KeyspanFrontRowControl.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = KeyspanFrontRowControl.m; path = ThirdParty/RemoteControlWrapper/KeyspanFrontRowControl.m; sourceTree = "<group>"; };
 		8C55A88F0CA5B98C00C7B3F9 /* MultiClickRemoteBehavior.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MultiClickRemoteBehavior.h; path = ThirdParty/RemoteControlWrapper/MultiClickRemoteBehavior.h; sourceTree = "<group>"; };
 		8C55A8900CA5B98C00C7B3F9 /* MultiClickRemoteBehavior.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MultiClickRemoteBehavior.m; path = ThirdParty/RemoteControlWrapper/MultiClickRemoteBehavior.m; sourceTree = "<group>"; };
 		8C55A8910CA5B98C00C7B3F9 /* RemoteControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RemoteControl.h; path = ThirdParty/RemoteControlWrapper/RemoteControl.h; sourceTree = "<group>"; };
 		8C55A8920CA5B98C00C7B3F9 /* RemoteControl.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = RemoteControl.m; path = ThirdParty/RemoteControlWrapper/RemoteControl.m; sourceTree = "<group>"; };
-		8C55A8930CA5B98C00C7B3F9 /* RemoteControlContainer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RemoteControlContainer.h; path = ThirdParty/RemoteControlWrapper/RemoteControlContainer.h; sourceTree = "<group>"; };
-		8C55A8940CA5B98C00C7B3F9 /* RemoteControlContainer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = RemoteControlContainer.m; path = ThirdParty/RemoteControlWrapper/RemoteControlContainer.m; sourceTree = "<group>"; };
 		8C55A8BD0CA5B9EF00C7B3F9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		8C5837F90BDFBCCF00E43C9E /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/AudioStream.strings; sourceTree = "<group>"; };
 		8C5837FB0BDFBCCF00E43C9E /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Database.strings; sourceTree = "<group>"; };
@@ -1103,18 +1094,12 @@
 			children = (
 				8C55A8870CA5B98C00C7B3F9 /* AppleRemote.h */,
 				8C55A8880CA5B98C00C7B3F9 /* AppleRemote.m */,
-				8C55A8890CA5B98C00C7B3F9 /* GlobalKeyboardDevice.h */,
-				8C55A88A0CA5B98C00C7B3F9 /* GlobalKeyboardDevice.m */,
 				8C55A88B0CA5B98C00C7B3F9 /* HIDRemoteControlDevice.h */,
 				8C55A88C0CA5B98C00C7B3F9 /* HIDRemoteControlDevice.m */,
-				8C55A88D0CA5B98C00C7B3F9 /* KeyspanFrontRowControl.h */,
-				8C55A88E0CA5B98C00C7B3F9 /* KeyspanFrontRowControl.m */,
 				8C55A88F0CA5B98C00C7B3F9 /* MultiClickRemoteBehavior.h */,
 				8C55A8900CA5B98C00C7B3F9 /* MultiClickRemoteBehavior.m */,
 				8C55A8910CA5B98C00C7B3F9 /* RemoteControl.h */,
 				8C55A8920CA5B98C00C7B3F9 /* RemoteControl.m */,
-				8C55A8930CA5B98C00C7B3F9 /* RemoteControlContainer.h */,
-				8C55A8940CA5B98C00C7B3F9 /* RemoteControlContainer.m */,
 			);
 			name = RemoteControlWrapper;
 			sourceTree = "<group>";
@@ -1885,12 +1870,9 @@
 				8C49DCC20CA2F7F300F7C69E /* MonkeysAudioPropertiesReader.mm in Sources */,
 				8C49DCC30CA2F7F600F7C69E /* MonkeysAudioMetadataReader.mm in Sources */,
 				8C55A8960CA5B98C00C7B3F9 /* AppleRemote.m in Sources */,
-				8C55A8980CA5B98C00C7B3F9 /* GlobalKeyboardDevice.m in Sources */,
 				8C55A89A0CA5B98C00C7B3F9 /* HIDRemoteControlDevice.m in Sources */,
-				8C55A89C0CA5B98C00C7B3F9 /* KeyspanFrontRowControl.m in Sources */,
 				8C55A89E0CA5B98C00C7B3F9 /* MultiClickRemoteBehavior.m in Sources */,
 				8C55A8A00CA5B98C00C7B3F9 /* RemoteControl.m in Sources */,
-				8C55A8A20CA5B98C00C7B3F9 /* RemoteControlContainer.m in Sources */,
 				8C6D026F0CCEFAEE00A597AE /* CueSheetParser.m in Sources */,
 				8C590A150CD6EE860062E77C /* LoopableRegionDecoder.m in Sources */,
 				8CFBD2BB0CD910E6009A57C9 /* MPEGPropertiesReader.m in Sources */,
