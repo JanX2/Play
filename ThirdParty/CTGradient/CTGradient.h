@@ -12,8 +12,8 @@
 
 typedef struct _CTGradientElement 
 	{
-	float red, green, blue, alpha;
-	float position;
+	CGFloat red, green, blue, alpha;
+	CGFloat position;
 	
 	struct _CTGradientElement *nextElement;
 	} CTGradientElement;
@@ -34,40 +34,40 @@ typedef enum  _CTBlendingMode
 	CGFunctionRef gradientFunction;
 	}
 
-+ (id)gradientWithBeginningColor:(NSColor *)begin endingColor:(NSColor *)end;
++ (CTGradient *)gradientWithBeginningColor:(NSColor *)begin endingColor:(NSColor *)end;
 
-+ (id)aquaSelectedGradient;
-+ (id)aquaNormalGradient;
-+ (id)aquaPressedGradient;
++ (CTGradient *)aquaSelectedGradient;
++ (CTGradient *)aquaNormalGradient;
++ (CTGradient *)aquaPressedGradient;
 
-+ (id)unifiedSelectedGradient;
-+ (id)unifiedNormalGradient;
-+ (id)unifiedPressedGradient;
-+ (id)unifiedDarkGradient;
++ (CTGradient *)unifiedSelectedGradient;
++ (CTGradient *)unifiedNormalGradient;
++ (CTGradient *)unifiedPressedGradient;
++ (CTGradient *)unifiedDarkGradient;
 
-+ (id)sourceListSelectedGradient;
-+ (id)sourceListUnselectedGradient;
++ (CTGradient *)sourceListSelectedGradient;
++ (CTGradient *)sourceListUnselectedGradient;
 
-+ (id)rainbowGradient;
-+ (id)hydrogenSpectrumGradient;
++ (CTGradient *)rainbowGradient;
++ (CTGradient *)hydrogenSpectrumGradient;
 
-- (CTGradient *)gradientWithAlphaComponent:(float)alpha;
+- (CTGradient *)gradientWithAlphaComponent:(CGFloat)alpha;
 
-- (CTGradient *)addColorStop:(NSColor *)color atPosition:(float)position;	//positions given relative to [0,1]
-- (CTGradient *)removeColorStopAtIndex:(unsigned)thisIndex;
-- (CTGradient *)removeColorStopAtPosition:(float)position;
+- (CTGradient *)addColorStop:(NSColor *)color atPosition:(CGFloat)position;	//positions given relative to [0,1]
+- (CTGradient *)removeColorStopAtIndex:(NSUInteger)thisIndex;
+- (CTGradient *)removeColorStopAtPosition:(CGFloat)position;
 
 - (CTGradientBlendingMode)blendingMode;
-- (NSColor *)colorStopAtIndex:(unsigned)thisIndex;
-- (NSColor *)colorAtPosition:(float)position;
+- (NSColor *)colorStopAtIndex:(NSUInteger)thisIndex;
+- (NSColor *)colorAtPosition:(CGFloat)position;
 
 
 - (void)drawSwatchInRect:(NSRect)rect;
-- (void)fillRect:(NSRect)rect angle:(float)angle;					//fills rect with axial gradient
-																	//	angle in degrees
-- (void)radialFillRect:(NSRect)rect;								//fills rect with radial gradient
-																	//  gradient from center outwards
-- (void)fillBezierPath:(NSBezierPath *)path angle:(float)angle;
+- (void)fillRect:(NSRect)rect angle:(CGFloat)angle;					// fills rect with axial gradient
+																	// angle in degrees
+- (void)radialFillRect:(NSRect)rect;								// fills rect with radial gradient
+																	// gradient from center outwards
+- (void)fillBezierPath:(NSBezierPath *)path angle:(CGFloat)angle;
 - (void)radialFillBezierPath:(NSBezierPath *)path;
 
 @end
