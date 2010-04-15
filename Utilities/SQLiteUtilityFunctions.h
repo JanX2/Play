@@ -42,7 +42,8 @@ extern "C" {
 		eObjectTypeLongLong,
 		eObjectTypeFloat,
 		eObjectTypeDouble,
-		eObjectTypePredicate
+		eObjectTypePredicate,
+		eObjectTypeData
 	};
 	typedef enum _eObjectType eObjectType;
 
