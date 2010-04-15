@@ -2,10 +2,11 @@
 //  CTGradient.h
 //
 //  Created by Chad Weider on 2/14/07.
-//  Copyright (c) 2007 Chad Weider.
-//  Some rights reserved: <http://creativecommons.org/licenses/by/2.5/>
+//  Writtin by Chad Weider.
 //
-//  Version: 1.6
+//  Released into public domain on 4/10/08.
+//  
+//  Version: 1.8
 
 #import <Cocoa/Cocoa.h>
 
