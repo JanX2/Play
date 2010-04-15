@@ -7,18 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		349CA87E0F5F393A0002B133 /* IRKeyboardEmuRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 349CA87D0F5F393A0002B133 /* IRKeyboardEmuRemote.m */; };
-		5B0CD6FA0C1FA78400FB6330 /* GlobalKeyboardDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B677BC30C1D97E100F4CB01 /* GlobalKeyboardDevice.m */; };
 		5B0CD7000C1FA7B700FB6330 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0CD6FF0C1FA7B700FB6330 /* Carbon.framework */; };
 		5B102D700C3C04C800514E74 /* license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5B102D6F0C3C04C800514E74 /* license.txt */; };
 		5B2179AC0C09D6C5003D84DA /* AppleRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF9B75709C243FD00EFA68D /* AppleRemote.m */; };
 		5B2179AD0C09D6C9003D84DA /* HIDRemoteControlDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B92775E0B78CABC0058AA16 /* HIDRemoteControlDevice.m */; };
-		5B2179AE0C09D6CC003D84DA /* KeyspanFrontRowControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B92775A0B78CA590058AA16 /* KeyspanFrontRowControl.m */; };
 		5B2179AF0C09D6CF003D84DA /* MultiClickRemoteBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B92749B0B78B3750058AA16 /* MultiClickRemoteBehavior.m */; };
 		5B2179B00C09D6D0003D84DA /* RemoteControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9274A00B78B3B20058AA16 /* RemoteControl.m */; };
-		5B2179B10C09D6D2003D84DA /* RemoteControlContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAA56560B81A1210068DF18 /* RemoteControlContainer.m */; };
+		5B5033D6108EE854005EE1AB /* README.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 5B5033D5108EE854005EE1AB /* README.markdown */; };
 		5B7B50F309C218D1009158D3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B7B50F209C218D1009158D3 /* IOKit.framework */; };
-		5B8D4DE80C55D676008A1C8A /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5B8D4DE70C55D676008A1C8A /* readme.txt */; };
 		5BF9B62109C2224600EFA68D /* System.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF9B62009C2224600EFA68D /* System.framework */; };
 		5BF9B9D809C9B00900EFA68D /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF9B9D709C9B00900EFA68D /* MainController.m */; };
 		5BF9BA8109C9BA2200EFA68D /* RemoteFeedbackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF9BA8009C9BA2200EFA68D /* RemoteFeedbackView.m */; };
@@ -49,25 +45,17 @@
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		349CA87C0F5F393A0002B133 /* IRKeyboardEmuRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRKeyboardEmuRemote.h; sourceTree = "<group>"; };
-		349CA87D0F5F393A0002B133 /* IRKeyboardEmuRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRKeyboardEmuRemote.m; sourceTree = "<group>"; };
 		5B0023230C5628C400FB1521 /* RemoteControlWrapper_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RemoteControlWrapper_Prefix.pch; sourceTree = "<group>"; };
 		5B0CD6FF0C1FA7B700FB6330 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		5B102D6F0C3C04C800514E74 /* license.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
-		5B677BC20C1D97E100F4CB01 /* GlobalKeyboardDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalKeyboardDevice.h; sourceTree = "<group>"; };
-		5B677BC30C1D97E100F4CB01 /* GlobalKeyboardDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalKeyboardDevice.m; sourceTree = "<group>"; };
+		5B5033D5108EE854005EE1AB /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
 		5B7B50F209C218D1009158D3 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
-		5B8D4DE70C55D676008A1C8A /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		5B92749A0B78B3750058AA16 /* MultiClickRemoteBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiClickRemoteBehavior.h; sourceTree = "<group>"; };
 		5B92749B0B78B3750058AA16 /* MultiClickRemoteBehavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiClickRemoteBehavior.m; sourceTree = "<group>"; };
 		5B92749F0B78B3B20058AA16 /* RemoteControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteControl.h; sourceTree = "<group>"; };
 		5B9274A00B78B3B20058AA16 /* RemoteControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteControl.m; sourceTree = "<group>"; };
-		5B9277590B78CA590058AA16 /* KeyspanFrontRowControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyspanFrontRowControl.h; sourceTree = "<group>"; };
-		5B92775A0B78CA590058AA16 /* KeyspanFrontRowControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyspanFrontRowControl.m; sourceTree = "<group>"; };
 		5B92775D0B78CABC0058AA16 /* HIDRemoteControlDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIDRemoteControlDevice.h; sourceTree = "<group>"; };
 		5B92775E0B78CABC0058AA16 /* HIDRemoteControlDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HIDRemoteControlDevice.m; sourceTree = "<group>"; };
-		5BAA56550B81A1210068DF18 /* RemoteControlContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteControlContainer.h; sourceTree = "<group>"; };
-		5BAA56560B81A1210068DF18 /* RemoteControlContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteControlContainer.m; sourceTree = "<group>"; };
 		5BF9B62009C2224600EFA68D /* System.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = System.framework; path = /System/Library/Frameworks/System.framework; sourceTree = "<absolute>"; };
 		5BF9B75609C243FD00EFA68D /* AppleRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleRemote.h; sourceTree = "<group>"; };
 		5BF9B75709C243FD00EFA68D /* AppleRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppleRemote.m; sourceTree = "<group>"; };
@@ -135,11 +123,9 @@
 		29B97314FDCFA39411CA2CEA /* AppleRemote */ = {
 			isa = PBXGroup;
 			children = (
+				5B5033D5108EE854005EE1AB /* README.markdown */,
 				5B102D6F0C3C04C800514E74 /* license.txt */,
-				5B8D4DE70C55D676008A1C8A /* readme.txt */,
-				5B92798C0B78D4E10058AA16 /* Behaviors */,
-				5B8D4E000C55DF0F008A1C8A /* Base Classes */,
-				5B9277560B78CA2D0058AA16 /* Devices */,
+				5B8D4E000C55DF0F008A1C8A /* Remote Control */,
 				080E96DDFE201D6D7F000001 /* Test Client */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -181,41 +167,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5B8D4E000C55DF0F008A1C8A /* Base Classes */ = {
+		5B8D4E000C55DF0F008A1C8A /* Remote Control */ = {
 			isa = PBXGroup;
 			children = (
 				5B92749F0B78B3B20058AA16 /* RemoteControl.h */,
 				5B9274A00B78B3B20058AA16 /* RemoteControl.m */,
 				5B92775D0B78CABC0058AA16 /* HIDRemoteControlDevice.h */,
 				5B92775E0B78CABC0058AA16 /* HIDRemoteControlDevice.m */,
-			);
-			name = "Base Classes";
-			sourceTree = "<group>";
-		};
-		5B9277560B78CA2D0058AA16 /* Devices */ = {
-			isa = PBXGroup;
-			children = (
 				5BF9B75609C243FD00EFA68D /* AppleRemote.h */,
 				5BF9B75709C243FD00EFA68D /* AppleRemote.m */,
-				5B9277590B78CA590058AA16 /* KeyspanFrontRowControl.h */,
-				5B92775A0B78CA590058AA16 /* KeyspanFrontRowControl.m */,
-				5B677BC20C1D97E100F4CB01 /* GlobalKeyboardDevice.h */,
-				5B677BC30C1D97E100F4CB01 /* GlobalKeyboardDevice.m */,
-				5BAA56550B81A1210068DF18 /* RemoteControlContainer.h */,
-				5BAA56560B81A1210068DF18 /* RemoteControlContainer.m */,
-				349CA87C0F5F393A0002B133 /* IRKeyboardEmuRemote.h */,
-				349CA87D0F5F393A0002B133 /* IRKeyboardEmuRemote.m */,
-			);
-			name = Devices;
-			sourceTree = "<group>";
-		};
-		5B92798C0B78D4E10058AA16 /* Behaviors */ = {
-			isa = PBXGroup;
-			children = (
 				5B92749A0B78B3750058AA16 /* MultiClickRemoteBehavior.h */,
 				5B92749B0B78B3750058AA16 /* MultiClickRemoteBehavior.m */,
 			);
-			name = Behaviors;
+			name = "Remote Control";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,7 +230,7 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				5BF9BC9509C9D23B00EFA68D /* AppleRemote.tiff in Resources */,
 				5B102D700C3C04C800514E74 /* license.txt in Resources */,
-				5B8D4DE80C55D676008A1C8A /* readme.txt in Resources */,
+				5B5033D6108EE854005EE1AB /* README.markdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,12 +246,8 @@
 				5BF9BA8109C9BA2200EFA68D /* RemoteFeedbackView.m in Sources */,
 				5B2179AC0C09D6C5003D84DA /* AppleRemote.m in Sources */,
 				5B2179AD0C09D6C9003D84DA /* HIDRemoteControlDevice.m in Sources */,
-				5B2179AE0C09D6CC003D84DA /* KeyspanFrontRowControl.m in Sources */,
 				5B2179AF0C09D6CF003D84DA /* MultiClickRemoteBehavior.m in Sources */,
 				5B2179B00C09D6D0003D84DA /* RemoteControl.m in Sources */,
-				5B2179B10C09D6D2003D84DA /* RemoteControlContainer.m in Sources */,
-				5B0CD6FA0C1FA78400FB6330 /* GlobalKeyboardDevice.m in Sources */,
-				349CA87E0F5F393A0002B133 /* IRKeyboardEmuRemote.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,34 +308,32 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Release;
 		};

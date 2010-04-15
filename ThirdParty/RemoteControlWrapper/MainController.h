@@ -13,12 +13,14 @@
 
 @interface MainController : NSObject {
 	RemoteControl* remoteControl;
-	MultiClickRemoteBehavior* remoteControlBehavior;
+	MultiClickRemoteBehavior* remoteBehavior;
 	
 	IBOutlet NSView*		feedbackView;
 	IBOutlet NSTextField*	feedbackText;
 }
 
 - (RemoteControl*) remoteControl;
+- (void) setRemoteControl: (RemoteControl*) newControl;
+
 
 @end

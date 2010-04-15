@@ -18,14 +18,12 @@
 	[super dealloc];
 }
 
-- (void) clearAfterRedraw: (id) sender 
-{
+- (void) clearAfterRedraw: (id) sender {
 	lastButtonIdentifier = -1;
 	[self setNeedsDisplay:YES];
 }
 
-- (void) remoteButton: (RemoteControlEventIdentifier)buttonIdentifier pressedDown: (BOOL) pressedDown clickCount: (unsigned int)clickCount 
-{
+- (void) remoteButton: (RemoteControlEventIdentifier)buttonIdentifier pressedDown: (BOOL) pressedDown clickCount: (unsigned int)clickCount {
 	if (pressedDown) {
 		lastButtonIdentifier = buttonIdentifier;
 	} else {
@@ -41,8 +39,7 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (void)drawRect:(NSRect)rect
-{
+- (void)drawRect:(NSRect)rect {
 	drawn = YES;
 	NSRect imageRect;
 	NSRect drawingRect;
