@@ -70,7 +70,7 @@ size_t data_callback(void *ptr, size_t size, size_t num, void *arg)
     return size * num;
 }
 
-long http_post(const string &url, const string &userAgent, const string &postData, string &doc)
+long http_post(const string &postURL, const string &postUserAgent, const string &postData, string &doc)
 {
   CURL              *curl;
   long               ret = 0;
@@ -80,14 +80,14 @@ long http_post(const string &url, const string &userAgent, const string &postDat
 
   curl_global_init(CURL_GLOBAL_ALL);
   curl = curl_easy_init();
-  curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+  curl_easy_setopt(curl, CURLOPT_URL, postURL.c_str());
   curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&doc);
   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, data_callback);
   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headerlist);
   curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, postData.length());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postData.c_str());
   curl_easy_setopt(curl, CURLOPT_POST, 1);
-  curl_easy_setopt(curl, CURLOPT_USERAGENT, userAgent.c_str());
+  curl_easy_setopt(curl, CURLOPT_USERAGENT, postUserAgent.c_str());
   curl_easy_perform(curl);
   curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &ret);
   curl_easy_cleanup(curl);

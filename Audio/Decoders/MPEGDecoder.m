@@ -396,7 +396,7 @@ audio_linear_round(unsigned int bits,
 	struct mad_frame	frame;
 	
 	int					result;
-	struct stat			stat;
+	struct stat			thisStat;
 	uint32_t			id3_length		= 0;
 	
 	// Set up	
@@ -405,11 +405,11 @@ audio_linear_round(unsigned int bits,
 	
 	readEOF = NO;
 	
-	result = fstat(fileno(_file), &stat);
+	result = fstat(fileno(_file), &thisStat);
 	if(-1 == result)
 		return NO;
 	
-	_fileBytes = stat.st_size;
+	_fileBytes = thisStat.st_size;
 	
 	for(;;) {
 		if(NULL == stream.buffer || MAD_ERROR_BUFLEN == stream.error) {
@@ -642,13 +642,13 @@ audio_linear_round(unsigned int bits,
 
 - (SInt64) seekToFrameApproximately:(SInt64)frame
 {
-	double	fraction	= (double)frame / [self totalFrames];
+	double	thisFraction	= (double)frame / [self totalFrames];
 #warning 64BIT: Inspect use of long
 	long	seekPoint	= 0;
 	
 	// If a Xing header was found, interpolate in TOC
 	if(_foundXingHeader) {
-		double		percent		= 100 * fraction;
+		double		percent		= 100 * thisFraction;
 		unsigned	firstIndex	= percent;
 		
 		if(99 < firstIndex)
@@ -666,7 +666,7 @@ audio_linear_round(unsigned int bits,
 	}
 	else
 #warning 64BIT: Inspect use of long
-		seekPoint = (long)_fileBytes * fraction;
+		seekPoint = (long)_fileBytes * thisFraction;
 	
 	int result = fseek(_file, seekPoint, SEEK_SET);
 	if(0 == result) {

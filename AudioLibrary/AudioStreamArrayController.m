@@ -174,27 +174,27 @@ NSString * const iTunesPboardType						= @"CorePasteboardFlavorType 0x6974756E";
 - (void) moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet*)indexSet toIndex:(NSUInteger)insertIndex
 {
 	NSArray			*objects					= [self arrangedObjects];
-	NSUInteger		index						= [indexSet lastIndex];
+	NSUInteger		thisIndex					= [indexSet lastIndex];
 	NSUInteger		aboveInsertIndexCount		= 0;
 	NSUInteger		removeIndex;
 	id				object;
 	
 	[[CollectionManager manager] beginUpdate];
 	
-	while(NSNotFound != index) {
-		if(index >= insertIndex) {
-			removeIndex = index + aboveInsertIndexCount;
+	while(NSNotFound != thisIndex) {
+		if(thisIndex >= insertIndex) {
+			removeIndex = thisIndex + aboveInsertIndexCount;
 			++aboveInsertIndexCount;
 		}
 		else {
-			removeIndex = index;
+			removeIndex = thisIndex;
 			--insertIndex;
 		}
 		object = [[objects objectAtIndex:removeIndex] retain];
 		[self removeObjectAtArrangedObjectIndex:removeIndex];
 		[self insertObject:[object autorelease] atArrangedObjectIndex:insertIndex];
 		
-		index = [indexSet indexLessThanIndex:index];
+		thisIndex = [indexSet indexLessThanIndex:thisIndex];
 	}
 
 	[[CollectionManager manager] finishUpdate];

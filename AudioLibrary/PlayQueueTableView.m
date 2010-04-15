@@ -120,7 +120,7 @@
 		
 		[highlightImage compositeToPoint:NSMakePoint(rowRect.origin.x, rowRect.origin.y + [highlightImage size].height)
 							   operation:NSCompositeSourceAtop
-								fraction:1.0];
+								fraction:1.0f];
 		
 		[highlightImage release];
 	}

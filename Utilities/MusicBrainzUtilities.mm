@@ -144,8 +144,8 @@ buildMusicBrainzResultArray(MusicBrainz::Query &q, MusicBrainz::TrackResultList 
 			// Look for Composer relations
 			MusicBrainz::RelationList relations = track->getRelations(MusicBrainz::Relation::TO_TRACK);
 			
-			for(MusicBrainz::RelationList::iterator j = relations.begin(); j != relations.end(); ++j) {
-				MusicBrainz::Relation *relation = *j;
+			for(MusicBrainz::RelationList::iterator k = relations.begin(); k != relations.end(); ++k) {
+				MusicBrainz::Relation *relation = *k;
 								
 				if("Composer" == MusicBrainz::extractFragment(relation->getType())) {
 					if(MusicBrainz::Relation::TO_ARTIST == relation->getTargetType()) {

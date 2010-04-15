@@ -59,7 +59,7 @@ NSString * const SmartPlaylistPboardType				= @"org.sbooth.Play.SmartPlaylist.Pb
 	return NO;
 }
 
-- (id) outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+- (id) outlineView:(NSOutlineView *)outlineView child:(NSInteger)thisIndex ofItem:(id)item
 {
 	return nil;
 }
@@ -176,14 +176,14 @@ NSString * const SmartPlaylistPboardType				= @"org.sbooth.Play.SmartPlaylist.Pb
 	return success;
 }
 
-- (NSDragOperation) outlineView:(NSOutlineView *)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
+- (NSDragOperation) outlineView:(NSOutlineView *)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)thisIndex
 {
 	BrowserNode *node = [item observedObject];
 	
 	return ([node isKindOfClass:[PlaylistNode class]] ? NSDragOperationCopy : NSDragOperationNone);
 }
 
-- (BOOL) outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
+- (BOOL) outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)thisIndex
 {
 	BrowserNode		*node		= [item observedObject];
 	NSArray			*objectIDs	= [[info draggingPasteboard] propertyListForType:AudioStreamPboardType];
