@@ -97,14 +97,14 @@ NSString * const PlayQueueTableMovedRowsPboardType	= @"org.sbooth.Play.AudioLibr
 		NSData			*indexData		= [[info draggingPasteboard] dataForType:PlayQueueTableMovedRowsPboardType];
 		NSIndexSet		*rowIndexes		= [NSKeyedUnarchiver unarchiveObjectWithData:indexData];
 		NSUInteger		playbackIndex	= NSNotFound;
-		NSInteger				rowsAbove;
+		NSInteger		rowsAbove;
 		NSRange			range;
 		
 		// If the currently playing stream is being dragged, determine what its new index will be
 		// First count how many rows with indexes less than the currently playing stream's index are being dragged
 		if([rowIndexes containsIndex:[[AudioLibrary library] playbackIndex]]) {
 			NSUInteger count		= 0;
-			NSUInteger thisIndex		= [rowIndexes lastIndex];
+			NSUInteger thisIndex	= [rowIndexes lastIndex];
 			
 			while(NSNotFound != thisIndex) {
 				if(thisIndex < [[AudioLibrary library] playbackIndex]) {
@@ -140,7 +140,7 @@ NSString * const PlayQueueTableMovedRowsPboardType	= @"org.sbooth.Play.AudioLibr
 	if([bestType isEqualToString:AudioStreamPboardType]) {
 		AudioStream		*stream			= nil;
 			
-		// We insert the objects in reverse order, because we would otherwise reverse the order of the tracks as we keep inserting to the same absolute row number. 
+		// We insert the objects in reverse order, because we would otherwise change the order of the tracks added to the playlist as we keep inserting at the same absolute row number. 
 		for(NSNumber *objectID in [[[info draggingPasteboard] propertyListForType:AudioStreamPboardType] reverseObjectEnumerator]) {
 			stream = [[[CollectionManager manager] streamManager] streamForID:objectID];
 			[self insertObject:stream atArrangedObjectIndex:row];
