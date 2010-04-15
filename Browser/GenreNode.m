@@ -47,28 +47,28 @@
 
 #pragma mark KVC Mutator Overrides
 
-- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)index
+- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)thisIndex
 {
 	NSAssert([self canInsertStream], @"Attempt to insert a stream in an immutable GenreNode");
 	
 	// Only add streams that match our album
 	if([[stream valueForKey:MetadataGenreKey] isEqualToString:[self name]]) {
-		[[self streamsArray] insertObject:stream atIndex:index];
+		[[self streamsArray] insertObject:stream atIndex:thisIndex];
 	}
 }
 
-- (void) removeObjectFromStreamsAtIndex:(NSUInteger)index
+- (void) removeObjectFromStreamsAtIndex:(NSUInteger)thisIndex
 {
 	NSAssert([self canRemoveStream], @"Attempt to remove a stream from an immutable GenreNode");	
 	
-	AudioStream *stream = [[self streamsArray] objectAtIndex:index];
+	AudioStream *stream = [[self streamsArray] objectAtIndex:thisIndex];
 	
 	if([stream isPlaying]) {
 		[[AudioLibrary library] stop:self];
 	}
 	
 	[stream delete];	
-	[[self streamsArray] removeObjectAtIndex:index];
+	[[self streamsArray] removeObjectAtIndex:thisIndex];
 }
 
 @end

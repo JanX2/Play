@@ -363,9 +363,9 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 				
 			} while(bounds.size.width > rect.size.width || bounds.size.height > rect.size.height);
 			
-			NSRect drawRect = NSInsetRect(rect, (rect.size.width - bounds.size.width) / 2, (rect.size.height - bounds.size.height) / 2);
+			NSRect thisDrawRect = NSInsetRect(rect, (rect.size.width - bounds.size.width) / 2, (rect.size.height - bounds.size.height) / 2);
 			
-			[empty drawWithRect:drawRect options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes];
+			[empty drawWithRect:thisDrawRect options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes];
 		}
 	}
 }

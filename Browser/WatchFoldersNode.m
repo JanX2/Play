@@ -100,11 +100,11 @@
 
 #pragma mark KVC Mutator Overrides
 
-- (void) removeObjectFromChildrenAtIndex:(NSUInteger)index
+- (void) removeObjectFromChildrenAtIndex:(NSUInteger)thisIndex
 {
-	WatchFolderNode *node = [[self childAtIndex:index] retain];
+	WatchFolderNode *node = [[self childAtIndex:thisIndex] retain];
 	
-	[super removeObjectFromChildrenAtIndex:index];
+	[super removeObjectFromChildrenAtIndex:thisIndex];
 	[[node watchFolder] delete];
 	[node release];
 }

@@ -109,20 +109,20 @@
 
 #pragma mark KVC Mutator Overrides
 
-- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)index
+- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)thisIndex
 {}
 
-- (void) removeObjectFromStreamsAtIndex:(NSUInteger)index
+- (void) removeObjectFromStreamsAtIndex:(NSUInteger)thisIndex
 {
 	NSAssert([self canRemoveStream], @"Attempt to remove a stream from an immutable MostPopularNode");	
-	AudioStream *stream = [[self streamsArray] objectAtIndex:index];
+	AudioStream *stream = [[self streamsArray] objectAtIndex:thisIndex];
 	
 	if([stream isPlaying]) {
 		[[AudioLibrary library] stop:self];
 	}
 	
 	[stream delete];
-	[[self streamsArray] removeObjectAtIndex:index];
+	[[self streamsArray] removeObjectAtIndex:thisIndex];
 }
 
 @end

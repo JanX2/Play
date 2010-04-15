@@ -163,7 +163,7 @@ extern NSString * const		PlayQueueKey;
 - (IBAction)	playNextStream:(id)sender;
 - (IBAction)	playPreviousStream:(id)sender;
 
-- (void)		playStreamAtIndex:(NSUInteger)index;
+- (void)		playStreamAtIndex:(NSUInteger)thisIndex;
 
 - (BOOL)		isPlaying;
 
@@ -231,17 +231,17 @@ extern NSString * const		PlayQueueKey;
 - (void)			addTracksToPlayQueueByGenre:(NSString *)genre;
 
 - (NSUInteger)		countOfPlayQueue;
-- (AudioStream *)	objectInPlayQueueAtIndex:(NSUInteger)index;
+- (AudioStream *)	objectInPlayQueueAtIndex:(NSUInteger)thisIndex;
 - (void)			getPlayQueue:(id *)buffer range:(NSRange)aRange;
 
-- (void)			insertObject:(AudioStream *)stream inPlayQueueAtIndex:(NSUInteger)index;
-- (void)			removeObjectFromPlayQueueAtIndex:(NSUInteger)index;
+- (void)			insertObject:(AudioStream *)stream inPlayQueueAtIndex:(NSUInteger)thisIndex;
+- (void)			removeObjectFromPlayQueueAtIndex:(NSUInteger)thisIndex;
 
 - (void)			addStreamToPlayQueue:(AudioStream *)stream;
 - (void)			addStreamsToPlayQueue:(NSArray *)streams;
 - (void)			sortStreamsAndAddToPlayQueue:(NSArray *)streams;
 
-- (void)			insertStreams:(NSArray *)streams inPlayQueueAtIndex:(NSUInteger)index;
+- (void)			insertStreams:(NSArray *)streams inPlayQueueAtIndex:(NSUInteger)thisIndex;
 - (void)			insertStreams:(NSArray *)streams inPlayQueueAtIndexes:(NSIndexSet *)indexes;
 
 - (IBAction)		clearPlayQueue:(id)sender;

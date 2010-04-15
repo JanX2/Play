@@ -120,7 +120,7 @@ setVorbisComment(FLAC__StreamMetadata		*block,
 		if(NO == result) {
 			if(nil != error) {
 				NSMutableDictionary		*errorDictionary	= [NSMutableDictionary dictionary];
-				NSString				*path				= [_url path];
+				//NSString				*path				= [_url path];
 				
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The file \"%@\" is not a valid FLAC file.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"Unable to write metadata", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
@@ -218,7 +218,7 @@ setVorbisComment(FLAC__StreamMetadata		*block,
 	if(NO == result) {
 		if(nil != error) {
 			NSMutableDictionary		*errorDictionary	= [NSMutableDictionary dictionary];
-			NSString				*path				= [_url path];
+			//NSString				*path				= [_url path];
 			
 			[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The file \"%@\" is not a valid FLAC file.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 			[errorDictionary setObject:NSLocalizedStringFromTable(@"Unable to write metadata", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];

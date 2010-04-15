@@ -225,7 +225,6 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 	[self clearMetadata:sender];
 
 	NSDictionary	*metadata		= [metadataReader metadata];
-	NSString		*thisKey;
 	id				value;
 	
 	for(NSString *thisKey in [metadata allKeys]) {

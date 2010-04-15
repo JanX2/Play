@@ -150,9 +150,9 @@
 	return [_children lastObject];
 }
 
-- (BrowserNode *) childAtIndex:(NSUInteger)index
+- (BrowserNode *) childAtIndex:(NSUInteger)thisIndex
 {
-	return [_children objectAtIndex:index];
+	return [_children objectAtIndex:thisIndex];
 }
 
 - (NSUInteger) indexOfChild:(BrowserNode *)child
@@ -225,9 +225,9 @@
 	[self insertObject:child inChildrenAtIndex:[_children count]];
 }
 
-- (void) insertChild:(BrowserNode *)child atIndex:(NSUInteger)index
+- (void) insertChild:(BrowserNode *)child atIndex:(NSUInteger)thisIndex
 {
-	[self insertObject:child inChildrenAtIndex:index];
+	[self insertObject:child inChildrenAtIndex:thisIndex];
 }
 
 - (void) removeChild:(BrowserNode *)child
@@ -235,9 +235,9 @@
 	[self removeObjectFromChildrenAtIndex:[self indexOfChild:child]];
 }
 
-- (void) removeChildAtIndex:(NSUInteger)index
+- (void) removeChildAtIndex:(NSUInteger)thisIndex
 {
-	[self removeObjectFromChildrenAtIndex:index];
+	[self removeObjectFromChildrenAtIndex:thisIndex];
 }
 
 - (void) removeChildrenAtIndexes:(NSIndexSet *)indexes
@@ -279,9 +279,9 @@
 	return [_children count];
 }
 
-- (BrowserNode *) objectInChildrenAtIndex:(NSUInteger)index
+- (BrowserNode *) objectInChildrenAtIndex:(NSUInteger)thisIndex
 {
-	return [_children objectAtIndex:index];
+	return [_children objectAtIndex:thisIndex];
 }
 
 - (void) getChildren:(id *)buffer range:(NSRange)range
@@ -289,18 +289,18 @@
 	return [_children getObjects:buffer range:range];
 }
 
-- (void) insertObject:(BrowserNode *)object inChildrenAtIndex:(NSUInteger)index
+- (void) insertObject:(BrowserNode *)object inChildrenAtIndex:(NSUInteger)thisIndex
 {
 	NSParameterAssert(nil != object);
 
 	[object setParent:self];
-	[_children insertObject:object atIndex:index];
+	[_children insertObject:object atIndex:thisIndex];
 }
 
-- (void) removeObjectFromChildrenAtIndex:(NSUInteger)index
+- (void) removeObjectFromChildrenAtIndex:(NSUInteger)thisIndex
 {
-	[[_children objectAtIndex:index] setParent:nil];
-	[_children removeObjectAtIndex:index];
+	[[_children objectAtIndex:thisIndex] setParent:nil];
+	[_children removeObjectAtIndex:thisIndex];
 }
 
 - (NSString *) description

@@ -50,12 +50,12 @@
 // ========================================
 // KVC Accessors
 - (NSUInteger)		countOfStreams;
-- (AudioStream *)	objectInStreamsAtIndex:(NSUInteger)index;
+- (AudioStream *)	objectInStreamsAtIndex:(NSUInteger)thisIndex;
 - (void)			getStreams:(id *)buffer range:(NSRange)aRange;
 
 // ========================================
 // KVC Mutators
-- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)index;
-- (void) removeObjectFromStreamsAtIndex:(NSUInteger)index;
+- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)thisIndex;
+- (void) removeObjectFromStreamsAtIndex:(NSUInteger)thisIndex;
 
 @end

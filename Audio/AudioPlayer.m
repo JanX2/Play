@@ -275,10 +275,10 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	_regionStartingFrame = 0;		
 
-	OSStatus err = [self resetAUGraph];
-	if(noErr != err)
+	OSStatus resetAUGraphErr = [self resetAUGraph];
+	if(noErr != resetAUGraphErr)
 #warning 64BIT: Check formatting arguments
-		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: %i", err);
+		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: %i", resetAUGraphErr);
 	
 	id <AudioDecoderMethods> decoder = [stream decoder:error];
 	if(nil == decoder)
@@ -292,8 +292,8 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 	// If the sample rate or number of channels changed, change the AU formats
 	if(newFormat.mSampleRate != format.mSampleRate || newFormat.mChannelsPerFrame != format.mChannelsPerFrame) {
-		OSStatus err = [self setAUGraphFormat:newFormat];
-		if(noErr == err) {
+		OSStatus setAUGraphFormatErr = [self setAUGraphFormat:newFormat];
+		if(noErr == setAUGraphFormatErr) {
 			[self setFormat:newFormat];
 			
 			if([[NSUserDefaults standardUserDefaults] boolForKey:@"automaticallySetOutputDeviceSampleRate"])
@@ -320,8 +320,8 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 	// Update the AUGraph
 	if(NO == channelLayoutsAreEqual(&newChannelLayout, &channelLayout)) {
-		OSStatus err = [self setAUGraphChannelLayout:newChannelLayout];
-		if(noErr == err)
+		OSStatus setAUGraphChannelLayoutErr = [self setAUGraphChannelLayout:newChannelLayout];
+		if(noErr == setAUGraphChannelLayoutErr)
 			[self setChannelLayout:newChannelLayout];
 		else {
 			if(nil != error) {
@@ -1325,17 +1325,18 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 {
 	// Save the effects
 	UInt32 connectionCount;
-	OSStatus thisErr = AUGraphGetNumberOfConnections([self auGraph], &connectionCount);
-	if(noErr != thisErr)
+	OSStatus connectionCountErr = AUGraphGetNumberOfConnections([self auGraph], &connectionCount);
+	if(noErr != connectionCountErr)
 		return nil;
 	
 	NSMutableArray *effects = [[NSMutableArray alloc] init];
 	
+	OSStatus err;
 	UInt32 i;
 	for(i = 0; i < connectionCount; ++i) {
 		AUNode node;
-		thisErr = AUGraphGetConnectionInfo([self auGraph], i, &node, NULL, NULL, NULL);
-		if(noErr != thisErr)
+		err = AUGraphGetConnectionInfo([self auGraph], i, &node, NULL, NULL, NULL);
+		if(noErr != err)
 			continue;
 		
 		// Skip the Generator and Peak Limiter nodes
@@ -1346,8 +1347,8 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		CFPropertyListRef		classData;
 		AudioUnit				au;
 		
-		thisErr = AUGraphGetNodeInfo([self auGraph], node, &desc, NULL, (void **)&classData, &au);
-		if(noErr != thisErr)
+		err = AUGraphGetNodeInfo([self auGraph], node, &desc, NULL, (void **)&classData, &au);
+		if(noErr != err)
 			continue;
 		
 		Handle componentNameHandle = NewHandle(sizeof(void *));
@@ -1361,8 +1362,8 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		
 		NSMutableDictionary *auDictionary = [NSMutableDictionary dictionary];
 		
-		OSErr thisErr = GetComponentInfo((Component)au, &desc, componentNameHandle, componentInformationHandle, componentIconHandle);
-		if(noErr == thisErr) {
+		err = GetComponentInfo((Component)au, &desc, componentNameHandle, componentInformationHandle, componentIconHandle);
+		if(noErr == err) {
 			[auDictionary setValue:[NSNumber numberWithUnsignedLong:desc.componentType] forKey:AUTypeKey];
 			[auDictionary setValue:[NSNumber numberWithUnsignedLong:desc.componentSubType] forKey:AUSubTypeKey];
 			[auDictionary setValue:[NSNumber numberWithUnsignedLong:desc.componentManufacturer] forKey:AUManufacturerKey];
@@ -1373,19 +1374,19 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			NSString *auInformation = (NSString *)CFStringCreateWithPascalString(kCFAllocatorDefault, (ConstStr255Param)(*componentInformationHandle), kCFStringEncodingUTF8);
 			[auDictionary setValue:[auInformation autorelease] forKey:AUInformationStringKey];
 
-			UInt32 index = [auNameAndManufacturer rangeOfString:@":" options:NSLiteralSearch].location;
-			if(NSNotFound != index) {
-				[auDictionary setValue:[auNameAndManufacturer substringToIndex:index] forKey:AUManufacturerStringKey];
+			UInt32 thisIndex = [auNameAndManufacturer rangeOfString:@":" options:NSLiteralSearch].location;
+			if(NSNotFound != thisIndex) {
+				[auDictionary setValue:[auNameAndManufacturer substringToIndex:thisIndex] forKey:AUManufacturerStringKey];
 				
 				// Skip colon
-				++index;
+				++thisIndex;
 				
 				// Skip whitespace
 				NSCharacterSet *whitespaceCharacters = [NSCharacterSet whitespaceCharacterSet];
-				while([whitespaceCharacters characterIsMember:[auNameAndManufacturer characterAtIndex:index]])
-					++index;
+				while([whitespaceCharacters characterIsMember:[auNameAndManufacturer characterAtIndex:thisIndex]])
+					++thisIndex;
 				
-				[auDictionary setValue:[auNameAndManufacturer substringFromIndex:index] forKey:AUNameStringKey];
+				[auDictionary setValue:[auNameAndManufacturer substringFromIndex:thisIndex] forKey:AUNameStringKey];
 			}
 			
 			NSImage *iconImage = nil;
@@ -1394,8 +1395,8 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			NSURL *auURL = nil;
 #warning 64BIT: Inspect use of sizeof
 			UInt32 dataSize = sizeof(auURL);
-			OSStatus thisErr = AudioUnitGetProperty(au, kAudioUnitProperty_IconLocation, kAudioUnitScope_Global, 0, &auURL, &dataSize);
-			if(noErr == thisErr && nil != auURL) {
+			OSStatus audioUnitGetPropertyErr = AudioUnitGetProperty(au, kAudioUnitProperty_IconLocation, kAudioUnitScope_Global, 0, &auURL, &dataSize);
+			if(noErr == audioUnitGetPropertyErr && nil != auURL) {
 				iconImage = [[NSImage alloc] initByReferencingURL:auURL];
 				[iconImage setSize:NSMakeSize(16, 16)];
 			}
@@ -1461,19 +1462,19 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			NSString *auInformation = (NSString *)CFStringCreateWithPascalString(kCFAllocatorDefault, (ConstStr255Param)(*componentInformationHandle), kCFStringEncodingUTF8);
 			[auDictionary setValue:[auInformation autorelease] forKey:AUInformationStringKey];
 			
-			UInt32 index = [auNameAndManufacturer rangeOfString:@":" options:NSLiteralSearch].location;
-			if(NSNotFound != index) {
-				[auDictionary setValue:[auNameAndManufacturer substringToIndex:index] forKey:AUManufacturerStringKey];
+			UInt32 colonIndex = [auNameAndManufacturer rangeOfString:@":" options:NSLiteralSearch].location;
+			if(NSNotFound != colonIndex) {
+				[auDictionary setValue:[auNameAndManufacturer substringToIndex:colonIndex] forKey:AUManufacturerStringKey];
 				
 				// Skip colon
-				++index;
+				++colonIndex;
 				
 				// Skip whitespace
 				NSCharacterSet *whitespaceCharacters = [NSCharacterSet whitespaceCharacterSet];
-				while([whitespaceCharacters characterIsMember:[auNameAndManufacturer characterAtIndex:index]])
-					++index;
+				while([whitespaceCharacters characterIsMember:[auNameAndManufacturer characterAtIndex:colonIndex]])
+					++colonIndex;
 				
-				[auDictionary setValue:[auNameAndManufacturer substringFromIndex:index] forKey:AUNameStringKey];
+				[auDictionary setValue:[auNameAndManufacturer substringFromIndex:colonIndex] forKey:AUNameStringKey];
 			}
 			
 			NSImage *iconImage = nil;
@@ -1482,7 +1483,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			NSURL *auURL = nil;
 #warning 64BIT: Inspect use of sizeof
 			UInt32 dataSize = sizeof(auURL);
-			OSStatus err = AudioUnitGetProperty((AudioUnit)effectAU, kAudioUnitProperty_IconLocation, kAudioUnitScope_Global, 0, &auURL, &dataSize);
+			err = AudioUnitGetProperty((AudioUnit)effectAU, kAudioUnitProperty_IconLocation, kAudioUnitScope_Global, 0, &auURL, &dataSize);
 			if(noErr == err && nil != auURL) {
 				iconImage = [[NSImage alloc] initByReferencingURL:auURL];
 				[iconImage setSize:NSMakeSize(16, 16)];

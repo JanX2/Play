@@ -81,9 +81,9 @@
 @end
 
 @interface PlaylistManager (PlaylistMethods)
-- (void) playlist:(Playlist *)playlist willInsertStream:(AudioStream *)stream atIndex:(NSUInteger)index;
-- (void) playlist:(Playlist *)playlist didInsertStream:(AudioStream *)stream atIndex:(NSUInteger)index;
+- (void) playlist:(Playlist *)playlist willInsertStream:(AudioStream *)stream atIndex:(NSUInteger)thisIndex;
+- (void) playlist:(Playlist *)playlist didInsertStream:(AudioStream *)stream atIndex:(NSUInteger)thisIndex;
 
-- (void) playlist:(Playlist *)playlist willRemoveStreamAtIndex:(NSUInteger)index;
-- (void) playlist:(Playlist *)playlist didRemoveStreamAtIndex:(NSUInteger)index;
+- (void) playlist:(Playlist *)playlist willRemoveStreamAtIndex:(NSUInteger)thisIndex;
+- (void) playlist:(Playlist *)playlist didRemoveStreamAtIndex:(NSUInteger)thisIndex;
 @end

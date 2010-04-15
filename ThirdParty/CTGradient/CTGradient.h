@@ -53,11 +53,11 @@ typedef enum  _CTBlendingMode
 - (CTGradient *)gradientWithAlphaComponent:(float)alpha;
 
 - (CTGradient *)addColorStop:(NSColor *)color atPosition:(float)position;	//positions given relative to [0,1]
-- (CTGradient *)removeColorStopAtIndex:(unsigned)index;
+- (CTGradient *)removeColorStopAtIndex:(unsigned)thisIndex;
 - (CTGradient *)removeColorStopAtPosition:(float)position;
 
 - (CTGradientBlendingMode)blendingMode;
-- (NSColor *)colorStopAtIndex:(unsigned)index;
+- (NSColor *)colorStopAtIndex:(unsigned)thisIndex;
 - (NSColor *)colorAtPosition:(float)position;
 
 

@@ -14,9 +14,9 @@
 - (void)setBlendingMode:(CTGradientBlendingMode)mode;
 - (void)addElement:(CTGradientElement*)newElement;
 
-- (CTGradientElement *)elementAtIndex:(unsigned)index;
+- (CTGradientElement *)elementAtIndex:(unsigned)thisIndex;
 
-- (CTGradientElement)removeElementAtIndex:(unsigned)index;
+- (CTGradientElement)removeElementAtIndex:(unsigned)thisIndex;
 - (CTGradientElement)removeElementAtPosition:(float)position;
 @end
 
@@ -556,13 +556,13 @@ static void resolveHSV(float *color1, float *color2);
   return [newGradient autorelease];
   }
 
-- (CTGradient *)removeColorStopAtIndex:(unsigned)index
+- (CTGradient *)removeColorStopAtIndex:(unsigned)thisIndex
   {
   CTGradient *newGradient = [self copy];
-  CTGradientElement removedElement = [newGradient removeElementAtIndex:index];
+  CTGradientElement removedElement = [newGradient removeElementAtIndex:thisIndex];
   
   if(isnan(removedElement.position))
-	[NSException raise:NSRangeException format:@"-[%@ removeColorStopAtIndex:]: index (%i) beyond bounds", [self class], index];
+	[NSException raise:NSRangeException format:@"-[%@ removeColorStopAtIndex:]: index (%i) beyond bounds", [self class], thisIndex];
   
   return [newGradient autorelease];
   }
@@ -577,9 +577,9 @@ static void resolveHSV(float *color1, float *color2);
   }
 
 //Returns color at <position> in gradient
-- (NSColor *)colorStopAtIndex:(unsigned)index
+- (NSColor *)colorStopAtIndex:(unsigned)thisIndex
   {
-  CTGradientElement *element = [self elementAtIndex:index];
+  CTGradientElement *element = [self elementAtIndex:thisIndex];
   
   if(element != nil)
 	return [NSColor colorWithCalibratedRed:element->red 
@@ -587,7 +587,7 @@ static void resolveHSV(float *color1, float *color2);
 									  blue:element->blue
 									 alpha:element->alpha];
   
-  [NSException raise:NSRangeException format:@"-[%@ removeColorStopAtIndex:]: index (%i) beyond bounds", [self class], index];
+  [NSException raise:NSRangeException format:@"-[%@ removeColorStopAtIndex:]: index (%i) beyond bounds", [self class], thisIndex];
   
   return nil;
   }
@@ -832,13 +832,13 @@ static void resolveHSV(float *color1, float *color2);
 	}
   }
 
-- (CTGradientElement)removeElementAtIndex:(unsigned)index
+- (CTGradientElement)removeElementAtIndex:(unsigned)thisIndex
   {
   CTGradientElement removedElement;
   
   if(elementList != nil)
 	{
-	if(index == 0)
+	if(thisIndex == 0)
 		{
 		CTGradientElement *tmpNext = elementList;
 		elementList = elementList->nextElement;
@@ -853,7 +853,7 @@ static void resolveHSV(float *color1, float *color2);
 	CTGradientElement *currentElement = elementList;
 	while(currentElement->nextElement != nil)
 		{
-		if(count == index)
+		if(count == thisIndex)
 			{
 			CTGradientElement *tmpNext  = currentElement->nextElement;
 			currentElement->nextElement = currentElement->nextElement->nextElement;
@@ -927,14 +927,14 @@ static void resolveHSV(float *color1, float *color2);
   }
 
 
-- (CTGradientElement *)elementAtIndex:(unsigned)index;			
+- (CTGradientElement *)elementAtIndex:(unsigned)thisIndex;			
   {
   unsigned count = 0;
   CTGradientElement *currentElement = elementList;
   
   while(currentElement != nil)
 	{
-	if(count == index)
+	if(count == thisIndex)
 		return currentElement;
 	
 	count++;

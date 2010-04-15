@@ -128,8 +128,8 @@
 			stream.error = MAD_ERROR_NONE;
 		}
 		
-		int result = mad_frame_decode(&frame, &stream);
-		if(-1 == result) {
+		int madFrameDecodeResult = mad_frame_decode(&frame, &stream);
+		if(-1 == madFrameDecodeResult) {
 			if(MAD_RECOVERABLE(stream.error)) {
 				// Prevent ID3 tags from reporting recoverable frame errors
 				const uint8_t	*buffer			= stream.this_frame;
@@ -317,8 +317,8 @@
 		}
 		else {
 			struct stat stat;
-			int result = fstat(fileno(file), &stat);
-			if(-1 == result) {
+			int fstatResult = fstat(fileno(file), &stat);
+			if(-1 == fstatResult) {
 				fclose(file);
 				
 				if(nil != error) {

@@ -134,15 +134,15 @@
 #pragma mark KVC Accessor Overrides
 
 - (NSUInteger)		countOfStreams											{ return [[self smartPlaylist] countOfStreams]; }
-- (AudioStream *)	objectInStreamsAtIndex:(NSUInteger)index					{ return [[self smartPlaylist] objectInStreamsAtIndex:index]; }
+- (AudioStream *)	objectInStreamsAtIndex:(NSUInteger)thisIndex			{ return [[self smartPlaylist] objectInStreamsAtIndex:thisIndex]; }
 - (void)			getStreams:(id *)buffer range:(NSRange)aRange			{ return [[self smartPlaylist] getStreams:buffer range:aRange]; }
 
 #pragma mark KVC Mutators Overrides
 
-- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)index
+- (void) insertObject:(AudioStream *)stream inStreamsAtIndex:(NSUInteger)thisIndex
 {}
 
-- (void) removeObjectFromStreamsAtIndex:(NSUInteger)index
+- (void) removeObjectFromStreamsAtIndex:(NSUInteger)thisIndex
 {}
 
 @end

@@ -100,15 +100,15 @@
 
 #pragma mark KVC Mutator Overrides
 
-- (void) removeObjectFromChildrenAtIndex:(NSUInteger)index
+- (void) removeObjectFromChildrenAtIndex:(NSUInteger)thisIndex
 {
-	PlaylistNode *node = [[self childAtIndex:index] retain];
+	PlaylistNode *node = [[self childAtIndex:thisIndex] retain];
 	
 /*	if([node isPlaying]) {
 		[[AudioLibrary library] stop:self];
 	}*/
 	
-	[super removeObjectFromChildrenAtIndex:index];
+	[super removeObjectFromChildrenAtIndex:thisIndex];
 	[[node playlist] delete];
 	[node release];
 }
