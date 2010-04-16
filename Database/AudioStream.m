@@ -130,6 +130,13 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 	return self;
 }
 
+- (void) dealloc
+{
+	[self removeObserver:self forKeyPath:StreamURLKey];	
+	
+	[super dealloc];
+}
+
 - (IBAction) resetPlayCount:(id)sender
 {
 	[self setValue:nil forKey:StatisticsPlayCountKey];
