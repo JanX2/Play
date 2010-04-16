@@ -94,6 +94,7 @@ extern NSString * const		PropertiesBitrateKey;
 - (IBAction) saveMetadata:(id)sender;
 
 - (NSURL *) currentStreamURL;
+- (void) setCurrentStreamURL:(NSURL *)newURL;
 
 - (NSString *) trackString;
 - (NSString *) discString;

@@ -276,7 +276,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 	OSStatus resetAUGraphErr = [self resetAUGraph];
 	if(noErr != resetAUGraphErr)
-		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: " PRId32 , resetAUGraphErr);
+		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: " PRId32 "", resetAUGraphErr);
 	
 	id <AudioDecoderMethods> decoder = [stream decoder:error];
 	if(nil == decoder)

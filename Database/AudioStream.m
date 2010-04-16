@@ -75,6 +75,11 @@ NSString * const	PropertiesSampleRateKey					= @"sampleRate";
 NSString * const	PropertiesTotalFramesKey				= @"totalFrames";
 NSString * const	PropertiesBitrateKey					= @"bitrate";
 
+
+@interface AudioStream (private)
+- (void) updateBookmark;
+@end
+
 @implementation AudioStream
 
 + (void) initialize
@@ -109,12 +114,15 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 	[stream initValue:[NSDate date] forKey:StatisticsDateAddedKey];
 	[stream initValuesForKeysWithDictionary:keyedValues];
 	
+	[stream updateBookmark];
+	
 	if(NO == [[[CollectionManager manager] streamManager] insertStream:stream])
 		[stream release], stream = nil;
 	
 	return [stream autorelease];
 }
 
+/*
 -(id) init
 {
 	// CHANGEME: Testing only
@@ -123,8 +131,7 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 		// CHANGEME: if (SDK 10.6)
 		[self addObserver:self
 			   forKeyPath:StreamURLKey
-				  options:(NSKeyValueObservingOptionNew/* |
-						   NSKeyValueObservingOptionOld*/)
+				  options:0 // (NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld)
 				  context:NULL];
 	}
 	return self;
@@ -136,6 +143,7 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 	
 	[super dealloc];
 }
+*/
 
 - (IBAction) resetPlayCount:(id)sender
 {
@@ -222,6 +230,9 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 		value = [properties valueForKey:key];
 		[self setValue:value forKey:key];
 	}
+	
+	[self updateBookmark];
+
 }
 
 - (IBAction) rescanMetadata:(id)sender
@@ -258,30 +269,82 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 
 - (NSURL *) currentStreamURL
 {
-	return [self valueForKey:StreamURLKey];
+    NSURL* originalURL;
+
+	originalURL = [self valueForKey:StreamURLKey];
+	
+	if ([NSURL respondsToSelector:@selector(URLByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:)]) {
+		if ((nil == originalURL) || ([originalURL isFileURL] && ([originalURL checkResourceIsReachableAndReturnError:NULL] == NO))) {
+			NSData *bookmarkData = [self valueForKey:StreamURLBookmarkKey];
+			if (!bookmarkData || ![bookmarkData isKindOfClass:[NSData class]]) {
+				return originalURL;
+			} 
+			else {
+				NSURL* resolvedFileURL;
+				
+				// test if the file still exists
+				resolvedFileURL = [NSURL URLByResolvingBookmarkData:bookmarkData
+															options:(NSURLBookmarkResolutionWithoutUI | NSURLBookmarkResolutionWithoutMounting)
+													  relativeToURL:nil bookmarkDataIsStale:NULL error:NULL];
+				if (resolvedFileURL) {
+					[self setValue:resolvedFileURL forKey:StreamURLKey];
+					[self updateBookmark];
+					return resolvedFileURL;
+				}
+				else {
+					return originalURL;
+				}
+				
+			}
+			
+		}
+	
+	}
+	
+	return originalURL;
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath
-					  ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
+- (void) setCurrentStreamURL:(NSURL *)newURL
+{
+	[self setValue:newURL forKey:StreamURLKey];
+	[self updateBookmark];
+}
+
+- (void) updateBookmark
+{
+	NSURL * newURL = [self valueForKey:StreamURLKey];
+	NSParameterAssert(nil != newURL);
+	
+	if ([newURL isFileURL] && [newURL respondsToSelector:@selector(bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:)]) {
+		NSData* bookmarkData = [newURL bookmarkDataWithOptions:NSURLBookmarkCreationMinimalBookmark includingResourceValuesForKeys:nil relativeToURL:nil error:NULL];
+		if (bookmarkData) {
+			NSLog( @">>>> Updating bookmark data for: %@", [newURL absoluteURL] ); 
+			[self setValue:bookmarkData forKey:StreamURLBookmarkKey];
+		}
+	}
+}
+
+/*
+- (void) observeValueForKeyPath:(NSString *)keyPath
+					   ofObject:(id)object
+						 change:(NSDictionary *)change
+						context:(void *)context
 {
     if ([keyPath isEqual:StreamURLKey]) {
-		NSURL * newURL = [change objectForKey:NSKeyValueChangeNewKey];
-		NSParameterAssert(nil != newURL);
-		//[newURL isFileURL];
+		//NSURL * newURL = [change objectForKey:NSKeyValueChangeNewKey];
+		[self updateBookmark];
 		//NSLog( @">>>> Detected Change in keyPath: %@", keyPath ); 
     }
     
-	/*
 	// be sure to call the super implementation
     // if the superclass implements it
-    [super observeValueForKeyPath:keyPath
-						 ofObject:object
-						   change:change
-						  context:context];
-	*/
+    //[super observeValueForKeyPath:keyPath
+	//					 ofObject:object
+	//					   change:change
+	//					  context:context];
+	
 }
+*/
 
 - (IBAction) saveMetadata:(id)sender
 {
