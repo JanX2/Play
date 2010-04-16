@@ -115,7 +115,7 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 	return [stream autorelease];
 }
 
--(id)init
+-(id) init
 {
 	// CHANGEME: Testing only
 	if ((self = [super init]) != nil)
