@@ -128,7 +128,7 @@
 	NSURL			*streamURL		= nil;
 	
 	for(AudioStream *stream in [self streams]) {
-		streamURL = [stream valueForKey:StreamURLKey];
+		streamURL = [stream currentStreamURL];
 		if([[streamURL path] hasPrefix:[url path]])
 			[streams addObject:stream];
 	}
@@ -145,7 +145,7 @@
 		return stream;
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"select_stream_by_id"];
-	int			result			= SQLITE_OK;
+	int				result			= SQLITE_OK;
 				
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));
@@ -176,12 +176,12 @@
 
 - (AudioStream *) streamForURL:(NSURL *)url
 {
-	return [self streamForURL:url startingFrame:[NSNumber numberWithInteger:-1] frameCount:[NSNumber numberWithInteger:-1]];
+	return [self streamForURL:url startingFrame:[NSNumber numberWithInt:-1] frameCount:[NSNumber numberWithInt:-1]];
 }
 
 - (AudioStream *) streamForURL:(NSURL *)url startingFrame:(NSNumber *)startingFrame
 {
-	return [self streamForURL:url startingFrame:startingFrame frameCount:[NSNumber numberWithInteger:-1]];
+	return [self streamForURL:url startingFrame:startingFrame frameCount:[NSNumber numberWithInt:-1]];
 }
 
 - (AudioStream *) streamForURL:(NSURL *)url startingFrame:(NSNumber *)startingFrame frameCount:(NSNumber *)frameCount
@@ -207,11 +207,12 @@
 	result = sqlite3_bind_int64(statement, sqlite3_bind_parameter_index(statement, ":starting_frame"), [startingFrame longLongValue]);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
-	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":frame_count"), [frameCount unsignedIntegerValue]);
+	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":frame_count"), [frameCount unsignedIntValue]);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
-	while(SQLITE_ROW == (result = sqlite3_step(statement)))
+	while(SQLITE_ROW == (result = sqlite3_step(statement))) {
 		stream = [self loadStream:statement];
+	}
 	
 	NSAssert1(SQLITE_DONE == result, @"Error while fetching streams (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 	
@@ -517,8 +518,7 @@
 	clock_t start = clock();
 #endif
 	
-#warning 64BIT: This is probably not what you want
-	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":playlist_id"), [[playlist valueForKey:ObjectIDKey] integerValue]);
+	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":playlist_id"), [[playlist valueForKey:ObjectIDKey] unsignedIntValue]);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 	
 	while(SQLITE_ROW == (result = sqlite3_step(statement))) {
@@ -569,7 +569,7 @@
 	NSURL			*streamURL		= nil;
 
 	for(AudioStream *stream in [self streams]) {
-		streamURL = [stream valueForKey:StreamURLKey];
+		streamURL = [stream currentStreamURL];
 		if([[streamURL path] hasPrefix:[folderURL path]])
 			[streams addObject:stream];
 	}
@@ -625,8 +625,27 @@
 {
 	sqlite3_stmt	*statement			= NULL;
 	
-	for(NSNumber *wrappedPtr in _sql) {
-		statement = (sqlite3_stmt *)[wrappedPtr unsignedLongValue];
+	// The following exposes some kind of memory corruption error. The issue is completely reproducable.
+	// 1. Create any playlist containing one or more streams with an older version of Play
+	// 2. Run a copy compiled from this source
+	// 3. You will get a dialog informing you that the database needs to be updated
+	// 4. The update completes successfully, but Play will immediatly crash afterwards and you get something like this:
+	/*
+	 2010-04-16 08:06:09.296 Play[26868:a0f] select_stream_by_url
+	 2010-04-16 08:06:09.300 Play[26868:a0f] -[NSCFString unsignedLongValue]: unrecognized selector sent to instance 0x10f8a0
+	 2010-04-16 08:06:09.304 Play[26868:a0f] An uncaught exception was raised
+	 2010-04-16 08:06:09.308 Play[26868:a0f] -[NSCFString unsignedLongValue]: unrecognized selector sent to instance 0x10f8a0
+	 2010-04-16 08:06:09.321 Play[26868:a0f] *** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[NSCFString unsignedLongValue]: unrecognized selector sent to instance 0x10f8a0'
+	 */
+	// In the end the crash occurs in [AudioLibrary library] due to an exception that is raised in the @synchronized()
+	// I have tried my best to track this down, but I have no idea how either the pointer to @"select_stream_by_url" gets into the _sql dictionary or the pointer gets corrupted/truncated to always point there.
+	// This happens with both the GCC and Clang Debug and Release build configs.
+	
+	for(NSNumber *wrappedPtr in _sql) { // This value gets tainted somehow: sometimes wrappedPtr will be an NSString * to @"select_stream_by_url"!
+		if ([wrappedPtr isKindOfClass:[NSString class]]) {
+			NSLog(@"%@", wrappedPtr); // This produces the first line in the log snipped above
+		}
+		statement = (sqlite3_stmt *)[wrappedPtr unsignedLongValue]; 
 		if(SQLITE_OK != sqlite3_finalize(statement)) {
 			if(nil != error) {
 				NSArray *keys = [_sql allKeysForObject:wrappedPtr];
@@ -707,7 +726,7 @@
 	NSParameterAssert(NULL != statement);
 	
 	AudioStream		*stream			= nil;
-	NSUInteger		objectID;
+	unsigned		objectID;
 	
 	// The ID should never be NULL
 	NSAssert(SQLITE_NULL != sqlite3_column_type(statement, 0), @"No ID found for stream");
@@ -720,59 +739,60 @@
 	stream = [[AudioStream alloc] init];
 	
 	// Stream ID and location
-	[stream initValue:[NSNumber numberWithUnsignedInteger:objectID] forKey:ObjectIDKey];
-//	getColumnValue(statement, 0, stream, ObjectIDKey, eObjectTypeUnsignedInt);
+	[stream initValue:[NSNumber numberWithUnsignedInt:objectID] forKey:ObjectIDKey]; 
+//	getColumnValue(statement, 0, stream, ObjectIDKey, eObjectTypeUnsignedInt); // We could use the __COUNTER__ gcc macro here...
 	getColumnValue(statement, 1, stream, StreamURLKey, eObjectTypeURL);
-	getColumnValue(statement, 2, stream, StreamStartingFrameKey, eObjectTypeLongLong);
-	getColumnValue(statement, 3, stream, StreamFrameCountKey, eObjectTypeUnsignedInt);
-
+	getColumnValue(statement, 2, stream, StreamURLBookmarkKey, eObjectTypeBlob);
+	getColumnValue(statement, 3, stream, StreamStartingFrameKey, eObjectTypeLongLong);
+	getColumnValue(statement, 4, stream, StreamFrameCountKey, eObjectTypeUnsignedInt);
+	
 	// Statistics
-	getColumnValue(statement, 4, stream, StatisticsDateAddedKey, eObjectTypeDate);
-	getColumnValue(statement, 5, stream, StatisticsFirstPlayedDateKey, eObjectTypeDate);
-	getColumnValue(statement, 6, stream, StatisticsLastPlayedDateKey, eObjectTypeDate);
-	getColumnValue(statement, 7, stream, StatisticsLastSkippedDateKey, eObjectTypeDate);
-	getColumnValue(statement, 8, stream, StatisticsPlayCountKey, eObjectTypeUnsignedInt);
-	getColumnValue(statement, 9, stream, StatisticsSkipCountKey, eObjectTypeUnsignedInt);
-	getColumnValue(statement, 10, stream, StatisticsRatingKey, eObjectTypeUnsignedInt);
-
+	getColumnValue(statement, 5, stream, StatisticsDateAddedKey, eObjectTypeDate);
+	getColumnValue(statement, 6, stream, StatisticsFirstPlayedDateKey, eObjectTypeDate);
+	getColumnValue(statement, 7, stream, StatisticsLastPlayedDateKey, eObjectTypeDate);
+	getColumnValue(statement, 8, stream, StatisticsLastSkippedDateKey, eObjectTypeDate);
+	getColumnValue(statement, 9, stream, StatisticsPlayCountKey, eObjectTypeUnsignedInt);
+	getColumnValue(statement, 10, stream, StatisticsSkipCountKey, eObjectTypeUnsignedInt);
+	getColumnValue(statement, 11, stream, StatisticsRatingKey, eObjectTypeUnsignedInt);
+	
 	// Metadata
-	getColumnValue(statement, 11, stream, MetadataTitleKey, eObjectTypeString);
-	getColumnValue(statement, 12, stream, MetadataAlbumTitleKey, eObjectTypeString);
-	getColumnValue(statement, 13, stream, MetadataArtistKey, eObjectTypeString);
-	getColumnValue(statement, 14, stream, MetadataAlbumArtistKey, eObjectTypeString);
-	getColumnValue(statement, 15, stream, MetadataGenreKey, eObjectTypeString);
-	getColumnValue(statement, 16, stream, MetadataComposerKey, eObjectTypeString);
-	getColumnValue(statement, 17, stream, MetadataDateKey, eObjectTypeString);	
-	getColumnValue(statement, 18, stream, MetadataCompilationKey, eObjectTypeBool);
-	getColumnValue(statement, 19, stream, MetadataTrackNumberKey, eObjectTypeInt);
-	getColumnValue(statement, 20, stream, MetadataTrackTotalKey, eObjectTypeInt);
-	getColumnValue(statement, 21, stream, MetadataDiscNumberKey, eObjectTypeInt);
-	getColumnValue(statement, 22, stream, MetadataDiscTotalKey, eObjectTypeInt);
-	getColumnValue(statement, 23, stream, MetadataCommentKey, eObjectTypeString);
-	getColumnValue(statement, 24, stream, MetadataISRCKey, eObjectTypeString);
-	getColumnValue(statement, 25, stream, MetadataMCNKey, eObjectTypeString);
-	getColumnValue(statement, 26, stream, MetadataBPMKey, eObjectTypeInt);
-
-	getColumnValue(statement, 27, stream, MetadataMusicDNSPUIDKey, eObjectTypeString);
-	getColumnValue(statement, 28, stream, MetadataMusicBrainzIDKey, eObjectTypeString);
-
+	getColumnValue(statement, 12, stream, MetadataTitleKey, eObjectTypeString);
+	getColumnValue(statement, 13, stream, MetadataAlbumTitleKey, eObjectTypeString);
+	getColumnValue(statement, 14, stream, MetadataArtistKey, eObjectTypeString);
+	getColumnValue(statement, 15, stream, MetadataAlbumArtistKey, eObjectTypeString);
+	getColumnValue(statement, 16, stream, MetadataGenreKey, eObjectTypeString);
+	getColumnValue(statement, 17, stream, MetadataComposerKey, eObjectTypeString);
+	getColumnValue(statement, 18, stream, MetadataDateKey, eObjectTypeString);	
+	getColumnValue(statement, 19, stream, MetadataCompilationKey, eObjectTypeBool);
+	getColumnValue(statement, 20, stream, MetadataTrackNumberKey, eObjectTypeInt);
+	getColumnValue(statement, 21, stream, MetadataTrackTotalKey, eObjectTypeInt);
+	getColumnValue(statement, 22, stream, MetadataDiscNumberKey, eObjectTypeInt);
+	getColumnValue(statement, 23, stream, MetadataDiscTotalKey, eObjectTypeInt);
+	getColumnValue(statement, 24, stream, MetadataCommentKey, eObjectTypeString);
+	getColumnValue(statement, 25, stream, MetadataISRCKey, eObjectTypeString);
+	getColumnValue(statement, 26, stream, MetadataMCNKey, eObjectTypeString);
+	getColumnValue(statement, 27, stream, MetadataBPMKey, eObjectTypeInt);
+	
+	getColumnValue(statement, 28, stream, MetadataMusicDNSPUIDKey, eObjectTypeString);
+	getColumnValue(statement, 29, stream, MetadataMusicBrainzIDKey, eObjectTypeString);
+	
 	// Replay Gain
-	getColumnValue(statement, 29, stream, ReplayGainReferenceLoudnessKey, eObjectTypeDouble);
-	getColumnValue(statement, 30, stream, ReplayGainTrackGainKey, eObjectTypeDouble);
-	getColumnValue(statement, 31, stream, ReplayGainTrackPeakKey, eObjectTypeDouble);
-	getColumnValue(statement, 32, stream, ReplayGainAlbumGainKey, eObjectTypeDouble);
-	getColumnValue(statement, 33, stream, ReplayGainAlbumPeakKey, eObjectTypeDouble);
-
+	getColumnValue(statement, 30, stream, ReplayGainReferenceLoudnessKey, eObjectTypeDouble);
+	getColumnValue(statement, 31, stream, ReplayGainTrackGainKey, eObjectTypeDouble);
+	getColumnValue(statement, 32, stream, ReplayGainTrackPeakKey, eObjectTypeDouble);
+	getColumnValue(statement, 33, stream, ReplayGainAlbumGainKey, eObjectTypeDouble);
+	getColumnValue(statement, 34, stream, ReplayGainAlbumPeakKey, eObjectTypeDouble);
+	
 	// Properties
-	getColumnValue(statement, 34, stream, PropertiesFileTypeKey, eObjectTypeString);
-	getColumnValue(statement, 35, stream, PropertiesDataFormatKey, eObjectTypeString);
-	getColumnValue(statement, 36, stream, PropertiesFormatDescriptionKey, eObjectTypeString);
-	getColumnValue(statement, 37, stream, PropertiesBitsPerChannelKey, eObjectTypeUnsignedInt);
-	getColumnValue(statement, 38, stream, PropertiesChannelsPerFrameKey, eObjectTypeUnsignedInt);
-	getColumnValue(statement, 39, stream, PropertiesSampleRateKey, eObjectTypeDouble);
-	getColumnValue(statement, 40, stream, PropertiesTotalFramesKey, eObjectTypeLongLong);
-	getColumnValue(statement, 41, stream, PropertiesBitrateKey, eObjectTypeDouble);
-		
+	getColumnValue(statement, 35, stream, PropertiesFileTypeKey, eObjectTypeString);
+	getColumnValue(statement, 36, stream, PropertiesDataFormatKey, eObjectTypeString);
+	getColumnValue(statement, 37, stream, PropertiesFormatDescriptionKey, eObjectTypeString);
+	getColumnValue(statement, 38, stream, PropertiesBitsPerChannelKey, eObjectTypeUnsignedInt);
+	getColumnValue(statement, 39, stream, PropertiesChannelsPerFrameKey, eObjectTypeUnsignedInt);
+	getColumnValue(statement, 40, stream, PropertiesSampleRateKey, eObjectTypeDouble);
+	getColumnValue(statement, 41, stream, PropertiesTotalFramesKey, eObjectTypeLongLong);
+	getColumnValue(statement, 42, stream, PropertiesBitrateKey, eObjectTypeDouble);
+	
 	// Register the object	
 	NSMapInsert(_registeredStreams, (void *)objectID, (void *)stream);
 	
@@ -799,60 +819,62 @@
 	@try {
 		// Location
 		bindParameter(statement, 1, stream, StreamURLKey, eObjectTypeURL);
-		bindParameter(statement, 2, stream, StreamStartingFrameKey, eObjectTypeLongLong);
-		bindParameter(statement, 3, stream, StreamFrameCountKey, eObjectTypeUnsignedInt);
+		bindParameter(statement, 2, stream, StreamURLBookmarkKey, eObjectTypeURL);
+		bindParameter(statement, 3, stream, StreamStartingFrameKey, eObjectTypeLongLong);
+		bindParameter(statement, 4, stream, StreamFrameCountKey, eObjectTypeUnsignedInt);
 		
 		// Statistics
-		bindParameter(statement, 4, stream, StatisticsDateAddedKey, eObjectTypeDate);
-		bindParameter(statement, 5, stream, StatisticsFirstPlayedDateKey, eObjectTypeDate);
-		bindParameter(statement, 6, stream, StatisticsLastPlayedDateKey, eObjectTypeDate);
-		bindParameter(statement, 7, stream, StatisticsLastSkippedDateKey, eObjectTypeDate);
-		bindParameter(statement, 8, stream, StatisticsPlayCountKey, eObjectTypeUnsignedInt);
-		bindParameter(statement, 9, stream, StatisticsSkipCountKey, eObjectTypeUnsignedInt);
-		bindParameter(statement, 10, stream, StatisticsRatingKey, eObjectTypeUnsignedInt);
+		bindParameter(statement, 5, stream, StatisticsDateAddedKey, eObjectTypeDate);
+		bindParameter(statement, 6, stream, StatisticsFirstPlayedDateKey, eObjectTypeDate);
+		bindParameter(statement, 7, stream, StatisticsLastPlayedDateKey, eObjectTypeDate);
+		bindParameter(statement, 8, stream, StatisticsLastSkippedDateKey, eObjectTypeDate);
+		bindParameter(statement, 9, stream, StatisticsPlayCountKey, eObjectTypeUnsignedInt);
+		bindParameter(statement, 10, stream, StatisticsSkipCountKey, eObjectTypeUnsignedInt);
+		bindParameter(statement, 11, stream, StatisticsRatingKey, eObjectTypeUnsignedInt);
 		
 		// Metadata
-		bindParameter(statement, 11, stream, MetadataTitleKey, eObjectTypeString);
-		bindParameter(statement, 12, stream, MetadataAlbumTitleKey, eObjectTypeString);
-		bindParameter(statement, 13, stream, MetadataArtistKey, eObjectTypeString);
-		bindParameter(statement, 14, stream, MetadataAlbumArtistKey, eObjectTypeString);
-		bindParameter(statement, 15, stream, MetadataGenreKey, eObjectTypeString);
-		bindParameter(statement, 16, stream, MetadataComposerKey, eObjectTypeString);
-		bindParameter(statement, 17, stream, MetadataDateKey, eObjectTypeString);	
-		bindParameter(statement, 18, stream, MetadataCompilationKey, eObjectTypeBool);
-		bindParameter(statement, 19, stream, MetadataTrackNumberKey, eObjectTypeInt);
-		bindParameter(statement, 20, stream, MetadataTrackTotalKey, eObjectTypeInt);
-		bindParameter(statement, 21, stream, MetadataDiscNumberKey, eObjectTypeInt);
-		bindParameter(statement, 22, stream, MetadataDiscTotalKey, eObjectTypeInt);
-		bindParameter(statement, 23, stream, MetadataCommentKey, eObjectTypeString);
-		bindParameter(statement, 24, stream, MetadataISRCKey, eObjectTypeString);
-		bindParameter(statement, 25, stream, MetadataMCNKey, eObjectTypeString);
-		bindParameter(statement, 26, stream, MetadataBPMKey, eObjectTypeInt);
-
-		bindParameter(statement, 27, stream, MetadataMusicDNSPUIDKey, eObjectTypeString);
-		bindParameter(statement, 28, stream, MetadataMusicBrainzIDKey, eObjectTypeString);
-
+		bindParameter(statement, 12, stream, MetadataTitleKey, eObjectTypeString);
+		bindParameter(statement, 13, stream, MetadataAlbumTitleKey, eObjectTypeString);
+		bindParameter(statement, 14, stream, MetadataArtistKey, eObjectTypeString);
+		bindParameter(statement, 15, stream, MetadataAlbumArtistKey, eObjectTypeString);
+		bindParameter(statement, 16, stream, MetadataGenreKey, eObjectTypeString);
+		bindParameter(statement, 17, stream, MetadataComposerKey, eObjectTypeString);
+		bindParameter(statement, 18, stream, MetadataDateKey, eObjectTypeString);	
+		bindParameter(statement, 19, stream, MetadataCompilationKey, eObjectTypeBool);
+		bindParameter(statement, 20, stream, MetadataTrackNumberKey, eObjectTypeInt);
+		bindParameter(statement, 21, stream, MetadataTrackTotalKey, eObjectTypeInt);
+		bindParameter(statement, 22, stream, MetadataDiscNumberKey, eObjectTypeInt);
+		bindParameter(statement, 23, stream, MetadataDiscTotalKey, eObjectTypeInt);
+		bindParameter(statement, 24, stream, MetadataCommentKey, eObjectTypeString);
+		bindParameter(statement, 25, stream, MetadataISRCKey, eObjectTypeString);
+		bindParameter(statement, 26, stream, MetadataMCNKey, eObjectTypeString);
+		bindParameter(statement, 27, stream, MetadataBPMKey, eObjectTypeInt);
+		
+		bindParameter(statement, 28, stream, MetadataMusicDNSPUIDKey, eObjectTypeString);
+		bindParameter(statement, 29, stream, MetadataMusicBrainzIDKey, eObjectTypeString);
+		
 		// Replay Gain
-		bindParameter(statement, 29, stream, ReplayGainReferenceLoudnessKey, eObjectTypeDouble);
-		bindParameter(statement, 30, stream, ReplayGainTrackGainKey, eObjectTypeDouble);
-		bindParameter(statement, 31, stream, ReplayGainTrackPeakKey, eObjectTypeDouble);
-		bindParameter(statement, 32, stream, ReplayGainAlbumGainKey, eObjectTypeDouble);
-		bindParameter(statement, 33, stream, ReplayGainAlbumPeakKey, eObjectTypeDouble);
-
+		bindParameter(statement, 30, stream, ReplayGainReferenceLoudnessKey, eObjectTypeDouble);
+		bindParameter(statement, 31, stream, ReplayGainTrackGainKey, eObjectTypeDouble);
+		bindParameter(statement, 32, stream, ReplayGainTrackPeakKey, eObjectTypeDouble);
+		bindParameter(statement, 33, stream, ReplayGainAlbumGainKey, eObjectTypeDouble);
+		bindParameter(statement, 34, stream, ReplayGainAlbumPeakKey, eObjectTypeDouble);
+		
 		// Properties
-		bindParameter(statement, 34, stream, PropertiesFileTypeKey, eObjectTypeString);
-		bindParameter(statement, 35, stream, PropertiesDataFormatKey, eObjectTypeString);
-		bindParameter(statement, 36, stream, PropertiesFormatDescriptionKey, eObjectTypeString);
-		bindParameter(statement, 37, stream, PropertiesBitsPerChannelKey, eObjectTypeUnsignedInt);
-		bindParameter(statement, 38, stream, PropertiesChannelsPerFrameKey, eObjectTypeUnsignedInt);
-		bindParameter(statement, 39, stream, PropertiesSampleRateKey, eObjectTypeDouble);
-		bindParameter(statement, 40, stream, PropertiesTotalFramesKey, eObjectTypeLongLong);
-		bindParameter(statement, 41, stream, PropertiesBitrateKey, eObjectTypeDouble);
+		bindParameter(statement, 35, stream, PropertiesFileTypeKey, eObjectTypeString);
+		bindParameter(statement, 36, stream, PropertiesDataFormatKey, eObjectTypeString);
+		bindParameter(statement, 37, stream, PropertiesFormatDescriptionKey, eObjectTypeString);
+		bindParameter(statement, 38, stream, PropertiesBitsPerChannelKey, eObjectTypeUnsignedInt);
+		bindParameter(statement, 39, stream, PropertiesChannelsPerFrameKey, eObjectTypeUnsignedInt);
+		bindParameter(statement, 40, stream, PropertiesSampleRateKey, eObjectTypeDouble);
+		bindParameter(statement, 41, stream, PropertiesTotalFramesKey, eObjectTypeLongLong);
+		bindParameter(statement, 42, stream, PropertiesBitrateKey, eObjectTypeDouble);
 		
 		result = sqlite3_step(statement);
-		NSAssert2(SQLITE_DONE == result, @"Unable to insert a record for %@ (%@).", [[NSFileManager defaultManager] displayNameAtPath:[[stream valueForKey:StreamURLKey] path]], [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
+		NSAssert2(SQLITE_DONE == result, @"Unable to insert a record for %@ (%@).", [[NSFileManager defaultManager] displayNameAtPath:[[stream currentStreamURL] path]], [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 		
-		[stream initValue:[NSNumber numberWithLongLong:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
+#warning VALUE TRUNCATED: id returned from sqlite3_last_insert_rowid is signed 64-bit int!		
+		[stream initValue:[NSNumber numberWithInt:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
 		
 		result = sqlite3_reset(statement);
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to reset sql statement (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
@@ -861,7 +883,7 @@
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to clear sql statement bindings (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 		// Register the object	
-		NSMapInsert(_registeredStreams, (void *)[[stream valueForKey:ObjectIDKey] unsignedIntegerValue], (void *)stream);
+		NSMapInsert(_registeredStreams, (void *)[[stream valueForKey:ObjectIDKey] unsignedIntValue], (void *)stream);
 	}
 	
 	@catch(NSException *exception) {
@@ -901,6 +923,7 @@
 	// ID and Location
 	bindNamedParameter(statement, ":id", stream, ObjectIDKey, eObjectTypeUnsignedInt);
 	bindNamedParameter(statement, ":url", stream, StreamURLKey, eObjectTypeURL);
+	bindNamedParameter(statement, ":url_bookmark", stream, StreamURLBookmarkKey, eObjectTypeBlob);
 	bindNamedParameter(statement, ":starting_frame", stream, StreamStartingFrameKey, eObjectTypeLongLong);
 	bindNamedParameter(statement, ":frame_count", stream, StreamFrameCountKey, eObjectTypeUnsignedInt);
 	
@@ -1015,6 +1038,7 @@
 			_streamKeys	= [[NSArray alloc] initWithObjects:
 				ObjectIDKey, 
 				StreamURLKey,
+				StreamURLBookmarkKey,
 				StreamStartingFrameKey,
 				StreamFrameCountKey,
 				

@@ -330,7 +330,7 @@ scanMSF(NSScanner		*scanner,
 			previousTrack = [cueSheetTracks objectAtIndex:(i - 1)];
 
 		// Fill in frame counts
-		if(nil != previousTrack && [[previousTrack valueForKey:StreamURLKey] isEqual:[thisTrack valueForKey:StreamURLKey]]) {
+		if(nil != previousTrack && [[previousTrack currentStreamURL] isEqual:[thisTrack currentStreamURL]]) {
 			NSUInteger frameCount = (NSUInteger)([[thisTrack valueForKey:StreamStartingFrameKey] longLongValue] - 1) - [[previousTrack valueForKey:StreamStartingFrameKey] longLongValue];
 			
 			[previousTrack setValue:[NSNumber numberWithUnsignedInteger:frameCount] forKey:StreamFrameCountKey];

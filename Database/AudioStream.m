@@ -29,6 +29,7 @@
 #import "LoopableRegionDecoder.h"
 
 NSString * const	StreamURLKey							= @"url";
+NSString * const	StreamURLBookmarkKey					= @"urlBookmark";
 NSString * const	StreamStartingFrameKey					= @"startingFrame";
 NSString * const	StreamFrameCountKey						= @"frameCount";
 
@@ -84,12 +85,12 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 
 + (id) insertStreamForURL:(NSURL *)URL withInitialValues:(NSDictionary *)keyedValues
 {
-	return [self insertStreamForURL:URL startingFrame:[NSNumber numberWithInteger:-1] frameCount:[NSNumber numberWithInteger:-1] withInitialValues:keyedValues];
+	return [self insertStreamForURL:URL startingFrame:[NSNumber numberWithInt:-1] frameCount:[NSNumber numberWithInt:-1] withInitialValues:keyedValues];
 }
 
 + (id) insertStreamForURL:(NSURL *)URL startingFrame:(NSNumber *)startingFrame withInitialValues:(NSDictionary *)keyedValues
 {
-	return [self insertStreamForURL:URL startingFrame:startingFrame frameCount:[NSNumber numberWithInteger:-1] withInitialValues:keyedValues];
+	return [self insertStreamForURL:URL startingFrame:startingFrame frameCount:[NSNumber numberWithInt:-1] withInitialValues:keyedValues];
 }
 
 + (id) insertStreamForURL:(NSURL *)URL startingFrame:(NSNumber *)startingFrame frameCount:(NSNumber *)frameCount withInitialValues:(NSDictionary *)keyedValues
@@ -112,6 +113,21 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 		[stream release], stream = nil;
 	
 	return [stream autorelease];
+}
+
+-(id)init
+{
+	// CHANGEME: Testing only
+	if ((self = [super init]) != nil)
+	{
+		// CHANGEME: if (SDK 10.6)
+		[self addObserver:self
+			   forKeyPath:StreamURLKey
+				  options:(NSKeyValueObservingOptionNew/* |
+						   NSKeyValueObservingOptionOld*/)
+				  context:NULL];
+	}
+	return self;
 }
 
 - (IBAction) resetPlayCount:(id)sender
@@ -172,7 +188,7 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 - (IBAction) rescanProperties:(id)sender
 {
 	NSError					*error				= nil;
-	AudioPropertiesReader	*propertiesReader	= [AudioPropertiesReader propertiesReaderForURL:[self valueForKey:StreamURLKey] error:&error];
+	AudioPropertiesReader	*propertiesReader	= [AudioPropertiesReader propertiesReaderForURL:[self currentStreamURL] error:&error];
 	
 	if(nil == propertiesReader) {
 /*		if(nil != error)
@@ -204,7 +220,7 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 - (IBAction) rescanMetadata:(id)sender
 {
 	NSError					*error				= nil;
-	AudioMetadataReader		*metadataReader		= [AudioMetadataReader metadataReaderForURL:[self valueForKey:StreamURLKey] error:&error];
+	AudioMetadataReader		*metadataReader		= [AudioMetadataReader metadataReaderForURL:[self currentStreamURL] error:&error];
 
 	if(nil == metadataReader) {
 /*		if(nil != error)
@@ -233,6 +249,33 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 	}
 }
 
+- (NSURL *) currentStreamURL
+{
+	return [self valueForKey:StreamURLKey];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+					  ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if ([keyPath isEqual:StreamURLKey]) {
+		NSURL * newURL = [change objectForKey:NSKeyValueChangeNewKey];
+		NSParameterAssert(nil != newURL);
+		//[newURL isFileURL];
+		//NSLog( @">>>> Detected Change in keyPath: %@", keyPath ); 
+    }
+    
+	/*
+	// be sure to call the super implementation
+    // if the superclass implements it
+    [super observeValueForKeyPath:keyPath
+						 ofObject:object
+						   change:change
+						  context:context];
+	*/
+}
+
 - (IBAction) saveMetadata:(id)sender
 {
 	// FIXME: Save album-only metadata to original file?
@@ -240,7 +283,7 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 		return;
 	
 	NSError					*error				= nil;
-	AudioMetadataWriter		*metadataWriter		= [AudioMetadataWriter metadataWriterForURL:[self valueForKey:StreamURLKey] error:&error];
+	AudioMetadataWriter		*metadataWriter		= [AudioMetadataWriter metadataWriterForURL:[self currentStreamURL] error:&error];
 	
 	if(nil == metadataWriter) {
 /*		if(nil != error)
@@ -290,12 +333,12 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 
 - (NSString *) filename
 {
-	return [[NSFileManager defaultManager] displayNameAtPath:[[self valueForKey:StreamURLKey] path]];
+	return [[NSFileManager defaultManager] displayNameAtPath:[[self currentStreamURL] path]];
 }
 
 - (NSString *) pathname
 {
-	return [[self valueForKey:StreamURLKey] path];
+	return [[self currentStreamURL] path];
 }
 
 - (NSNumber *) duration
@@ -320,18 +363,18 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 	NSNumber	*frameCount		= [self valueForKey:StreamFrameCountKey];
 	
 	// For reasons related to SQLite (see http://sqlite.org/nulls.html), -1 is used instead of NULL
-	return (-1 != [startingFrame longLongValue] && -1 != [frameCount integerValue]);
+	return (-1 != [startingFrame longLongValue] && -1 != [frameCount intValue]);
 }
 
 - (id <AudioDecoderMethods>) decoder:(NSError **)error
 {
 	if([self isPartOfCueSheet])
-		return [LoopableRegionDecoder decoderWithURL:[self valueForKey:StreamURLKey] 
+		return [LoopableRegionDecoder decoderWithURL:[self currentStreamURL] 
 									  startingFrame:[[self valueForKey:StreamStartingFrameKey] longLongValue]
-										 frameCount:[[self valueForKey:StreamFrameCountKey] unsignedIntegerValue]
+										 frameCount:[[self valueForKey:StreamFrameCountKey] unsignedIntValue]
 											  error:error];
 	else
-		return [AudioDecoder decoderWithURL:[self valueForKey:StreamURLKey] error:error];
+		return [AudioDecoder decoderWithURL:[self currentStreamURL] error:error];
 }
 
 - (void) save
@@ -368,6 +411,7 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 		_supportedKeys	= [[NSArray alloc] initWithObjects:
 			ObjectIDKey, 
 			StreamURLKey,
+			StreamURLBookmarkKey,
 			StreamStartingFrameKey,
 			StreamFrameCountKey,
 			

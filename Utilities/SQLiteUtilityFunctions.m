@@ -87,7 +87,7 @@ bindParameter(sqlite3_stmt		*statement,
 			case eObjectTypePredicate:	
 				result = sqlite3_bind_text(statement, parameterIndex, [[value predicateFormat] UTF8String], -1, SQLITE_TRANSIENT);	
 				break;
-			case eObjectTypeData:	
+			case eObjectTypeBlob:	
 				result = sqlite3_bind_blob(statement, parameterIndex, [value bytes], [value length], SQLITE_TRANSIENT);
 				break;
 			default:
@@ -168,7 +168,7 @@ bindNamedParameter(sqlite3_stmt		*statement,
 			case eObjectTypePredicate:	
 				result = sqlite3_bind_text(statement, parameterIndex, [[value predicateFormat] UTF8String], -1, SQLITE_TRANSIENT);	
 				break;
-			case eObjectTypeData:	
+			case eObjectTypeBlob:	
 				result = sqlite3_bind_blob(statement, parameterIndex, [value bytes], [value length], SQLITE_TRANSIENT);
 				break;
 			default:
@@ -246,8 +246,8 @@ getColumnValue(sqlite3_stmt		*statement,
 		case eObjectTypePredicate:	
 			[object initValue:[NSPredicate predicateWithFormat:[NSString stringWithCString:(const char *)sqlite3_column_text(statement, columnIndex) encoding:NSUTF8StringEncoding]] forKey:key];
 			break;
-		case eObjectTypeData:	
-			// Are sqlite3_column_blob() and sqlite3_column_bytes() called in order?
+		case eObjectTypeBlob:	
+#warning CHECK: Are sqlite3_column_blob() and sqlite3_column_bytes() called in order?
 			[object initValue:[NSData dataWithBytes:sqlite3_column_blob(statement, columnIndex) length:(NSUInteger)sqlite3_column_bytes(statement, columnIndex)] forKey:key];
 			break;
 		default:

@@ -43,7 +43,7 @@ extern "C" {
 		eObjectTypeFloat,
 		eObjectTypeDouble,
 		eObjectTypePredicate,
-		eObjectTypeData
+		eObjectTypeBlob // Using "Blob" due to possibility of mixing up "Date" and "Data"
 	};
 	typedef enum _eObjectType eObjectType;
 

@@ -300,7 +300,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		else {
 			if(nil != error) {
 				NSMutableDictionary		*errorDictionary	= [NSMutableDictionary dictionary];
-				NSString				*path				= [[stream valueForKey:StreamURLKey] path];
+				NSString				*path				= [[stream currentStreamURL] path];
 				
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The format of the file \"%@\" is not supported.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"File Format Not Supported", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
@@ -323,7 +323,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		else {
 			if(nil != error) {
 				NSMutableDictionary		*errorDictionary	= [NSMutableDictionary dictionary];
-				NSString				*path				= [[stream valueForKey:StreamURLKey] path];
+				NSString				*path				= [[stream currentStreamURL] path];
 				
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The format of the file \"%@\" is not supported.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"File Format Not Supported", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];

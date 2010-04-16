@@ -95,7 +95,7 @@
 {
 	NSParameterAssert(nil != objectID);
 	
-	WatchFolder *folder = (WatchFolder *)NSMapGet(_registeredFolders, (void *)[objectID unsignedIntegerValue]);
+	WatchFolder *folder = (WatchFolder *)NSMapGet(_registeredFolders, (void *)[objectID unsignedIntValue]);
 	if(nil != folder)
 		return folder;
 	
@@ -512,7 +512,7 @@
 - (WatchFolder *) loadWatchFolder:(sqlite3_stmt *)statement
 {
 	WatchFolder		*folder		= nil;
-	NSUInteger		objectID;
+	unsigned		objectID;
 	
 	// The ID should never be NULL
 	NSAssert(SQLITE_NULL != sqlite3_column_type(statement, 0), @"No ID found for folder");
@@ -525,7 +525,7 @@
 	folder = [[WatchFolder alloc] init];
 	
 	// WatchFolder ID and name
-	[folder initValue:[NSNumber numberWithUnsignedInteger:objectID] forKey:ObjectIDKey];
+	[folder initValue:[NSNumber numberWithUnsignedInt:objectID] forKey:ObjectIDKey];
 	//	getColumnValue(statement, 0, folder, ObjectIDKey, eObjectTypeUnsignedInt);
 	getColumnValue(statement, 1, folder, WatchFolderURLKey, eObjectTypeURL);
 	getColumnValue(statement, 2, folder, WatchFolderNameKey, eObjectTypeString);
@@ -558,7 +558,8 @@
 		result = sqlite3_step(statement);
 		NSAssert2(SQLITE_DONE == result, @"Unable to insert a record for %@ (%@).", [folder valueForKey:WatchFolderNameKey], [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 		
-		[folder initValue:[NSNumber numberWithLongLong:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
+#warning VALUE TRUNCATED: id returned from sqlite3_last_insert_rowid is signed 64-bit int!		
+		[folder initValue:[NSNumber numberWithInt:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
 		
 		result = sqlite3_reset(statement);
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to reset sql statement (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
@@ -567,7 +568,7 @@
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to clear sql statement bindings (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 		// Register the object	
-		NSMapInsert(_registeredFolders, (void *)[[folder valueForKey:ObjectIDKey] unsignedIntegerValue], (void *)folder);
+		NSMapInsert(_registeredFolders, (void *)[[folder valueForKey:ObjectIDKey] unsignedIntValue], (void *)folder);
 	}
 	
 	@catch(NSException *exception) {
@@ -635,7 +636,7 @@
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"delete_watch_folder"];
 	int				result			= SQLITE_OK;
-	NSUInteger		objectID		= [[folder valueForKey:ObjectIDKey] unsignedIntegerValue];
+	unsigned		objectID		= [[folder valueForKey:ObjectIDKey] unsignedIntValue];
 	
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));

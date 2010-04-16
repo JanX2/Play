@@ -140,7 +140,7 @@ calculateFingerprintsAndRequestPUIDs(NSArray *streams, NSModalSession modalSessi
 
 		// Query MusicDNS for the PUID matching this fingerprint
 		AudioData	*trackData		= new AudioData();
-		NSString	*pathExtension	= [[[stream valueForKey:StreamURLKey] path] pathExtension];
+		NSString	*pathExtension	= [[[stream currentStreamURL] path] pathExtension];
 		int			milliseconds	= [decoder totalFrames] / (asbd.mSampleRate / 1000);
 		
 #if __BIG_ENDIAN__

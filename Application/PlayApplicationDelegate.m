@@ -476,7 +476,7 @@
 
 - (void) setWindowTitleForStream:(AudioStream *)stream
 {
-	NSURL		*url					= [stream valueForKey:StreamURLKey];
+	NSURL		*url					= [stream currentStreamURL];
 	NSString	*title					= [stream valueForKey:MetadataTitleKey];
 	NSString	*artist					= [stream valueForKey:MetadataArtistKey];		
 	NSString	*windowTitle			= nil;

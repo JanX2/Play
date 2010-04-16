@@ -77,7 +77,7 @@
 		/*	if(1 != streaminfo.channels && 2 != streaminfo.channels) {
 			if(nil != error) {
 				NSMutableDictionary		*errorDictionary	= [NSMutableDictionary dictionary];
-				NSString				*path				= [[[self stream] valueForKey:StreamURLKey] path];
+				NSString				*path				= [[[self stream] currentStreamURL] path];
 				
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The format of the file \"%@\" is not supported.", @"Errors", @""), [[NSFileManager defaultManager] displayNameAtPath:path]] forKey:NSLocalizedDescriptionKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"Unsupported Musepack format", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];

@@ -727,7 +727,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 	NSString		*path			= nil;
 	
 	for(AudioStream *stream in [_streamController selectedObjects]) {
-		path = [[stream valueForKey:StreamURLKey] path];
+		path = [[stream currentStreamURL] path];
 		[[NSWorkspace sharedWorkspace] openFile:path];
 	}
 }
@@ -737,7 +737,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 	NSString		*path			= nil;
 	
 	for(AudioStream *stream in [_streamController selectedObjects]) {
-		path = [[stream valueForKey:StreamURLKey] path];
+		path = [[stream currentStreamURL] path];
 		[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:nil];
 	}
 }
@@ -1098,7 +1098,7 @@ bail:
 	NSString		*path			= nil;
 	
 	for(AudioStream *stream in [_streamController selectedObjects]) {
-		path = [[stream valueForKey:StreamURLKey] path];
+		path = [[stream currentStreamURL] path];
 		[[NSWorkspace sharedWorkspace] openFile:path withApplication:@"Max"];
 	}
 }
@@ -1108,7 +1108,7 @@ bail:
 	NSString		*path			= nil;
 	
 	for(AudioStream *stream in [_streamController selectedObjects]) {
-		path = [[stream valueForKey:StreamURLKey] path];
+		path = [[stream currentStreamURL] path];
 		[[NSWorkspace sharedWorkspace] openFile:path withApplication:@"Tag"];
 	}
 }
@@ -1204,7 +1204,7 @@ bail:
 			applicationPath		= [applications objectAtIndex:i];
 			
 			for(AudioStream *stream in [_streamController selectedObjects]) {
-				path = [[stream valueForKey:StreamURLKey] path];
+				path = [[stream currentStreamURL] path];
 				[[NSWorkspace sharedWorkspace] openFile:path withApplication:applicationPath];
 			}
 		}

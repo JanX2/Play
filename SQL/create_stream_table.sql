@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS 'streams' (
 
 	'id'						INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	'url'						TEXT NOT NULL,
+	'url_bookmark'				BLOB,
 	'starting_frame'			INTEGER NOT NULL DEFAULT -1,
 	'frame_count'				INTEGER NOT NULL DEFAULT -1,
 

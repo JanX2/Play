@@ -26,6 +26,7 @@
 // KVC key names for persistent properties
 // ========================================
 extern NSString * const		StreamURLKey;
+extern NSString * const		StreamURLBookmarkKey;
 extern NSString * const		StreamStartingFrameKey;
 extern NSString * const		StreamFrameCountKey;
 
@@ -91,6 +92,8 @@ extern NSString * const		PropertiesBitrateKey;
 - (IBAction) rescanMetadata:(id)sender;
 
 - (IBAction) saveMetadata:(id)sender;
+
+- (NSURL *) currentStreamURL;
 
 - (NSString *) trackString;
 - (NSString *) discString;

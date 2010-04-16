@@ -1,5 +1,6 @@
 UPDATE 'streams' SET
 		url = :url,
+		url_bookmark = :url_bookmark,
 		starting_frame = :starting_frame,
 		frame_count = :frame_count,
 		

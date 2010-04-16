@@ -30,6 +30,13 @@
 
 #import "SQLiteUtilityFunctions.h"
 
+@interface CollectionManager (private)
+BOOL 
+executeSQLFromFileInBundle(sqlite3		*db,
+						   NSString		*filename,
+						   NSError		**error);
+@end
+
 // ========================================
 // Helper functions
 BOOL 
@@ -246,6 +253,7 @@ static CollectionManager *collectionManagerInstance = nil;
 	NSParameterAssert(nil != databasePath);
 
 	BOOL rescanMP3s = NO;
+	BOOL rescanURLs = NO;
 	
 	sqlite3 *db = NULL;
 	if(SQLITE_OK != sqlite3_open([databasePath UTF8String], &db)) {
@@ -270,7 +278,7 @@ static CollectionManager *collectionManagerInstance = nil;
 			return NO;		
 	}
 	
-	// The second databse upgrade consisted of removing the duration column and adding cue sheet support
+	// The second database upgrade consisted of removing the duration column and adding cue sheet support
 	if(NO == executeSQLFromFileInBundle(db, @"check_for_cue_sheet_support", error)) {
 		if(NO == executeSQLFromFileInBundle(db, @"upgrade_database_for_cue_sheets", error))
 			return NO;
@@ -279,6 +287,15 @@ static CollectionManager *collectionManagerInstance = nil;
 		rescanMP3s = YES;
 	}
 
+	// The third database upgrade involved adding the column for NSURL bookmark support
+	if(NO == executeSQLFromFileInBundle(db, @"check_for_NSURL_bookmarks_support", error)) {
+		if(NO == executeSQLFromFileInBundle(db, @"upgrade_database_for_NSURL_bookmarks", error))
+			return NO;		
+		
+		// Add the missing NSURL bookmarks
+		rescanURLs = YES;
+	}
+	
 	if(SQLITE_OK != sqlite3_close(db)) {
 		if(nil != error) {
 			NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
@@ -300,7 +317,7 @@ static CollectionManager *collectionManagerInstance = nil;
 		NSAlert *alert = [[NSAlert alloc] init];
 		[alert addButtonWithTitle:@"OK"];
 		[alert setMessageText:NSLocalizedStringFromTable(@"Database Update Required", @"Database", @"")];
-		[alert setInformativeText:NSLocalizedStringFromTable(@"After the update is complete durations for MP3 files in your collection will be recalculated.", @"Database", @"")];
+		[alert setInformativeText:NSLocalizedStringFromTable(@"After the update is complete, durations for MP3 files in your collection will be recalculated.", @"Database", @"")];
 		[alert setAlertStyle:NSInformationalAlertStyle];
 		
 		// Display the alert
@@ -315,6 +332,35 @@ static CollectionManager *collectionManagerInstance = nil;
 		NSArray *streams = [[[self streamManager] streams] filteredArrayUsingPredicate:predicate];
 		
 		// Rescan file properties to update total frames
+		[self beginUpdate];
+		[streams makeObjectsPerformSelector:@selector(rescanProperties:) withObject:self];
+		[self finishUpdate];
+									
+		if(NO == [self disconnectFromDatabase:error])
+			return NO;
+	}
+	
+	if(rescanURLs) {
+#warning CHANGEME: Where is the best opportunity to rescan the URLs, if we are run on 10.6 for the first time after the db update and upgrade from 10.5?
+		
+		// Display an alert since this could take a while
+		NSAlert *alert = [[NSAlert alloc] init];
+		[alert addButtonWithTitle:@"OK"];
+		[alert setMessageText:NSLocalizedStringFromTable(@"Database Update Required", @"Database", @"")];
+		[alert setInformativeText:NSLocalizedStringFromTable(@"After the update is complete, Play will be able to track moved and renamed files and folders.", @"Database", @"")];
+		[alert setAlertStyle:NSInformationalAlertStyle];
+		
+		// Display the alert
+		[alert runModal];
+		[alert release];
+		
+		if(NO == [self connectToDatabase:databasePath error:error])
+			return NO;
+		
+		// Grab all files
+		NSArray *streams = [[self streamManager] streams];
+		
+		// Rescan file properties to add NSURL bookmarks
 		[self beginUpdate];
 		[streams makeObjectsPerformSelector:@selector(rescanProperties:) withObject:self];
 		[self finishUpdate];

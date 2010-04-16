@@ -1,6 +1,7 @@
 INSERT INTO 'streams' (
 
 		url,
+		url_bookmark,
 		starting_frame,
 		frame_count,
 		
@@ -51,6 +52,7 @@ INSERT INTO 'streams' (
 	
 	VALUES (
 	
+		?, 
 		?, 
 		?, 
 		?, 

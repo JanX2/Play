@@ -95,7 +95,7 @@
 {
 	NSParameterAssert(nil != objectID);
 	
-	Playlist *playlist = (Playlist *)NSMapGet(_registeredPlaylists, (void *)[objectID unsignedIntegerValue]);
+	Playlist *playlist = (Playlist *)NSMapGet(_registeredPlaylists, (void *)[objectID unsignedIntValue]);
 	if(nil != playlist)
 		return playlist;
 	
@@ -109,8 +109,7 @@
 	clock_t start = clock();
 #endif
 	
-#warning 64BIT: This is probably not what you want
-	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":id"), [objectID integerValue]);
+	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":id"), [objectID unsignedIntValue]);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 	
 	while(SQLITE_ROW == (result = sqlite3_step(statement)))
@@ -534,7 +533,7 @@
 - (Playlist *) loadPlaylist:(sqlite3_stmt *)statement
 {
 	Playlist		*playlist		= nil;
-	NSUInteger		objectID;
+	unsigned		objectID;
 	
 	// The ID should never be NULL
 	NSAssert(SQLITE_NULL != sqlite3_column_type(statement, 0), @"No ID found for playlist");
@@ -547,7 +546,7 @@
 	playlist = [[Playlist alloc] init];
 	
 	// Playlist ID and name
-	[playlist initValue:[NSNumber numberWithUnsignedInteger:objectID] forKey:ObjectIDKey];
+	[playlist initValue:[NSNumber numberWithUnsignedInt:objectID] forKey:ObjectIDKey];
 	//	getColumnValue(statement, 0, playlist, ObjectIDKey, eObjectTypeUnsignedInt);
 	getColumnValue(statement, 1, playlist, PlaylistNameKey, eObjectTypeString);
 	
@@ -591,7 +590,8 @@
 		result = sqlite3_step(statement);
 		NSAssert2(SQLITE_DONE == result, @"Unable to insert a record for %@ (%@).", [playlist valueForKey:PlaylistNameKey], [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 		
-		[playlist initValue:[NSNumber numberWithLongLong:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
+#warning VALUE TRUNCATED: id returned from sqlite3_last_insert_rowid is signed 64-bit int!		
+		[playlist initValue:[NSNumber numberWithInt:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
 		
 		result = sqlite3_reset(statement);
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to reset sql statement (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
@@ -600,7 +600,7 @@
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to clear sql statement bindings (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 		// Register the object	
-		NSMapInsert(_registeredPlaylists, (void *)[[playlist valueForKey:ObjectIDKey] unsignedIntegerValue], (void *)playlist);
+		NSMapInsert(_registeredPlaylists, (void *)[[playlist valueForKey:ObjectIDKey] unsignedIntValue], (void *)playlist);
 	}
 	
 	@catch(NSException *exception) {
@@ -673,7 +673,7 @@
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"delete_playlist"];
 	int				result			= SQLITE_OK;
-	NSUInteger		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntegerValue];
+	unsigned		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntValue];
 	
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));
@@ -712,7 +712,7 @@
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"delete_playlist_entries_for_playlist"];
 	int				result			= SQLITE_OK;
-	NSUInteger		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntegerValue];
+	unsigned		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntValue];
 	
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));
@@ -738,11 +738,11 @@
 	statement = [self preparedStatementForAction:@"insert_playlist_entry"];
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));
 	
-	int				thisIndex	= 0;
+	unsigned		thisIndex	= 0;
 	NSArray			*streams	= [playlist streams];
 	AudioStream		*stream		= nil;
 	
-	for(thisIndex = 0; thisIndex < (int)[streams count]; ++thisIndex) {
+	for(thisIndex = 0; thisIndex < (unsigned)[streams count]; ++thisIndex) {
 		stream = [streams objectAtIndex:thisIndex];
 		
 		bindParameter(statement, 1, playlist, ObjectIDKey, eObjectTypeUnsignedInt);

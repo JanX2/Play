@@ -111,7 +111,7 @@ escapeForLastFM(NSString *string)
 		escapeForLastFM([stream valueForKey:MetadataAlbumTitleKey]), 
 		escapeForLastFM([stream valueForKey:MetadataMusicBrainzIDKey]), 
 		(long)[[stream duration] integerValue], 
-		escapeForLastFM([[stream valueForKey:StreamURLKey] path])
+		escapeForLastFM([[stream currentStreamURL] path])
 		]];	
 }
 

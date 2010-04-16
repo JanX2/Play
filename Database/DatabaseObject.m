@@ -82,10 +82,10 @@ NSString * const	ObjectIDKey								= @"id";
 	[self setValue:value forKey:key];
 }
 
-- (NSUInteger) hash
+- (unsigned) hash
 {
 	// Database ID is guaranteed to be unique
-	return [[_savedValues valueForKey:ObjectIDKey] unsignedIntegerValue];
+	return [[_savedValues valueForKey:ObjectIDKey] unsignedIntValue];
 }
 
 - (NSString *) description

@@ -418,7 +418,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 			NSError *error = nil;
 			
-			// Check if the database is current (if it exists) and if it isn't update
+			// Check if the database is current (if it exists) and if it isn't up to date
 			if([[NSFileManager defaultManager] fileExistsAtPath:databasePath] && NO == [[CollectionManager manager] updateDatabaseIfNeeded:databasePath error:&error]) {
 				if(nil != error)
 					[[NSApplication sharedApplication] presentError:error];

@@ -105,7 +105,7 @@
 			
 	NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
 	
-	[userInfo setObject:[[stream valueForKey:StreamURLKey] absoluteString] forKey:@"Location"];
+	[userInfo setObject:[[stream currentStreamURL] absoluteString] forKey:@"Location"];
 	[userInfo setValue:[stream valueForKey:MetadataArtistKey] forKey:@"Artist"];
 	[userInfo setValue:[stream valueForKey:MetadataTitleKey] forKey:@"Name"];
 	[userInfo setValue:[stream valueForKey:MetadataAlbumTitleKey] forKey:@"Album"];

@@ -42,6 +42,8 @@
 		32FF2425104338C30069EB9B /* Base.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 32FF2424104338C30069EB9B /* Base.xcconfig */; };
 		3D50A2B81162CDDD002A5832 /* RBSplitView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D50A2B71162CDDD002A5832 /* RBSplitView.framework */; };
 		3D50A2B91162CDEC002A5832 /* RBSplitView.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3D50A2B71162CDDD002A5832 /* RBSplitView.framework */; };
+		3DE12FB61177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql in Resources */ = {isa = PBXBuildFile; fileRef = 3DE12FB51177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql */; };
+		3DE12FC51177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql in Resources */ = {isa = PBXBuildFile; fileRef = 3DE12FC41177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql */; };
 		8C05E7FE0CC283BD006E5746 /* NowPlayingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C05E7FD0CC283BD006E5746 /* NowPlayingImage.png */; };
 		8C05E8150CC29D81006E5746 /* FastForward.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C05E80E0CC29D81006E5746 /* FastForward.png */; };
 		8C05E8160CC29D81006E5746 /* LoopPlayback.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C05E80F0CC29D81006E5746 /* LoopPlayback.png */; };
@@ -390,6 +392,8 @@
 		32FF2396104336FC0069EB9B /* Version.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		32FF2424104338C30069EB9B /* Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		3D50A2B71162CDDD002A5832 /* RBSplitView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RBSplitView.framework; path = Frameworks/RBSplitView.framework; sourceTree = "<group>"; };
+		3DE12FB51177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = upgrade_database_for_NSURL_bookmarks.sql; path = SQL/upgrade_database_for_NSURL_bookmarks.sql; sourceTree = "<group>"; };
+		3DE12FC41177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = check_for_NSURL_bookmarks_support.sql; path = SQL/check_for_NSURL_bookmarks_support.sql; sourceTree = "<group>"; };
 		8C05E7FD0CC283BD006E5746 /* NowPlayingImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NowPlayingImage.png; path = Images/NowPlayingImage.png; sourceTree = "<group>"; };
 		8C05E80E0CC29D81006E5746 /* FastForward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FastForward.png; path = Images/FastForward.png; sourceTree = "<group>"; };
 		8C05E80F0CC29D81006E5746 /* LoopPlayback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoopPlayback.png; path = Images/LoopPlayback.png; sourceTree = "<group>"; };
@@ -1368,6 +1372,8 @@
 		8C9C377C0B739C9800CE799A /* SQL */ = {
 			isa = PBXGroup;
 			children = (
+				3DE12FB51177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql */,
+				3DE12FC41177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql */,
 				8C0CF0850CE80F6B0086CAFB /* upgrade_database_for_musicbrainz.sql */,
 				8C0CF0820CE80EAB0086CAFB /* check_for_musicbrainz_support.sql */,
 				8C0CF0600CE807B10086CAFB /* upgrade_database_for_cue_sheets.sql */,
@@ -1737,6 +1743,8 @@
 				32FF2397104336FC0069EB9B /* Version.xcconfig in Resources */,
 				32FF2425104338C30069EB9B /* Base.xcconfig in Resources */,
 				325922471051B21300A74D37 /* dsa_pub.pem in Resources */,
+				3DE12FB61177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql in Resources */,
+				3DE12FC51177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
