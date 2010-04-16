@@ -1468,7 +1468,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 		[self setNextPlaybackIndex:[self nextPlaybackIndex] - 1];
 
 	if(thisIndex == [self playbackIndex]) {
-		[self stop:self];
+		//[self stop:self];
 		[self setPlaybackIndex:NSNotFound];
 	}
 	else if(NSNotFound != [self playbackIndex] && thisIndex < [self playbackIndex])
