@@ -29,6 +29,7 @@
 #import "WatchFolder.h"
 
 #import "SQLiteUtilityFunctions.h"
+#import "PointerWrapper.h"
 
 @interface CollectionManager (private)
 BOOL 
@@ -658,7 +659,7 @@ static CollectionManager *collectionManagerInstance = nil;
 			return NO;
 		}
 		
-		[_sql setValue:[NSNumber numberWithUnsignedLong:(unsigned long)statement] forKey:filename];
+		[_sql setValue:[PointerWrapper pointerWrapperWithPointer:statement] forKey:filename];
 	}
 	
 	return YES;
@@ -668,8 +669,8 @@ static CollectionManager *collectionManagerInstance = nil;
 {
 	sqlite3_stmt	*statement			= NULL;
 	
-	for(NSNumber *wrappedPtr in _sql) {
-		statement = (sqlite3_stmt *)[wrappedPtr unsignedLongValue];		
+	for(PointerWrapper *wrappedPtr in [_sql allValues]) {
+		statement = (sqlite3_stmt *)[wrappedPtr statementPointer];		
 		if(SQLITE_OK != sqlite3_finalize(statement)) {
 			if(nil != error) {
 				NSArray *keys = [_sql allKeysForObject:wrappedPtr];
@@ -695,7 +696,7 @@ static CollectionManager *collectionManagerInstance = nil;
 
 - (sqlite3_stmt *) preparedStatementForAction:(NSString *)action
 {
-	return (sqlite3_stmt *)[[_sql valueForKey:action] unsignedLongValue];		
+	return (sqlite3_stmt *)[[_sql valueForKey:action] statementPointer];		
 }
 
 #pragma mark Transactions

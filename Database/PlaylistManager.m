@@ -24,6 +24,7 @@
 #import "AudioLibrary.h"
 
 #import "SQLiteUtilityFunctions.h"
+#import "PointerWrapper.h"
 
 @interface PlaylistManager (Private)
 - (BOOL) prepareSQL:(NSError **)error;
@@ -445,7 +446,7 @@
 			return NO;
 		}
 		
-		[_sql setValue:[NSNumber numberWithUnsignedLong:(unsigned long)statement] forKey:filename];
+		[_sql setValue:[PointerWrapper pointerWrapperWithPointer:statement] forKey:filename];
 	}
 	
 	return YES;
@@ -455,8 +456,8 @@
 {
 	sqlite3_stmt	*statement			= NULL;
 	
-	for(NSNumber *wrappedPtr in _sql) {
-		statement = (sqlite3_stmt *)[wrappedPtr unsignedLongValue];
+	for(PointerWrapper *wrappedPtr in [_sql allValues]) {
+		statement = (sqlite3_stmt *)[wrappedPtr statementPointer];
 		if(SQLITE_OK != sqlite3_finalize(statement)) {
 			if(nil != error) {
 				NSArray *keys = [_sql allKeysForObject:wrappedPtr];
@@ -482,7 +483,7 @@
 
 - (sqlite3_stmt *) preparedStatementForAction:(NSString *)action
 {
-	return (sqlite3_stmt *)[[_sql valueForKey:action] unsignedLongValue];		
+	return (sqlite3_stmt *)[[_sql valueForKey:action] statementPointer];		
 }
 
 - (BOOL) isConnectedToDatabase

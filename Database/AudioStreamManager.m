@@ -27,6 +27,7 @@
 #import "AudioLibrary.h"
 
 #import "SQLiteUtilityFunctions.h"
+#import "PointerWrapper.h"
 
 @interface AudioStreamManager (Private)
 - (BOOL) prepareSQL:(NSError **)error;
@@ -615,7 +616,7 @@
 			return NO;
 		}
 		
-		[_sql setValue:[NSNumber numberWithUnsignedLong:(unsigned long)statement] forKey:filename];
+		[_sql setValue:[PointerWrapper pointerWrapperWithPointer:statement] forKey:filename];
 	}
 	
 	return YES;
@@ -625,32 +626,13 @@
 {
 	sqlite3_stmt	*statement			= NULL;
 	
-	// The following exposes some kind of memory corruption error. The issue is completely reproducable.
-	// 1. Create any playlist containing one or more streams with an older version of Play
-	// 2. Run a copy compiled from this source
-	// 3. You will get a dialog informing you that the database needs to be updated
-	// 4. The update completes successfully, but Play will immediatly crash afterwards and you get something like this:
-	/*
-	 2010-04-16 08:06:09.296 Play[26868:a0f] select_stream_by_url
-	 2010-04-16 08:06:09.300 Play[26868:a0f] -[NSCFString unsignedLongValue]: unrecognized selector sent to instance 0x10f8a0
-	 2010-04-16 08:06:09.304 Play[26868:a0f] An uncaught exception was raised
-	 2010-04-16 08:06:09.308 Play[26868:a0f] -[NSCFString unsignedLongValue]: unrecognized selector sent to instance 0x10f8a0
-	 2010-04-16 08:06:09.321 Play[26868:a0f] *** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[NSCFString unsignedLongValue]: unrecognized selector sent to instance 0x10f8a0'
-	 */
-	// In the end the crash occurs in [AudioLibrary library] due to an exception that is raised in the @synchronized()
-	// I have tried my best to track this down, but I have no idea how either the pointer to @"select_stream_by_url" gets into the _sql dictionary or the pointer gets corrupted/truncated to always point there.
-	// This happens with both the GCC and Clang Debug and Release build configs.
-	
-	for(NSNumber *wrappedPtr in _sql) { // This value gets tainted somehow: sometimes wrappedPtr will be an NSString * to @"select_stream_by_url"!
-		if ([wrappedPtr isKindOfClass:[NSString class]]) {
-			NSLog(@"%@", wrappedPtr); // This produces the first line in the log snipped above
-		}
-		statement = (sqlite3_stmt *)[wrappedPtr unsignedLongValue]; 
+	for(PointerWrapper *wrappedPtr in [_sql allValues]) {
+		statement = (sqlite3_stmt *)[wrappedPtr statementPointer]; 
 		if(SQLITE_OK != sqlite3_finalize(statement)) {
 			if(nil != error) {
 				NSArray *keys = [_sql allKeysForObject:wrappedPtr];
 				NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
-
+				
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The SQL statement for \"%@\" could not be finalized.", @"Errors", @""), [keys lastObject]] forKey:NSLocalizedDescriptionKey];
 				[errorDictionary setObject:NSLocalizedStringFromTable(@"Unable to finalize SQL statement", @"Errors", @"") forKey:NSLocalizedFailureReasonErrorKey];
 				[errorDictionary setObject:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The SQLite error was: %@", @"Errors", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]] forKey:NSLocalizedRecoverySuggestionErrorKey];
@@ -673,7 +655,7 @@
 {
 	NSParameterAssert(nil != action);
 	
-	return (sqlite3_stmt *)[[_sql valueForKey:action] unsignedLongValue];		
+	return [[_sql valueForKey:action] statementPointer];		
 }
 
 - (BOOL) isConnectedToDatabase
