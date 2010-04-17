@@ -525,7 +525,7 @@
 #if SQL_DEBUG
 	clock_t end = clock();
 	double elapsed = (end - start) / (double)CLOCKS_PER_SEC;
-	NSLog(@"Loaded %i playlists in %f seconds (%f per second)", [playlists count], elapsed, (double)[playlists count] / elapsed);
+	NSLog(@"Loaded %ld playlists in %f seconds (%f per second)", (long)[playlists count], elapsed, (double)[playlists count] / elapsed);
 #endif
 	
 	return [playlists autorelease];

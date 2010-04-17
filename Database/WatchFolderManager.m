@@ -504,7 +504,7 @@
 #if SQL_DEBUG
 	clock_t end = clock();
 	double elapsed = (end - start) / (double)CLOCKS_PER_SEC;
-	NSLog(@"Loaded %i watch folders in %f seconds (%f per second)", [folders count], elapsed, (double)[folders count] / elapsed);
+	NSLog(@"Loaded %ld watch folders in %f seconds (%f per second)", (long)[folders count], elapsed, (double)[folders count] / elapsed);
 #endif
 	
 	return [folders autorelease];
