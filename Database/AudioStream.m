@@ -287,8 +287,7 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 															options:(NSURLBookmarkResolutionWithoutUI | NSURLBookmarkResolutionWithoutMounting)
 													  relativeToURL:nil bookmarkDataIsStale:NULL error:NULL];
 				if (resolvedFileURL) {
-					[self setValue:resolvedFileURL forKey:StreamURLKey];
-					[self updateBookmark];
+					[self setCurrentStreamURL:resolvedFileURL];
 					return resolvedFileURL;
 				}
 				else {
@@ -318,7 +317,7 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 	if ([newURL isFileURL] && [newURL respondsToSelector:@selector(bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:)]) {
 		NSData* bookmarkData = [newURL bookmarkDataWithOptions:NSURLBookmarkCreationMinimalBookmark includingResourceValuesForKeys:nil relativeToURL:nil error:NULL];
 		if (bookmarkData) {
-			NSLog( @">>>> Updating bookmark data for: %@", [newURL absoluteURL] ); 
+			//NSLog( @">>>> Updating bookmark data for: %@", [newURL absoluteURL] ); 
 			[self setValue:bookmarkData forKey:StreamURLBookmarkKey];
 		}
 	}
