@@ -2145,7 +2145,12 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	[_playQueueTable setNeedsDisplayInRect:[_playQueueTable rectOfRow:[self playbackIndex]]];
 	
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"removeStreamsFromPlayQueueWhenFinished"] && [self nextPlaybackIndex] != [self playbackIndex])
-		[self removeObjectFromPlayQueueAtIndex:[self playbackIndex]];	
+		[self removeObjectFromPlayQueueAtIndex:[self playbackIndex]];
+	
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"stopPlayingAfterCurrentTrack"]) {
+	   [self stop:self];
+	   [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"stopPlayingAfterCurrentTrack"];
+	}
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:AudioStreamPlaybackDidCompleteNotification 
 														object:self 
