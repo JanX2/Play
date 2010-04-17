@@ -801,7 +801,7 @@
 	@try {
 		// Location
 		bindParameter(statement, 1, stream, StreamURLKey, eObjectTypeURL);
-		bindParameter(statement, 2, stream, StreamURLBookmarkKey, eObjectTypeURL);
+		bindParameter(statement, 2, stream, StreamURLBookmarkKey, eObjectTypeBlob);
 		bindParameter(statement, 3, stream, StreamStartingFrameKey, eObjectTypeLongLong);
 		bindParameter(statement, 4, stream, StreamFrameCountKey, eObjectTypeUnsignedInt);
 		
