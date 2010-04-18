@@ -12,16 +12,16 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1014"/>
 			<integer value="6"/>
 			<integer value="1017"/>
+			<integer value="1014"/>
 			<integer value="1008"/>
 			<integer value="1018"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>net.brockerhoff.RBSplitView.IBPlugin</string>
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+			<string>net.brockerhoff.RBSplitView.IBPlugin</string>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.Metadata">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -808,7 +808,7 @@
 									<int key="tag">0</int>
 									<double key="minDimension">1</double>
 									<double key="maxDimension">1000000</double>
-									<double key="fraction">-0.46791644807120747</double>
+									<double key="fraction">-0.46791644807117905</double>
 									<bool key="canCollapse">YES</bool>
 								</object>
 								<object class="RBSplitSubview" id="667825514">
@@ -1494,7 +1494,7 @@
 									<int key="tag">0</int>
 									<double key="minDimension">1</double>
 									<double key="maxDimension">1000000</double>
-									<double key="fraction">0.46791644807115063</double>
+									<double key="fraction">0.46791644807120747</double>
 									<bool key="canCollapse">NO</bool>
 								</object>
 							</object>
@@ -8192,11 +8192,11 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>net.brockerhoff.RBsplitView.IBPlugin</string>
+					<string>net.brockerhoff.RBSplitView.IBPlugin</string>
 					<boolean value="YES"/>
-					<string>net.brockerhoff.RBsplitView.IBPlugin</string>
+					<string>net.brockerhoff.RBSplitView.IBPlugin</string>
 					<boolean value="YES"/>
-					<string>net.brockerhoff.RBsplitView.IBPlugin</string>
+					<string>net.brockerhoff.RBSplitView.IBPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>

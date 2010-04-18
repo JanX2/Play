@@ -9,3 +9,4 @@ In no particular order:
 - We can use an RBSplitView left of the library that can be shown/hidden left of the library table to filter the library for groups
 - We can move and copy streams between groups
 - We can add groups manually
+- Switch to 10.5's IB non-programmatic toolbars
