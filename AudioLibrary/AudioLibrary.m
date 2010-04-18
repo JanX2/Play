@@ -1577,6 +1577,9 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 - (BOOL)		loopPlayback										{ return _loopPlayback; }
 - (void)		setLoopPlayback:(BOOL)loopPlayback					{ _loopPlayback = loopPlayback; }
 
+- (BOOL)		stopPlayingAfterCurrentTrack						{ return _stopPlayingAfterCurrentTrack; }
+- (void)		setStopPlayingAfterCurrentTrack:(BOOL)stopPlaying	{ _stopPlayingAfterCurrentTrack = stopPlaying; }
+
 - (BOOL)		playButtonEnabled									{ return _playButtonEnabled; }
 
 - (BOOL) canPlayNextStream
@@ -2147,9 +2150,9 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"removeStreamsFromPlayQueueWhenFinished"] && [self nextPlaybackIndex] != [self playbackIndex])
 		[self removeObjectFromPlayQueueAtIndex:[self playbackIndex]];
 	
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"stopPlayingAfterCurrentTrack"]) {
+	if([self stopPlayingAfterCurrentTrack]) {
 	   [self stop:self];
-	   [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"stopPlayingAfterCurrentTrack"];
+	   [self setStopPlayingAfterCurrentTrack:NO];
 	}
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:AudioStreamPlaybackDidCompleteNotification 

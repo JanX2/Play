@@ -103,6 +103,7 @@ extern NSString * const		PlayQueueKey;
 	
 	BOOL					_randomPlayback;
 	BOOL					_loopPlayback;
+	BOOL					_stopPlayingAfterCurrentTrack;
 	BOOL					_playButtonEnabled;
 	
 	BOOL					_streamsAreOrdered;
@@ -255,6 +256,9 @@ extern NSString * const		PlayQueueKey;
 
 - (BOOL)		loopPlayback;
 - (void)		setLoopPlayback:(BOOL)loopPlayback;
+
+- (BOOL)		stopPlayingAfterCurrentTrack;
+- (void)		setStopPlayingAfterCurrentTrack:(BOOL)stopPlaying;
 
 - (BOOL)		playButtonEnabled;
 
