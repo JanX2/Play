@@ -4,3 +4,8 @@ In no particular order:
 - Rename files based on tags
 - Guess tags based on filenames
 - Plugin architecture
+- Fix RBSplitView "can't find ibplugin" bug
+- Add groups: when added, a group for the files is automatically created based on the root of the add. The streams reference it by id and a stream_group consists of at least ID, name, url, url_bookmark
+- We can use an RBSplitView left of the library that can be shown/hidden left of the library table to filter the library for groups
+- We can move and copy streams between groups
+- We can add groups manually
