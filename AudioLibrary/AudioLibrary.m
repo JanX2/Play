@@ -462,6 +462,11 @@ NSString * const	PlayQueueKey								= @"playQueue";
 												 selector:@selector(watchFolderChanged:) 
 													 name:WatchFolderDidChangeNotification
 												   object:nil];
+
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+												 selector:@selector(playbackDidComplete:) 
+													 name:AudioStreamPlaybackDidCompleteNotification
+												   object:nil];		
 	}
 	return self;
 }
@@ -2063,11 +2068,6 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"removeStreamsFromPlayQueueWhenFinished"] && [self nextPlaybackIndex] != [self playbackIndex])
 		[self removeObjectFromPlayQueueAtIndex:[self playbackIndex]];
 	
-	if([self stopPlayingAfterCurrentTrack]) {
-	   [self stop:self];
-	   [self setStopPlayingAfterCurrentTrack:NO];
-	}
-	
 	[[NSNotificationCenter defaultCenter] postNotificationName:AudioStreamPlaybackDidCompleteNotification 
 														object:self 
 													  userInfo:[NSDictionary dictionaryWithObject:stream forKey:AudioStreamObjectKey]];
@@ -2140,7 +2140,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	NSUInteger		streamIndex;
 	NSArray			*streams		= _playQueue;
 	
-	if(nil == stream || 0 == [streams count])
+	if(nil == stream || 0 == [streams count] || [self stopPlayingAfterCurrentTrack])
 		[self setNextPlaybackIndex:NSNotFound];
 	else if([self randomPlayback]) {
 		double		randomNumber;
@@ -2815,6 +2815,15 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	[self performSelector:@selector(synchronizeWithWatchFolder:) withObject:[[aNotification userInfo] objectForKey:WatchFolderObjectKey] afterDelay:0];
 //	[self synchronizeWithWatchFolder:[[aNotification userInfo] objectForKey:WatchFolderObjectKey]];	
 	[_streamTable setNeedsDisplay:YES];
+}
+
+- (void) playbackDidComplete:(NSNotification *)aNotification
+{
+	if([self stopPlayingAfterCurrentTrack]) {
+		[self stop:self];
+		[self setStopPlayingAfterCurrentTrack:NO];
+	}
+
 }
 
 @end
