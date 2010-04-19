@@ -192,7 +192,6 @@ NSString * const	PlayQueueKey								= @"playQueue";
 
 - (void) updatePlayButtonState;
 
-//- (void) setupToolbar;
 - (void) setupBrowser;
 
 - (void) saveBrowserStateToDefaults;
