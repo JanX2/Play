@@ -145,15 +145,6 @@ NSString * const	WatchFolderObjectKey						= @"org.sbooth.Play.WatchFolder";
 NSString * const	PlayQueueKey								= @"playQueue";
 
 // ========================================
-// Toolbar item identifiers
-// ========================================
-static NSString * const AudioLibraryToolbarIdentifier			= @"org.sbooth.Play.Library.Toolbar";
-static NSString * const PlayerControlsToolbarItemIdentifier		= @"org.sbooth.Play.Library.Toolbar.PlayerControls";
-static NSString * const PlaybackOrderControlsToolbarItemIdentifier = @"org.sbooth.Play.Library.Toolbar.PlaybackOrderControls";
-static NSString * const VolumeControlToolbarItemIdentifier		= @"org.sbooth.Play.Library.Toolbar.VolumeControl";
-static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Library.Toolbar.SearchField";
-
-// ========================================
 // Definitions
 // ========================================
 #define VIEW_MENU_INDEX								5
@@ -201,7 +192,7 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 - (void) updatePlayButtonState;
 
-- (void) setupToolbar;
+//- (void) setupToolbar;
 - (void) setupBrowser;
 
 - (void) saveBrowserStateToDefaults;
@@ -234,6 +225,9 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 @end
 
 @implementation AudioLibrary
+
+@synthesize playPauseButtonState;
+@synthesize playPauseButtonTooltip;
 
 + (void)initialize
 {
@@ -504,6 +498,8 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 	[_playlistsNode release], _playlistsNode = nil;
 	[_smartPlaylistsNode release], _smartPlaylistsNode = nil;
 	
+	self.playPauseButtonTooltip = nil;
+	
 	[super dealloc];
 }
 
@@ -524,7 +520,6 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 - (void) awakeFromNib
 {
-	[self setupToolbar];
 	[self setupBrowser];
 	
 	[self restoreStateFromDefaults];
@@ -2042,87 +2037,6 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 
 @end
 
-@implementation AudioLibrary (NSToolbarDelegateMethods)
-
-- (NSToolbarItem *) toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag 
-{
-	NSToolbarItem *toolbarItem = nil;
-
-	if([itemIdentifier isEqualToString:PlayerControlsToolbarItemIdentifier]) {
-		toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
-		
-		[toolbarItem setLabel:NSLocalizedStringFromTable(@"Player Controls", @"Library", @"")];
-		[toolbarItem setPaletteLabel:NSLocalizedStringFromTable(@"Player Controls", @"Library", @"")];		
-		[toolbarItem setToolTip:NSLocalizedStringFromTable(@"Control the audio player", @"Library", @"")];
-		
-		[toolbarItem setView:_playerControlsToolbarView];
-		[toolbarItem setMinSize:[_playerControlsToolbarView frame].size];
-		[toolbarItem setMaxSize:[_playerControlsToolbarView frame].size];
-	}
-	else if([itemIdentifier isEqualToString:PlaybackOrderControlsToolbarItemIdentifier]) {
-		toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
-
-		[toolbarItem setLabel:NSLocalizedStringFromTable(@"Playback Order", @"Library", @"")];
-		[toolbarItem setPaletteLabel:NSLocalizedStringFromTable(@"Playback Order", @"Library", @"")];		
-		[toolbarItem setToolTip:NSLocalizedStringFromTable(@"Control the playback order", @"Library", @"")];
-
-		[toolbarItem setView:_playbackOrderControlsToolbarView];
-		[toolbarItem setMinSize:[_playbackOrderControlsToolbarView frame].size];
-		[toolbarItem setMaxSize:[_playbackOrderControlsToolbarView frame].size];
-	}
-	else if([itemIdentifier isEqualToString:VolumeControlToolbarItemIdentifier]) {
-		toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
-		
-		[toolbarItem setLabel:NSLocalizedStringFromTable(@"Volume", @"Library", @"")];
-		[toolbarItem setPaletteLabel:NSLocalizedStringFromTable(@"Volume", @"Library", @"")];		
-		[toolbarItem setToolTip:NSLocalizedStringFromTable(@"Adjust the output volume", @"Library", @"")];
-		
-		[toolbarItem setView:_volumeControlToolbarView];
-		[toolbarItem setMinSize:[_volumeControlToolbarView frame].size];
-		[toolbarItem setMaxSize:[_volumeControlToolbarView frame].size];
-	}
-	else if([itemIdentifier isEqualToString:SearchFieldToolbarItemIdentifier]) {
-		toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
-		
-		[toolbarItem setLabel:NSLocalizedStringFromTable(@"Search", @"Library", @"")];
-		[toolbarItem setPaletteLabel:NSLocalizedStringFromTable(@"Search", @"Library", @"")];		
-		[toolbarItem setToolTip:NSLocalizedStringFromTable(@"Search for tracks", @"Library", @"")];
-		
-		[toolbarItem setView:_searchFieldToolbarView];
-		[toolbarItem setMinSize:[_searchFieldToolbarView frame].size];
-		[toolbarItem setMaxSize:[_searchFieldToolbarView frame].size];
-	}
-
-    return [toolbarItem autorelease];
-}
-
-- (NSArray *) toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar 
-{
-	return [NSArray arrayWithObjects:
-		PlayerControlsToolbarItemIdentifier,
-		PlaybackOrderControlsToolbarItemIdentifier,
-		NSToolbarSpaceItemIdentifier,
-		VolumeControlToolbarItemIdentifier,
-		NSToolbarFlexibleSpaceItemIdentifier,
-		SearchFieldToolbarItemIdentifier,
-		nil];
-}
-
-- (NSArray *) toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar 
-{
-	return [NSArray arrayWithObjects:
-		PlayerControlsToolbarItemIdentifier,
-		PlaybackOrderControlsToolbarItemIdentifier,
-		VolumeControlToolbarItemIdentifier,
-		SearchFieldToolbarItemIdentifier,
-		NSToolbarSeparatorItemIdentifier,
-		NSToolbarSpaceItemIdentifier,
-		NSToolbarFlexibleSpaceItemIdentifier,
-		NSToolbarCustomizeToolbarItemIdentifier,
-		nil];
-}
-
-@end
 
 @implementation AudioLibrary (AudioPlayerMethods)
 
@@ -2394,35 +2308,23 @@ static NSString * const SearchFieldToolbarItemIdentifier		= @"org.sbooth.Play.Li
 - (void) updatePlayButtonState
 {	
 	if([[self player] isPlaying]) {		
-		[_playPauseButton setState:NSOnState];
-		[_playPauseButton setToolTip:NSLocalizedStringFromTable(@"Pause playback", @"Player", @"")];
+		[self setPlayPauseButtonState:NSOnState];
+		[self setPlayPauseButtonTooltip:NSLocalizedStringFromTable(@"Pause playback", @"Player", @"")];
 		
 		[self setPlayButtonEnabled:YES];
 	}
 	else if(NO == [[self player] hasValidStream]) {
-		[_playPauseButton setState:NSOffState];
-		[_playPauseButton setToolTip:NSLocalizedStringFromTable(@"Play", @"Player", @"")];
+		[self setPlayPauseButtonState:NSOffState];
+		[self setPlayPauseButtonTooltip:NSLocalizedStringFromTable(@"Play", @"Player", @"")];
 		
 		[self setPlayButtonEnabled:(0 != [self countOfPlayQueue] || 0 != [[_streamController selectedObjects] count])];
 	}
 	else {
-		[_playPauseButton setState:NSOffState];
-		[_playPauseButton setToolTip:NSLocalizedStringFromTable(@"Resume playback", @"Player", @"")];
+		[self setPlayPauseButtonState:NSOffState];
+		[self setPlayPauseButtonTooltip:NSLocalizedStringFromTable(@"Resume playback", @"Player", @"")];
 		
 		[self setPlayButtonEnabled:YES];
 	}
-}
-
-- (void) setupToolbar
-{
-    NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier:AudioLibraryToolbarIdentifier];
-    [toolbar setAllowsUserCustomization:YES];
-	[toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
-    [toolbar setAutosavesConfiguration:YES];
-    
-    [toolbar setDelegate:self];
-	
-    [[self window] setToolbar:[toolbar autorelease]];
 }
 
 - (void) setupBrowser

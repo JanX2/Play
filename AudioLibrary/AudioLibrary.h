@@ -89,17 +89,20 @@ extern NSString * const		PlayQueueKey;
 	IBOutlet BrowserOutlineView				*_browserOutlineView;
 	IBOutlet RBSplitView					*_splitView;
 	
-	IBOutlet NSView							*_playerControlsToolbarView;
-	IBOutlet NSView							*_playbackOrderControlsToolbarView;
-	IBOutlet NSView							*_volumeControlToolbarView;
-	IBOutlet NSView							*_searchFieldToolbarView;
+//	IBOutlet NSView							*_playerControlsToolbarView;
+//	IBOutlet NSView							*_playbackOrderControlsToolbarView;
+//	IBOutlet NSView							*_volumeControlToolbarView;
+//	IBOutlet NSView							*_searchFieldToolbarView;
 	
-	IBOutlet NSButton						*_playPauseButton;
+//	IBOutlet NSButton						*_playPauseButton;
 	
 	IBOutlet NSDrawer						*_browserDrawer;
 	
 	@private
 	AudioPlayer				*_player;
+	
+	NSInteger				playPauseButtonState;
+	NSString				*playPauseButtonTooltip;
 	
 	BOOL					_randomPlayback;
 	BOOL					_loopPlayback;
@@ -261,6 +264,8 @@ extern NSString * const		PlayQueueKey;
 - (void)		setStopPlayingAfterCurrentTrack:(BOOL)stopPlaying;
 
 - (BOOL)		playButtonEnabled;
+@property (nonatomic, assign) NSInteger playPauseButtonState;
+@property (nonatomic,   copy) NSString *playPauseButtonTooltip;
 
 - (BOOL)		canPlayNextStream;
 - (BOOL)		canPlayPreviousStream;
