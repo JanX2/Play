@@ -2,11 +2,17 @@ In no particular order:
 =======================
 - Gapless AAC playback using iTunSMPB atoms
 - Rename files based on tags
-- Guess tags based on filenames
+- Guess tags based on filenames (maybe via regex like Media Rage)
 - Plugin architecture
-- Fix RBSplitView "can't find ibplugin" bug
-- Add groups: when added, a group for the files is automatically created based on the root of the add. The streams reference it by id and a stream_group consists of at least ID, name, url, url_bookmark
-- We can use an RBSplitView left of the library that can be shown/hidden left of the library table to filter the library for groups
-- We can move and copy streams between groups
-- We can add groups manually
-- Switch to 10.5's IB non-programmatic toolbars
+- Add groups: when added, a group for the files is automatically created based on their shared root in the file system. The streams reference it by id and a stream_group consists of at least and ID, it's name, a url and a url_bookmark. 
+- Groups are a persistent way to organize files without using playlists. The main difference is that they have a relationship with a root folder in the file system. We could simply implement this via or similarily to smart playlists that filter streams by file system location. 
+- Allow to add groups manually
+- We can use an RBSplitView for the borwser that can be shown/hidden left of the library table to filter the library for groups
+- Enable double-clicking to edit Smart Playlists
+- Fix empty values for play count, etc OR allow specifying empty values for Smart Playlists
+- Re-design toolbar icons
+- Make sure the Browser is made visible when "Show Browser" is chosen from the menu: if the main window fills the screen you may never realize it's there and supect a bug or missing feature as happened to me. We achieve this by shrinking the window horizontally by the width of the browser if the main window is within a threshhold of maybe 32 px of the screen width.
+- Open browser and select new entry when adding (smart) playlists
+- Add Command-R shortcut for revealing files in the Finder. 
+- Allow scanning for missing files. 
+- Offer to find missing files (semi-)automatically (via Spotlight, exact file name, metadata and file type match, etc.)
