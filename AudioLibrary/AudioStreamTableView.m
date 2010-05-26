@@ -88,10 +88,12 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 
 - (BOOL) validateMenuItem:(NSMenuItem *)menuItem
 {
+	NSUInteger selectedObjectsCount = [[_streamController selectedObjects] count];
+	
 	if([menuItem action] == @selector(addToPlayQueue:))
-		return (0 != [[_streamController selectedObjects] count]);
+		return (0 != selectedObjectsCount);
 	else if([menuItem action] == @selector(showInformationSheet:)) {
-		if(1 == [[_streamController selectedObjects] count]) {
+		if(1 == selectedObjectsCount) {
 			[menuItem setTitle:NSLocalizedStringFromTable(@"Track Info", @"Menus", @"")];
 			return YES;
 		}
@@ -101,38 +103,38 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 		}
 	}
 	else if([menuItem action] == @selector(resetPlayCount:))
-		return (0 != [[_streamController selectedObjects] count]);
+		return (0 != selectedObjectsCount);
 	else if([menuItem action] == @selector(resetSkipCount:))
-		return (0 != [[_streamController selectedObjects] count]);
+		return (0 != selectedObjectsCount);
 	else if([menuItem action] == @selector(editMetadata:))
-		return (0 != [[_streamController selectedObjects] count]);
+		return (0 != selectedObjectsCount);
 	else if([menuItem action] == @selector(rescanMetadata:))
-		return (0 != [[_streamController selectedObjects] count]);
+		return (0 != selectedObjectsCount);
 	else if([menuItem action] == @selector(saveMetadata:))
-		return (0 != [[_streamController selectedObjects] count]);
+		return (0 != selectedObjectsCount);
 	else if([menuItem action] == @selector(clearMetadata:))
-		return (0 != [[_streamController selectedObjects] count]);
+		return (0 != selectedObjectsCount);
 	else if([menuItem action] == @selector(calculateTrackReplayGain:))
-		return (0 != [[_streamController selectedObjects] count]);
+		return (0 != selectedObjectsCount);
 	else if([menuItem action] == @selector(calculateTrackAndAlbumReplayGain:))
-		return (1 < [[_streamController selectedObjects] count]);
+		return (1 < selectedObjectsCount);
 	else if([menuItem action] == @selector(clearReplayGain:))
-		return (0 != [[_streamController selectedObjects] count]);
+		return (0 != selectedObjectsCount);
 	else if([menuItem action] == @selector(determinePUIDs:)) {
-		if(1 == [[_streamController selectedObjects] count])
+		if(1 == selectedObjectsCount)
 			[menuItem setTitle:NSLocalizedStringFromTable(@"Determine PUID...", @"Menus", @"")];
 		else
 			[menuItem setTitle:NSLocalizedStringFromTable(@"Determine PUIDs...", @"Menus", @"")];
-		return ((0 != [[_streamController selectedObjects] count]) && canConnectToMusicDNS());
+		return ((0 != selectedObjectsCount) && canConnectToMusicDNS());
 	}
 	else if([menuItem action] == @selector(lookupTrackInMusicBrainz:))
-		return ((1 == [[_streamController selectedObjects] count]) && nil != [[_streamController selection] valueForKey:MetadataMusicDNSPUIDKey] && canConnectToMusicBrainz());
+		return ((1 == selectedObjectsCount) && nil != [[_streamController selection] valueForKey:MetadataMusicDNSPUIDKey] && canConnectToMusicBrainz());
 	else if([menuItem action] == @selector(searchMusicBrainzForMatchingTracks:))
-		return ((1 == [[_streamController selectedObjects] count]) && canConnectToMusicBrainz());
+		return ((1 == selectedObjectsCount) && canConnectToMusicBrainz());
 	else if([menuItem action] == @selector(remove:))
 		return [_streamController canRemove];
 	else if([menuItem action] == @selector(browseTracksWithSameArtist:)) {
-		if(1 == [[_streamController selectedObjects] count]) {
+		if(1 == selectedObjectsCount) {
 			NSString *artist = [[_streamController selection] valueForKey:MetadataArtistKey];
 			if(nil == artist)
 				[menuItem setTitle:NSLocalizedStringFromTable(@"No artist", @"Menus", @"")];
@@ -147,7 +149,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 		}
 	}
 	else if([menuItem action] == @selector(browseTracksWithSameAlbum:)) {
-		if(1 == [[_streamController selectedObjects] count]) {
+		if(1 == selectedObjectsCount) {
 			NSString *albumTitle = [[_streamController selection] valueForKey:MetadataAlbumTitleKey];
 			if(nil == albumTitle)
 				[menuItem setTitle:NSLocalizedStringFromTable(@"No album", @"Menus", @"")];
@@ -162,7 +164,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 		}
 	}
 	else if([menuItem action] == @selector(browseTracksWithSameComposer:)) {
-		if(1 == [[_streamController selectedObjects] count]) {
+		if(1 == selectedObjectsCount) {
 			NSString *composer = [[_streamController selection] valueForKey:MetadataComposerKey];
 			if(nil == composer)
 				[menuItem setTitle:NSLocalizedStringFromTable(@"No composer", @"Menus", @"")];
@@ -177,7 +179,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 		}
 	}
 	else if([menuItem action] == @selector(browseTracksWithSameGenre:)) {
-		if(1 == [[_streamController selectedObjects] count]) {
+		if(1 == selectedObjectsCount) {
 			NSString *genre = [[_streamController selection] valueForKey:MetadataGenreKey];
 			if(nil == genre)
 				[menuItem setTitle:NSLocalizedStringFromTable(@"No genre", @"Menus", @"")];
@@ -192,7 +194,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 		}
 	}
 	else if([menuItem action] == @selector(addTracksWithSameArtistToPlayQueue:)) {
-		if(1 == [[_streamController selectedObjects] count]) {
+		if(1 == selectedObjectsCount) {
 			NSString *artist = [[_streamController selection] valueForKey:MetadataArtistKey];
 			if(nil == artist)
 				[menuItem setTitle:NSLocalizedStringFromTable(@"No artist", @"Menus", @"")];
@@ -207,7 +209,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 		}
 	}
 	else if([menuItem action] == @selector(addTracksWithSameAlbumToPlayQueue:)) {
-		if(1 == [[_streamController selectedObjects] count]) {
+		if(1 == selectedObjectsCount) {
 			NSString *albumTitle = [[_streamController selection] valueForKey:MetadataAlbumTitleKey];
 			if(nil == albumTitle)
 				[menuItem setTitle:NSLocalizedStringFromTable(@"No album", @"Menus", @"")];
@@ -222,7 +224,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 		}
 	}
 	else if([menuItem action] == @selector(addTracksWithSameComposerToPlayQueue:)) {
-		if(1 == [[_streamController selectedObjects] count]) {
+		if(1 == selectedObjectsCount) {
 			NSString *composer = [[_streamController selection] valueForKey:MetadataComposerKey];
 			if(nil == composer)
 				[menuItem setTitle:NSLocalizedStringFromTable(@"No composer", @"Menus", @"")];
@@ -237,7 +239,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 		}
 	}
 	else if([menuItem action] == @selector(addTracksWithSameGenreToPlayQueue:)) {
-		if(1 == [[_streamController selectedObjects] count]) {
+		if(1 == selectedObjectsCount) {
 			NSString *genre = [[_streamController selection] valueForKey:MetadataGenreKey];
 			if(nil == genre)
 				[menuItem setTitle:NSLocalizedStringFromTable(@"No genre", @"Menus", @"")];
@@ -252,17 +254,17 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 		}
 	}
 	else if([menuItem action] == @selector(insertPlaylistWithSelection:))
-		return (/*[_browserController canInsert] && */0 != [[_streamController selectedObjects] count]);
+		return (/*[_browserController canInsert] && */0 != selectedObjectsCount);
 	else if([menuItem action] == @selector(convert:))
-		return (1 == [[_streamController selectedObjects] count]);
+		return (1 == selectedObjectsCount);
 	else if([menuItem action] == @selector(convertWithMax:))
-		return (nil != [[NSWorkspace sharedWorkspace] fullPathForApplication:@"Max"] && kMaximumStreamsForContextMenuAction >= [[_streamController selectedObjects] count]);
+		return (nil != [[NSWorkspace sharedWorkspace] fullPathForApplication:@"Max"] && 0 < selectedObjectsCount && kMaximumStreamsForContextMenuAction >= selectedObjectsCount);
 	else if([menuItem action] == @selector(editWithTag:))
-		return (nil != [[NSWorkspace sharedWorkspace] fullPathForApplication:@"Tag"] && kMaximumStreamsForContextMenuAction >= [[_streamController selectedObjects] count]);
+		return (nil != [[NSWorkspace sharedWorkspace] fullPathForApplication:@"Tag"] && 0 < selectedObjectsCount && kMaximumStreamsForContextMenuAction >= selectedObjectsCount);
 	else if([menuItem action] == @selector(revealInFinder:)
 			|| [menuItem action] == @selector(openWithFinder:)
 			|| [menuItem action] == @selector(openWith:))
-		return (kMaximumStreamsForContextMenuAction >= [[_streamController selectedObjects] count]);
+		return (0 < selectedObjectsCount && kMaximumStreamsForContextMenuAction >= selectedObjectsCount);
 
 	return YES;
 }
