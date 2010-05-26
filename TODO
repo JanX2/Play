@@ -14,5 +14,5 @@ In no particular order:
 - Make sure the Browser is made visible when "Show Browser" is chosen from the menu: if the main window fills the screen you may never realize it's there and supect a bug or missing feature as happened to me. We achieve this by shrinking the window horizontally by the width of the browser if the main window is within a threshhold of maybe 32 px of the screen width.
 - Open browser and select new entry when adding (smart) playlists
 - Add Command-R shortcut for revealing files in the Finder. 
-- Allow scanning for missing files. 
+- Allow scanning the library/selection for missing files. 
 - Offer to find missing files (semi-)automatically (via Spotlight, exact file name, metadata and file type match, etc.)
