@@ -114,7 +114,7 @@
 										<reference key="NSControlView" ref="252702703"/>
 										<int key="NSButtonFlags">-931905281</int>
 										<int key="NSButtonFlags2">70</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="3084651">
+										<object class="NSCustomResource" key="NSNormalImage" id="430486817">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">PlayButtonTemplate</string>
 										</object>
@@ -128,7 +128,7 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="3084651"/>
+								<reference key="NSToolbarItemImage" ref="430486817"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{24, 24}</string>
@@ -149,7 +149,7 @@
 								<object class="NSButton" key="NSToolbarItemView" id="106463893">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
-									<string key="NSFrame">{{30, 14}, {24, 24}}</string>
+									<string key="NSFrame">{{27, 14}, {29, 29}}</string>
 									<reference key="NSSuperview"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="15086282">
@@ -164,7 +164,7 @@
 										<reference key="NSControlView" ref="106463893"/>
 										<int key="NSButtonFlags">1223446783</int>
 										<int key="NSButtonFlags2">96</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="886616906">
+										<object class="NSCustomResource" key="NSNormalImage" id="894814352">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">LoopPlaybackTemplate</string>
 										</object>
@@ -174,7 +174,7 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="886616906"/>
+								<reference key="NSToolbarItemImage" ref="894814352"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{24, 24}</string>
@@ -206,7 +206,7 @@
 										<reference key="NSControlView" ref="600817056"/>
 										<int key="NSButtonFlags">1215058175</int>
 										<int key="NSButtonFlags2">70</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="1560">
+										<object class="NSCustomResource" key="NSNormalImage" id="911895179">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">RewindTemplate</string>
 										</object>
@@ -216,7 +216,7 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="1560"/>
+								<reference key="NSToolbarItemImage" ref="911895179"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{24, 24}</string>
@@ -231,13 +231,13 @@
 								<object class="NSMutableString" key="NSToolbarItemIdentifier">
 									<characters key="NS.bytes">573F2ED4-09DC-42BE-BF18-F0BECF37DF39</characters>
 								</object>
-								<string key="NSToolbarItemLabel">Continue Playing</string>
-								<string key="NSToolbarItemPaletteLabel">Continue Playing</string>
+								<string key="NSToolbarItemLabel">Stop Playing</string>
+								<string key="NSToolbarItemPaletteLabel">Stop Playing</string>
 								<nil key="NSToolbarItemToolTip"/>
 								<object class="NSButton" key="NSToolbarItemView" id="142289014">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
-									<string key="NSFrame">{{37, 14}, {24, 24}}</string>
+									<string key="NSFrame">{{22, 14}, {29, 29}}</string>
 									<reference key="NSSuperview"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="204610009">
@@ -248,13 +248,9 @@
 										<reference key="NSControlView" ref="142289014"/>
 										<int key="NSButtonFlags">-926138113</int>
 										<int key="NSButtonFlags2">96</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="1025">
+										<object class="NSCustomResource" key="NSNormalImage" id="614374737">
 											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">ContinueOnTemplate</string>
-										</object>
-										<object class="NSCustomResource" key="NSAlternateImage">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">ContinueOffTemplate</string>
+											<string key="NSResourceName">ContinueTemplate</string>
 										</object>
 										<string key="NSAlternateContents"/>
 										<string key="NSKeyEquivalent"/>
@@ -262,7 +258,7 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="1025"/>
+								<reference key="NSToolbarItemImage" ref="614374737"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{24, 24}</string>
@@ -294,7 +290,7 @@
 										<reference key="NSControlView" ref="650231812"/>
 										<int key="NSButtonFlags">1214533887</int>
 										<int key="NSButtonFlags2">70</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="316150746">
+										<object class="NSCustomResource" key="NSNormalImage" id="832476441">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">NextTrackTemplate</string>
 										</object>
@@ -304,7 +300,7 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="316150746"/>
+								<reference key="NSToolbarItemImage" ref="832476441"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{24, 24}</string>
@@ -340,7 +336,7 @@
 										<reference key="NSControlView" ref="45310126"/>
 										<int key="NSButtonFlags">1214533887</int>
 										<int key="NSButtonFlags2">70</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="71918574">
+										<object class="NSCustomResource" key="NSNormalImage" id="240056605">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">PreviousTrackTemplate</string>
 										</object>
@@ -350,7 +346,7 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="71918574"/>
+								<reference key="NSToolbarItemImage" ref="240056605"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{24, 24}</string>
@@ -487,7 +483,7 @@
 								<object class="NSButton" key="NSToolbarItemView" id="269433557">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
-									<string key="NSFrame">{{39, 14}, {24, 24}}</string>
+									<string key="NSFrame">{{36, 14}, {29, 29}}</string>
 									<reference key="NSSuperview"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="1005206328">
@@ -498,7 +494,7 @@
 										<reference key="NSControlView" ref="269433557"/>
 										<int key="NSButtonFlags">1224495359</int>
 										<int key="NSButtonFlags2">96</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="279393506">
+										<object class="NSCustomResource" key="NSNormalImage" id="993087170">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">RandomPlaybackTemplate</string>
 										</object>
@@ -508,7 +504,7 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="279393506"/>
+								<reference key="NSToolbarItemImage" ref="993087170"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{24, 24}</string>
@@ -659,7 +655,7 @@
 										<reference key="NSControlView" ref="44185982"/>
 										<int key="NSButtonFlags">1215058175</int>
 										<int key="NSButtonFlags2">70</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="55378850">
+										<object class="NSCustomResource" key="NSNormalImage" id="106331853">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">FastForwardTemplate</string>
 										</object>
@@ -669,7 +665,7 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="55378850"/>
+								<reference key="NSToolbarItemImage" ref="106331853"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{24, 24}</string>
@@ -10114,8 +10110,7 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>BrowserTemplate</string>
-				<string>ContinueOffTemplate</string>
-				<string>ContinueOnTemplate</string>
+				<string>ContinueTemplate</string>
 				<string>FastForwardTemplate</string>
 				<string>LoopPlaybackTemplate</string>
 				<string>MaximumVolume</string>
@@ -10133,10 +10128,9 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>{64, 64}</string>
+				<string>{58, 38}</string>
 				<string>{64, 64}</string>
-				<string>{64, 64}</string>
-				<string>{64, 64}</string>
-				<string>{64, 64}</string>
+				<string>{58, 38}</string>
 				<string>{32, 32}</string>
 				<string>{32, 32}</string>
 				<string>{9, 8}</string>
@@ -10146,7 +10140,7 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 				<string>{64, 64}</string>
 				<string>{64, 64}</string>
 				<string>{64, 64}</string>
-				<string>{64, 64}</string>
+				<string>{58, 38}</string>
 				<string>{64, 64}</string>
 			</object>
 		</object>
