@@ -40,6 +40,7 @@
 		32CF6E411038BD39006F9D62 /* HotKeyPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32CF6E3F1038BD39006F9D62 /* HotKeyPreferences.xib */; };
 		32FF2397104336FC0069EB9B /* Version.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 32FF2396104336FC0069EB9B /* Version.xcconfig */; };
 		32FF2425104338C30069EB9B /* Base.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 32FF2424104338C30069EB9B /* Base.xcconfig */; };
+		3D33E3AF11D655A2001324B2 /* Browser.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3AE11D655A2001324B2 /* Browser.pdf */; };
 		3D50A2B81162CDDD002A5832 /* RBSplitView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D50A2B71162CDDD002A5832 /* RBSplitView.framework */; };
 		3D50A2B91162CDEC002A5832 /* RBSplitView.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3D50A2B71162CDDD002A5832 /* RBSplitView.framework */; };
 		3DAFB8211178CACD0049C73C /* PointerWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DAFB8201178CACD0049C73C /* PointerWrapper.m */; };
@@ -399,6 +400,7 @@
 		32CF6E401038BD39006F9D62 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HotKeyPreferences.xib; sourceTree = "<group>"; };
 		32FF2396104336FC0069EB9B /* Version.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		32FF2424104338C30069EB9B /* Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
+		3D33E3AE11D655A2001324B2 /* Browser.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = Browser.pdf; path = Images/Browser.pdf; sourceTree = "<group>"; };
 		3D50A2B71162CDDD002A5832 /* RBSplitView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RBSplitView.framework; path = Frameworks/RBSplitView.framework; sourceTree = "<group>"; };
 		3DAFB81F1178CACD0049C73C /* PointerWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointerWrapper.h; path = Utilities/PointerWrapper.h; sourceTree = "<group>"; };
 		3DAFB8201178CACD0049C73C /* PointerWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PointerWrapper.m; path = Utilities/PointerWrapper.m; sourceTree = "<group>"; };
@@ -1294,6 +1296,7 @@
 				8C9C2E6D0B7310C100CE799A /* Add.png */,
 				8C9C2E7B0B7310C100CE799A /* Remove_Pressed.png */,
 				8C9C2E7C0B7310C100CE799A /* Remove.png */,
+				3D33E3AE11D655A2001324B2 /* Browser.pdf */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -1778,6 +1781,7 @@
 				3DF779B011AEA49D002E4419 /* NextTrack.pdf in Resources */,
 				3DF779B111AEA49D002E4419 /* LoopPlayback-on.pdf in Resources */,
 				3DF779B211AEA49D002E4419 /* FastForward.pdf in Resources */,
+				3D33E3AF11D655A2001324B2 /* Browser.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
