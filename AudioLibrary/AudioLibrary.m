@@ -1694,11 +1694,21 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		if(nil != infoForBinding) {
 			NSArrayController	*arrayController	= [infoForBinding objectForKey:NSObservedObjectKey];
 			AudioStream			*stream				= [[arrayController arrangedObjects] objectAtIndex:rowIndex];
-			BOOL				highlight			= ([stream isPlaying] && rowIndex == (NSInteger)[self playbackIndex]);
+			BOOL				highlight			= ([stream isPlaying] && [[aTableColumn identifier] isEqual:@"nowPlaying"]);
+			
+			// CHANGEME: The icon should refresh on play/pause
+			// CHANGEME: Change icon color if the row is selected (black doesn't look good in a selection)
 			
 			// Icon for now playing
-			if([[aTableColumn identifier] isEqual:@"nowPlaying"])
-				[cell setImage:(highlight ? [NSImage imageNamed:@"NowPlayingImage"] : nil)];
+			if([[aTableColumn identifier] isEqual:@"nowPlaying"]) {
+				if (rowIndex == (NSInteger)[self playbackIndex]) {
+					[cell setImage:([stream isPlaying] ? [NSImage imageNamed:@"NowPlaying-on"] : [NSImage imageNamed:@"NowPlaying-off"])];
+				}
+				else {
+					[cell setImage:nil];
+
+				}
+			}
 			
 			// Bold/unbold cell font as required
 			NSFont *font = [cell font];

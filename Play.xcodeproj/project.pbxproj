@@ -45,16 +45,23 @@
 		3DAFB8211178CACD0049C73C /* PointerWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DAFB8201178CACD0049C73C /* PointerWrapper.m */; };
 		3DE12FB61177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql in Resources */ = {isa = PBXBuildFile; fileRef = 3DE12FB51177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql */; };
 		3DE12FC51177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql in Resources */ = {isa = PBXBuildFile; fileRef = 3DE12FC41177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql */; };
-		8C05E7FE0CC283BD006E5746 /* NowPlayingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C05E7FD0CC283BD006E5746 /* NowPlayingImage.png */; };
-		8C05E8150CC29D81006E5746 /* FastForward.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C05E80E0CC29D81006E5746 /* FastForward.png */; };
-		8C05E8160CC29D81006E5746 /* LoopPlayback.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C05E80F0CC29D81006E5746 /* LoopPlayback.png */; };
-		8C05E8170CC29D81006E5746 /* NextTrack.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C05E8100CC29D81006E5746 /* NextTrack.png */; };
-		8C05E8180CC29D82006E5746 /* PlayPause.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C05E8110CC29D81006E5746 /* PlayPause.png */; };
-		8C05E8190CC29D82006E5746 /* PreviousTrack.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C05E8120CC29D81006E5746 /* PreviousTrack.png */; };
-		8C05E81A0CC29D82006E5746 /* RandomPlayback.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C05E8130CC29D81006E5746 /* RandomPlayback.png */; };
-		8C05E81B0CC29D82006E5746 /* Rewind.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C05E8140CC29D81006E5746 /* Rewind.png */; };
-		8C05E8260CC29E6B006E5746 /* MaximumVolume.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C05E8240CC29E6A006E5746 /* MaximumVolume.png */; };
-		8C05E8270CC29E6B006E5746 /* MinimumVolume.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C05E8250CC29E6A006E5746 /* MinimumVolume.png */; };
+		3DF779A211AEA49D002E4419 /* NowPlaying-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799111AEA49D002E4419 /* NowPlaying-on.pdf */; };
+		3DF779A311AEA49D002E4419 /* NowPlaying-off.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799211AEA49D002E4419 /* NowPlaying-off.pdf */; };
+		3DF779A411AEA49D002E4419 /* MinimumVolume.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799311AEA49D002E4419 /* MinimumVolume.pdf */; };
+		3DF779A511AEA49D002E4419 /* MaximumVolume.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799411AEA49D002E4419 /* MaximumVolume.pdf */; };
+		3DF779A611AEA49D002E4419 /* LoopPlayback-off.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799511AEA49D002E4419 /* LoopPlayback-off.pdf */; };
+		3DF779A711AEA49D002E4419 /* Continue-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799611AEA49D002E4419 /* Continue-on.pdf */; };
+		3DF779A811AEA49D002E4419 /* Continue-off.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799711AEA49D002E4419 /* Continue-off.pdf */; };
+		3DF779A911AEA49D002E4419 /* Stop.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799811AEA49D002E4419 /* Stop.pdf */; };
+		3DF779AA11AEA49D002E4419 /* Rewind.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799911AEA49D002E4419 /* Rewind.pdf */; };
+		3DF779AB11AEA49D002E4419 /* RandomPlayback-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799A11AEA49D002E4419 /* RandomPlayback-on.pdf */; };
+		3DF779AC11AEA49D002E4419 /* RandomPlayback-off.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799B11AEA49D002E4419 /* RandomPlayback-off.pdf */; };
+		3DF779AD11AEA49D002E4419 /* PreviousTrack.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799C11AEA49D002E4419 /* PreviousTrack.pdf */; };
+		3DF779AE11AEA49D002E4419 /* PlayButton.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799D11AEA49D002E4419 /* PlayButton.pdf */; };
+		3DF779AF11AEA49D002E4419 /* Pause.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799E11AEA49D002E4419 /* Pause.pdf */; };
+		3DF779B011AEA49D002E4419 /* NextTrack.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799F11AEA49D002E4419 /* NextTrack.pdf */; };
+		3DF779B111AEA49D002E4419 /* LoopPlayback-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF779A011AEA49D002E4419 /* LoopPlayback-on.pdf */; };
+		3DF779B211AEA49D002E4419 /* FastForward.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF779A111AEA49D002E4419 /* FastForward.pdf */; };
 		8C06F0240B866F1900E8ADB6 /* CTGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C06F0220B866F1900E8ADB6 /* CTGradient.m */; };
 		8C06F02C0B866F2D00E8ADB6 /* CTBadge_1.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8C06F0260B866F2D00E8ADB6 /* CTBadge_1.pdf */; };
 		8C06F02D0B866F2D00E8ADB6 /* CTBadge_3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8C06F0270B866F2D00E8ADB6 /* CTBadge_3.pdf */; };
@@ -397,16 +404,23 @@
 		3DAFB8201178CACD0049C73C /* PointerWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PointerWrapper.m; path = Utilities/PointerWrapper.m; sourceTree = "<group>"; };
 		3DE12FB51177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = upgrade_database_for_NSURL_bookmarks.sql; path = SQL/upgrade_database_for_NSURL_bookmarks.sql; sourceTree = "<group>"; };
 		3DE12FC41177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = check_for_NSURL_bookmarks_support.sql; path = SQL/check_for_NSURL_bookmarks_support.sql; sourceTree = "<group>"; };
-		8C05E7FD0CC283BD006E5746 /* NowPlayingImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NowPlayingImage.png; path = Images/NowPlayingImage.png; sourceTree = "<group>"; };
-		8C05E80E0CC29D81006E5746 /* FastForward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FastForward.png; path = Images/FastForward.png; sourceTree = "<group>"; };
-		8C05E80F0CC29D81006E5746 /* LoopPlayback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoopPlayback.png; path = Images/LoopPlayback.png; sourceTree = "<group>"; };
-		8C05E8100CC29D81006E5746 /* NextTrack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NextTrack.png; path = Images/NextTrack.png; sourceTree = "<group>"; };
-		8C05E8110CC29D81006E5746 /* PlayPause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PlayPause.png; path = Images/PlayPause.png; sourceTree = "<group>"; };
-		8C05E8120CC29D81006E5746 /* PreviousTrack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PreviousTrack.png; path = Images/PreviousTrack.png; sourceTree = "<group>"; };
-		8C05E8130CC29D81006E5746 /* RandomPlayback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RandomPlayback.png; path = Images/RandomPlayback.png; sourceTree = "<group>"; };
-		8C05E8140CC29D81006E5746 /* Rewind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Rewind.png; path = Images/Rewind.png; sourceTree = "<group>"; };
-		8C05E8240CC29E6A006E5746 /* MaximumVolume.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MaximumVolume.png; path = Images/MaximumVolume.png; sourceTree = "<group>"; };
-		8C05E8250CC29E6A006E5746 /* MinimumVolume.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MinimumVolume.png; path = Images/MinimumVolume.png; sourceTree = "<group>"; };
+		3DF7799111AEA49D002E4419 /* NowPlaying-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "NowPlaying-on.pdf"; path = "Images/NowPlaying-on.pdf"; sourceTree = "<group>"; };
+		3DF7799211AEA49D002E4419 /* NowPlaying-off.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "NowPlaying-off.pdf"; path = "Images/NowPlaying-off.pdf"; sourceTree = "<group>"; };
+		3DF7799311AEA49D002E4419 /* MinimumVolume.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = MinimumVolume.pdf; path = Images/MinimumVolume.pdf; sourceTree = "<group>"; };
+		3DF7799411AEA49D002E4419 /* MaximumVolume.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = MaximumVolume.pdf; path = Images/MaximumVolume.pdf; sourceTree = "<group>"; };
+		3DF7799511AEA49D002E4419 /* LoopPlayback-off.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "LoopPlayback-off.pdf"; path = "Images/LoopPlayback-off.pdf"; sourceTree = "<group>"; };
+		3DF7799611AEA49D002E4419 /* Continue-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "Continue-on.pdf"; path = "Images/Continue-on.pdf"; sourceTree = "<group>"; };
+		3DF7799711AEA49D002E4419 /* Continue-off.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "Continue-off.pdf"; path = "Images/Continue-off.pdf"; sourceTree = "<group>"; };
+		3DF7799811AEA49D002E4419 /* Stop.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = Stop.pdf; path = Images/Stop.pdf; sourceTree = "<group>"; };
+		3DF7799911AEA49D002E4419 /* Rewind.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = Rewind.pdf; path = Images/Rewind.pdf; sourceTree = "<group>"; };
+		3DF7799A11AEA49D002E4419 /* RandomPlayback-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "RandomPlayback-on.pdf"; path = "Images/RandomPlayback-on.pdf"; sourceTree = "<group>"; };
+		3DF7799B11AEA49D002E4419 /* RandomPlayback-off.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "RandomPlayback-off.pdf"; path = "Images/RandomPlayback-off.pdf"; sourceTree = "<group>"; };
+		3DF7799C11AEA49D002E4419 /* PreviousTrack.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = PreviousTrack.pdf; path = Images/PreviousTrack.pdf; sourceTree = "<group>"; };
+		3DF7799D11AEA49D002E4419 /* PlayButton.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = PlayButton.pdf; path = Images/PlayButton.pdf; sourceTree = "<group>"; };
+		3DF7799E11AEA49D002E4419 /* Pause.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = Pause.pdf; path = Images/Pause.pdf; sourceTree = "<group>"; };
+		3DF7799F11AEA49D002E4419 /* NextTrack.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = NextTrack.pdf; path = Images/NextTrack.pdf; sourceTree = "<group>"; };
+		3DF779A011AEA49D002E4419 /* LoopPlayback-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "LoopPlayback-on.pdf"; path = "Images/LoopPlayback-on.pdf"; sourceTree = "<group>"; };
+		3DF779A111AEA49D002E4419 /* FastForward.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = FastForward.pdf; path = Images/FastForward.pdf; sourceTree = "<group>"; };
 		8C06F0210B866F1900E8ADB6 /* CTGradient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CTGradient.h; path = ThirdParty/CTGradient/CTGradient.h; sourceTree = "<group>"; };
 		8C06F0220B866F1900E8ADB6 /* CTGradient.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = CTGradient.m; path = ThirdParty/CTGradient/CTGradient.m; sourceTree = "<group>"; };
 		8C06F0260B866F2D00E8ADB6 /* CTBadge_1.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CTBadge_1.pdf; sourceTree = "<group>"; };
@@ -1254,16 +1268,23 @@
 		8C9C2E690B7310AC00CE799A /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				8C05E8240CC29E6A006E5746 /* MaximumVolume.png */,
-				8C05E8250CC29E6A006E5746 /* MinimumVolume.png */,
-				8C05E80E0CC29D81006E5746 /* FastForward.png */,
-				8C05E80F0CC29D81006E5746 /* LoopPlayback.png */,
-				8C05E8100CC29D81006E5746 /* NextTrack.png */,
-				8C05E8110CC29D81006E5746 /* PlayPause.png */,
-				8C05E8120CC29D81006E5746 /* PreviousTrack.png */,
-				8C05E8130CC29D81006E5746 /* RandomPlayback.png */,
-				8C05E8140CC29D81006E5746 /* Rewind.png */,
-				8C05E7FD0CC283BD006E5746 /* NowPlayingImage.png */,
+				3DF7799111AEA49D002E4419 /* NowPlaying-on.pdf */,
+				3DF7799211AEA49D002E4419 /* NowPlaying-off.pdf */,
+				3DF7799311AEA49D002E4419 /* MinimumVolume.pdf */,
+				3DF7799411AEA49D002E4419 /* MaximumVolume.pdf */,
+				3DF7799511AEA49D002E4419 /* LoopPlayback-off.pdf */,
+				3DF7799611AEA49D002E4419 /* Continue-on.pdf */,
+				3DF7799711AEA49D002E4419 /* Continue-off.pdf */,
+				3DF7799811AEA49D002E4419 /* Stop.pdf */,
+				3DF7799911AEA49D002E4419 /* Rewind.pdf */,
+				3DF7799A11AEA49D002E4419 /* RandomPlayback-on.pdf */,
+				3DF7799B11AEA49D002E4419 /* RandomPlayback-off.pdf */,
+				3DF7799C11AEA49D002E4419 /* PreviousTrack.pdf */,
+				3DF7799D11AEA49D002E4419 /* PlayButton.pdf */,
+				3DF7799E11AEA49D002E4419 /* Pause.pdf */,
+				3DF7799F11AEA49D002E4419 /* NextTrack.pdf */,
+				3DF779A011AEA49D002E4419 /* LoopPlayback-on.pdf */,
+				3DF779A111AEA49D002E4419 /* FastForward.pdf */,
 				8C47A8E10C9301B400D71633 /* AdvancedPreferencesToolbarImage.tiff */,
 				8C2B35970C19042A000E28B9 /* DSPPreferencesToolbarImage.png */,
 				8C5838200BDFCFC400E43C9E /* OutputPreferencesToolbarImage.tiff */,
@@ -1712,16 +1733,6 @@
 				8CF257C10BF543FA00A8520E /* plus.png in Resources */,
 				8C2B35980C19042A000E28B9 /* DSPPreferencesToolbarImage.png in Resources */,
 				8C47A8E20C9301B400D71633 /* AdvancedPreferencesToolbarImage.tiff in Resources */,
-				8C05E7FE0CC283BD006E5746 /* NowPlayingImage.png in Resources */,
-				8C05E8150CC29D81006E5746 /* FastForward.png in Resources */,
-				8C05E8160CC29D81006E5746 /* LoopPlayback.png in Resources */,
-				8C05E8170CC29D81006E5746 /* NextTrack.png in Resources */,
-				8C05E8180CC29D82006E5746 /* PlayPause.png in Resources */,
-				8C05E8190CC29D82006E5746 /* PreviousTrack.png in Resources */,
-				8C05E81A0CC29D82006E5746 /* RandomPlayback.png in Resources */,
-				8C05E81B0CC29D82006E5746 /* Rewind.png in Resources */,
-				8C05E8260CC29E6B006E5746 /* MaximumVolume.png in Resources */,
-				8C05E8270CC29E6B006E5746 /* MinimumVolume.png in Resources */,
 				8C0CF05D0CE806FA0086CAFB /* check_for_cue_sheet_support.sql in Resources */,
 				8C0CF0610CE807B10086CAFB /* upgrade_database_for_cue_sheets.sql in Resources */,
 				8C0CF0830CE80EAB0086CAFB /* check_for_musicbrainz_support.sql in Resources */,
@@ -1750,6 +1761,23 @@
 				325922471051B21300A74D37 /* dsa_pub.pem in Resources */,
 				3DE12FB61177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql in Resources */,
 				3DE12FC51177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql in Resources */,
+				3DF779A211AEA49D002E4419 /* NowPlaying-on.pdf in Resources */,
+				3DF779A311AEA49D002E4419 /* NowPlaying-off.pdf in Resources */,
+				3DF779A411AEA49D002E4419 /* MinimumVolume.pdf in Resources */,
+				3DF779A511AEA49D002E4419 /* MaximumVolume.pdf in Resources */,
+				3DF779A611AEA49D002E4419 /* LoopPlayback-off.pdf in Resources */,
+				3DF779A711AEA49D002E4419 /* Continue-on.pdf in Resources */,
+				3DF779A811AEA49D002E4419 /* Continue-off.pdf in Resources */,
+				3DF779A911AEA49D002E4419 /* Stop.pdf in Resources */,
+				3DF779AA11AEA49D002E4419 /* Rewind.pdf in Resources */,
+				3DF779AB11AEA49D002E4419 /* RandomPlayback-on.pdf in Resources */,
+				3DF779AC11AEA49D002E4419 /* RandomPlayback-off.pdf in Resources */,
+				3DF779AD11AEA49D002E4419 /* PreviousTrack.pdf in Resources */,
+				3DF779AE11AEA49D002E4419 /* PlayButton.pdf in Resources */,
+				3DF779AF11AEA49D002E4419 /* Pause.pdf in Resources */,
+				3DF779B011AEA49D002E4419 /* NextTrack.pdf in Resources */,
+				3DF779B111AEA49D002E4419 /* LoopPlayback-on.pdf in Resources */,
+				3DF779B211AEA49D002E4419 /* FastForward.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
