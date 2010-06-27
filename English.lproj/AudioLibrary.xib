@@ -114,7 +114,7 @@
 										<reference key="NSControlView" ref="252702703"/>
 										<int key="NSButtonFlags">-931905281</int>
 										<int key="NSButtonFlags2">70</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="430486817">
+										<object class="NSCustomResource" key="NSNormalImage" id="487762260">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">PlayButtonTemplate</string>
 										</object>
@@ -128,11 +128,11 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="430486817"/>
+								<reference key="NSToolbarItemImage" ref="487762260"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{24, 24}</string>
-								<string key="NSToolbarItemMaxSize">{24, 24}</string>
+								<string key="NSToolbarItemMaxSize">{32, 32}</string>
 								<bool key="NSToolbarItemEnabled">YES</bool>
 								<bool key="NSToolbarItemAutovalidates">YES</bool>
 								<int key="NSToolbarItemTag">0</int>
@@ -149,12 +149,12 @@
 								<object class="NSButton" key="NSToolbarItemView" id="106463893">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
-									<string key="NSFrame">{{27, 14}, {29, 29}}</string>
+									<string key="NSFrame">{{27, 14}, {29, 25}}</string>
 									<reference key="NSSuperview"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="15086282">
 										<int key="NSCellFlags">67239424</int>
-										<int key="NSCellFlags2">67108864</int>
+										<int key="NSCellFlags2">134217728</int>
 										<string key="NSContents"/>
 										<object class="NSFont" key="NSSupport" id="1004388168">
 											<string key="NSName">LucidaGrande</string>
@@ -162,9 +162,9 @@
 											<int key="NSfFlags">1044</int>
 										</object>
 										<reference key="NSControlView" ref="106463893"/>
-										<int key="NSButtonFlags">1223446783</int>
-										<int key="NSButtonFlags2">96</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="894814352">
+										<int key="NSButtonFlags">1222922495</int>
+										<int key="NSButtonFlags2">99</int>
+										<object class="NSCustomResource" key="NSNormalImage" id="304257879">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">LoopPlaybackTemplate</string>
 										</object>
@@ -174,11 +174,11 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="894814352"/>
+								<reference key="NSToolbarItemImage" ref="304257879"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
-								<string key="NSToolbarItemMinSize">{24, 24}</string>
-								<string key="NSToolbarItemMaxSize">{24, 24}</string>
+								<string key="NSToolbarItemMinSize">{25, 25}</string>
+								<string key="NSToolbarItemMaxSize">{36, 25}</string>
 								<bool key="NSToolbarItemEnabled">YES</bool>
 								<bool key="NSToolbarItemAutovalidates">YES</bool>
 								<int key="NSToolbarItemTag">0</int>
@@ -206,7 +206,7 @@
 										<reference key="NSControlView" ref="600817056"/>
 										<int key="NSButtonFlags">1215058175</int>
 										<int key="NSButtonFlags2">70</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="911895179">
+										<object class="NSCustomResource" key="NSNormalImage" id="391320589">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">RewindTemplate</string>
 										</object>
@@ -216,11 +216,11 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="911895179"/>
+								<reference key="NSToolbarItemImage" ref="391320589"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{24, 24}</string>
-								<string key="NSToolbarItemMaxSize">{24, 24}</string>
+								<string key="NSToolbarItemMaxSize">{32, 32}</string>
 								<bool key="NSToolbarItemEnabled">YES</bool>
 								<bool key="NSToolbarItemAutovalidates">YES</bool>
 								<int key="NSToolbarItemTag">0</int>
@@ -237,7 +237,7 @@
 								<object class="NSButton" key="NSToolbarItemView" id="142289014">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
-									<string key="NSFrame">{{22, 14}, {29, 29}}</string>
+									<string key="NSFrame">{{22, 14}, {29, 25}}</string>
 									<reference key="NSSuperview"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="204610009">
@@ -246,9 +246,9 @@
 										<string key="NSContents"/>
 										<reference key="NSSupport" ref="1004388168"/>
 										<reference key="NSControlView" ref="142289014"/>
-										<int key="NSButtonFlags">-926138113</int>
-										<int key="NSButtonFlags2">96</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="614374737">
+										<int key="NSButtonFlags">-926662401</int>
+										<int key="NSButtonFlags2">99</int>
+										<object class="NSCustomResource" key="NSNormalImage" id="101142711">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">ContinueTemplate</string>
 										</object>
@@ -258,11 +258,11 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="614374737"/>
+								<reference key="NSToolbarItemImage" ref="101142711"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
-								<string key="NSToolbarItemMinSize">{24, 24}</string>
-								<string key="NSToolbarItemMaxSize">{24, 24}</string>
+								<string key="NSToolbarItemMinSize">{25, 25}</string>
+								<string key="NSToolbarItemMaxSize">{36, 25}</string>
 								<bool key="NSToolbarItemEnabled">YES</bool>
 								<bool key="NSToolbarItemAutovalidates">YES</bool>
 								<int key="NSToolbarItemTag">0</int>
@@ -290,7 +290,7 @@
 										<reference key="NSControlView" ref="650231812"/>
 										<int key="NSButtonFlags">1214533887</int>
 										<int key="NSButtonFlags2">70</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="832476441">
+										<object class="NSCustomResource" key="NSNormalImage" id="383642643">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">NextTrackTemplate</string>
 										</object>
@@ -300,11 +300,11 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="832476441"/>
+								<reference key="NSToolbarItemImage" ref="383642643"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{24, 24}</string>
-								<string key="NSToolbarItemMaxSize">{24, 24}</string>
+								<string key="NSToolbarItemMaxSize">{32, 32}</string>
 								<bool key="NSToolbarItemEnabled">YES</bool>
 								<bool key="NSToolbarItemAutovalidates">YES</bool>
 								<int key="NSToolbarItemTag">0</int>
@@ -326,17 +326,13 @@
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="657722507">
 										<int key="NSCellFlags">67239424</int>
-										<int key="NSCellFlags2">67239936</int>
+										<int key="NSCellFlags2">67108864</int>
 										<string key="NSContents"/>
-										<object class="NSFont" key="NSSupport" id="26">
-											<string key="NSName">LucidaGrande</string>
-											<double key="NSSize">11</double>
-											<int key="NSfFlags">3100</int>
-										</object>
+										<reference key="NSSupport" ref="1004388168"/>
 										<reference key="NSControlView" ref="45310126"/>
 										<int key="NSButtonFlags">1214533887</int>
 										<int key="NSButtonFlags2">70</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="240056605">
+										<object class="NSCustomResource" key="NSNormalImage" id="421634676">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">PreviousTrackTemplate</string>
 										</object>
@@ -346,11 +342,11 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="240056605"/>
+								<reference key="NSToolbarItemImage" ref="421634676"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{24, 24}</string>
-								<string key="NSToolbarItemMaxSize">{24, 24}</string>
+								<string key="NSToolbarItemMaxSize">{32, 32}</string>
 								<bool key="NSToolbarItemEnabled">YES</bool>
 								<bool key="NSToolbarItemAutovalidates">YES</bool>
 								<int key="NSToolbarItemTag">0</int>
@@ -483,18 +479,18 @@
 								<object class="NSButton" key="NSToolbarItemView" id="269433557">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
-									<string key="NSFrame">{{36, 14}, {29, 29}}</string>
+									<string key="NSFrame">{{34, 14}, {34, 25}}</string>
 									<reference key="NSSuperview"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="1005206328">
 										<int key="NSCellFlags">67239424</int>
-										<int key="NSCellFlags2">67108864</int>
+										<int key="NSCellFlags2">134217728</int>
 										<string key="NSContents"/>
 										<reference key="NSSupport" ref="1004388168"/>
 										<reference key="NSControlView" ref="269433557"/>
-										<int key="NSButtonFlags">1224495359</int>
-										<int key="NSButtonFlags2">96</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="993087170">
+										<int key="NSButtonFlags">1221873919</int>
+										<int key="NSButtonFlags2">99</int>
+										<object class="NSCustomResource" key="NSNormalImage" id="742554310">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">RandomPlaybackTemplate</string>
 										</object>
@@ -504,11 +500,11 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="993087170"/>
+								<reference key="NSToolbarItemImage" ref="742554310"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
-								<string key="NSToolbarItemMinSize">{24, 24}</string>
-								<string key="NSToolbarItemMaxSize">{24, 24}</string>
+								<string key="NSToolbarItemMinSize">{25, 25}</string>
+								<string key="NSToolbarItemMaxSize">{36, 25}</string>
 								<bool key="NSToolbarItemEnabled">YES</bool>
 								<bool key="NSToolbarItemAutovalidates">YES</bool>
 								<int key="NSToolbarItemTag">0</int>
@@ -529,7 +525,7 @@
 										<bool key="EncodedWithXMLCoder">YES</bool>
 										<object class="NSImageView" id="888901715">
 											<reference key="NSNextResponder" ref="733458962"/>
-											<int key="NSvFlags">256</int>
+											<int key="NSvFlags">265</int>
 											<object class="NSMutableSet" key="NSDragTypes">
 												<bool key="EncodedWithXMLCoder">YES</bool>
 												<object class="NSArray" key="set.sortedObjects">
@@ -542,7 +538,7 @@
 													<string>NeXT TIFF v4.0 pasteboard type</string>
 												</object>
 											</object>
-											<string key="NSFrame">{{104, 1}, {16, 16}}</string>
+											<string key="NSFrame">{{99, -1}, {18, 18}}</string>
 											<reference key="NSSuperview" ref="733458962"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSImageCell" key="NSCell" id="25070999">
@@ -561,7 +557,7 @@
 										</object>
 										<object class="NSImageView" id="817413811">
 											<reference key="NSNextResponder" ref="733458962"/>
-											<int key="NSvFlags">256</int>
+											<int key="NSvFlags">268</int>
 											<object class="NSMutableSet" key="NSDragTypes">
 												<bool key="EncodedWithXMLCoder">YES</bool>
 												<object class="NSArray" key="set.sortedObjects">
@@ -574,7 +570,7 @@
 													<string>NeXT TIFF v4.0 pasteboard type</string>
 												</object>
 											</object>
-											<string key="NSFrame">{{0, 1}, {16, 16}}</string>
+											<string key="NSFrame">{{1, -1}, {18, 18}}</string>
 											<reference key="NSSuperview" ref="733458962"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSImageCell" key="NSCell" id="1021028361">
@@ -594,19 +590,14 @@
 										<object class="NSSlider" id="785398574">
 											<reference key="NSNextResponder" ref="733458962"/>
 											<int key="NSvFlags">298</int>
-											<string key="NSFrame">{{18, 3}, {80, 12}}</string>
+											<string key="NSFrame">{{18, 0}, {80, 15}}</string>
 											<reference key="NSSuperview" ref="733458962"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSSliderCell" key="NSCell" id="423448187">
 												<int key="NSCellFlags">67501824</int>
-												<int key="NSCellFlags2">262144</int>
+												<int key="NSCellFlags2">131072</int>
 												<object class="NSMutableString" key="NSContents">
 													<characters key="NS.bytes"/>
-												</object>
-												<object class="NSFont" key="NSSupport" id="20996052">
-													<string key="NSName">Helvetica</string>
-													<double key="NSSize">12</double>
-													<int key="NSfFlags">16</int>
 												</object>
 												<reference key="NSControlView" ref="785398574"/>
 												<double key="NSMaxValue">1</double>
@@ -655,7 +646,7 @@
 										<reference key="NSControlView" ref="44185982"/>
 										<int key="NSButtonFlags">1215058175</int>
 										<int key="NSButtonFlags2">70</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="106331853">
+										<object class="NSCustomResource" key="NSNormalImage" id="776046120">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">FastForwardTemplate</string>
 										</object>
@@ -665,11 +656,11 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="106331853"/>
+								<reference key="NSToolbarItemImage" ref="776046120"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{24, 24}</string>
-								<string key="NSToolbarItemMaxSize">{24, 24}</string>
+								<string key="NSToolbarItemMaxSize">{32, 32}</string>
 								<bool key="NSToolbarItemEnabled">YES</bool>
 								<bool key="NSToolbarItemAutovalidates">YES</bool>
 								<int key="NSToolbarItemTag">0</int>
@@ -880,7 +871,11 @@
 																		<int key="NSCellFlags">75628096</int>
 																		<int key="NSCellFlags2">2048</int>
 																		<string key="NSContents">✓</string>
-																		<reference key="NSSupport" ref="26"/>
+																		<object class="NSFont" key="NSSupport" id="26">
+																			<string key="NSName">LucidaGrande</string>
+																			<double key="NSSize">11</double>
+																			<int key="NSfFlags">3100</int>
+																		</object>
 																		<object class="NSColor" key="NSBackgroundColor" id="311330888">
 																			<int key="NSColorSpace">6</int>
 																			<string key="NSCatalogName">System</string>
@@ -2323,7 +2318,11 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 								<object class="NSMutableString" key="NSContents">
 									<characters key="NS.bytes"/>
 								</object>
-								<reference key="NSSupport" ref="20996052"/>
+								<object class="NSFont" key="NSSupport">
+									<string key="NSName">Helvetica</string>
+									<double key="NSSize">12</double>
+									<int key="NSfFlags">16</int>
+								</object>
 								<reference key="NSControlView" ref="757600987"/>
 								<double key="NSMaxValue">100</double>
 								<double key="NSMinValue">0.0</double>
@@ -7733,8 +7732,8 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="888901715"/>
-							<reference ref="817413811"/>
 							<reference ref="785398574"/>
+							<reference ref="817413811"/>
 						</object>
 						<reference key="parent" ref="273753006"/>
 					</object>
@@ -8824,7 +8823,7 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1606</int>
+			<int key="maxID">1627</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
