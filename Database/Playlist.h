@@ -78,7 +78,7 @@ extern NSString * const		PlaylistStreamsKey;
 // ========================================
 // Object state
 - (BOOL) isPlaying;
-- (void) setPlaying:(BOOL)playing;
+- (void) setIsPlaying:(BOOL)playing;
 
 @end
 

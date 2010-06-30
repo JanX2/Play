@@ -38,28 +38,33 @@
 		32CF6E1F1038BA79006F9D62 /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CF6E1E1038BA79006F9D62 /* ShortcutRecorder.framework */; };
 		32CF6E221038BA86006F9D62 /* ShortcutRecorder.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 32CF6E1E1038BA79006F9D62 /* ShortcutRecorder.framework */; };
 		32CF6E411038BD39006F9D62 /* HotKeyPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32CF6E3F1038BD39006F9D62 /* HotKeyPreferences.xib */; };
-		3D33E3C511D66552001324B2 /* BrowserTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3B511D66552001324B2 /* BrowserTemplate.pdf */; };
-		3D33E3C611D66552001324B2 /* FastForwardTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3B611D66552001324B2 /* FastForwardTemplate.pdf */; };
-		3D33E3C711D66552001324B2 /* LoopPlaybackTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3B711D66552001324B2 /* LoopPlaybackTemplate.pdf */; };
-		3D33E3C811D66552001324B2 /* NextTrackTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3B811D66552001324B2 /* NextTrackTemplate.pdf */; };
-		3D33E3C911D66552001324B2 /* PauseTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3B911D66552001324B2 /* PauseTemplate.pdf */; };
-		3D33E3CA11D66552001324B2 /* PlayButtonTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3BA11D66552001324B2 /* PlayButtonTemplate.pdf */; };
-		3D33E3CD11D66552001324B2 /* MaximumVolume.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3BD11D66552001324B2 /* MaximumVolume.pdf */; };
-		3D33E3CE11D66552001324B2 /* MinimumVolume.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3BE11D66552001324B2 /* MinimumVolume.pdf */; };
-		3D33E3CF11D66552001324B2 /* NowPlayingOffTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3BF11D66552001324B2 /* NowPlayingOffTemplate.pdf */; };
-		3D33E3D011D66552001324B2 /* NowPlayingOnTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3C011D66552001324B2 /* NowPlayingOnTemplate.pdf */; };
-		3D33E3D111D66552001324B2 /* PreviousTrackTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3C111D66552001324B2 /* PreviousTrackTemplate.pdf */; };
-		3D33E3D211D66552001324B2 /* RandomPlaybackTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3C211D66552001324B2 /* RandomPlaybackTemplate.pdf */; };
-		3D33E3D311D66552001324B2 /* RewindTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3C311D66552001324B2 /* RewindTemplate.pdf */; };
-		3D33E3D411D66552001324B2 /* StopTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E3C411D66552001324B2 /* StopTemplate.pdf */; };
-		3D33E44C11D6721A001324B2 /* ContinueTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D33E44B11D6721A001324B2 /* ContinueTemplate.pdf */; };
 		3D50A2B81162CDDD002A5832 /* RBSplitView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D50A2B71162CDDD002A5832 /* RBSplitView.framework */; };
 		3D50A2B91162CDEC002A5832 /* RBSplitView.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3D50A2B71162CDDD002A5832 /* RBSplitView.framework */; };
 		3DAFB8211178CACD0049C73C /* PointerWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DAFB8201178CACD0049C73C /* PointerWrapper.m */; };
+		3DC5903E11DB73230053EBAD /* StopTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5902811DB73230053EBAD /* StopTemplate.pdf */; };
+		3DC5903F11DB73230053EBAD /* StopDownTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5902911DB73230053EBAD /* StopDownTemplate.pdf */; };
+		3DC5904011DB73230053EBAD /* RewindTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5902A11DB73230053EBAD /* RewindTemplate.pdf */; };
+		3DC5904111DB73230053EBAD /* RewindDownTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5902B11DB73230053EBAD /* RewindDownTemplate.pdf */; };
+		3DC5904211DB73230053EBAD /* RandomPlaybackTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5902C11DB73230053EBAD /* RandomPlaybackTemplate.pdf */; };
+		3DC5904311DB73230053EBAD /* PreviousTrackTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5902D11DB73230053EBAD /* PreviousTrackTemplate.pdf */; };
+		3DC5904411DB73230053EBAD /* PreviousTrackDownTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5902E11DB73230053EBAD /* PreviousTrackDownTemplate.pdf */; };
+		3DC5904511DB73230053EBAD /* PlayButtonTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5902F11DB73230053EBAD /* PlayButtonTemplate.pdf */; };
+		3DC5904611DB73230053EBAD /* PlayButtonDownTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903011DB73230053EBAD /* PlayButtonDownTemplate.pdf */; };
+		3DC5904711DB73230053EBAD /* PauseTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903111DB73230053EBAD /* PauseTemplate.pdf */; };
+		3DC5904811DB73230053EBAD /* PauseDownTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903211DB73230053EBAD /* PauseDownTemplate.pdf */; };
+		3DC5904911DB73230053EBAD /* NowPlayingOnTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903311DB73230053EBAD /* NowPlayingOnTemplate.pdf */; };
+		3DC5904A11DB73230053EBAD /* NowPlayingOffTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903411DB73230053EBAD /* NowPlayingOffTemplate.pdf */; };
+		3DC5904B11DB73230053EBAD /* NextTrackTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903511DB73230053EBAD /* NextTrackTemplate.pdf */; };
+		3DC5904C11DB73230053EBAD /* NextTrackDownTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903611DB73230053EBAD /* NextTrackDownTemplate.pdf */; };
+		3DC5904D11DB73230053EBAD /* MinimumVolume.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903711DB73230053EBAD /* MinimumVolume.pdf */; };
+		3DC5904E11DB73230053EBAD /* MaximumVolume.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903811DB73230053EBAD /* MaximumVolume.pdf */; };
+		3DC5904F11DB73230053EBAD /* LoopPlaybackTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903911DB73230053EBAD /* LoopPlaybackTemplate.pdf */; };
+		3DC5905011DB73230053EBAD /* FastForwardTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903A11DB73230053EBAD /* FastForwardTemplate.pdf */; };
+		3DC5905111DB73230053EBAD /* FastForwardDownTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903B11DB73230053EBAD /* FastForwardDownTemplate.pdf */; };
+		3DC5905211DB73230053EBAD /* ContinueTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903C11DB73230053EBAD /* ContinueTemplate.pdf */; };
+		3DC5905311DB73230053EBAD /* BrowserTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903D11DB73230053EBAD /* BrowserTemplate.pdf */; };
 		3DE12FB61177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql in Resources */ = {isa = PBXBuildFile; fileRef = 3DE12FB51177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql */; };
 		3DE12FC51177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql in Resources */ = {isa = PBXBuildFile; fileRef = 3DE12FC41177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql */; };
-		3DF779A411AEA49D002E4419 /* MinimumVolume.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799311AEA49D002E4419 /* MinimumVolume.pdf */; };
-		3DF779A511AEA49D002E4419 /* MaximumVolume.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF7799411AEA49D002E4419 /* MaximumVolume.pdf */; };
 		8C06F0240B866F1900E8ADB6 /* CTGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C06F0220B866F1900E8ADB6 /* CTGradient.m */; };
 		8C06F02C0B866F2D00E8ADB6 /* CTBadge_1.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8C06F0260B866F2D00E8ADB6 /* CTBadge_1.pdf */; };
 		8C06F02D0B866F2D00E8ADB6 /* CTBadge_3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8C06F0270B866F2D00E8ADB6 /* CTBadge_3.pdf */; };
@@ -397,28 +402,33 @@
 		32CF6E401038BD39006F9D62 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HotKeyPreferences.xib; sourceTree = "<group>"; };
 		32FF2396104336FC0069EB9B /* Version.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		32FF2424104338C30069EB9B /* Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
-		3D33E3B511D66552001324B2 /* BrowserTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = BrowserTemplate.pdf; path = Images/BrowserTemplate.pdf; sourceTree = "<group>"; };
-		3D33E3B611D66552001324B2 /* FastForwardTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = FastForwardTemplate.pdf; path = Images/FastForwardTemplate.pdf; sourceTree = "<group>"; };
-		3D33E3B711D66552001324B2 /* LoopPlaybackTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = LoopPlaybackTemplate.pdf; path = Images/LoopPlaybackTemplate.pdf; sourceTree = "<group>"; };
-		3D33E3B811D66552001324B2 /* NextTrackTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = NextTrackTemplate.pdf; path = Images/NextTrackTemplate.pdf; sourceTree = "<group>"; };
-		3D33E3B911D66552001324B2 /* PauseTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = PauseTemplate.pdf; path = Images/PauseTemplate.pdf; sourceTree = "<group>"; };
-		3D33E3BA11D66552001324B2 /* PlayButtonTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = PlayButtonTemplate.pdf; path = Images/PlayButtonTemplate.pdf; sourceTree = "<group>"; };
-		3D33E3BD11D66552001324B2 /* MaximumVolume.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = MaximumVolume.pdf; path = Images/MaximumVolume.pdf; sourceTree = "<group>"; };
-		3D33E3BE11D66552001324B2 /* MinimumVolume.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = MinimumVolume.pdf; path = Images/MinimumVolume.pdf; sourceTree = "<group>"; };
-		3D33E3BF11D66552001324B2 /* NowPlayingOffTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = NowPlayingOffTemplate.pdf; path = Images/NowPlayingOffTemplate.pdf; sourceTree = "<group>"; };
-		3D33E3C011D66552001324B2 /* NowPlayingOnTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = NowPlayingOnTemplate.pdf; path = Images/NowPlayingOnTemplate.pdf; sourceTree = "<group>"; };
-		3D33E3C111D66552001324B2 /* PreviousTrackTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = PreviousTrackTemplate.pdf; path = Images/PreviousTrackTemplate.pdf; sourceTree = "<group>"; };
-		3D33E3C211D66552001324B2 /* RandomPlaybackTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = RandomPlaybackTemplate.pdf; path = Images/RandomPlaybackTemplate.pdf; sourceTree = "<group>"; };
-		3D33E3C311D66552001324B2 /* RewindTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = RewindTemplate.pdf; path = Images/RewindTemplate.pdf; sourceTree = "<group>"; };
-		3D33E3C411D66552001324B2 /* StopTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = StopTemplate.pdf; path = Images/StopTemplate.pdf; sourceTree = "<group>"; };
-		3D33E44B11D6721A001324B2 /* ContinueTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ContinueTemplate.pdf; path = Images/ContinueTemplate.pdf; sourceTree = "<group>"; };
 		3D50A2B71162CDDD002A5832 /* RBSplitView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RBSplitView.framework; path = Frameworks/RBSplitView.framework; sourceTree = "<group>"; };
 		3DAFB81F1178CACD0049C73C /* PointerWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointerWrapper.h; path = Utilities/PointerWrapper.h; sourceTree = "<group>"; };
 		3DAFB8201178CACD0049C73C /* PointerWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PointerWrapper.m; path = Utilities/PointerWrapper.m; sourceTree = "<group>"; };
+		3DC5902811DB73230053EBAD /* StopTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = StopTemplate.pdf; path = Images/StopTemplate.pdf; sourceTree = "<group>"; };
+		3DC5902911DB73230053EBAD /* StopDownTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = StopDownTemplate.pdf; path = Images/StopDownTemplate.pdf; sourceTree = "<group>"; };
+		3DC5902A11DB73230053EBAD /* RewindTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = RewindTemplate.pdf; path = Images/RewindTemplate.pdf; sourceTree = "<group>"; };
+		3DC5902B11DB73230053EBAD /* RewindDownTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = RewindDownTemplate.pdf; path = Images/RewindDownTemplate.pdf; sourceTree = "<group>"; };
+		3DC5902C11DB73230053EBAD /* RandomPlaybackTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = RandomPlaybackTemplate.pdf; path = Images/RandomPlaybackTemplate.pdf; sourceTree = "<group>"; };
+		3DC5902D11DB73230053EBAD /* PreviousTrackTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = PreviousTrackTemplate.pdf; path = Images/PreviousTrackTemplate.pdf; sourceTree = "<group>"; };
+		3DC5902E11DB73230053EBAD /* PreviousTrackDownTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = PreviousTrackDownTemplate.pdf; path = Images/PreviousTrackDownTemplate.pdf; sourceTree = "<group>"; };
+		3DC5902F11DB73230053EBAD /* PlayButtonTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = PlayButtonTemplate.pdf; path = Images/PlayButtonTemplate.pdf; sourceTree = "<group>"; };
+		3DC5903011DB73230053EBAD /* PlayButtonDownTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = PlayButtonDownTemplate.pdf; path = Images/PlayButtonDownTemplate.pdf; sourceTree = "<group>"; };
+		3DC5903111DB73230053EBAD /* PauseTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = PauseTemplate.pdf; path = Images/PauseTemplate.pdf; sourceTree = "<group>"; };
+		3DC5903211DB73230053EBAD /* PauseDownTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = PauseDownTemplate.pdf; path = Images/PauseDownTemplate.pdf; sourceTree = "<group>"; };
+		3DC5903311DB73230053EBAD /* NowPlayingOnTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = NowPlayingOnTemplate.pdf; path = Images/NowPlayingOnTemplate.pdf; sourceTree = "<group>"; };
+		3DC5903411DB73230053EBAD /* NowPlayingOffTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = NowPlayingOffTemplate.pdf; path = Images/NowPlayingOffTemplate.pdf; sourceTree = "<group>"; };
+		3DC5903511DB73230053EBAD /* NextTrackTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = NextTrackTemplate.pdf; path = Images/NextTrackTemplate.pdf; sourceTree = "<group>"; };
+		3DC5903611DB73230053EBAD /* NextTrackDownTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = NextTrackDownTemplate.pdf; path = Images/NextTrackDownTemplate.pdf; sourceTree = "<group>"; };
+		3DC5903711DB73230053EBAD /* MinimumVolume.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = MinimumVolume.pdf; path = Images/MinimumVolume.pdf; sourceTree = "<group>"; };
+		3DC5903811DB73230053EBAD /* MaximumVolume.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = MaximumVolume.pdf; path = Images/MaximumVolume.pdf; sourceTree = "<group>"; };
+		3DC5903911DB73230053EBAD /* LoopPlaybackTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = LoopPlaybackTemplate.pdf; path = Images/LoopPlaybackTemplate.pdf; sourceTree = "<group>"; };
+		3DC5903A11DB73230053EBAD /* FastForwardTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = FastForwardTemplate.pdf; path = Images/FastForwardTemplate.pdf; sourceTree = "<group>"; };
+		3DC5903B11DB73230053EBAD /* FastForwardDownTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = FastForwardDownTemplate.pdf; path = Images/FastForwardDownTemplate.pdf; sourceTree = "<group>"; };
+		3DC5903C11DB73230053EBAD /* ContinueTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ContinueTemplate.pdf; path = Images/ContinueTemplate.pdf; sourceTree = "<group>"; };
+		3DC5903D11DB73230053EBAD /* BrowserTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = BrowserTemplate.pdf; path = Images/BrowserTemplate.pdf; sourceTree = "<group>"; };
 		3DE12FB51177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = upgrade_database_for_NSURL_bookmarks.sql; path = SQL/upgrade_database_for_NSURL_bookmarks.sql; sourceTree = "<group>"; };
 		3DE12FC41177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = check_for_NSURL_bookmarks_support.sql; path = SQL/check_for_NSURL_bookmarks_support.sql; sourceTree = "<group>"; };
-		3DF7799311AEA49D002E4419 /* MinimumVolume.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = MinimumVolume.pdf; path = Images/MinimumVolume.pdf; sourceTree = "<group>"; };
-		3DF7799411AEA49D002E4419 /* MaximumVolume.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = MaximumVolume.pdf; path = Images/MaximumVolume.pdf; sourceTree = "<group>"; };
 		8C06F0210B866F1900E8ADB6 /* CTGradient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CTGradient.h; path = ThirdParty/CTGradient/CTGradient.h; sourceTree = "<group>"; };
 		8C06F0220B866F1900E8ADB6 /* CTGradient.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = CTGradient.m; path = ThirdParty/CTGradient/CTGradient.m; sourceTree = "<group>"; };
 		8C06F0260B866F2D00E8ADB6 /* CTBadge_1.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CTBadge_1.pdf; sourceTree = "<group>"; };
@@ -1266,23 +1276,28 @@
 		8C9C2E690B7310AC00CE799A /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				3D33E3B511D66552001324B2 /* BrowserTemplate.pdf */,
-				3D33E3B611D66552001324B2 /* FastForwardTemplate.pdf */,
-				3D33E3B711D66552001324B2 /* LoopPlaybackTemplate.pdf */,
-				3D33E3B811D66552001324B2 /* NextTrackTemplate.pdf */,
-				3D33E3B911D66552001324B2 /* PauseTemplate.pdf */,
-				3D33E3BA11D66552001324B2 /* PlayButtonTemplate.pdf */,
-				3D33E44B11D6721A001324B2 /* ContinueTemplate.pdf */,
-				3D33E3BD11D66552001324B2 /* MaximumVolume.pdf */,
-				3D33E3BE11D66552001324B2 /* MinimumVolume.pdf */,
-				3D33E3BF11D66552001324B2 /* NowPlayingOffTemplate.pdf */,
-				3D33E3C011D66552001324B2 /* NowPlayingOnTemplate.pdf */,
-				3D33E3C111D66552001324B2 /* PreviousTrackTemplate.pdf */,
-				3D33E3C211D66552001324B2 /* RandomPlaybackTemplate.pdf */,
-				3D33E3C311D66552001324B2 /* RewindTemplate.pdf */,
-				3D33E3C411D66552001324B2 /* StopTemplate.pdf */,
-				3DF7799311AEA49D002E4419 /* MinimumVolume.pdf */,
-				3DF7799411AEA49D002E4419 /* MaximumVolume.pdf */,
+				3DC5902811DB73230053EBAD /* StopTemplate.pdf */,
+				3DC5902911DB73230053EBAD /* StopDownTemplate.pdf */,
+				3DC5902A11DB73230053EBAD /* RewindTemplate.pdf */,
+				3DC5902B11DB73230053EBAD /* RewindDownTemplate.pdf */,
+				3DC5902C11DB73230053EBAD /* RandomPlaybackTemplate.pdf */,
+				3DC5902D11DB73230053EBAD /* PreviousTrackTemplate.pdf */,
+				3DC5902E11DB73230053EBAD /* PreviousTrackDownTemplate.pdf */,
+				3DC5902F11DB73230053EBAD /* PlayButtonTemplate.pdf */,
+				3DC5903011DB73230053EBAD /* PlayButtonDownTemplate.pdf */,
+				3DC5903111DB73230053EBAD /* PauseTemplate.pdf */,
+				3DC5903211DB73230053EBAD /* PauseDownTemplate.pdf */,
+				3DC5903311DB73230053EBAD /* NowPlayingOnTemplate.pdf */,
+				3DC5903411DB73230053EBAD /* NowPlayingOffTemplate.pdf */,
+				3DC5903511DB73230053EBAD /* NextTrackTemplate.pdf */,
+				3DC5903611DB73230053EBAD /* NextTrackDownTemplate.pdf */,
+				3DC5903711DB73230053EBAD /* MinimumVolume.pdf */,
+				3DC5903811DB73230053EBAD /* MaximumVolume.pdf */,
+				3DC5903911DB73230053EBAD /* LoopPlaybackTemplate.pdf */,
+				3DC5903A11DB73230053EBAD /* FastForwardTemplate.pdf */,
+				3DC5903B11DB73230053EBAD /* FastForwardDownTemplate.pdf */,
+				3DC5903C11DB73230053EBAD /* ContinueTemplate.pdf */,
+				3DC5903D11DB73230053EBAD /* BrowserTemplate.pdf */,
 				8C47A8E10C9301B400D71633 /* AdvancedPreferencesToolbarImage.tiff */,
 				8C2B35970C19042A000E28B9 /* DSPPreferencesToolbarImage.png */,
 				8C5838200BDFCFC400E43C9E /* OutputPreferencesToolbarImage.tiff */,
@@ -1757,23 +1772,28 @@
 				325922471051B21300A74D37 /* dsa_pub.pem in Resources */,
 				3DE12FB61177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql in Resources */,
 				3DE12FC51177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql in Resources */,
-				3DF779A411AEA49D002E4419 /* MinimumVolume.pdf in Resources */,
-				3DF779A511AEA49D002E4419 /* MaximumVolume.pdf in Resources */,
-				3D33E3C511D66552001324B2 /* BrowserTemplate.pdf in Resources */,
-				3D33E3C611D66552001324B2 /* FastForwardTemplate.pdf in Resources */,
-				3D33E3C711D66552001324B2 /* LoopPlaybackTemplate.pdf in Resources */,
-				3D33E3C811D66552001324B2 /* NextTrackTemplate.pdf in Resources */,
-				3D33E3C911D66552001324B2 /* PauseTemplate.pdf in Resources */,
-				3D33E3CA11D66552001324B2 /* PlayButtonTemplate.pdf in Resources */,
-				3D33E3CD11D66552001324B2 /* MaximumVolume.pdf in Resources */,
-				3D33E3CE11D66552001324B2 /* MinimumVolume.pdf in Resources */,
-				3D33E3CF11D66552001324B2 /* NowPlayingOffTemplate.pdf in Resources */,
-				3D33E3D011D66552001324B2 /* NowPlayingOnTemplate.pdf in Resources */,
-				3D33E3D111D66552001324B2 /* PreviousTrackTemplate.pdf in Resources */,
-				3D33E3D211D66552001324B2 /* RandomPlaybackTemplate.pdf in Resources */,
-				3D33E3D311D66552001324B2 /* RewindTemplate.pdf in Resources */,
-				3D33E3D411D66552001324B2 /* StopTemplate.pdf in Resources */,
-				3D33E44C11D6721A001324B2 /* ContinueTemplate.pdf in Resources */,
+				3DC5903E11DB73230053EBAD /* StopTemplate.pdf in Resources */,
+				3DC5903F11DB73230053EBAD /* StopDownTemplate.pdf in Resources */,
+				3DC5904011DB73230053EBAD /* RewindTemplate.pdf in Resources */,
+				3DC5904111DB73230053EBAD /* RewindDownTemplate.pdf in Resources */,
+				3DC5904211DB73230053EBAD /* RandomPlaybackTemplate.pdf in Resources */,
+				3DC5904311DB73230053EBAD /* PreviousTrackTemplate.pdf in Resources */,
+				3DC5904411DB73230053EBAD /* PreviousTrackDownTemplate.pdf in Resources */,
+				3DC5904511DB73230053EBAD /* PlayButtonTemplate.pdf in Resources */,
+				3DC5904611DB73230053EBAD /* PlayButtonDownTemplate.pdf in Resources */,
+				3DC5904711DB73230053EBAD /* PauseTemplate.pdf in Resources */,
+				3DC5904811DB73230053EBAD /* PauseDownTemplate.pdf in Resources */,
+				3DC5904911DB73230053EBAD /* NowPlayingOnTemplate.pdf in Resources */,
+				3DC5904A11DB73230053EBAD /* NowPlayingOffTemplate.pdf in Resources */,
+				3DC5904B11DB73230053EBAD /* NextTrackTemplate.pdf in Resources */,
+				3DC5904C11DB73230053EBAD /* NextTrackDownTemplate.pdf in Resources */,
+				3DC5904D11DB73230053EBAD /* MinimumVolume.pdf in Resources */,
+				3DC5904E11DB73230053EBAD /* MaximumVolume.pdf in Resources */,
+				3DC5904F11DB73230053EBAD /* LoopPlaybackTemplate.pdf in Resources */,
+				3DC5905011DB73230053EBAD /* FastForwardTemplate.pdf in Resources */,
+				3DC5905111DB73230053EBAD /* FastForwardDownTemplate.pdf in Resources */,
+				3DC5905211DB73230053EBAD /* ContinueTemplate.pdf in Resources */,
+				3DC5905311DB73230053EBAD /* BrowserTemplate.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

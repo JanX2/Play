@@ -61,7 +61,7 @@ extern NSString * const		SmartPlaylistPredicateKey;
 // ========================================
 // Object state
 - (BOOL) isPlaying;
-- (void) setPlaying:(BOOL)playing;
+- (void) setIsPlaying:(BOOL)playing;
 
 @end
 

@@ -106,7 +106,9 @@ extern NSString * const		PropertiesBitrateKey;
 - (NSNumber *) totalDuration;
 
 - (BOOL) isPlaying;
-- (void) setPlaying:(BOOL)playing;
+- (void) setIsPlaying:(BOOL)playing;
+
+- (NSNumber *) isPlayingValue;
 
 - (BOOL) isPartOfCueSheet;
 

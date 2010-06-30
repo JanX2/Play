@@ -102,7 +102,7 @@ NSString *const		AudioPlayerErrorDomain					= @"org.sbooth.Play.ErrorDomain.Audi
 
 - (NSRunLoop *) runLoop;
 
-- (void) setPlaying:(BOOL)playing;
+- (void) setIsPlaying:(BOOL)playing;
 
 // Accessor is public
 - (void) setTotalFrames:(SInt64)totalFrames;
@@ -111,7 +111,7 @@ NSString *const		AudioPlayerErrorDomain					= @"org.sbooth.Play.ErrorDomain.Audi
 - (void) setStartingFrame:(SInt64)startingFrame;
 
 - (SInt64) playingFrame;
-- (void) setPlayingFrame:(SInt64)playingFrame;
+- (void) setIsPlayingFrame:(SInt64)playingFrame;
 
 - (void) setOutputDeviceUID:(NSString *)deviceUID;
 - (OSStatus) setOutputDeviceSampleRate:(Float64)sampleRate;
@@ -270,7 +270,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	[[self scheduler] clear];
 
 	[self stopAUGraph];
-	[self setPlaying:NO];
+	[self setIsPlaying:NO];
 	
 	_regionStartingFrame = 0;		
 
@@ -392,7 +392,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	[self willChangeValueForKey:@"currentFrame"];
 	[self setStartingFrame:0];
-	[self setPlayingFrame:0];
+	[self setIsPlayingFrame:0];
 	[self didChangeValueForKey:@"currentFrame"];
 
 	_regionStartingFrame = 0;
@@ -439,7 +439,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		NSLog(@"started at time: %f", timeStamp.mSampleTime);*/
 	
 	[self startAUGraph];
-	[self setPlaying:YES];
+	[self setIsPlaying:YES];
 }
 
 - (void) playPause
@@ -469,7 +469,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	if(kAudioTimeStampSampleTimeValid & timeStamp.mFlags) {
 		SInt64 lastRenderedFrame = [self startingFrame] + timeStamp.mSampleTime - _regionStartingFrame;
 		[self setStartingFrame:[[[[self scheduler] regionBeingScheduled] decoder] seekToFrame:lastRenderedFrame]];
-		[self setPlayingFrame:0];
+		[self setIsPlayingFrame:0];
 	}
 	
 	// Reset the scheduler to remove any scheduled slices
@@ -478,7 +478,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	_regionStartingFrame = 0;
 	
 	[self stopAUGraph];
-	[self setPlaying:NO];
+	[self setIsPlaying:NO];
 }
 
 - (void) skipForward
@@ -624,7 +624,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	[[self scheduler] reset];
 
 	if([self isPlaying]) {
-		[self setPlaying:NO];
+		[self setIsPlaying:NO];
 		_regionStartingFrame = 0;		
 		resume = YES;
 	}
@@ -648,7 +648,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		currentFrame = [self totalFrames ] - 1;
 	
 	[self setStartingFrame:[[[[self scheduler] regionBeingScheduled] decoder] seekToFrame:currentFrame + _regionStartingFrame]];
-	[self setPlayingFrame:0];
+	[self setIsPlayingFrame:0];
 
 	AudioTimeStamp timeStamp = [[self scheduler] scheduledStartTime];
 	timeStamp.mSampleTime -= graphLatencyFrames;
@@ -718,7 +718,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 	[self willChangeValueForKey:@"currentFrame"];
 	[self setStartingFrame:0];
-	[self setPlayingFrame:0];
+	[self setIsPlayingFrame:0];
 	[self didChangeValueForKey:@"currentFrame"];
 	
 	// If the owner successfully sent the next stream request, signal the end of the current stream
@@ -740,7 +740,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	// If nothing is coming up right away, stop ourselves from playing
 	if(nil == [[self scheduler] regionBeingScheduled]) {
 		[self stopAUGraph];
-		[self setPlaying:NO];
+		[self setIsPlaying:NO];
 
 		_regionStartingFrame = 0;
 		
@@ -750,7 +750,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		// Reset play position
 		[self willChangeValueForKey:@"currentFrame"];
 		[self setStartingFrame:0];
-		[self setPlayingFrame:0];
+		[self setIsPlayingFrame:0];
 		[self didChangeValueForKey:@"currentFrame"];
 	}
 	// Otherwise set up for the next stream
@@ -1748,7 +1748,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	AudioTimeStamp timeStamp = [[self scheduler] currentPlayTime];
 	if(kAudioTimeStampSampleTimeValid & timeStamp.mFlags && -1 != timeStamp.mSampleTime) {
 		[self willChangeValueForKey:@"currentFrame"];
-		[self setPlayingFrame:timeStamp.mSampleTime];
+		[self setIsPlayingFrame:timeStamp.mSampleTime];
 		[self didChangeValueForKey:@"currentFrame"];
 	}
 }
@@ -1758,7 +1758,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	return [[_runLoop retain] autorelease];
 }
 
-- (void) setPlaying:(BOOL)playing
+- (void) setIsPlaying:(BOOL)playing
 {
 	_playing = playing;
 }
@@ -1779,7 +1779,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 - (SInt64)			playingFrame					{ return _playingFrame; }
 
-- (void) setPlayingFrame:(SInt64)playingFrame
+- (void) setIsPlayingFrame:(SInt64)playingFrame
 {
 	NSParameterAssert(0 <= playingFrame);
 	_playingFrame = playingFrame;

@@ -75,6 +75,10 @@ NSString * const	PropertiesSampleRateKey					= @"sampleRate";
 NSString * const	PropertiesTotalFramesKey				= @"totalFrames";
 NSString * const	PropertiesBitrateKey					= @"bitrate";
 
+// ========================================
+// KVC key names
+// ========================================
+NSString * const	IsPlayingKey							= @"isPlaying";
 
 @interface AudioStream (private)
 - (void) updateBookmark;
@@ -86,6 +90,9 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 {
 	[self setKeys:[NSArray arrayWithObjects:MetadataTrackNumberKey, MetadataTrackTotalKey, nil] triggerChangeNotificationsForDependentKey:@"trackString"];
 	[self setKeys:[NSArray arrayWithObjects:MetadataDiscNumberKey, MetadataDiscTotalKey, nil] triggerChangeNotificationsForDependentKey:@"discString"];
+	
+	[self setKeys:[NSArray arrayWithObject:IsPlayingKey] triggerChangeNotificationsForDependentKey:@"isPlayingValue"];
+	
 }
 
 + (id) insertStreamForURL:(NSURL *)URL withInitialValues:(NSDictionary *)keyedValues
@@ -424,7 +431,10 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 }
 
 - (BOOL) isPlaying							{ return _playing; }
-- (void) setPlaying:(BOOL)playing			{ _playing = playing; }
+- (void) setIsPlaying:(BOOL)playing			{ _playing = playing; }
+
+- (NSNumber *) isPlayingValue				{ return [NSNumber numberWithBool:_playing]; }
+
 
 - (BOOL) isPartOfCueSheet
 {

@@ -221,7 +221,7 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 }
 
 - (BOOL) isPlaying							{ return _playing; }
-- (void) setPlaying:(BOOL)playing			{ _playing = playing; }
+- (void) setIsPlaying:(BOOL)playing			{ _playing = playing; }
 
 - (void) save
 {

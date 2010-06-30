@@ -227,6 +227,8 @@ NSString * const	PlayQueueKey								= @"playQueue";
 
 @synthesize playPauseButtonState;
 @synthesize playPauseButtonTooltip;
+@synthesize playPauseButtonImage;
+@synthesize playPauseButtonAlternateImage;
 
 + (void)initialize
 {
@@ -503,6 +505,8 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	[_smartPlaylistsNode release], _smartPlaylistsNode = nil;
 	
 	self.playPauseButtonTooltip = nil;
+	self.playPauseButtonImage = [NSImage imageNamed:@"PlayButtonTemplate"];
+	self.playPauseButtonAlternateImage = [NSImage imageNamed:@"PlayButtonDownTemplate"];
 	
 	[super dealloc];
 }
@@ -1270,7 +1274,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	AudioStream		*stream			= [self nowPlaying];
 	NSUInteger		streamIndex;
 	
-	[stream setPlaying:NO];
+	[stream setIsPlaying:NO];
 	
 	NSArray *streams = _playQueue;
 	
@@ -1314,7 +1318,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	AudioStream		*stream			= [self nowPlaying];
 	NSUInteger		streamIndex;
 	
-	[stream setPlaying:NO];
+	[stream setIsPlaying:NO];
 	
 	NSArray *streams = _playQueue;
 	
@@ -1355,7 +1359,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		NSNumber		*skipCount		= [currentStream valueForKey:StatisticsSkipCountKey];
 		NSNumber		*newSkipCount	= [NSNumber numberWithUnsignedInteger:[skipCount unsignedIntegerValue] + 1];
 
-		[currentStream setPlaying:NO];
+		[currentStream setIsPlaying:NO];
 
 		[[CollectionManager manager] beginUpdate];
 
@@ -1396,7 +1400,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		[[CollectionManager manager] finishUpdate];
 	}
 	
-	[stream setPlaying:YES];
+	[stream setIsPlaying:YES];
 	[self scrollNowPlayingToVisible];
 		
 	[[self player] play];
@@ -1697,15 +1701,16 @@ NSString * const	PlayQueueKey								= @"playQueue";
 			BOOL				highlight			= ([stream isPlaying] && [[aTableColumn identifier] isEqual:@"nowPlaying"]);
 			
 			// CHANGEME: The icon should refresh on play/pause
-			// CHANGEME: Change icon color if the row is selected (black doesn't look good in a selection)
 			
 			// Icon for now playing
 			if([[aTableColumn identifier] isEqual:@"nowPlaying"]) {
 				if (rowIndex == (NSInteger)[self playbackIndex]) {
-					[cell setImage:([stream isPlaying] ? [NSImage imageNamed:@"NowPlaying-on"] : [NSImage imageNamed:@"NowPlaying-off"])];
+					//[cell setState:([stream isPlaying] ? NSOnState : NSOffState)];
+					[cell setTransparent:NO];
+
 				}
 				else {
-					[cell setImage:nil];
+					[cell setTransparent:YES];
 
 				}
 			}
@@ -2061,7 +2066,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	NSNumber		*playCount		= [stream valueForKey:StatisticsPlayCountKey];
 	NSNumber		*newPlayCount	= [NSNumber numberWithUnsignedInteger:[playCount unsignedIntegerValue] + 1];
 	
-	[stream setPlaying:NO];
+	[stream setIsPlaying:NO];
 	
 	[[CollectionManager manager] beginUpdate];
 	
@@ -2094,7 +2099,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	stream = [self nowPlaying];
 	NSAssert(nil != stream, @"Playback started for stream index not in play queue.");
 	
-	[stream setPlaying:YES];
+	[stream setIsPlaying:YES];
 	[self scrollNowPlayingToVisible];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:AudioStreamPlaybackDidStartNotification 
@@ -2109,7 +2114,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	NSNumber		*playCount		= [stream valueForKey:StatisticsPlayCountKey];
 	NSNumber		*newPlayCount	= [NSNumber numberWithUnsignedInteger:[playCount unsignedIntegerValue] + 1];
 	
-	[stream setPlaying:NO];
+	[stream setIsPlaying:NO];
 	
 	[[CollectionManager manager] beginUpdate];
 	
@@ -2319,18 +2324,24 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	if([[self player] isPlaying]) {		
 		[self setPlayPauseButtonState:NSOnState];
 		[self setPlayPauseButtonTooltip:NSLocalizedStringFromTable(@"Pause playback", @"Player", @"")];
-		
+		[self setPlayPauseButtonImage:[NSImage imageNamed:@"PauseTemplate"]];
+		[self setPlayPauseButtonAlternateImage:[NSImage imageNamed:@"PauseDownTemplate"]];
+
 		[self setPlayButtonEnabled:YES];
 	}
 	else if(NO == [[self player] hasValidStream]) {
 		[self setPlayPauseButtonState:NSOffState];
 		[self setPlayPauseButtonTooltip:NSLocalizedStringFromTable(@"Play", @"Player", @"")];
+		[self setPlayPauseButtonImage:[NSImage imageNamed:@"PlayButtonTemplate"]];
+		[self setPlayPauseButtonAlternateImage:[NSImage imageNamed:@"PlayButtonDownTemplate"]];
 		
 		[self setPlayButtonEnabled:(0 != [self countOfPlayQueue] || 0 != [[_streamController selectedObjects] count])];
 	}
 	else {
 		[self setPlayPauseButtonState:NSOffState];
 		[self setPlayPauseButtonTooltip:NSLocalizedStringFromTable(@"Resume playback", @"Player", @"")];
+		[self setPlayPauseButtonImage:[NSImage imageNamed:@"PlayButtonTemplate"]];
+		[self setPlayPauseButtonAlternateImage:[NSImage imageNamed:@"PlayButtonDownTemplate"]];
 		
 		[self setPlayButtonEnabled:YES];
 	}

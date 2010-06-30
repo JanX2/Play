@@ -96,6 +96,8 @@ extern NSString * const		PlayQueueKey;
 	
 	NSInteger				playPauseButtonState;
 	NSString				*playPauseButtonTooltip;
+	NSImage					*playPauseButtonImage;
+	NSImage					*playPauseButtonAlternateImage;
 	
 	BOOL					_randomPlayback;
 	BOOL					_loopPlayback;
@@ -259,6 +261,8 @@ extern NSString * const		PlayQueueKey;
 - (BOOL)		playButtonEnabled;
 @property (nonatomic, assign) NSInteger playPauseButtonState;
 @property (nonatomic,   copy) NSString *playPauseButtonTooltip;
+@property (nonatomic, assign) NSImage *playPauseButtonImage;
+@property (nonatomic, assign) NSImage *playPauseButtonAlternateImage;
 
 - (BOOL)		canPlayNextStream;
 - (BOOL)		canPlayPreviousStream;
