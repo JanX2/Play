@@ -417,7 +417,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 			NSString *applicationSupportFolder	= [[paths objectAtIndex:0] stringByAppendingPathComponent:applicationName];
 			
 			if(NO == [[NSFileManager defaultManager] fileExistsAtPath:applicationSupportFolder]) {
-				BOOL success = [[NSFileManager defaultManager] createDirectoryAtPath:applicationSupportFolder attributes:nil];
+				BOOL success = [[NSFileManager defaultManager] createDirectoryAtPath:applicationSupportFolder withIntermediateDirectories:YES attributes:nil error:nil];
 				NSAssert(YES == success, NSLocalizedStringFromTable(@"Unable to create the \"Application Support\" folder.", @"Errors", @""));
 			}
 			

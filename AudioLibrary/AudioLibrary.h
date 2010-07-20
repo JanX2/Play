@@ -76,7 +76,7 @@ extern NSString * const		PlayQueueKey;
 // ========================================
 // The main class which represents a user's audio library
 // ========================================
-@interface AudioLibrary : NSWindowController
+@interface AudioLibrary : NSWindowController <NSTableViewDelegate>
 {
 	IBOutlet NSArrayController				*_playQueueController;
 	IBOutlet AudioStreamArrayController		*_streamController;
