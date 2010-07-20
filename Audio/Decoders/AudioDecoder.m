@@ -42,8 +42,15 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 	[self exposeBinding:@"currentFrame"];
 	[self exposeBinding:@"totalFrames"];
 	[self exposeBinding:@"framesRemaining"];
-	
-	[self setKeys:[NSArray arrayWithObjects:@"currentFrame", @"totalFrames", nil] triggerChangeNotificationsForDependentKey:@"framesRemaining"];
+}
+
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
+{
+	if ([key isEqualToString:@"framesRemaining"]) {
+		return [NSSet setWithObjects:@"currentFrame", @"totalFrames", nil];
+	} else {
+		return [super keyPathsForValuesAffectingValueForKey:key];
+	}
 }
 
 + (AudioDecoder *) decoderWithURL:(NSURL *)url error:(NSError **)error

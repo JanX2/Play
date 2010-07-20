@@ -241,10 +241,6 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	//[self exposeBinding:@"isPlaying"];
 	//[self exposeBinding:@"volume"];
 	
-	[self setKeys:[NSArray arrayWithObjects:PlayQueueKey, @"playbackIndex", @"randomPlayback", @"loopPlayback", nil] triggerChangeNotificationsForDependentKey:@"canPlayNextStream"];
-	[self setKeys:[NSArray arrayWithObjects:PlayQueueKey, @"playbackIndex", @"randomPlayback", @"loopPlayback", nil] triggerChangeNotificationsForDependentKey:@"canPlayPreviousStream"];
-	[self setKeys:[NSArray arrayWithObjects:@"playbackIndex", nil] triggerChangeNotificationsForDependentKey:@"nowPlaying"];
-	
 	// Setup stream table column defaults
 	NSDictionary *streamTableVisibleColumnsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSNumber numberWithBool:NO], @"id",
@@ -366,6 +362,22 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	
 	[[NSUserDefaults standardUserDefaults] registerDefaults:tableDefaults];
 }	
+
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
+{
+	if ([key isEqualToString:@"canPlayNextStream"]) {
+		return [NSSet setWithObjects:PlayQueueKey, @"playbackIndex", @"randomPlayback", @"loopPlayback", nil];
+	}
+	else if ([key isEqualToString:@"canPlayPreviousStream"]) {
+		return [NSSet setWithObjects:PlayQueueKey, @"playbackIndex", @"randomPlayback", @"loopPlayback", nil];
+	}
+	else if ([key isEqualToString:@"nowPlaying"]) {
+		return [NSSet setWithObject:@"playbackIndex"];
+	}
+	else {
+		return [super keyPathsForValuesAffectingValueForKey:key];
+	}
+}
 
 + (AudioLibrary *) library
 {

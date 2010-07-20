@@ -86,13 +86,20 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 
 @implementation AudioStream
 
-+ (void) initialize
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
 {
-	[self setKeys:[NSArray arrayWithObjects:MetadataTrackNumberKey, MetadataTrackTotalKey, nil] triggerChangeNotificationsForDependentKey:@"trackString"];
-	[self setKeys:[NSArray arrayWithObjects:MetadataDiscNumberKey, MetadataDiscTotalKey, nil] triggerChangeNotificationsForDependentKey:@"discString"];
-	
-	[self setKeys:[NSArray arrayWithObject:IsPlayingKey] triggerChangeNotificationsForDependentKey:@"isPlayingValue"];
-	
+	if ([key isEqualToString:@"trackString"]) {
+		return [NSSet setWithObjects:MetadataTrackNumberKey, MetadataTrackTotalKey, nil];
+	}
+	else if ([key isEqualToString:@"discString"]) {
+		return [NSSet setWithObjects:MetadataDiscNumberKey, MetadataDiscTotalKey, nil];
+	}
+	else if ([key isEqualToString:@"isPlayingValue"]) {
+		return [NSSet setWithObject:@"IsPlayingKey"];
+	}
+	else {
+		return [super keyPathsForValuesAffectingValueForKey:key];
+	}
 }
 
 + (id) insertStreamForURL:(NSURL *)URL withInitialValues:(NSDictionary *)keyedValues

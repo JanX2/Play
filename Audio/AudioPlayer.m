@@ -177,15 +177,31 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	[self exposeBinding:@"totalFrames"];
 	[self exposeBinding:@"hasValidStream"];
 	[self exposeBinding:@"streamSupportsSeeking"];
-	
-	[self setKeys:[NSArray arrayWithObject:@"hasValidStream"] triggerChangeNotificationsForDependentKey:@"streamSupportsSeeking"];
+}
 
-	[self setKeys:[NSArray arrayWithObject:@"hasValidStream"] triggerChangeNotificationsForDependentKey:@"currentFrame"];
-	[self setKeys:[NSArray arrayWithObject:@"hasValidStream"] triggerChangeNotificationsForDependentKey:@"totalFrames"];
-
-	[self setKeys:[NSArray arrayWithObject:@"currentFrame"] triggerChangeNotificationsForDependentKey:@"currentSecond"];
-	[self setKeys:[NSArray arrayWithObject:@"currentFrame"] triggerChangeNotificationsForDependentKey:@"secondsRemaining"];
-	[self setKeys:[NSArray arrayWithObject:@"totalFrames"] triggerChangeNotificationsForDependentKey:@"totalSeconds"];
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
+{
+	if ([key isEqualToString:@"streamSupportsSeeking"]) {
+		return [NSSet setWithObject:@"hasValidStream"];
+	}
+	else if ([key isEqualToString:@"currentFrame"]) {
+		return [NSSet setWithObject:@"hasValidStream"];
+	}
+	else if ([key isEqualToString:@"totalFrames"]) {
+		return [NSSet setWithObject:@"hasValidStream"];
+	}
+	else if ([key isEqualToString:@"currentSecond"]) {
+		return [NSSet setWithObject:@"currentFrame"];
+	}
+	else if ([key isEqualToString:@"secondsRemaining"]) {
+		return [NSSet setWithObject:@"currentFrame"];
+	}
+	else if ([key isEqualToString:@"totalSeconds"]) {
+		return [NSSet setWithObject:@"totalFrames"];
+	}
+	else {
+		return [super keyPathsForValuesAffectingValueForKey:key];
+	}
 }
 
 - (id) init

@@ -29,9 +29,19 @@
 
 	[self exposeBinding:@"parent"];
 	[self exposeBinding:@"children"];
-	
-	[self setKeys:[NSArray arrayWithObject:@"children"] triggerChangeNotificationsForDependentKey:@"countOfChildren"];
-	[self setKeys:[NSArray arrayWithObject:@"children"] triggerChangeNotificationsForDependentKey:@"isLeaf"];
+}
+
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
+{
+	if ([key isEqualToString:@"countOfChildren"]) {
+		return [NSSet setWithObject:@"children"];
+	}
+	else if ([key isEqualToString:@"isLeaf"]) {
+		return [NSSet setWithObject:@"children"];
+	}
+	else {
+		return [super keyPathsForValuesAffectingValueForKey:key];
+	}
 }
 
 #pragma mark Creation shortcuts
