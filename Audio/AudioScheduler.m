@@ -68,7 +68,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 
 #if DEBUG
 	if(kScheduledAudioSliceFlag_BeganToRenderLate & slice->mFlags)
-		NSLog(@"AudioScheduler error: kScheduledAudioSliceFlag_BeganToRenderLate (starting sample " PRId64 ")", (SInt64)slice->mTimeStamp.mSampleTime);
+		NSLog(@"AudioScheduler error: kScheduledAudioSliceFlag_BeganToRenderLate (starting sample %"PRId64 ")", (SInt64)slice->mTimeStamp.mSampleTime);
 #endif
 
 	// Determine if this render represents a  new region
@@ -473,13 +473,13 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 															   slice, 
 															   sizeof(ScheduledAudioSlice));
 					if(noErr != err) {
-						NSLog(@"AudioScheduler: Unable to schedule audio slice: " PRId32 "", err);
+						NSLog(@"AudioScheduler: Unable to schedule audio slice: %"PRId32 "", err);
 						slice->mFlags = kScheduledAudioSliceFlag_Complete;
 						continue;
 					}
 
 #if EXTENDED_DEBUG
-					NSLog(@"AudioScheduler: Scheduling slice " PRId32 " (" PRId32 " frames) to start at sample " PRId64 "", i, frameCount, (SInt64)slice->mTimeStamp.mSampleTime);
+					NSLog(@"AudioScheduler: Scheduling slice %"PRId32 " (%"PRId32 " frames) to start at sample %"PRId64 "", i, frameCount, (SInt64)slice->mTimeStamp.mSampleTime);
 #endif
 
 					[self scheduledAdditionalFrames:frameCount];

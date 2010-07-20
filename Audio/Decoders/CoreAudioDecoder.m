@@ -147,7 +147,7 @@
 	
 	OSStatus result = ExtAudioFileRead(_extAudioFile, &frameCount, bufferList);
 	if(noErr != result)
-		NSLog(@"Error reading from ExtAudioFile: " PRId32 "", result);
+		NSLog(@"Error reading from ExtAudioFile: %"PRId32 "", result);
 	
 	return frameCount;
 }
