@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10D573</string>
-		<string key="IBDocument.InterfaceBuilderVersion">762</string>
+		<string key="IBDocument.SystemVersion">10F569</string>
+		<string key="IBDocument.InterfaceBuilderVersion">788</string>
 		<string key="IBDocument.AppKitVersion">1038.29</string>
-		<string key="IBDocument.HIToolboxVersion">460.00</string>
+		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
@@ -15,14 +15,14 @@
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>762</string>
+				<string>788</string>
 				<string>1.2</string>
 			</object>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="6"/>
 			<integer value="116"/>
-			<integer value="1110"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -101,6 +101,7 @@
 									<int key="NSvFlags">274</int>
 									<string key="NSFrame">{{0, 14}, {32, 25}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="79053020">
 										<int key="NSCellFlags">67239424</int>
@@ -151,6 +152,7 @@
 									<int key="NSvFlags">274</int>
 									<string key="NSFrame">{{25, 14}, {34, 25}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="15086282">
 										<int key="NSCellFlags">67239424</int>
@@ -193,6 +195,7 @@
 									<int key="NSvFlags">274</int>
 									<string key="NSFrame">{{7, 14}, {32, 25}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="211051069">
 										<int key="NSCellFlags">67239424</int>
@@ -239,6 +242,7 @@
 									<int key="NSvFlags">274</int>
 									<string key="NSFrame">{{20, 14}, {34, 25}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="204610009">
 										<int key="NSCellFlags">67239424</int>
@@ -281,6 +285,7 @@
 									<int key="NSvFlags">274</int>
 									<string key="NSFrame">{{17, 14}, {32, 25}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="468431819">
 										<int key="NSCellFlags">67239424</int>
@@ -327,6 +332,7 @@
 									<int key="NSvFlags">274</int>
 									<string key="NSFrame">{{27, 14}, {32, 25}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="657722507">
 										<int key="NSCellFlags">67239424</int>
@@ -395,6 +401,7 @@
 									<int key="NSvFlags">265</int>
 									<string key="NSFrame">{{0, 14}, {200, 22}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSearchFieldCell" key="NSCell" id="940960026">
 										<int key="NSCellFlags">343014976</int>
@@ -489,6 +496,7 @@
 									<int key="NSvFlags">274</int>
 									<string key="NSFrame">{{34, 14}, {34, 25}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="1005206328">
 										<int key="NSCellFlags">67239424</int>
@@ -548,6 +556,7 @@
 											</object>
 											<string key="NSFrame">{{99, -1}, {18, 18}}</string>
 											<reference key="NSSuperview" ref="733458962"/>
+											<reference key="NSWindow"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSImageCell" key="NSCell" id="25070999">
 												<int key="NSCellFlags">130560</int>
@@ -580,6 +589,7 @@
 											</object>
 											<string key="NSFrame">{{1, -1}, {18, 18}}</string>
 											<reference key="NSSuperview" ref="733458962"/>
+											<reference key="NSWindow"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSImageCell" key="NSCell" id="1021028361">
 												<int key="NSCellFlags">130560</int>
@@ -600,6 +610,7 @@
 											<int key="NSvFlags">298</int>
 											<string key="NSFrame">{{18, 0}, {80, 15}}</string>
 											<reference key="NSSuperview" ref="733458962"/>
+											<reference key="NSWindow"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSSliderCell" key="NSCell" id="423448187">
 												<int key="NSCellFlags">67501824</int>
@@ -621,6 +632,7 @@
 									</object>
 									<string key="NSFrame">{{0, 14}, {120, 18}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 								</object>
 								<nil key="NSToolbarItemImage"/>
 								<nil key="NSToolbarItemTarget"/>
@@ -645,6 +657,7 @@
 									<int key="NSvFlags">274</int>
 									<string key="NSFrame">{{22, 14}, {32, 25}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="738559528">
 										<int key="NSCellFlags">67239424</int>
@@ -856,13 +869,13 @@
 														<object class="NSTableView" id="426643789">
 															<reference key="NSNextResponder" ref="195291521"/>
 															<int key="NSvFlags">274</int>
-															<string key="NSFrameSize">{1247, 142}</string>
+															<string key="NSFrameSize">{1245, 142}</string>
 															<reference key="NSSuperview" ref="195291521"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="727131854">
 																<reference key="NSNextResponder" ref="723715363"/>
 																<int key="NSvFlags">256</int>
-																<string key="NSFrameSize">{1247, 17}</string>
+																<string key="NSFrameSize">{1245, 17}</string>
 																<reference key="NSSuperview" ref="723715363"/>
 																<reference key="NSTableView" ref="426643789"/>
 															</object>
@@ -876,13 +889,13 @@
 																<bool key="EncodedWithXMLCoder">YES</bool>
 																<object class="NSTableColumn" id="809658483">
 																	<string key="NSIdentifier">nowPlaying</string>
-																	<double key="NSWidth">18</double>
-																	<double key="NSMinWidth">10</double>
-																	<double key="NSMaxWidth">1000</double>
+																	<double key="NSWidth">16</double>
+																	<double key="NSMinWidth">16</double>
+																	<double key="NSMaxWidth">16</double>
 																	<object class="NSTableHeaderCell" key="NSHeaderCell">
 																		<int key="NSCellFlags">75628096</int>
 																		<int key="NSCellFlags2">2048</int>
-																		<string key="NSContents">▶</string>
+																		<string key="NSContents">▸</string>
 																		<object class="NSFont" key="NSSupport" id="26">
 																			<string key="NSName">LucidaGrande</string>
 																			<double key="NSSize">11</double>
@@ -903,11 +916,11 @@
 																	</object>
 																	<object class="NSButtonCell" key="NSDataCell" id="566852822">
 																		<int key="NSCellFlags">604110336</int>
-																		<int key="NSCellFlags2">0</int>
+																		<int key="NSCellFlags2">134217728</int>
 																		<string key="NSContents">Check</string>
 																		<reference key="NSSupport" ref="1004388168"/>
 																		<reference key="NSControlView" ref="426643789"/>
-																		<int key="NSButtonFlags">1211912447</int>
+																		<int key="NSButtonFlags">1212436735</int>
 																		<int key="NSButtonFlags2">66</int>
 																		<object class="NSCustomResource" key="NSNormalImage">
 																			<string key="NSClassName">NSImage</string>
@@ -1547,7 +1560,7 @@
 													<int key="NSsFlags">257</int>
 													<reference key="NSTarget" ref="227172491"/>
 													<string key="NSAction">_doScroller:</string>
-													<double key="NSPercent">0.60785886126704092</double>
+													<double key="NSPercent">0.6088353413654618</double>
 												</object>
 												<object class="NSClipView" id="723715363">
 													<reference key="NSNextResponder" ref="227172491"/>
@@ -1583,7 +1596,7 @@
 									<int key="tag">0</int>
 									<double key="minDimension">1</double>
 									<double key="maxDimension">1000000</double>
-									<double key="fraction">-0.46791644807120747</double>
+									<double key="fraction">-0.46791644807117905</double>
 									<bool key="canCollapse">YES</bool>
 								</object>
 								<object class="RBSplitSubview" id="667825514">
@@ -2269,7 +2282,7 @@
 									<int key="tag">0</int>
 									<double key="minDimension">1</double>
 									<double key="maxDimension">1000000</double>
-									<double key="fraction">0.46791644807115063</double>
+									<double key="fraction">0.46791644807120747</double>
 									<bool key="canCollapse">NO</bool>
 								</object>
 							</object>
@@ -8460,7 +8473,7 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{404, 319}, {616, 285}}</string>
+					<string>{{404, 604}, {616, 0}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -8972,6 +8985,165 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>add10RandomTracksToPlayQueue:</string>
+							<string>add25RandomTracksToPlayQueue:</string>
+							<string>addCurrentTracksToPlayQueue:</string>
+							<string>browseHighestRated:</string>
+							<string>browseLibrary:</string>
+							<string>browseMostPopular:</string>
+							<string>browseRecentlyAdded:</string>
+							<string>browseRecentlyPlayed:</string>
+							<string>browseRecentlySkipped:</string>
+							<string>clearPlayQueue:</string>
+							<string>closeBrowser:</string>
+							<string>insertPlaylist:</string>
+							<string>insertSmartPlaylist:</string>
+							<string>insertWatchFolder:</string>
+							<string>jumpToNowPlaying:</string>
+							<string>openBrowser:</string>
+							<string>openDocument:</string>
+							<string>play:</string>
+							<string>playNextStream:</string>
+							<string>playPause:</string>
+							<string>playPreviousStream:</string>
+							<string>prunePlayQueue:</string>
+							<string>scramblePlayQueue:</string>
+							<string>skipBackward:</string>
+							<string>skipForward:</string>
+							<string>skipToBeginning:</string>
+							<string>skipToEnd:</string>
+							<string>stop:</string>
+							<string>toggleBrowser:</string>
+							<string>togglePlayQueue:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">add10RandomTracksToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">add25RandomTracksToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">addCurrentTracksToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseHighestRated:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseLibrary:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseMostPopular:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseRecentlyAdded:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseRecentlyPlayed:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseRecentlySkipped:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">clearPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">closeBrowser:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">insertPlaylist:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">insertSmartPlaylist:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">insertWatchFolder:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">jumpToNowPlaying:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">openBrowser:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">openDocument:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">play:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">playNextStream:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">playPause:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">playPreviousStream:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">prunePlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">scramblePlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">skipBackward:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">skipForward:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">skipToBeginning:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">skipToEnd:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">stop:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toggleBrowser:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">togglePlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -8995,6 +9167,55 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 							<string>RBSplitView</string>
 							<string>AudioStreamArrayController</string>
 							<string>AudioStreamTableView</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>_browserController</string>
+							<string>_browserDrawer</string>
+							<string>_browserOutlineView</string>
+							<string>_playQueueController</string>
+							<string>_playQueueTable</string>
+							<string>_splitView</string>
+							<string>_streamController</string>
+							<string>_streamTable</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_browserController</string>
+								<string key="candidateClassName">BrowserTreeController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_browserDrawer</string>
+								<string key="candidateClassName">NSDrawer</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_browserOutlineView</string>
+								<string key="candidateClassName">BrowserOutlineView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_playQueueController</string>
+								<string key="candidateClassName">NSArrayController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_playQueueTable</string>
+								<string key="candidateClassName">PlayQueueTableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_splitView</string>
+								<string key="candidateClassName">RBSplitView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_streamController</string>
+								<string key="candidateClassName">AudioStreamArrayController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_streamTable</string>
+								<string key="candidateClassName">AudioStreamTableView</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -9038,6 +9259,55 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>clearMetadata:</string>
+							<string>clearProperties:</string>
+							<string>clearReplayGain:</string>
+							<string>rescanMetadata:</string>
+							<string>rescanProperties:</string>
+							<string>resetPlayCount:</string>
+							<string>resetSkipCount:</string>
+							<string>saveMetadata:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">clearMetadata:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">clearProperties:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">clearReplayGain:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">rescanMetadata:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">rescanProperties:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">resetPlayCount:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">resetSkipCount:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveMetadata:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Database/AudioStream.h</string>
@@ -9049,6 +9319,13 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">_browserController</string>
 						<string key="NS.object.0">BrowserTreeController</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">_browserController</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">_browserController</string>
+							<string key="candidateClassName">BrowserTreeController</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -9137,9 +9414,180 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>addToPlayQueue:</string>
+							<string>addTracksWithSameAlbumToPlayQueue:</string>
+							<string>addTracksWithSameArtistToPlayQueue:</string>
+							<string>addTracksWithSameComposerToPlayQueue:</string>
+							<string>addTracksWithSameGenreToPlayQueue:</string>
+							<string>browseTracksWithSameAlbum:</string>
+							<string>browseTracksWithSameArtist:</string>
+							<string>browseTracksWithSameComposer:</string>
+							<string>browseTracksWithSameGenre:</string>
+							<string>calculateTrackAndAlbumReplayGain:</string>
+							<string>calculateTrackReplayGain:</string>
+							<string>clearMetadata:</string>
+							<string>clearReplayGain:</string>
+							<string>convert:</string>
+							<string>convertWithMax:</string>
+							<string>determinePUIDs:</string>
+							<string>doubleClickAction:</string>
+							<string>editMetadata:</string>
+							<string>editWithTag:</string>
+							<string>insertPlaylistWithSelection:</string>
+							<string>lookupTrackInMusicBrainz:</string>
+							<string>openWith:</string>
+							<string>openWithFinder:</string>
+							<string>remove:</string>
+							<string>rescanMetadata:</string>
+							<string>resetPlayCount:</string>
+							<string>resetSkipCount:</string>
+							<string>revealInFinder:</string>
+							<string>saveMetadata:</string>
+							<string>searchMusicBrainzForMatchingTracks:</string>
+							<string>showInformationSheet:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">addToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">addTracksWithSameAlbumToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">addTracksWithSameArtistToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">addTracksWithSameComposerToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">addTracksWithSameGenreToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseTracksWithSameAlbum:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseTracksWithSameArtist:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseTracksWithSameComposer:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseTracksWithSameGenre:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">calculateTrackAndAlbumReplayGain:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">calculateTrackReplayGain:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">clearMetadata:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">clearReplayGain:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">convert:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">convertWithMax:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">determinePUIDs:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">doubleClickAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">editMetadata:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">editWithTag:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">insertPlaylistWithSelection:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">lookupTrackInMusicBrainz:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">openWith:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">openWithFinder:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">remove:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">rescanMetadata:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">resetPlayCount:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">resetSkipCount:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">revealInFinder:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveMetadata:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">searchMusicBrainzForMatchingTracks:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showInformationSheet:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">_streamController</string>
 						<string key="NS.object.0">NSArrayController</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">_streamController</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">_streamController</string>
+							<string key="candidateClassName">NSArrayController</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -9152,6 +9600,13 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 					<object class="NSMutableDictionary" key="actions">
 						<string key="NS.key.0">streamInformation:</string>
 						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">streamInformation:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">streamInformation:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
@@ -9178,6 +9633,35 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>addToPlayQueue:</string>
+							<string>doubleClickAction:</string>
+							<string>remove:</string>
+							<string>showInformationSheet:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">addToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">doubleClickAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">remove:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showInformationSheet:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -9191,6 +9675,30 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 							<string>BrowserTreeController</string>
 							<string>NSMenu</string>
 							<string>NSMenu</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>_browserController</string>
+							<string>_playlistMenu</string>
+							<string>_watchFolderMenu</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_browserController</string>
+								<string key="candidateClassName">BrowserTreeController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_playlistMenu</string>
+								<string key="candidateClassName">NSMenu</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_watchFolderMenu</string>
+								<string key="candidateClassName">NSMenu</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -9214,6 +9722,25 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>playlistInformation:</string>
+							<string>watchFolderInformation:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">playlistInformation:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">watchFolderInformation:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
@@ -9225,6 +9752,13 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">_outlineView</string>
 						<string key="NS.object.0">NSOutlineView</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">_outlineView</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">_outlineView</string>
+							<string key="candidateClassName">NSOutlineView</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -9319,6 +9853,170 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>:</string>
+							<string>addToPlayQueue:</string>
+							<string>addTracksWithSameAlbumToPlayQueue:</string>
+							<string>addTracksWithSameArtistToPlayQueue:</string>
+							<string>addTracksWithSameComposerToPlayQueue:</string>
+							<string>addTracksWithSameGenreToPlayQueue:</string>
+							<string>browseTracksWithSameAlbum:</string>
+							<string>browseTracksWithSameArtist:</string>
+							<string>browseTracksWithSameComposer:</string>
+							<string>browseTracksWithSameGenre:</string>
+							<string>calculateTrackAndAlbumReplayGain:</string>
+							<string>calculateTrackReplayGain:</string>
+							<string>clearMetadata:</string>
+							<string>clearReplayGain:</string>
+							<string>convert:</string>
+							<string>convertWithMax:</string>
+							<string>determinePUIDs:</string>
+							<string>editMetadata:</string>
+							<string>editWithTag:</string>
+							<string>lookupTrackInMusicBrainz:</string>
+							<string>openWith:</string>
+							<string>openWithFinder:</string>
+							<string>remove:</string>
+							<string>rescanMetadata:</string>
+							<string>resetPlayCount:</string>
+							<string>resetSkipCount:</string>
+							<string>revealInFinder:</string>
+							<string>saveMetadata:</string>
+							<string>searchMusicBrainzForMatchingTracks:</string>
+							<string>showInformationSheet:</string>
+							<string>watchFolderInformation:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">addToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">addTracksWithSameAlbumToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">addTracksWithSameArtistToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">addTracksWithSameComposerToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">addTracksWithSameGenreToPlayQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseTracksWithSameAlbum:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseTracksWithSameArtist:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseTracksWithSameComposer:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">browseTracksWithSameGenre:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">calculateTrackAndAlbumReplayGain:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">calculateTrackReplayGain:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">clearMetadata:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">clearReplayGain:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">convert:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">convertWithMax:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">determinePUIDs:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">editMetadata:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">editWithTag:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">lookupTrackInMusicBrainz:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">openWith:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">openWithFinder:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">remove:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">rescanMetadata:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">resetPlayCount:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">resetSkipCount:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">revealInFinder:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveMetadata:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">searchMusicBrainzForMatchingTracks:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showInformationSheet:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">watchFolderInformation:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -9430,6 +10128,35 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>add:</string>
+							<string>cancel:</string>
+							<string>ok:</string>
+							<string>remove:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">add:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">cancel:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">ok:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">remove:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -9453,6 +10180,55 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 							<string>NSPopUpButton</string>
 							<string>NSButton</string>
 							<string>NSWindow</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>_criteriaView</string>
+							<string>_dateCreatedTextField</string>
+							<string>_firstPlayedTextField</string>
+							<string>_lastPlayedTextField</string>
+							<string>_playCountTextField</string>
+							<string>_predicateTypePopUpButton</string>
+							<string>_removeCriterionButton</string>
+							<string>_sheet</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_criteriaView</string>
+								<string key="candidateClassName">NSView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_dateCreatedTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_firstPlayedTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_lastPlayedTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_playCountTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_predicateTypePopUpButton</string>
+								<string key="candidateClassName">NSPopUpButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_removeCriterionButton</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_sheet</string>
+								<string key="candidateClassName">NSWindow</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -10132,6 +10908,13 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 						<string key="NS.key.0">showWindow:</string>
 						<string key="NS.object.0">id</string>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">showWindow:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">showWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSWindowController.h</string>
@@ -10151,6 +10934,13 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">delegate</string>
 						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">delegate</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">delegate</string>
+							<string key="candidateClassName">id</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -10204,27 +10994,27 @@ QXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{64, 64}</string>
-				<string>{48, 48}</string>
-				<string>{64, 64}</string>
-				<string>{64, 64}</string>
-				<string>{48, 48}</string>
+				<string>{32, 32}</string>
+				<string>{18, 18}</string>
 				<string>{32, 32}</string>
 				<string>{32, 32}</string>
+				<string>{18, 18}</string>
+				<string>{18, 18}</string>
+				<string>{18, 18}</string>
 				<string>{9, 8}</string>
 				<string>{7, 2}</string>
 				<string>{32, 32}</string>
-				<string>{64, 64}</string>
-				<string>{64, 64}</string>
-				<string>{24, 24}</string>
-				<string>{24, 24}</string>
-				<string>{64, 64}</string>
-				<string>{64, 64}</string>
-				<string>{64, 64}</string>
-				<string>{64, 64}</string>
-				<string>{48, 48}</string>
-				<string>{64, 64}</string>
-				<string>{64, 64}</string>
+				<string>{32, 32}</string>
+				<string>{32, 32}</string>
+				<string>{18, 18}</string>
+				<string>{18, 18}</string>
+				<string>{32, 32}</string>
+				<string>{32, 32}</string>
+				<string>{32, 32}</string>
+				<string>{32, 32}</string>
+				<string>{18, 18}</string>
+				<string>{32, 32}</string>
+				<string>{32, 32}</string>
 			</object>
 		</object>
 	</data>
