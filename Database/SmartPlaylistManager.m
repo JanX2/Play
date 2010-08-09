@@ -50,7 +50,6 @@
 - (id) init
 {
 	if((self = [super init])) {
-#warning 64BIT: Check callbacks
 		_registeredPlaylists	= NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 4096);		
 		_sql					= [[NSMutableDictionary alloc] init];
 		_insertedPlaylists		= [[NSMutableSet alloc] init];
@@ -571,8 +570,7 @@
 		result = sqlite3_step(statement);
 		NSAssert2(SQLITE_DONE == result, @"Unable to insert a record for %@ (%@).", [playlist valueForKey:PlaylistNameKey], [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 		
-#warning VALUE TRUNCATED: id returned from sqlite3_last_insert_rowid is signed 64-bit int!		
-		[playlist initValue:[NSNumber numberWithInt:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
+		[playlist initValue:[NSNumber numberWithLongLong:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
 		
 		result = sqlite3_reset(statement);
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to reset sql statement (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);

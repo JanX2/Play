@@ -91,7 +91,7 @@
 {
 	NSParameterAssert(0 <= frame && frame < [self totalFrames]);
 	
-	int result = WavpackSeekSample(_wpc, frame);
+	int result = WavpackSeekSample(_wpc, (uint32_t)frame);
 	if(result)
 		_currentFrame = frame;
 	
