@@ -26,6 +26,17 @@
 
 BOOL 
 scanPossiblyQuotedString(NSScanner		*scanner, 
+						 NSString		**string);
+
+BOOL 
+scanMSF(NSScanner		*scanner, 
+		NSInteger				*minute,
+		NSInteger				*second,
+		NSInteger				*frame);
+
+
+BOOL 
+scanPossiblyQuotedString(NSScanner		*scanner, 
 						 NSString		**string)
 {
 	NSCParameterAssert(nil != scanner);
@@ -330,15 +341,15 @@ scanMSF(NSScanner		*scanner,
 			previousTrack = [cueSheetTracks objectAtIndex:(i - 1)];
 
 		// Fill in frame counts
-		if(nil != previousTrack && [[previousTrack currentStreamURL] isEqual:[thisTrack currentStreamURL]]) {
-			NSUInteger frameCount = (NSUInteger)([[thisTrack valueForKey:StreamStartingFrameKey] longLongValue] - 1) - [[previousTrack valueForKey:StreamStartingFrameKey] longLongValue];
+		if(nil != previousTrack && [[previousTrack valueForKey:StreamURLKey] isEqual:[thisTrack valueForKey:StreamURLKey]]) {
+			NSUInteger frameCount = ([[thisTrack valueForKey:StreamStartingFrameKey] unsignedIntegerValue] - 1) - [[previousTrack valueForKey:StreamStartingFrameKey] unsignedIntegerValue];
 			
 			[previousTrack setValue:[NSNumber numberWithUnsignedInteger:frameCount] forKey:StreamFrameCountKey];
 		}
 		
 		// Special handling for last tracks
 		if(nil == [thisTrack valueForKey:StreamFrameCountKey]) {
-			NSUInteger frameCount = (NSUInteger)[[thisTrack valueForKey:PropertiesTotalFramesKey] unsignedIntegerValue] - [[thisTrack valueForKey:StreamStartingFrameKey] longLongValue] + 1;
+			NSUInteger frameCount = [[thisTrack valueForKey:PropertiesTotalFramesKey] unsignedIntegerValue] - [[thisTrack valueForKey:StreamStartingFrameKey] unsignedIntegerValue] + 1;
 			
 			[thisTrack setValue:[NSNumber numberWithUnsignedInteger:frameCount] forKey:StreamFrameCountKey];
 		}

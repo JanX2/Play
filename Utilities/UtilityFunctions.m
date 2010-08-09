@@ -27,6 +27,11 @@ static NSArray		*sBuiltinExtensions		= nil;
 static NSArray		*sCoreAudioExtensions	= nil;
 static NSArray		*sAudioExtensions		= nil;
 
+
+NSArray * getBuiltinExtensions();
+NSArray * getCoreAudioExtensions();
+NSArray * getAudioExtensions();
+
 OggStreamType 
 oggStreamType(NSURL *url)
 {
@@ -118,8 +123,7 @@ oggStreamType(NSURL *url)
 				1 /*OggFLAC__MAPPING_VERSION_MINOR_LENGTH*/ +
 				2 /*OggFLAC__MAPPING_NUM_HEADERS_LENGTH*/;
 			
-#warning 64BIT: Inspect use of long
-			if(op.bytes >= (long)headerLength) {
+			if(op.bytes >= (int64_t)headerLength) {
 				bytes += 1 /*OggFLAC__MAPPING_PACKET_TYPE_LENGTH*/;
 				if(0 == memcmp(bytes, "FLAC" /*OggFLAC__MAPPING_MAGIC*/, 4 /*OggFLAC__MAPPING_MAGIC_LENGTH*/)) {
 					streamType = kOggStreamTypeFLAC;

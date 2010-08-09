@@ -107,7 +107,7 @@
 {
 	NSParameterAssert(0 <= frame && frame < [self totalFrames]);
 	
-	int result = SELF_DECOMPRESSOR->Seek(frame);
+	int result = SELF_DECOMPRESSOR->Seek((int)frame);
 	if(ERROR_SUCCESS == result)
 		_currentFrame = frame;
 	

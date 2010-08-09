@@ -262,7 +262,7 @@
 		NSAssert(NULL != relativeVolume, @"Unable to allocate memory.");
 		
 		relativeVolume->setIdentification(TagLib::String("track", TagLib::String::Latin1));
-		relativeVolume->setVolumeAdjustment([trackGain doubleValue], TagLib::ID3v2::RelativeVolumeFrame::MasterVolume);
+		relativeVolume->setVolumeAdjustment([trackGain floatValue], TagLib::ID3v2::RelativeVolumeFrame::MasterVolume);
 		
 		f.tag()->addFrame(relativeVolume);
 	}
@@ -272,7 +272,7 @@
 		NSAssert(NULL != relativeVolume, @"Unable to allocate memory.");
 		
 		relativeVolume->setIdentification(TagLib::String("album", TagLib::String::Latin1));
-		relativeVolume->setVolumeAdjustment([albumGain doubleValue], TagLib::ID3v2::RelativeVolumeFrame::MasterVolume);
+		relativeVolume->setVolumeAdjustment([albumGain floatValue], TagLib::ID3v2::RelativeVolumeFrame::MasterVolume);
 		
 		f.tag()->addFrame(relativeVolume);
 	}

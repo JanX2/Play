@@ -253,7 +253,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = AUListenerDispose(_auEventListener);
 	if(noErr != err)
-		NSLog(@"AudioPlayer: AUListenerDispose failed: %"PRId32 "", err);
+		NSLog(@"AudioPlayer: AUListenerDispose failed: %ld", (long)err);
 
 	[[self scheduler] stopScheduling];
 	[self teardownAUGraph];
@@ -292,7 +292,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 	OSStatus resetAUGraphErr = [self resetAUGraph];
 	if(noErr != resetAUGraphErr)
-		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: %"PRId32 "", resetAUGraphErr);
+		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: %ld", (long)resetAUGraphErr);
 	
 	id <AudioDecoderMethods> decoder = [stream decoder:error];
 	if(nil == decoder)
@@ -447,7 +447,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 										&timeStamp, 
 										sizeof(timeStamp));
 	if(noErr != err)
-		NSLog(@"AudioPlayer error: Unable to start AUScheduledSoundPlayer: %"PRId32 "", err);
+		NSLog(@"AudioPlayer error: Unable to start AUScheduledSoundPlayer: %ld", (long)err);
 
 /*	UInt32 dataSize = sizeof(timeStamp);
 	err = AudioUnitGetProperty(_generatorUnit, kAudioUnitProperty_ScheduleStartTimeStamp, kAudioUnitScope_Global, 0, &timeStamp, &dataSize);
@@ -647,12 +647,12 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = [self resetAUGraph];
 	if(noErr != err)
-		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: %"PRId32 "", err);
+		NSLog(@"AudioPlayer error: Unable to reset AUGraph AudioUnits: %ld", (long)err);
 
 	Float64 graphLatency;
 	err = [self getAUGraphLatency:&graphLatency];
 	if(noErr != err)
-		NSLog(@"AudioPlayer error: Unable to determine AUGraph latency: %"PRId32 "", err);
+		NSLog(@"AudioPlayer error: Unable to determine AUGraph latency: %ld", (long)err);
 	
 	UInt32 graphLatencyFrames = graphLatency * [self format].mSampleRate;
 
@@ -1149,7 +1149,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 									  connections[i].sourceNode, connections[i].sourceOutputNumber,
 									  connections[i].destNode, connections[i].destInputNumber);
 		if(noErr != err) {
-			NSLog(@"AudioPlayer error: Unable to restore AUGraph connection: %"PRId32 "", err);
+			NSLog(@"AudioPlayer error: Unable to restore AUGraph connection: %ld", (long)err);
 			free(connections);
 			return err;
 		}
@@ -1302,7 +1302,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = AUEventListenerAddEventType(_auEventListener, NULL, &parameterEvent);	
 	if(noErr != err)
-		NSLog(@"AudioPlayer error: AUEventListenerAddEventType failed: %"PRId32 "", err);	
+		NSLog(@"AudioPlayer error: AUEventListenerAddEventType failed: %ld", (long)err);	
 }
 
 - (void) stopListeningForParameterChangesOnAudioUnit:(AudioUnit)audioUnit
@@ -1318,7 +1318,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = AUEventListenerRemoveEventType(_auEventListener, NULL, &parameterEvent);	
 	if(noErr != err)
-		NSLog(@"AudioPlayer error: AUEventListenerRemoveEventType failed: %"PRId32 "", err);	
+		NSLog(@"AudioPlayer error: AUEventListenerRemoveEventType failed: %ld", (long)err);	
 }
 
 @end
@@ -1600,7 +1600,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		// If the property couldn't be set (the AU may not support this format), remove the new node
 		err = AUGraphRemoveNode([self auGraph], *newNode);
 		if(noErr != err)
-			NSLog(@"AudioPlayer error: Unable to remove node: %"PRId32 "", err);
+			NSLog(@"AudioPlayer error: Unable to remove node: %ld", (long)err);
 		
 		if(nil != error) {
 			NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
@@ -1622,7 +1622,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		// If the property couldn't be set (the AU may not support this format), remove the new node
 		err = AUGraphRemoveNode([self auGraph], *newNode);
 		if(noErr != err)
-			NSLog(@"AudioPlayer error: Unable to remove node: %"PRId32 "", err);
+			NSLog(@"AudioPlayer error: Unable to remove node: %ld", (long)err);
 		
 		if(nil != error) {
 			NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
@@ -1982,7 +1982,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		}
 	}
 	else
-		NSLog(@"Device is already hogged by pid: %"PRId32 "", hogPID);
+		NSLog(@"Device is already hogged by pid: %ld", (long)hogPID);
 	
 	return noErr;
 }
