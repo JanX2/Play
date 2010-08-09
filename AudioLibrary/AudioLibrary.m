@@ -325,7 +325,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		nil];
 	
 	NSDictionary *playQueueColumnSizesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithFloat:18], @"nowPlaying",
+		[NSNumber numberWithFloat:16], @"nowPlaying",
 		[NSNumber numberWithFloat:72], @"id",
 		[NSNumber numberWithFloat:192], @"title",
 		[NSNumber numberWithFloat:128], @"albumTitle",
