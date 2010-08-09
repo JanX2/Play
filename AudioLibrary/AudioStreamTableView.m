@@ -493,6 +493,19 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 	[[_streamController selectedObjects] makeObjectsPerformSelector:@selector(clearMetadata:) withObject:sender];
 }
 
+- (IBAction) refreshPath:(id)sender;
+{
+	if(0 == [[_streamController selectedObjects] count]) {
+		NSBeep();
+		return;
+	}
+	
+	[[CollectionManager manager] beginUpdate];
+	[[_streamController selectedObjects] makeObjectsPerformSelector:@selector(refreshPath:) withObject:sender];
+	[[CollectionManager manager] finishUpdate];
+}
+
+
 - (IBAction) calculateTrackReplayGain:(id)sender
 {
 	if(0 == [[_streamController selectedObjects] count]) {

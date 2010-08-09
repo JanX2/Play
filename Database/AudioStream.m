@@ -81,7 +81,7 @@ NSString * const	PropertiesBitrateKey					= @"bitrate";
 NSString * const	IsPlayingKey							= @"isPlaying";
 
 @interface AudioStream (private)
-- (void) updateBookmark;
+- (void) updateURLBookmark;
 @end
 
 @implementation AudioStream
@@ -128,36 +128,13 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 	[stream initValue:[NSDate date] forKey:StatisticsDateAddedKey];
 	[stream initValuesForKeysWithDictionary:keyedValues];
 	
-	[stream updateBookmark];
+	[stream updateURLBookmark];
 	
 	if(NO == [[[CollectionManager manager] streamManager] insertStream:stream])
 		[stream release], stream = nil;
 	
 	return [stream autorelease];
 }
-
-/*
--(id) init
-{
-	// CHANGEME: Testing only
-	if ((self = [super init]) != nil)
-	{
-		// CHANGEME: if (SDK 10.6)
-		[self addObserver:self
-			   forKeyPath:StreamURLKey
-				  options:0 // (NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld)
-				  context:NULL];
-	}
-	return self;
-}
-
-- (void) dealloc
-{
-	[self removeObserver:self forKeyPath:StreamURLKey];	
-	
-	[super dealloc];
-}
-*/
 
 - (IBAction) resetPlayCount:(id)sender
 {
@@ -245,7 +222,7 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 		[self setValue:value forKey:key];
 	}
 	
-	[self updateBookmark];
+	[self updateURLBookmark];
 
 }
 
@@ -320,10 +297,10 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 - (void) setCurrentStreamURL:(NSURL *)newURL
 {
 	[self setValue:newURL forKey:StreamURLKey];
-	[self updateBookmark];
+	[self updateURLBookmark];
 }
 
-- (void) updateBookmark
+- (void) updateURLBookmark
 {
 	NSURL * newURL = [self valueForKey:StreamURLKey];
 	NSParameterAssert(nil != newURL);
@@ -336,28 +313,6 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 		}
 	}
 }
-
-/*
-- (void) observeValueForKeyPath:(NSString *)keyPath
-					   ofObject:(id)object
-						 change:(NSDictionary *)change
-						context:(void *)context
-{
-    if ([keyPath isEqual:StreamURLKey]) {
-		//NSURL * newURL = [change objectForKey:NSKeyValueChangeNewKey];
-		[self updateBookmark];
-		//NSLog( @">>>> Detected Change in keyPath: %@", keyPath ); 
-    }
-    
-	// be sure to call the super implementation
-    // if the superclass implements it
-    //[super observeValueForKeyPath:keyPath
-	//					 ofObject:object
-	//					   change:change
-	//					  context:context];
-	
-}
-*/
 
 - (IBAction) saveMetadata:(id)sender
 {
@@ -382,6 +337,11 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 		*/
 		return;
 	}	
+}
+
+- (IBAction) refreshPath:(id)sender
+{
+	[self currentStreamURL];
 }
 
 - (NSString *) trackString

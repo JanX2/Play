@@ -93,6 +93,8 @@ extern NSString * const		PropertiesBitrateKey;
 
 - (IBAction) saveMetadata:(id)sender;
 
+- (IBAction) refreshPath:(id)sender;
+
 - (NSURL *) currentStreamURL;
 - (void) setCurrentStreamURL:(NSURL *)newURL;
 

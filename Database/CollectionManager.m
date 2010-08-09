@@ -343,7 +343,7 @@ static CollectionManager *collectionManagerInstance = nil;
 	
 	if(rescanURLs) {
 #warning CHANGEME: Where is the best opportunity to rescan the URLs, if we are run on 10.6 for the first time after the db update and upgrade from 10.5?
-		// CHANGEME: Show progress? Allow to quit without updateing?
+		// CHANGEME: Show progress? Allow to quit without updating?
 		
 		// Display an alert since this could take a while
 		NSAlert *alert = [[NSAlert alloc] init];
