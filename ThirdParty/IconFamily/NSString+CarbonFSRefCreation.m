@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2001-2006 Troy N. Stephens
+    Copyright (c) 2001-2010 Troy N. Stephens
 
     Use and distribution of this source code is governed by the MIT License, whose terms are as follows.
 
@@ -23,7 +23,7 @@
     // Check whether the file exists already.  If not, create an empty file if requested.
     if (![fileManager fileExistsAtPath:self]) {
         if (createFile) {
-            if (![@"" writeToFile:self atomically:YES encoding:NSUTF8StringEncoding error:nil]) {
+            if (![@"" writeToFile:self atomically:YES]) {
                 return NO;
             }
         } else {
