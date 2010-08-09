@@ -90,7 +90,18 @@ NSString * const	ObjectIDKey								= @"id";
 
 - (NSString *) description
 {
+#ifndef DEBUG_ENABLE_DETAILED_DESCRIPTION
 	return [NSString stringWithFormat:@"[%@]", [self valueForKey:ObjectIDKey]];
+#else
+	NSArray *descriptionKeys = [self supportedKeys];
+	NSMutableDictionary *descriptionDict = [NSMutableDictionary dictionaryWithCapacity:[descriptionKeys count]];
+	
+	for (id key in descriptionKeys) {
+		[descriptionDict setObject:[self valueForKey:key] forKey:key];
+	}
+	
+	return [descriptionDict description];
+#endif
 }
 
 #pragma mark -
