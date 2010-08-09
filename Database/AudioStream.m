@@ -95,7 +95,7 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 		return [NSSet setWithObjects:MetadataDiscNumberKey, MetadataDiscTotalKey, nil];
 	}
 	else if ([key isEqualToString:@"isPlayingValue"]) {
-		return [NSSet setWithObject:@"IsPlayingKey"];
+		return [NSSet setWithObject:IsPlayingKey];
 	}
 	else {
 		return [super keyPathsForValuesAffectingValueForKey:key];
