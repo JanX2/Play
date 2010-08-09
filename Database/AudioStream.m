@@ -97,6 +97,9 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 	else if ([key isEqualToString:@"isPlayingValue"]) {
 		return [NSSet setWithObject:IsPlayingKey];
 	}
+	else if ([key isEqualToString:@"isExternalReferenceOrAvailableFile"]) {
+		return [NSSet setWithObject:StreamURLKey];
+	}
 	else {
 		return [super keyPathsForValuesAffectingValueForKey:key];
 	}
@@ -410,6 +413,17 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 	
 	// For reasons related to SQLite (see http://sqlite.org/nulls.html), -1 is used instead of NULL
 	return (-1 != [startingFrame longLongValue] && -1 != [frameCount intValue]);
+}
+
+- (BOOL) isExternalReferenceOrAvailableFile;
+{
+    NSURL* url = [self valueForKey:StreamURLKey];
+	if ((nil == url) || ([url isFileURL] && ([[NSFileManager defaultManager] fileExistsAtPath:[url path]] == NO))) {
+		return NO;
+	}
+	else {
+		return YES;
+	}
 }
 
 - (id <AudioDecoderMethods>) decoder:(NSError **)error

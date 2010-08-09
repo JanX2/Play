@@ -114,6 +114,8 @@ extern NSString * const		PropertiesBitrateKey;
 
 - (BOOL) isPartOfCueSheet;
 
+- (BOOL) isExternalReferenceOrAvailableFile;
+
 - (id <AudioDecoderMethods>) decoder:(NSError **)error;
 
 @end

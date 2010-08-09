@@ -243,6 +243,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	
 	// Setup stream table column defaults
 	NSDictionary *streamTableVisibleColumnsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+		[NSNumber numberWithBool:NO], @"fileAvailable",
 		[NSNumber numberWithBool:NO], @"id",
 		[NSNumber numberWithBool:YES], @"title",
 		[NSNumber numberWithBool:YES], @"albumTitle",
@@ -268,6 +269,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		nil];
 	
 	NSDictionary *streamTableColumnSizesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+		[NSNumber numberWithFloat:26], @"fileAvailable",
 		[NSNumber numberWithFloat:72], @"id",
 		[NSNumber numberWithFloat:192], @"title",
 		[NSNumber numberWithFloat:128], @"albumTitle",
