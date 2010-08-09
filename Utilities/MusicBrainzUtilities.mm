@@ -29,6 +29,9 @@
 #include <SystemConfiguration/SCNetwork.h>
 #include <typeinfo>
 
+NSArray * buildMusicBrainzResultArray(MusicBrainz::Query &q, MusicBrainz::TrackResultList &results, NSError **error);
+
+
 BOOL
 canConnectToMusicBrainz()
 {

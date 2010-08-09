@@ -56,13 +56,13 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 {
 	NSLog(@"mSampleRate         %f", asbd->mSampleRate);
 	NSLog(@"mFormatID           %.4s", (const char *)(&asbd->mFormatID));
-	NSLog(@"mFormatFlags        %"PRIu32, asbd->mFormatFlags);
-	NSLog(@"mBytesPerPacket     %"PRIu32, asbd->mBytesPerPacket);
-	NSLog(@"mFramesPerPacket    %"PRIu32, asbd->mFramesPerPacket);
-	NSLog(@"mBytesPerFrame      %"PRIu32, asbd->mBytesPerFrame);
-	NSLog(@"mChannelsPerFrame   %"PRIu32, asbd->mChannelsPerFrame);
-	NSLog(@"mBitsPerChannel     %"PRIu32, asbd->mBitsPerChannel);
-	NSLog(@"mReserved           %"PRIu32, asbd->mReserved);
+	NSLog(@"mFormatFlags        %"PRIu32, (uint32_t)asbd->mFormatFlags);
+	NSLog(@"mBytesPerPacket     %"PRIu32, (uint32_t)asbd->mBytesPerPacket);
+	NSLog(@"mFramesPerPacket    %"PRIu32, (uint32_t)asbd->mFramesPerPacket);
+	NSLog(@"mBytesPerFrame      %"PRIu32, (uint32_t)asbd->mBytesPerFrame);
+	NSLog(@"mChannelsPerFrame   %"PRIu32, (uint32_t)asbd->mChannelsPerFrame);
+	NSLog(@"mBitsPerChannel     %"PRIu32, (uint32_t)asbd->mBitsPerChannel);
+	NSLog(@"mReserved           %"PRIu32, (uint32_t)asbd->mReserved);
 }
 #endif
 

@@ -21,6 +21,11 @@
 #import "ScheduledAudioRegion.h"
 #import "AudioDecoder.h"
 
+void allocate_slice_for_asbd(const AudioStreamBasicDescription *asbd, ScheduledAudioSlice *slice, NSUInteger numberOfFramesPerSlice);
+void deallocate_slice(ScheduledAudioSlice *slice);
+ScheduledAudioSlice * allocate_slice_buffer_for_asbd(const AudioStreamBasicDescription *asbd, NSUInteger numberOfSlicesInBuffer, NSUInteger numberOfFramesPerSlice);
+void deallocate_slice_buffer(ScheduledAudioSlice **sliceBuffer, NSUInteger numberOfSlicesInBuffer);
+
 // ========================================
 // Helper functions
 // ========================================
