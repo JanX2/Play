@@ -15,3 +15,4 @@ In no particular order:
 - Open browser and select new entry when adding (smart) playlists
 - Allow scanning the library/selection for missing files. 
 - Offer to rediscover missing files (semi-)automatically (via Spotlight, exact file name, metadata and file type match, etc.)
+- Fix crash when playing flac files whose metadata is being edited externally.
