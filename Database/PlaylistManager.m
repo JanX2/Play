@@ -720,6 +720,9 @@
 	clock_t start = clock();
 #endif
 	
+	// CHANGEME: Clean up this hack:
+	[[CollectionManager manager] doBeginTransaction];
+
 	// First delete the old playlist entries for the playlist
 	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":playlist_id"), objectID);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
@@ -737,13 +740,10 @@
 	statement = [self preparedStatementForAction:@"insert_playlist_entry"];
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));
 	
-	unsigned		thisIndex	= 0;
-	NSArray			*streams	= [playlist streams];
-	AudioStream		*stream		= nil;
+	unsigned int	thisIndex = 0;
+	NSArray			*streams = [playlist streams];
 	
-	for(thisIndex = 0; thisIndex < (unsigned)[streams count]; ++thisIndex) {
-		stream = [streams objectAtIndex:thisIndex];
-		
+	for (AudioStream *stream in streams) {
 		bindParameter(statement, 1, playlist, ObjectIDKey, eObjectTypeUnsignedInt);
 		bindParameter(statement, 2, stream, ObjectIDKey, eObjectTypeUnsignedInt);
 //		bindParameter(statement, 3, playlist, StatisticsLastPlayedDateKey, eObjectTypeDate);
@@ -758,7 +758,11 @@
 		
 		result = sqlite3_clear_bindings(statement);
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to clear sql statement bindings (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
+		
+		thisIndex++;
 	}
+	
+	[[CollectionManager manager] doCommitTransaction];
 	
 #if SQL_DEBUG
 	clock_t end = clock();
