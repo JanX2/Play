@@ -36,13 +36,6 @@
 NSString * const PlaylistPboardType						= @"org.sbooth.Play.Playlist.PboardType";
 NSString * const SmartPlaylistPboardType				= @"org.sbooth.Play.SmartPlaylist.PboardType";
 
-// ========================================
-// Completely bogus NSTreeController bindings hack
-// ========================================
-@interface NSObject (NSTreeControllerBogosity)
-- (id) observedObject;
-@end
-
 @implementation BrowserTreeController
 
 // An outline view data source MUST implement these methods
@@ -127,7 +120,7 @@ NSString * const SmartPlaylistPboardType				= @"org.sbooth.Play.SmartPlaylist.Pb
 	BOOL				success			= NO;
 	NSUInteger			i;
 	
-	while((node = [[enumerator nextObject] observedObject])) {
+	while((node = [[enumerator nextObject] representedObject])) {
 
 		if([node isKindOfClass:[PlaylistNode class]]) {
 			playlist	= [(PlaylistNode *)node playlist];
@@ -178,14 +171,14 @@ NSString * const SmartPlaylistPboardType				= @"org.sbooth.Play.SmartPlaylist.Pb
 
 - (NSDragOperation) outlineView:(NSOutlineView *)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)thisIndex
 {
-	BrowserNode *node = [item observedObject];
+	BrowserNode *node = [item representedObject];
 	
 	return ([node isKindOfClass:[PlaylistNode class]] ? NSDragOperationCopy : NSDragOperationNone);
 }
 
 - (BOOL) outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)thisIndex
 {
-	BrowserNode		*node		= [item observedObject];
+	BrowserNode		*node		= [item representedObject];
 	NSArray			*objectIDs	= [[info draggingPasteboard] propertyListForType:AudioStreamPboardType];
 
 	if([node isKindOfClass:[PlaylistNode class]]) {

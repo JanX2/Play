@@ -1157,7 +1157,7 @@ bail:
 		 NSEnumerator *enumerator = [[_browserController arrangedObjects] objectEnumerator];
 		 id opaqueNode;
 		 while((opaqueNode = [enumerator nextObject])) {
-			 id node = [opaqueNode observedObject];
+			 id node = [opaqueNode representedObject];
 			 if([node isKindOfClass:[PlaylistNode class]] && [node playlist] == playlist) {
 				 NSLog(@"found node:%@",opaqueNode);
 			 } 

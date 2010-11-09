@@ -35,13 +35,6 @@
 static CGFloat widthOffset	= 5.0f;
 static CGFloat heightOffset	= 3.0f;
 
-// ========================================
-// Completely bogus NSTreeController bindings hack
-// ========================================
-@interface NSObject (NSTreeControllerBogosity)
-- (id) observedObject;
-@end
-
 @interface BrowserOutlineView (Private)
 - (void) showPlaylistInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (void) showSmartPlaylistInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
@@ -104,7 +97,7 @@ static CGFloat heightOffset	= 3.0f;
 
 - (NSImage *) dragImageForRowsWithIndexes:(NSIndexSet *)dragRows tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset
 {
-	BrowserNode *node			= [[self itemAtRow:[dragRows firstIndex]] observedObject];
+	BrowserNode *node			= [[self itemAtRow:[dragRows firstIndex]] representedObject];
 
 	if(NO == [node isKindOfClass:[AudioStreamCollectionNode class]])
 		return [super dragImageForRowsWithIndexes:dragRows tableColumns:tableColumns event:dragEvent offset:dragImageOffset];

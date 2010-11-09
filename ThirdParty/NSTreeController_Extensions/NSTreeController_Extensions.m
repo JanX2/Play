@@ -66,7 +66,6 @@
 	// opaque
 }
 - (unsigned int)count;
-- (id)observedObject;
 - (id)parentNode;
 - (id)nodeAtIndexPath:(id)fp8;
 - (id)subnodeAtIndex:(unsigned int)fp8;
@@ -94,7 +93,7 @@
 		NSIndexPath					*path = prefix ? [prefix indexPathByAddingIndex: i]
 												   : [NSIndexPath indexPathWithIndex: i];
 		
-		if ( [node observedObject] == object )
+		if ( [node representedObject] == object )
 			return path;
 		else
 			if ( (path = [node arrangedIndexPathForObject: object startingAt: path]) )
@@ -274,7 +273,7 @@
 {
 	_NSArrayControllerTreeNode *node = (_NSArrayControllerTreeNode *)item;
 	
-	return [node observedObject];
+	return [node representedObject];
 }
 
 + (NSArray *)objectsForOutlineItems:(NSArray *)items;
@@ -285,7 +284,7 @@
 	_NSArrayControllerTreeNode *node;
 	
 	while ( (node = [enumerator nextObject]) )
-		[selectedObjects addObject: [node observedObject]];
+		[selectedObjects addObject: [node representedObject]];
 	
 	return selectedObjects;
 }
@@ -345,7 +344,7 @@
 		id				 item;
 		
 		while ( (item = [enumerator nextObject]) )
-			[result addObject: [item observedObject]];
+			[result addObject: [item representedObject]];
 		
 		return result;
 	}

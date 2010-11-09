@@ -151,15 +151,6 @@ NSString * const	PlayQueueKey								= @"playQueue";
 #define PLAY_QUEUE_TABLE_COLUMNS_MENU_ITEM_INDEX	5
 #define STREAM_TABLE_COLUMNS_MENU_ITEM_INDEX		6
 
-//#if MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_4
-// ========================================
-// Completely bogus NSTreeController bindings hack (unnecessary on 10.5)
-// ========================================
-@interface NSObject (NSTreeControllerBogosity)
-- (id) observedObject;
-@end
-//#endif
-
 // ========================================
 // Callback Methods (for sheets, etc.)
 // ========================================
@@ -1801,14 +1792,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 
 - (BOOL) outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-	BrowserNode *node = nil;
-//#if MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_4
-	if(nil != NSClassFromString(@"NSTreeNode"))
-		node = [item representedObject];
-//#else
-	else
-		node = [item observedObject];
-//#endif
+	BrowserNode *node = [item representedObject];
 
 	return [node nameIsEditable];
 }
@@ -1825,14 +1809,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 
 - (void) outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-	BrowserNode *node = nil;
-//#if MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_4
-	if(nil != NSClassFromString(@"NSTreeNode"))
-		node = [item representedObject];
-//#else
-	else
-		node = [item observedObject];
-//#endif
+	BrowserNode *node = [item representedObject];
 	
 	[(ImageAndTextCell *)cell setImage:[node icon]];
 
@@ -1851,15 +1828,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	NSArray						*selected			= [_streamController selectedObjects];
 	NSDictionary				*bindingInfo		= [_streamController infoForBinding:@"contentArray"];
 	AudioStreamCollectionNode	*oldStreamsNode		= [bindingInfo valueForKey:NSObservedObjectKey];
-	BrowserNode					*node				= nil;
-
-//#if MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_4
-	if(nil != NSClassFromString(@"NSTreeNode"))
-		node = [opaqueNode representedObject];
-//#else
-	else
-		node = [opaqueNode observedObject];
-//#endif
+	BrowserNode					*node				= [opaqueNode representedObject];
 
 	// Unbind the current stream source
 	[_streamController unbind:@"contentArray"];
