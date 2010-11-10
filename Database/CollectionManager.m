@@ -131,10 +131,6 @@ NSString *const DatabaseErrorDomain = @"org.sbooth.Play.ErrorDomain.Database";
 - (BOOL) prepareSQL:(NSError **)error;
 - (BOOL) finalizeSQL:(NSError **)error;
 - (sqlite3_stmt *) preparedStatementForAction:(NSString *)action;
-
-- (void) doBeginTransaction;
-- (void) doCommitTransaction;
-- (void) doRollbackTransaction;
 @end
 
 // ========================================
@@ -699,6 +695,11 @@ static CollectionManager *collectionManagerInstance = nil;
 {
 	return (sqlite3_stmt *)[[_sql valueForKey:action] statementPointer];		
 }
+
+@end
+
+
+@implementation CollectionManager (TransactionSupport)
 
 #pragma mark Transactions
 

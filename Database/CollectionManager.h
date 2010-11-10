@@ -94,3 +94,9 @@ enum {
 - (NSUndoManager *) undoManager;
 
 @end
+
+@interface CollectionManager (TransactionSupport)
+- (void) doBeginTransaction;
+- (void) doCommitTransaction;
+- (void) doRollbackTransaction;
+@end
