@@ -24,7 +24,7 @@
 // A decoder is responsible for reading audio data in some format and providing
 // it as 32-bit float non-interleaved PCM (canonical Core Audio format)
 // ========================================
-@protocol AudioDecoderMethods
+@protocol AudioDecoderMethods <NSObject>
 // The type of PCM data provided by this decoder
 - (AudioStreamBasicDescription) format;
 - (NSString *) formatDescription;
