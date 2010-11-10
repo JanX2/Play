@@ -2313,7 +2313,6 @@
 					DEBUG_ENABLE_DETAILED_DESCRIPTION,
 				);
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks/taglib.framework/Headers\"",
