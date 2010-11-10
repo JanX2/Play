@@ -140,17 +140,17 @@
 						
 						// Fill in frame counts
 						if(0 < i) {
-							unsigned frameCount = (block->data.cue_sheet.tracks[i].offset - 1) - block->data.cue_sheet.tracks[i - 1].offset;
+							unsigned long long frameCount = (block->data.cue_sheet.tracks[i].offset - 1) - block->data.cue_sheet.tracks[i - 1].offset;
 							
-							[[cueSheetTracks objectAtIndex:(i - 1)] setValue:[NSNumber numberWithUnsignedInt:frameCount] forKey:StreamFrameCountKey];
+							[[cueSheetTracks objectAtIndex:(i - 1)] setValue:[NSNumber numberWithUnsignedLongLong:frameCount] forKey:StreamFrameCountKey];
 						}
 						
 						// Special handling for the last audio track
 						// FIXME: Is it safe the assume the lead out will always be the final track in the cue sheet?
 						if(i == block->data.cue_sheet.num_tracks - 1 - 1) {
-							unsigned frameCount = [[propertiesDictionary valueForKey:PropertiesTotalFramesKey] unsignedLongLongValue] - block->data.cue_sheet.tracks[i].offset + 1.0f;
+							unsigned long long frameCount = [[propertiesDictionary valueForKey:PropertiesTotalFramesKey] unsignedLongLongValue] - block->data.cue_sheet.tracks[i].offset + 1.0f;
 
-							[trackDictionary setValue:[NSNumber numberWithUnsignedInt:frameCount] forKey:StreamFrameCountKey];
+							[trackDictionary setValue:[NSNumber numberWithUnsignedLongLong:frameCount] forKey:StreamFrameCountKey];
 						}
 
 						// Don't add the lead-out as a track
