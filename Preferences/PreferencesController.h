@@ -29,7 +29,7 @@ extern NSString * const		OutputPreferencesToolbarItemIdentifier;
 extern NSString * const		DSPPreferencesToolbarItemIdentifier;
 extern NSString * const		AdvancedPreferencesToolbarItemIdentifier;
 
-@interface PreferencesController : NSWindowController
+@interface PreferencesController : NSWindowController <NSToolbarDelegate>
 {
 }
 

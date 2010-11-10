@@ -194,7 +194,7 @@
 		// Decode one frame of MPC data
 		mpc_uint32_t framesDecoded = mpc_decoder_decode(&_decoder, buffer, 0, 0);
 		if((mpc_uint32_t)-1 == framesDecoded) {
-			NSLog(NSLocalizedStringFromTable(@"Musepack decoding error.", @"Errors", @""));
+			NSLog(@"%@", NSLocalizedStringFromTable(@"Musepack decoding error.", @"Errors", @""));
 			break;
 		}
 		
