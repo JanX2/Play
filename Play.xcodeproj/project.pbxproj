@@ -38,6 +38,7 @@
 		32CF6E1F1038BA79006F9D62 /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CF6E1E1038BA79006F9D62 /* ShortcutRecorder.framework */; };
 		32CF6E221038BA86006F9D62 /* ShortcutRecorder.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 32CF6E1E1038BA79006F9D62 /* ShortcutRecorder.framework */; };
 		32CF6E411038BD39006F9D62 /* HotKeyPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32CF6E3F1038BD39006F9D62 /* HotKeyPreferences.xib */; };
+		3D4DAE93128AFA6F004AC0D3 /* PTKeyCodeTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4DAE92128AFA6F004AC0D3 /* PTKeyCodeTranslator.m */; };
 		3D50A2B81162CDDD002A5832 /* RBSplitView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D50A2B71162CDDD002A5832 /* RBSplitView.framework */; };
 		3D50A2B91162CDEC002A5832 /* RBSplitView.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3D50A2B71162CDDD002A5832 /* RBSplitView.framework */; };
 		3DAFB8211178CACD0049C73C /* PointerWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DAFB8201178CACD0049C73C /* PointerWrapper.m */; };
@@ -402,6 +403,8 @@
 		32CF6E401038BD39006F9D62 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HotKeyPreferences.xib; sourceTree = "<group>"; };
 		32FF2396104336FC0069EB9B /* Version.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		32FF2424104338C30069EB9B /* Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
+		3D4DAE91128AFA6E004AC0D3 /* PTKeyCodeTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PTKeyCodeTranslator.h; path = ThirdParty/PTHotKey/PTKeyCodeTranslator.h; sourceTree = "<group>"; };
+		3D4DAE92128AFA6F004AC0D3 /* PTKeyCodeTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PTKeyCodeTranslator.m; path = ThirdParty/PTHotKey/PTKeyCodeTranslator.m; sourceTree = "<group>"; };
 		3D50A2B71162CDDD002A5832 /* RBSplitView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RBSplitView.framework; path = Frameworks/RBSplitView.framework; sourceTree = "<group>"; };
 		3DAFB81F1178CACD0049C73C /* PointerWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointerWrapper.h; path = Utilities/PointerWrapper.h; sourceTree = "<group>"; };
 		3DAFB8201178CACD0049C73C /* PointerWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PointerWrapper.m; path = Utilities/PointerWrapper.m; sourceTree = "<group>"; };
@@ -1563,6 +1566,8 @@
 				8CB3EC810BDDA2B000B5E828 /* PTHotKey.m */,
 				8CB3EC820BDDA2B000B5E828 /* PTHotKeyCenter.h */,
 				8CB3EC830BDDA2B000B5E828 /* PTHotKeyCenter.m */,
+				3D4DAE91128AFA6E004AC0D3 /* PTKeyCodeTranslator.h */,
+				3D4DAE92128AFA6F004AC0D3 /* PTKeyCodeTranslator.m */,
 				8CB3EC840BDDA2B000B5E828 /* PTKeyCombo.h */,
 				8CB3EC850BDDA2B000B5E828 /* PTKeyCombo.m */,
 			);
@@ -1947,6 +1952,7 @@
 				32875D711025163E001E06F2 /* WAVEMetadataWriter.mm in Sources */,
 				32596D2610862F1400BD9640 /* SFMT.c in Sources */,
 				3DAFB8211178CACD0049C73C /* PointerWrapper.m in Sources */,
+				3D4DAE93128AFA6F004AC0D3 /* PTKeyCodeTranslator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
