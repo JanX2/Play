@@ -19,5 +19,8 @@ In no particular order:
 - Optionally save playlist after a song has been played. 
 - Fix bug: track that starts playing while Play is adding files to the library will loop until adding is done.
 - Adding B.A.D. collection of FLAC files won’t finish by itself. We can still quit Play, though. Adding the flac files from a Spotlight search instead of adding the root folder will finish correctly.
-- For some files the Date metadate does not refresh after rescanning.
+- For some files the Date metadata does not refresh after rescanning.
 - Scroll to newly added play queue items.
+- Command-F should make search filled the first responder.
+- Save/Restore complete state on quit/launch: played item, player position.
+- Save the play queue regularely: after items have been added/removed or every n minutes
