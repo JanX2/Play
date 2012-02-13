@@ -327,7 +327,10 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 - (AudioTimeStamp) currentPlayTime
 {
 	// Determine the last sample that was rendered
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-field-initializers"
 	AudioTimeStamp		timeStamp	= { 0 };
+#pragma clang diagnostic pop
 	UInt32				dataSize	= sizeof(AudioTimeStamp);
 	ComponentResult		result		= AudioUnitGetProperty([self audioUnit],
 														   kAudioUnitProperty_CurrentPlayTime,
