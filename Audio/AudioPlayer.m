@@ -65,7 +65,6 @@ NSString * const	AUManufacturerStringKey					= @"manufacturer";
 NSString * const	AUNameAndManufacturerStringKey			= @"nameAndManufacturer";
 NSString * const	AUInformationStringKey					= @"information";
 NSString * const	AUIconKey								= @"icon";
-NSString * const	AUClassDataKey							= @"classData";
 NSString * const	AUNodeKey								= @"AUNode";
 
 NSString *const		AudioPlayerErrorDomain					= @"org.sbooth.Play.ErrorDomain.AudioPlayer";
@@ -708,7 +707,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 {
 	NSParameterAssert(nil != schedulerAndRegion);
 
-#if DEBUG
+#if EXTENDED_DEBUG
 	ScheduledAudioRegion *region = [schedulerAndRegion valueForKey:ScheduledAudioRegionObjectKey];
 	NSLog(@"-audioSchedulerFinishedSchedulingRegion: %@", region);
 #endif
@@ -798,14 +797,14 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 	// The graph will look like:
 	// Generator -> Peak Limiter -> Effects -> Output
-	ComponentDescription desc;
+	AudioComponentDescription desc;
+	desc.componentManufacturer	= kAudioUnitManufacturer_Apple;
+	desc.componentFlags			= 0;
+	desc.componentFlagsMask		= 0;
 	
 	// Set up the generator node
 	desc.componentType			= kAudioUnitType_Generator;
 	desc.componentSubType		= kAudioUnitSubType_ScheduledSoundPlayer;
-	desc.componentManufacturer	= kAudioUnitManufacturer_Apple;
-	desc.componentFlags			= 0;
-	desc.componentFlagsMask		= 0;
 	
 	err = AUGraphAddNode([self auGraph], &desc, &_generatorNode);
 	if(noErr != err)
@@ -814,30 +813,23 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	// Set up the peak limiter node
 	desc.componentType			= kAudioUnitType_Effect;
 	desc.componentSubType		= kAudioUnitSubType_PeakLimiter;
-	desc.componentManufacturer	= kAudioUnitManufacturer_Apple;
-	desc.componentFlags			= 0;
-	desc.componentFlagsMask		= 0;
 	
 	err = AUGraphAddNode([self auGraph], &desc, &_limiterNode);
+	if(noErr != err)
+		return err;
+	err = AUGraphConnectNodeInput([self auGraph], _generatorNode, 0, _limiterNode, 0);
 	if(noErr != err)
 		return err;
 	
 	// Set up the output node
 	desc.componentType			= kAudioUnitType_Output;
 	desc.componentSubType		= kAudioUnitSubType_DefaultOutput;
-	desc.componentManufacturer	= kAudioUnitManufacturer_Apple;
-	desc.componentFlags			= 0;
-	desc.componentFlagsMask		= 0;
 	
 	err = AUGraphAddNode([self auGraph], &desc, &_outputNode);
 	if(noErr != err)
 		return err;
 	
-	// Connect the nodes
-	err = AUGraphConnectNodeInput([self auGraph], _generatorNode, 0, _limiterNode, 0);
-	if(noErr != err)
-		return err;
-
+	// Connect the node
 	err = AUGraphConnectNodeInput([self auGraph], _limiterNode, 0, _outputNode, 0);
 	if(noErr != err)
 		return err;
@@ -853,15 +845,15 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		return err;
 	
 	// Store the audio units for later  use
-	err = AUGraphNodeInfo([self auGraph], _generatorNode, NULL, &_generatorUnit);
+	err = AUGraphNodeInfo([self auGraph], _generatorNode, &desc, &_generatorUnit);
 	if(noErr != err)
 		return err;
 	
-	err = AUGraphNodeInfo([self auGraph], _limiterNode, NULL, &_limiterUnit);
+	err = AUGraphNodeInfo([self auGraph], _limiterNode, &desc, &_limiterUnit);
 	if(noErr != err)
 		return err;
 	
-	err = AUGraphNodeInfo([self auGraph], _outputNode, NULL, &_outputUnit);
+	err = AUGraphNodeInfo([self auGraph], _outputNode, &desc, &_outputUnit);
 	if(noErr != err)
 		return err;
 	
@@ -1029,27 +1021,36 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 - (void) saveEffectsToDefaults
 {
 	// Save the effects
-	UInt32 connectionCount;
-	OSStatus err = AUGraphGetNumberOfConnections([self auGraph], &connectionCount);
+	UInt32 interactionCount;
+	OSStatus err = AUGraphGetNumberOfInteractions([self auGraph], &interactionCount);
 	if(noErr != err)
 		return;
 	
 	NSMutableArray *effects = [NSMutableArray array];
 	
 	UInt32 i;
-	for(i = 0; i < connectionCount; ++i) {
-		AUNode node;
-		err = AUGraphGetConnectionInfo([self auGraph], i, &node, NULL, NULL, NULL);
+	for(i = 0; i < interactionCount; ++i) {
+		AUNodeInteraction interaction;
+		err = AUGraphGetInteractionInfo([self auGraph], i, &interaction);
 		if(noErr != err)
 			return;
+		
+		// Skip anything that's not a connection between nodes
+		if(interaction.nodeInteractionType != kAUNodeInteraction_Connection)
+			continue;
+		
+		AUNodeConnection connection = interaction.nodeInteraction.connection;
+		
+		// Look at the source node (we know the last node in the graph is the output node)
+		AUNode node = connection.sourceNode;
 		
 		// Skip the Generator and Peak Limiter nodes
 		if(node == _generatorNode || node == _limiterNode)
 			continue;
 		
-		ComponentDescription desc;
-		CFPropertyListRef classData;
-		err = AUGraphGetNodeInfo([self auGraph], node, &desc, NULL, (void **)&classData, NULL);
+		// This is an effect... add it to the dict
+		AudioComponentDescription desc;
+		err = AUGraphNodeInfo([self auGraph], node, &desc, NULL);
 		if(noErr != err)
 			return;
 		
@@ -1057,7 +1058,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			[NSNumber numberWithUnsignedLong:desc.componentType], AUTypeKey,
 			[NSNumber numberWithUnsignedLong:desc.componentSubType], AUSubTypeKey,
 			[NSNumber numberWithUnsignedLong:desc.componentManufacturer], AUManufacturerKey,
-			classData, AUClassDataKey,
 			nil];
 		
 		[effects addObject:auDictionary];
@@ -1077,7 +1077,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 - (OSStatus) setAUGraphFormat:(AudioStreamBasicDescription)format
 {
 	OSStatus result = noErr;
-	AudioUnitNodeConnection *connections = NULL;
+	AUNodeInteraction *interactions = NULL;
 	
 	// If the graph is running, stop it
 	Boolean graphIsRunning = NO;
@@ -1103,30 +1103,28 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			return err;
 	}
 	
-	// Save the connection information and then disconnect all the connections
-	UInt32 connectionCount;
-	err = AUGraphGetNumberOfConnections([self auGraph], &connectionCount);
+	// Save the interaction information and then disconnect all the connections
+	UInt32 interactionCount;
+	err = AUGraphGetNumberOfInteractions([self auGraph], &interactionCount);
 	if(noErr != err)
 		return err;
 	
-	connections = calloc(connectionCount, sizeof(AudioUnitNodeConnection));
-	if(NULL == connections)
+	interactions = calloc(interactionCount, sizeof(AUNodeInteraction));
+	if(NULL == interactions)
 		return memFullErr;
 	
 	UInt32 i;
-	for(i = 0; i < connectionCount; ++i) {
-		err = AUGraphGetConnectionInfo([self auGraph], i,
-									   &connections[i].sourceNode, &connections[i].sourceOutputNumber,
-									   &connections[i].destNode, &connections[i].destInputNumber);
+	for(i = 0; i < interactionCount; ++i) {
+		err = AUGraphGetInteractionInfo([self auGraph], i, &(interactions[i]));
 		if(noErr != err) {
-			free(connections);
+			free(interactions), interactions = NULL;
 			return err;
 		}
 	}
 	
 	err = AUGraphClearConnections([self auGraph]);
 	if(noErr != err) {
-		free(connections);
+		free(interactions), interactions = NULL;
 		return err;
 	}
 	
@@ -1137,25 +1135,28 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		format = [self format];
 		OSStatus newErr = [self setPropertyOnAUGraphNodes:kAudioUnitProperty_StreamFormat data:&format dataSize:sizeof(format)];
 		if(noErr != newErr)
-			NSLog(@"AudioPlayer error: Unable to restore AUGraph format: %"PRId32 , newErr);
+			NSLog(@"AudioPlayer error: Unable to restore AUGraph format: %ld", (long)newErr);
 
 		// Do not free connections here, so graph can be rebuilt
 		result = err;
 	}
 	
 	// Restore the graph's connections
-	for(i = 0; i < connectionCount; ++i) {
+	for(i = 0; i < interactionCount; ++i) {
+		AUNodeConnection connection = interactions[i].nodeInteraction.connection;
 		err = AUGraphConnectNodeInput([self auGraph], 
-									  connections[i].sourceNode, connections[i].sourceOutputNumber,
-									  connections[i].destNode, connections[i].destInputNumber);
+									  connection.sourceNode, 
+									  connection.sourceOutputNumber, 
+									  connection.destNode, 
+									  connection.destInputNumber);
 		if(noErr != err) {
 			NSLog(@"AudioPlayer error: Unable to restore AUGraph connection: %ld", (long)err);
-			free(connections);
+			free(interactions), interactions = NULL;
 			return err;
 		}
 	}
 	
-	free(connections);
+	free(interactions), interactions = NULL;
 	
 	// If the graph was initialized, reinitialize it
 	if(graphIsInitialized) {
@@ -1190,7 +1191,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 //		OSStatus newErr = [self setPropertyOnAUGraphNodes:kAudioUnitProperty_AudioChannelLayout data:&channelLayout dataSize:sizeof(channelLayout)];
 		OSStatus newErr = AudioUnitSetProperty(_outputUnit, kAudioUnitProperty_AudioChannelLayout, kAudioUnitScope_Input, 0, &channelLayout, sizeof(channelLayout));
 		if(noErr != newErr)
-			NSLog(@"AudioPlayer error: Unable to restore AUGraph channel layout: %"PRId32 , newErr);
+			NSLog(@"AudioPlayer error: Unable to restore AUGraph channel layout: %ld", (long)newErr);
 		
 		return err;
 	}
@@ -1216,8 +1217,8 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		if(noErr != err)
 			return err;
 		
-		AudioUnit au;
-		err = AUGraphGetNodeInfo([self auGraph], node, NULL, NULL, NULL, &au);
+		AudioUnit au = NULL;
+		err = AUGraphNodeInfo([self auGraph], node, NULL, &au);
 		if(noErr != err)
 			return err;
 		
@@ -1328,8 +1329,8 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 - (NSArray *) currentEffects
 {
 	// Save the effects
-	UInt32 connectionCount;
-	OSStatus connectionCountErr = AUGraphGetNumberOfConnections([self auGraph], &connectionCount);
+	UInt32 numInteractions;
+	OSStatus connectionCountErr = AUGraphGetNumberOfInteractions([self auGraph], &numInteractions);
 	if(noErr != connectionCountErr)
 		return nil;
 	
@@ -1337,24 +1338,39 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err;
 	UInt32 i;
-	for(i = 0; i < connectionCount; ++i) {
-		AUNode node;
-		err = AUGraphGetConnectionInfo([self auGraph], i, &node, NULL, NULL, NULL);
+	for(i = 0; i < numInteractions; ++i) {
+		AUNodeInteraction interaction;
+		err = AUGraphGetInteractionInfo([self auGraph], i, &interaction );
 		if(noErr != err)
 			continue;
+		
+		// Skip anything that's not a connection between nodes
+		if( interaction.nodeInteractionType != kAUNodeInteraction_Connection )
+			continue;
+		
+		AUNodeConnection connection = interaction.nodeInteraction.connection;
+		
+		// Look at the source node (we know the last node in the graph is the output node)
+		AUNode node = connection.sourceNode;
 		
 		// Skip the Generator and Peak Limiter nodes
 		if(node == _generatorNode || node == _limiterNode)
 			continue;
 		
-		ComponentDescription	desc;
-		CFPropertyListRef		classData;
-		AudioUnit				au;
+		AudioComponentDescription	auDesc;
+		ComponentDescription		desc;
+		AudioUnit					au;
 		
-		err = AUGraphGetNodeInfo([self auGraph], node, &desc, NULL, (void **)&classData, &au);
+		err = AUGraphNodeInfo([self auGraph], node, &auDesc, &au);
 		if(noErr != err)
 			continue;
 		
+		desc.componentType = auDesc.componentType;
+		desc.componentSubType = auDesc.componentSubType;
+		desc.componentManufacturer = auDesc.componentManufacturer;
+		desc.componentFlagsMask = auDesc.componentFlagsMask;
+		desc.componentFlags = auDesc.componentFlags;
+
 		Handle componentNameHandle = NewHandle(sizeof(void *));
 		NSAssert(NULL != componentNameHandle, @"Unable to allocate memory");
 
@@ -1418,7 +1434,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		DisposeHandle(componentInformationHandle);
 		DisposeHandle(componentIconHandle);
 
-		[auDictionary setValue:(id)classData forKey:AUClassDataKey];
 		[auDictionary setValue:[NSNumber numberWithInteger:node] forKey:AUNodeKey];
 		
 		[effects addObject:auDictionary];
@@ -1516,7 +1531,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 - (AudioUnit) audioUnitForAUNode:(AUNode)node
 {
 	AudioUnit au;
-	OSStatus err = AUGraphGetNodeInfo([self auGraph], node, NULL, NULL, NULL, &au);
+	OSStatus err = AUGraphNodeInfo([self auGraph], node, NULL, &au);
 	if(noErr != err)
 		return NULL;
 	
@@ -1529,38 +1544,42 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	NSParameterAssert(NULL != newNode);
 	
 	// Get the current input node for the graph's outputNode
-	UInt32 numConnections = 0;
-	OSStatus err = AUGraphCountNodeConnections([self auGraph], [self outputNode], &numConnections);
+	UInt32 numInteractions = 0;
+	OSStatus err = AUGraphCountNodeInteractions([self auGraph], [self outputNode], &numInteractions);
 	if(noErr != err)
 		return NO;
 	
-	AudioUnitNodeConnection *connections = calloc(numConnections, sizeof(AudioUnitNodeConnection));
-	if(NULL == connections)
+	AUNodeInteraction *interactions = calloc(numInteractions, sizeof(AUNodeInteraction));
+	if(NULL == interactions)
 		return NO;
 	
-	err = AUGraphGetNodeConnections([self auGraph], [self outputNode], connections, &numConnections);
+	err = AUGraphGetNodeInteractions([self auGraph], [self outputNode], &numInteractions, interactions);
 	if(noErr != err) {
-		free(connections), connections = NULL;
+		free(interactions), interactions = NULL;
 		return NO;
 	}
 	
 	AUNode previousNode = -1;
 	UInt32 i;
-	for(i = 0; i < numConnections; ++i) {
-		AudioUnitNodeConnection connection = connections[i];
+	for(i = 0; i < numInteractions; ++i) {
+		AUNodeInteraction interaction = interactions[i];
+		// Skip anything that's not a connection between nodes
+		if( interaction.nodeInteractionType != kAUNodeInteraction_Connection )
+			continue;
+		AUNodeConnection connection = interaction.nodeInteraction.connection;
 		if([self outputNode] == connection.destNode) {
 			previousNode = connection.sourceNode;
 			break;
 		}
 	}
 	
-	free(connections), connections = NULL;
+	free(interactions), interactions = NULL;
 
 	if(-1 == previousNode)
 		return NO;
 	
 	AudioUnit au = NULL;	
-	err = AUGraphGetNodeInfo([self auGraph], previousNode, NULL, NULL, NULL, &au);
+	err = AUGraphNodeInfo([self auGraph], previousNode, NULL, &au);
 	if(noErr != err)
 		return NO;
 	
@@ -1577,7 +1596,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		return NO;
 	
 	// Create a new node of the specified type
-	ComponentDescription componentDescription;
+	AudioComponentDescription componentDescription;
 	
 	componentDescription.componentType			= [[auDictionary valueForKey:AUTypeKey] unsignedLongValue];
 	componentDescription.componentSubType		= [[auDictionary valueForKey:AUSubTypeKey] unsignedLongValue];
@@ -1585,13 +1604,11 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	componentDescription.componentFlags			= 0;
 	componentDescription.componentFlagsMask		= 0;
 	
-	CFPropertyListRef	classData				= [auDictionary valueForKey:AUClassDataKey];
-
-	err = AUGraphNewNode([self auGraph], &componentDescription, 0, classData, newNode);
+	err = AUGraphAddNode([self auGraph], &componentDescription, newNode);
 	if(noErr != err)
 		return NO;
 	
-	err = AUGraphGetNodeInfo([self auGraph], *newNode, NULL, NULL, NULL, &au);
+	err = AUGraphNodeInfo([self auGraph], *newNode, NULL, &au);
 	if(noErr != err)
 		return NO;
 	
@@ -1671,39 +1688,40 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 - (BOOL) removeEffectFromAUGraph:(AUNode)effectNode error:(NSError **)error
 {
 	AudioUnit au = NULL;
-	OSStatus err = AUGraphGetNodeInfo([self auGraph], effectNode, NULL, NULL, NULL, &au);
+	AudioComponentDescription auDesc;
+	OSStatus err = AUGraphNodeInfo([self auGraph], effectNode, &auDesc, &au);
 	if(noErr != err)
 		return NO;
 	
 //	[self stopListeningForParameterChangesOnAudioUnit:au];
 	
 	// Get the current input and output nodes for the node to delete
-	UInt32 numConnections = 0;
-	err = AUGraphCountNodeConnections([self auGraph], effectNode, &numConnections);
+	UInt32 numInteractions = 0;
+	err = AUGraphCountNodeInteractions([self auGraph], effectNode, &numInteractions);
 	if(noErr != err)
 		return NO;
 	
-	AudioUnitNodeConnection *connections = calloc(numConnections, sizeof(AudioUnitNodeConnection));
-	if(NULL == connections)
+	AUNodeInteraction *interactions = calloc(numInteractions, sizeof(AUNodeInteraction));
+	if(NULL == interactions)
 		return NO;
 	
-	err = AUGraphGetNodeConnections([self auGraph], effectNode, connections, &numConnections);
+	err = AUGraphGetNodeInteractions([self auGraph], effectNode, &numInteractions, interactions);
 	if(noErr != err) {
-		free(connections), connections = NULL;
+		free(interactions), interactions = NULL;
 		return NO;
 	}
 	
 	AUNode previousNode, nextNode;
 	UInt32 i;
-	for(i = 0; i < numConnections; ++i) {
-		AudioUnitNodeConnection connection = connections[i];
+	for(i = 0; i < numInteractions; ++i) {
+		AudioUnitNodeConnection connection = interactions[i].nodeInteraction.connection;
 		if(effectNode == connection.destNode)
 			previousNode = connection.sourceNode;
 		else if(effectNode == connection.sourceNode)
 			nextNode = connection.destNode;
 	}
 
-	free(connections), connections = NULL;
+	free(interactions), interactions = NULL;
 
 	err = AUGraphDisconnectNodeInput([self auGraph], effectNode, 0);
 	if(noErr != err)
@@ -2118,13 +2136,21 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		
 		if(0 != adjustment) {
 			float	peakSample	= [peak floatValue];
+#if 0
+			double	multiplier	= pow(10, adjustment / 20);
+#else
 			float	multiplier	= powf(10, adjustment / 20);
+#endif
 			float	sample		= peakSample * multiplier;
 			float	magnitude	= fabsf(sample);
 			
 			// If clipping will occur, reduce the preamp gain so the peak will be +/- 1.0
 			if(1.0 < magnitude)
+#if 0
+				[self setPreAmplification:(20 * log10(1.0 / peakSample)) - [self replayGain]];
+#else
 				[self setPreAmplification:(20.0f * log10f(1.0f / peakSample)) - [self replayGain]];
+#endif
 		}
 	}
 

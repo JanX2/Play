@@ -162,19 +162,20 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 {
 	NSParameterAssert(NULL != audioUnit);
 
-	// Ensure the audio unit is a ScheduledSoundPlayer
-	ComponentDescription componentDescription;
-	ComponentResult err = GetComponentInfo((Component)audioUnit,
-										   &componentDescription,
-										   NULL,
-										   NULL,
-										   NULL);
-	if(noErr != err || 
-	   kAudioUnitType_Generator != componentDescription.componentType || 
-	   kAudioUnitSubType_ScheduledSoundPlayer != componentDescription.componentSubType) {
-		NSLog(@"Illegal audio unit passed to setAudioUnit");
-		return;
-	}
+//	// Ensure the audio unit is a ScheduledSoundPlayer
+//	ComponentDescription componentDescription;
+//    componentDescription.componentType = 0;
+//	ComponentResult err = GetComponentInfo((Component)audioUnit,
+//										   &componentDescription,
+//										   NULL,
+//										   NULL,
+//										   NULL);
+//	if(noErr != err || 
+//	   kAudioUnitType_Generator != componentDescription.componentType || 
+//	   kAudioUnitSubType_ScheduledSoundPlayer != componentDescription.componentSubType) {
+//		NSLog(@"Illegal audio unit passed to setAudioUnit");
+//		return;
+//	}
 
 	_audioUnit = audioUnit;
 }
@@ -287,7 +288,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 											kAudioUnitScope_Global, 
 											0);
 	if(noErr != result)
-		NSLog(@"AudioUnitReset failed");
+		NSLog(@"AudioUnitReset failed: %ld", result);
 
 	if(nil != [self regionBeingScheduled])
 		[[self regionBeingScheduled] clearSliceBuffer];
