@@ -212,13 +212,12 @@ const char* AppleRemoteDeviceName = "AppleIRController";
 	// Now search I/O Registry for matching devices.
 	ioReturnValue = IOServiceGetMatchingServices(kIOMasterPortDefault, hidMatchDictionary, &hidObjectIterator);
 	
-	if ((ioReturnValue == kIOReturnSuccess) && (hidObjectIterator != 0))
+	if (ioReturnValue == KERN_SUCCESS)
 	{
-		io_object_t matchingService = 0, foundService = 0;
+		io_service_t matchingService = 0, foundService = 0;
 		BOOL finalMatch = NO;
 		
-		matchingService = IOIteratorNext(hidObjectIterator);
-		while (matchingService)
+		while ( (matchingService = IOIteratorNext(hidObjectIterator)) )
 		{
 			if (!finalMatch)
 			{
