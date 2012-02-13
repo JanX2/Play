@@ -2168,7 +2168,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	OSStatus err = AUParameterSet(NULL, NULL, &auParameter, preGain, 0);
 	if(noErr != err)
-		NSLog(@"AudioPlayer error: Unable to set ReplayGain: %"PRId32 "", err);
+		NSLog(@"AudioPlayer error: Unable to set ReplayGain: %ld", (long)err);
 }
 
 - (NSNumber *) setReplayGainForStream:(AudioStream *)stream

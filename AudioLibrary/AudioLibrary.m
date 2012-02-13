@@ -521,7 +521,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 - (id) 			copyWithZone:(NSZone *)zone			{ return self; }
 - (id) 			retain								{ return self; }
 - (NSUInteger) 	retainCount							{ return NSUIntegerMax;  /* denotes an object that cannot be released */ }
-- (void) 		release								{ /* do nothing */ }
+- (oneway void)	release								{ /* do nothing */ }
 - (id) 			autorelease							{ return self; }
 
 - (AudioPlayer *) player
