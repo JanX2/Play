@@ -212,6 +212,8 @@ NSString * const	PlayQueueKey								= @"playQueue";
 - (void) watchFolderAdded:(NSNotification *)aNotification;
 - (void) watchFolderChanged:(NSNotification *)aNotification;
 
+- (void) playbackDidComplete:(NSNotification *)aNotification;
+
 @end
 
 @implementation AudioLibrary

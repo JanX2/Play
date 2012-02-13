@@ -473,7 +473,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 															   slice, 
 															   sizeof(ScheduledAudioSlice));
 					if(noErr != err) {
-						NSLog(@"AudioScheduler: Unable to schedule audio slice: %"PRId32 "", err);
+						NSLog(@"AudioScheduler: Unable to schedule audio slice: %ld", err);
 						slice->mFlags = kScheduledAudioSliceFlag_Complete;
 						continue;
 					}
