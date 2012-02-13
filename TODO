@@ -24,3 +24,4 @@ In no particular order:
 - Command-F should make search filled the first responder.
 - Save/Restore complete state on quit/launch: played item, player position.
 - Save the play queue regularely: after items have been added/removed or every n minutes
+- Change the Browser to use a source list style for its outline view
