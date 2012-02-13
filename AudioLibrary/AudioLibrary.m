@@ -582,10 +582,13 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		return [_browserController canInsert];
 	else if([menuItem action] == @selector(jumpToNowPlaying:))
 		return (nil != [self nowPlaying] && 0 != [self countOfPlayQueue]);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
 	else if([menuItem action] == @selector(undo:))
 		return [[self undoManager] canUndo];
 	else if([menuItem action] == @selector(redo:))
 		return [[self undoManager] canRedo];
+#pragma clang diagnostic pop
 	else if([menuItem action] == @selector(add10RandomTracksToPlayQueue:) || [menuItem action] == @selector(add25RandomTracksToPlayQueue:))
 		return (0 != [[[[CollectionManager manager] streamManager] streams] count]);
 	else if([menuItem action] == @selector(toggleRandomPlayback:))
