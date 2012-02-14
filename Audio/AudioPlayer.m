@@ -434,7 +434,10 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		[[self scheduler] startScheduling];
 
 	// Start playback of the ScheduledSoundPlayer unit by setting its start time
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-field-initializers"
 	AudioTimeStamp timeStamp = { 0 };
+#pragma clang diagnostic pop
 	
 	timeStamp.mFlags		= kAudioTimeStampSampleTimeValid;
 	timeStamp.mSampleTime	= -1;
