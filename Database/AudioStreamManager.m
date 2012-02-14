@@ -37,7 +37,7 @@
 - (BOOL) isConnectedToDatabase;
 - (BOOL) updateInProgress;
 
-- (NSArray *) fetchStreams;
+- (NSMutableArray *) fetchStreams;
 
 - (AudioStream *) loadStream:(sqlite3_stmt *)statement;
 
@@ -53,7 +53,6 @@
 - (id) init
 {
 	if((self = [super init])) {
-#warning 64BIT: Check callbacks
 		_registeredStreams	= NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 4096);		
 		_sql				= [[NSMutableDictionary alloc] init];
 		_insertedStreams	= [[NSMutableSet alloc] init];
@@ -670,7 +669,7 @@
 
 #pragma mark Object Loading
 
-- (NSArray *) fetchStreams
+- (NSMutableArray *) fetchStreams
 {
 	NSMutableArray	*streams		= [[NSMutableArray alloc] init];
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"select_all_streams"];
@@ -855,8 +854,9 @@
 		result = sqlite3_step(statement);
 		NSAssert2(SQLITE_DONE == result, @"Unable to insert a record for %@ (%@).", [[NSFileManager defaultManager] displayNameAtPath:[[stream currentStreamURL] path]], [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 		
-#warning VALUE TRUNCATED: id returned from sqlite3_last_insert_rowid is signed 64-bit int!		
-		[stream initValue:[NSNumber numberWithInt:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
+		// We convert the sqlite3_int64 to NSInteger. 
+		// This allows for the maximum latitude that makes sense on the respective architecture.
+		[stream initValue:[NSNumber numberWithInteger:(NSInteger)sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
 		
 		result = sqlite3_reset(statement);
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to reset sql statement (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
@@ -865,7 +865,7 @@
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to clear sql statement bindings (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 		// Register the object	
-		NSMapInsert(_registeredStreams, (void *)[[stream valueForKey:ObjectIDKey] unsignedIntValue], (void *)stream);
+		NSMapInsert(_registeredStreams, (void *)[[stream valueForKey:ObjectIDKey] unsignedIntegerValue], (void *)stream);
 	}
 	
 	@catch(NSException *exception) {
