@@ -504,39 +504,41 @@
 
 @implementation NSApplication (ScriptingAdditions)
 
+#define APP_LIBRARY	[(PlayApplicationDelegate *)[self delegate] library]
+
 - (void) handlePlayPauseScriptCommand:(NSScriptCommand *)command
 {
-	[[[self delegate] library] playPause:command];
+	[APP_LIBRARY playPause:command];
 }
 
 - (void) handlePlayScriptCommand:(NSScriptCommand *)command
 {
-	[[[self delegate] library] play:command];
+	[APP_LIBRARY play:command];
 }
 
 - (void) handleStopScriptCommand:(NSScriptCommand *)command
 {
-	[[[self delegate] library] stop:command];
+	[APP_LIBRARY stop:command];
 }
 
 - (void) handleSkipForwardScriptCommand:(NSScriptCommand *)command
 {
-	[[[self delegate] library] skipForward:command];
+	[APP_LIBRARY skipForward:command];
 }
 
 - (void) handleSkipBackwardScriptCommand:(NSScriptCommand *)command
 {
-	[[[self delegate] library] skipBackward:command];
+	[APP_LIBRARY skipBackward:command];
 }
 
 - (void) handlePlayNextTrackScriptCommand:(NSScriptCommand *)command
 {
-	[[[self delegate] library] playNextStream:command];
+	[APP_LIBRARY playNextStream:command];
 }
 
 - (void) handlePlayPreviousTrackScriptCommand:(NSScriptCommand *)command
 {
-	[[[self delegate] library] playPreviousStream:command];
+	[APP_LIBRARY playPreviousStream:command];
 }
 
 - (void) handleEnqueueScriptCommand:(NSScriptCommand *)command
@@ -553,7 +555,7 @@
 				[tracksToAdd addObject:evaluatedObject];
 		}
 		
-		[[[self delegate] library] addStreamsToPlayQueue:tracksToAdd];
+		[APP_LIBRARY addStreamsToPlayQueue:tracksToAdd];
 	}
 	else
 		[command setScriptErrorNumber:NSArgumentsWrongScriptError];
@@ -565,11 +567,13 @@
 	// for now, the "ToLocation" argument is ignored
 
 	if([directParameter isKindOfClass:[NSString class]])
-		[[[self delegate] library] addFile:directParameter];
+		[APP_LIBRARY addFile:directParameter];
 	else if([directParameter isKindOfClass:[NSURL class]])
-		[[[self delegate] library] addFile:[directParameter path]];
+		[APP_LIBRARY addFile:[directParameter path]];
 	else
 		[command setScriptErrorNumber:NSArgumentsWrongScriptError];
 }
+
+#undef APP_LIBRARY
 
 @end
