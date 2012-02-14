@@ -162,11 +162,13 @@
 
 - (BOOL) setAsCustomIconForFile:(NSString*)path;
 - (BOOL) setAsCustomIconForFile:(NSString*)path withCompatibility:(BOOL)compat;
+- (BOOL) setAsCustomIconForFile:(NSString*)path withCompatibility:(BOOL)compat error:(NSError **)error;
 
 // Same as the -setAsCustomIconForFile:... methods, but for folders (directories).
 
 - (BOOL) setAsCustomIconForDirectory:(NSString*)path;
 - (BOOL) setAsCustomIconForDirectory:(NSString*)path withCompatibility:(BOOL)compat;
+- (BOOL) setAsCustomIconForDirectory:(NSString*)path withCompatibility:(BOOL)compat error:(NSError **)error;
 
 // Removes the custom icon (if any) from the specified file's resource fork,
 // and clears the necessary Finder bits for the file.  (Note that this is a
@@ -177,6 +179,7 @@
 //Same as the -removeCustomIconFromFile: method, but for folders (directories).
 
 + (BOOL) removeCustomIconFromDirectory:(NSString*)path;
++ (BOOL) removeCustomIconFromDirectory:(NSString*)path error:(NSError **)error;
 
 @end
 

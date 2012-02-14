@@ -690,10 +690,15 @@ enum {
 
 - (BOOL) setAsCustomIconForFile:(NSString*)path
 {
-    return( [self setAsCustomIconForFile:path withCompatibility:NO] );
+    return( [self setAsCustomIconForFile:path withCompatibility:NO error:NULL] );
 }
 
 - (BOOL) setAsCustomIconForFile:(NSString*)path withCompatibility:(BOOL)compat
+{
+    return( [self setAsCustomIconForFile:path withCompatibility:NO error:NULL] );
+}
+
+- (BOOL) setAsCustomIconForFile:(NSString*)path withCompatibility:(BOOL)compat error:(NSError **)error
 {
     FSRef targetFileFSRef;
     FSRef parentDirectoryFSRef;
@@ -706,8 +711,7 @@ enum {
 	NSString *parentDirectory;
 	
     // Before we do anything, get the original modification time for the target file.
-    NSError* error;
-    NSDate* modificationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:&error] objectForKey:NSFileModificationDate];
+    NSDate* modificationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:error] objectForKey:NSFileModificationDate];
 
 	if ([path isAbsolutePath])
 		parentDirectory = [path stringByDeletingLastPathComponent];
@@ -822,7 +826,7 @@ enum {
 	
     // Now set the modification time back to when the file was actually last modified.
     NSDictionary* attributes = [NSDictionary dictionaryWithObjectsAndKeys:modificationDate, NSFileModificationDate, nil];
-    [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:path error:&error];
+    [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:path error:error];
 
     // Notify the system that the directory containing the file has changed, to
     // give Finder the chance to find out about the file's new custom icon.
@@ -895,10 +899,15 @@ enum {
 
 - (BOOL) setAsCustomIconForDirectory:(NSString*)path
 {
-    return [self setAsCustomIconForDirectory:path withCompatibility:NO];
+    return [self setAsCustomIconForDirectory:path withCompatibility:NO error:NULL];
 }
 
 - (BOOL) setAsCustomIconForDirectory:(NSString*)path withCompatibility:(BOOL)compat
+{
+    return [self setAsCustomIconForDirectory:path withCompatibility:NO error:NULL];
+}
+
+- (BOOL) setAsCustomIconForDirectory:(NSString*)path withCompatibility:(BOOL)compat error:(NSError **)error
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     BOOL isDir;
@@ -925,8 +934,7 @@ enum {
     iconrPath = [path stringByAppendingPathComponent:@"Icon\r"];
     if( [fm fileExistsAtPath:iconrPath] )
     {
-        NSError* error;
-        if( ![fm removeItemAtPath:iconrPath error:&error] )
+        if( ![fm removeItemAtPath:iconrPath error:error] )
             return NO;
     }
     if( ![iconrPath getFSRef:&iconrFSRef createFileIfNecessary:YES] )
@@ -1068,6 +1076,11 @@ enum {
 
 + (BOOL) removeCustomIconFromDirectory:(NSString*)path
 {
+    return( [self removeCustomIconFromDirectory:path error:NULL] );
+}
+
++ (BOOL) removeCustomIconFromDirectory:(NSString*)path error:(NSError **)error
+{
     FSRef targetFolderFSRef;
     if( [path getFSRef:&targetFolderFSRef createFileIfNecessary:NO] ) {
         OSStatus result;
@@ -1099,8 +1112,7 @@ enum {
             return NO;
     }
     
-    NSError* error;
-    if( ! [[NSFileManager defaultManager] removeItemAtPath:[path stringByAppendingPathComponent:@"Icon\r"] error:&error] )
+    if( ! [[NSFileManager defaultManager] removeItemAtPath:[path stringByAppendingPathComponent:@"Icon\r"] error:error] )
         return NO;
 	
     return YES;
