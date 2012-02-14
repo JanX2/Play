@@ -209,7 +209,7 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 										  &specifierSize, 
 										  &description);
 	if(noErr != err)
-		NSLog(@"AudioFormatGetProperty (kAudioFormatProperty_FormatName) failed: %"PRId32 "", err);
+		NSLog(@"AudioFormatGetProperty (kAudioFormatProperty_FormatName) failed: %ld", (long)err);
 	
 	return [description autorelease];
 }
@@ -230,7 +230,7 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 										  &specifierSize, 
 										  &description);
 	if(noErr != err)
-		NSLog(@"AudioFormatGetProperty (kAudioFormatProperty_ChannelLayoutName) failed: %"PRId32 "", err);
+		NSLog(@"AudioFormatGetProperty (kAudioFormatProperty_ChannelLayoutName) failed: %ld", (long)err);
 			
 	return [description autorelease];
 }

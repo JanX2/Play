@@ -147,7 +147,10 @@ clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSUInteger numberOfSlicesIn
 - (id) initWithDecoder:(id <AudioDecoderMethods>)decoder
 {
 	if((self = [super init])) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-field-initializers"
 		AudioTimeStamp startTime = { 0 };
+#pragma clang diagnostic pop
 		
 		startTime.mFlags		= kAudioTimeStampSampleTimeValid;
 		startTime.mSampleTime	= 0;

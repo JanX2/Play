@@ -102,7 +102,7 @@
 
 - (void) removeObjectFromChildrenAtIndex:(NSUInteger)thisIndex
 {
-	SmartPlaylistNode *node = [[self childAtIndex:thisIndex] retain];
+	SmartPlaylistNode *node = (SmartPlaylistNode *)[[self childAtIndex:thisIndex] retain];
 	
 	/*	if([node isPlaying]) {
 	[[AudioLibrary library] stop:self];

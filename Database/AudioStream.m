@@ -431,7 +431,7 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 	if([self isPartOfCueSheet])
 		return [LoopableRegionDecoder decoderWithURL:[self currentStreamURL] 
 									  startingFrame:[[self valueForKey:StreamStartingFrameKey] longLongValue]
-										 frameCount:[[self valueForKey:StreamFrameCountKey] unsignedIntValue]
+										 frameCount:[[self valueForKey:StreamFrameCountKey] unsignedIntegerValue]
 											  error:error];
 	else
 		return [AudioDecoder decoderWithURL:[self currentStreamURL] error:error];

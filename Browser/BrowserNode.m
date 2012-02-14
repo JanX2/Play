@@ -280,7 +280,10 @@
 {
 	[self willChangeValueForKey:@"children"];
 	[_children sortUsingSelector:@selector(compare:)];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
 	[_children makeObjectsPerformSelector:@selector(sortChildrenRecursivelyUsingSelector:)];
+#pragma clang diagnostic pop
 	[self didChangeValueForKey:@"children"];
 }
 

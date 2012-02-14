@@ -633,7 +633,6 @@ audio_linear_round(unsigned int bits,
 - (SInt64) seekToFrameApproximately:(SInt64)frame
 {
 	double	thisFraction	= (double)frame / [self totalFrames];
-#warning 64BIT: Inspect use of long
 	long	seekPoint	= 0;
 	
 	// If a Xing header was found, interpolate in TOC
@@ -651,11 +650,9 @@ audio_linear_round(unsigned int bits,
 			secondOffset = _xingTOC[firstIndex + 1];;
 			
 			double x = firstOffset + (secondOffset - firstOffset) * (percent - firstIndex);
-#warning 64BIT: Inspect use of long
 			seekPoint = (long)((1.0f / 256.0f) * x * _fileBytes); 
 	}
 	else
-#warning 64BIT: Inspect use of long
 		seekPoint = (long)_fileBytes * thisFraction;
 	
 	int result = fseek(_file, seekPoint, SEEK_SET);
@@ -825,7 +822,7 @@ audio_linear_round(unsigned int bits,
 		// If a LAME header was found, the total number of audio frames (AKA samples) 
 		// is known.  Ensure only that many are output
 		if(_foundLAMEHeader && [self totalFrames] < _samplesDecoded + (sampleCount - startingSample))
-			sampleCount = [self totalFrames] - _samplesDecoded;
+			sampleCount = (unsigned)([self totalFrames] - _samplesDecoded);
 
 		// If this MPEG frame contains the desired seek frame, synthesize its audio to PCM
 		if(_samplesDecoded + (sampleCount - startingSample) > frame) {
@@ -833,7 +830,7 @@ audio_linear_round(unsigned int bits,
 			mad_synth_frame(&_mad_synth, &_mad_frame);
 
 			// Skip any audio frames before the sample we are seeking to
-			unsigned additionalSamplesToSkip = frame - _samplesDecoded;
+			unsigned additionalSamplesToSkip = (unsigned)(frame - _samplesDecoded);
 			
 			// Output samples in 32-bit float PCM
 			unsigned channel, sample;

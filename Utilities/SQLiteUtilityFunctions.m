@@ -247,8 +247,9 @@ getColumnValue(sqlite3_stmt		*statement,
 			[object initValue:[NSPredicate predicateWithFormat:[NSString stringWithCString:(const char *)sqlite3_column_text(statement, columnIndex) encoding:NSUTF8StringEncoding]] forKey:key];
 			break;
 		case eObjectTypeBlob:	
-#warning CHECK: Are sqlite3_column_blob() and sqlite3_column_bytes() called in order?
-			[object initValue:[NSData dataWithBytes:sqlite3_column_blob(statement, columnIndex) length:(NSUInteger)sqlite3_column_bytes(statement, columnIndex)] forKey:key];
+			[object initValue:[NSData dataWithBytes:sqlite3_column_blob(statement, columnIndex) 
+											 length:(NSUInteger)sqlite3_column_bytes(statement, columnIndex)] 
+					   forKey:key];
 			break;
 		default:
 			break;

@@ -102,7 +102,7 @@
 
 - (void) removeObjectFromChildrenAtIndex:(NSUInteger)thisIndex
 {
-	WatchFolderNode *node = [[self childAtIndex:thisIndex] retain];
+	WatchFolderNode *node = (WatchFolderNode *)[[self childAtIndex:thisIndex] retain];
 	
 	[super removeObjectFromChildrenAtIndex:thisIndex];
 	[[node watchFolder] delete];

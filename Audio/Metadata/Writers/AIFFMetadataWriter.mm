@@ -151,7 +151,7 @@
 		f.tag()->addFrame(frame);
 	}
 	else if(nil != trackNumber)
-		f.tag()->setTrack([trackNumber unsignedIntValue]);
+		f.tag()->setTrack([trackNumber unsignedIntegerValue]);
 	
 	// Compilation
 	// iTunes uses the TCMP frame for this, which isn't in the standard, but we'll use it for compatibility

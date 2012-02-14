@@ -89,7 +89,7 @@
 				[propertiesDictionary setValue:NSLocalizedStringFromTable(@"FLAC", @"Formats", @"") forKey:PropertiesFileTypeKey];
 				[propertiesDictionary setValue:NSLocalizedStringFromTable(@"FLAC", @"Formats", @"") forKey:PropertiesDataFormatKey];
 				[propertiesDictionary setValue:NSLocalizedStringFromTable(@"FLAC", @"Formats", @"") forKey:PropertiesFormatDescriptionKey];
-				[propertiesDictionary setValue:[NSNumber numberWithLongLong:block->data.stream_info.total_samples] forKey:PropertiesTotalFramesKey];
+				[propertiesDictionary setValue:[NSNumber numberWithUnsignedLongLong:block->data.stream_info.total_samples] forKey:PropertiesTotalFramesKey];
 				[propertiesDictionary setValue:[NSNumber numberWithUnsignedInt:block->data.stream_info.bits_per_sample] forKey:PropertiesBitsPerChannelKey];
 				[propertiesDictionary setValue:[NSNumber numberWithUnsignedInt:block->data.stream_info.channels] forKey:PropertiesChannelsPerFrameKey];
 				[propertiesDictionary setValue:[NSNumber numberWithUnsignedInt:block->data.stream_info.sample_rate] forKey:PropertiesSampleRateKey];				

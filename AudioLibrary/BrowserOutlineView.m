@@ -72,8 +72,11 @@ static CGFloat heightOffset	= 3.0f;
 			return NO;
 		}
 	}
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
 	else if([menuItem action] == @selector(watchFolderInformation:))
 		return [_browserController selectedNodeIsWatchFolder];
+#pragma clang diagnostic pop
 	else if([menuItem action] == @selector(remove:))
 		return [_browserController canRemove];
 	
@@ -125,7 +128,8 @@ static CGFloat heightOffset	= 3.0f;
 	
 	if(-1 != row) {
 		
-		if([[self delegate] respondsToSelector:@selector(tableView:shouldSelectRow:)] && [[self delegate] tableView:self shouldSelectRow:row])
+		if([[self delegate] respondsToSelector:@selector(tableView:shouldSelectRow:)] 
+		   && [(id <NSTableViewDelegate>)[self delegate] tableView:self shouldSelectRow:row])
 			[self selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
 		else
 			[self selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];

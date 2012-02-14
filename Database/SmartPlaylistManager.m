@@ -34,7 +34,7 @@
 - (BOOL) isConnectedToDatabase;
 - (BOOL) updateInProgress;
 
-- (NSArray *) fetchSmartPlaylists;
+- (NSMutableArray *) fetchSmartPlaylists;
 
 - (SmartPlaylist *) loadSmartPlaylist:(sqlite3_stmt *)statement;
 
@@ -475,7 +475,7 @@
 
 #pragma mark Object Loading
 
-- (NSArray *) fetchSmartPlaylists
+- (NSMutableArray *) fetchSmartPlaylists
 {
 	NSMutableArray	*playlists		= [[NSMutableArray alloc] init];
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"select_all_smart_playlists"];
@@ -570,7 +570,7 @@
 		result = sqlite3_step(statement);
 		NSAssert2(SQLITE_DONE == result, @"Unable to insert a record for %@ (%@).", [playlist valueForKey:PlaylistNameKey], [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 		
-		[playlist initValue:[NSNumber numberWithLongLong:sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
+		[playlist initValue:[NSNumber numberWithInteger:(NSInteger)sqlite3_last_insert_rowid(_db)] forKey:ObjectIDKey];
 		
 		result = sqlite3_reset(statement);
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to reset sql statement (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);

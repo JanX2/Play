@@ -57,11 +57,11 @@
 	[propertiesDictionary setValue:NSLocalizedStringFromTable(@"Monkey's Audio", @"Formats", @"") forKey:PropertiesFileTypeKey];
 	[propertiesDictionary setValue:NSLocalizedStringFromTable(@"Monkey's Audio", @"Formats", @"") forKey:PropertiesDataFormatKey];
 	[propertiesDictionary setValue:NSLocalizedStringFromTable(@"APE", @"Formats", @"") forKey:PropertiesFormatDescriptionKey];
-	[propertiesDictionary setValue:[NSNumber numberWithLongLong:decompressor->GetInfo(APE_DECOMPRESS_TOTAL_BLOCKS)] forKey:PropertiesTotalFramesKey];
+	[propertiesDictionary setValue:[NSNumber numberWithInt:decompressor->GetInfo(APE_DECOMPRESS_TOTAL_BLOCKS)] forKey:PropertiesTotalFramesKey];
 //	[propertiesDictionary setValue:[NSNumber numberWithLong:bitrate] forKey:@"averageBitrate"];
-	[propertiesDictionary setValue:[NSNumber numberWithUnsignedInt:decompressor->GetInfo(APE_INFO_BITS_PER_SAMPLE)] forKey:PropertiesBitsPerChannelKey];
-	[propertiesDictionary setValue:[NSNumber numberWithUnsignedInt:decompressor->GetInfo(APE_INFO_CHANNELS)] forKey:PropertiesChannelsPerFrameKey];
-	[propertiesDictionary setValue:[NSNumber numberWithUnsignedInt:decompressor->GetInfo(APE_INFO_SAMPLE_RATE)] forKey:PropertiesSampleRateKey];
+	[propertiesDictionary setValue:[NSNumber numberWithInt:decompressor->GetInfo(APE_INFO_BITS_PER_SAMPLE)] forKey:PropertiesBitsPerChannelKey];
+	[propertiesDictionary setValue:[NSNumber numberWithInt:decompressor->GetInfo(APE_INFO_CHANNELS)] forKey:PropertiesChannelsPerFrameKey];
+	[propertiesDictionary setValue:[NSNumber numberWithInt:decompressor->GetInfo(APE_INFO_SAMPLE_RATE)] forKey:PropertiesSampleRateKey];
 		
 	[self setValue:propertiesDictionary forKey:@"properties"];
 		

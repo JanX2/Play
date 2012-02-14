@@ -255,7 +255,7 @@ scanMSF(NSScanner		*scanner,
 				if(startingFrame >= totalFrames)
 					continue;
 				
-				[currentTrack setValue:[NSNumber numberWithLongLong:startingFrame] forKey:StreamStartingFrameKey];
+				[currentTrack setValue:[NSNumber numberWithInteger:startingFrame] forKey:StreamStartingFrameKey];
 			}
 		}
 		else if([command isEqualToString:@"ISRC"]) {
@@ -349,7 +349,7 @@ scanMSF(NSScanner		*scanner,
 		
 		// Special handling for last tracks
 		if(nil == [thisTrack valueForKey:StreamFrameCountKey]) {
-			NSUInteger frameCount = [[thisTrack valueForKey:PropertiesTotalFramesKey] unsignedIntegerValue] - [[thisTrack valueForKey:StreamStartingFrameKey] unsignedIntegerValue] + 1;
+			NSUInteger frameCount = (NSUInteger)([[thisTrack valueForKey:PropertiesTotalFramesKey] longLongValue] - [[thisTrack valueForKey:StreamStartingFrameKey] longLongValue] + 1);
 			
 			[thisTrack setValue:[NSNumber numberWithUnsignedInteger:frameCount] forKey:StreamFrameCountKey];
 		}

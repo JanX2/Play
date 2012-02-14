@@ -140,7 +140,7 @@
 {
 	NSParameterAssert(nil != objectID);
 	
-	AudioStream *stream = (AudioStream *)NSMapGet(_registeredStreams, (void *)[objectID unsignedIntValue]);
+	AudioStream *stream = (AudioStream *)NSMapGet(_registeredStreams, (void *)[objectID unsignedIntegerValue]);
 	if(nil != stream)
 		return stream;
 	
@@ -154,7 +154,7 @@
 	clock_t start = clock();
 #endif
 	
-	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":id"), [objectID unsignedIntValue]);
+	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":id"), [objectID unsignedIntegerValue]);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 	
 	while(SQLITE_ROW == (result = sqlite3_step(statement)))
@@ -207,7 +207,7 @@
 	result = sqlite3_bind_int64(statement, sqlite3_bind_parameter_index(statement, ":starting_frame"), [startingFrame longLongValue]);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
-	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":frame_count"), [frameCount unsignedIntValue]);
+	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":frame_count"), [frameCount unsignedIntegerValue]);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 	while(SQLITE_ROW == (result = sqlite3_step(statement))) {
@@ -518,7 +518,7 @@
 	clock_t start = clock();
 #endif
 	
-	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":playlist_id"), [[playlist valueForKey:ObjectIDKey] unsignedIntValue]);
+	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":playlist_id"), [[playlist valueForKey:ObjectIDKey] unsignedIntegerValue]);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 	
 	while(SQLITE_ROW == (result = sqlite3_step(statement))) {
@@ -982,7 +982,7 @@
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"delete_stream"];
 	int				result			= SQLITE_OK;
-	unsigned		objectID		= [[stream valueForKey:ObjectIDKey] unsignedIntValue];
+	unsigned		objectID		= [[stream valueForKey:ObjectIDKey] unsignedIntegerValue];
 	
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));
