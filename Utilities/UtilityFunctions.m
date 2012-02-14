@@ -28,10 +28,6 @@ static NSArray		*sCoreAudioExtensions	= nil;
 static NSArray		*sAudioExtensions		= nil;
 
 
-NSArray * getBuiltinExtensions();
-NSArray * getCoreAudioExtensions();
-NSArray * getAudioExtensions();
-
 OggStreamType 
 oggStreamType(NSURL *url)
 {
@@ -144,7 +140,7 @@ oggStreamType(NSURL *url)
 }
 
 NSArray * 
-getBuiltinExtensions()
+getBuiltinExtensions(void)
 {
 	@synchronized(sBuiltinExtensions) {
 		if(nil == sBuiltinExtensions) {
@@ -157,7 +153,7 @@ getBuiltinExtensions()
 }
 
 NSArray *
-getCoreAudioExtensions()
+getCoreAudioExtensions(void)
 {
 	OSStatus			err;
 	UInt32				size;
@@ -176,7 +172,7 @@ getCoreAudioExtensions()
 }
 
 NSArray *
-getAudioExtensions()
+getAudioExtensions(void)
 {
 	@synchronized(sAudioExtensions) {
 		if(nil == sAudioExtensions) {

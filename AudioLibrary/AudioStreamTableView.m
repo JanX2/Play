@@ -51,6 +51,8 @@
 #define BUFFER_LENGTH 4096
 
 #if DEBUG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-function"
 static void 
 dumpASBD(const AudioStreamBasicDescription *asbd)
 {
@@ -64,6 +66,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 	NSLog(@"mBitsPerChannel     %"PRIu32, (uint32_t)asbd->mBitsPerChannel);
 	NSLog(@"mReserved           %"PRIu32, (uint32_t)asbd->mReserved);
 }
+#pragma clang diagnostic pop
 #endif
 
 @interface AudioStreamTableView (Private)
