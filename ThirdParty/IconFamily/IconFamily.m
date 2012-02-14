@@ -706,7 +706,8 @@ enum {
 	NSString *parentDirectory;
 	
     // Before we do anything, get the original modification time for the target file.
-    NSDate* modificationDate = [[[NSFileManager defaultManager] fileAttributesAtPath:path traverseLink:NO] objectForKey:NSFileModificationDate];
+    NSError* error;
+    NSDate* modificationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:&error] objectForKey:NSFileModificationDate];
 
 	if ([path isAbsolutePath])
 		parentDirectory = [path stringByDeletingLastPathComponent];
@@ -821,7 +822,7 @@ enum {
 	
     // Now set the modification time back to when the file was actually last modified.
     NSDictionary* attributes = [NSDictionary dictionaryWithObjectsAndKeys:modificationDate, NSFileModificationDate, nil];
-    [[NSFileManager defaultManager] changeFileAttributes:attributes atPath:path];
+    [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:path error:&error];
 
     // Notify the system that the directory containing the file has changed, to
     // give Finder the chance to find out about the file's new custom icon.
@@ -924,7 +925,8 @@ enum {
     iconrPath = [path stringByAppendingPathComponent:@"Icon\r"];
     if( [fm fileExistsAtPath:iconrPath] )
     {
-        if( ![fm removeFileAtPath:iconrPath handler:nil] )
+        NSError* error;
+        if( ![fm removeItemAtPath:iconrPath error:&error] )
             return NO;
     }
     if( ![iconrPath getFSRef:&iconrFSRef createFileIfNecessary:YES] )
@@ -1096,8 +1098,9 @@ enum {
         if (result != noErr)
             return NO;
     }
-
-    if( ! [[NSFileManager defaultManager] removeFileAtPath:[path stringByAppendingPathComponent:@"Icon\r"] handler:nil] )
+    
+    NSError* error;
+    if( ! [[NSFileManager defaultManager] removeItemAtPath:[path stringByAppendingPathComponent:@"Icon\r"] error:&error] )
         return NO;
 	
     return YES;
@@ -1140,7 +1143,9 @@ enum {
     workingImage = [image copyWithZone:[image zone]];
     [workingImage setScalesWhenResized:YES];
     size = [workingImage size];
-    workingImageRep = [workingImage bestRepresentationForDevice:nil];
+    // http://stackoverflow.com/questions/4748846/nsimage-dpi-question
+    // workingImageRep = [workingImage bestRepresentationForDevice:nil];
+    workingImageRep = [NSBitmapImageRep imageRepWithData:[image TIFFRepresentation]];
     if ([workingImageRep isKindOfClass:[NSBitmapImageRep class]]) {
         pixelSize.width  = [workingImageRep pixelsWide];
         pixelSize.height = [workingImageRep pixelsHigh];
