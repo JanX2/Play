@@ -346,7 +346,7 @@ audio_linear_round(unsigned int bits,
 		// If a LAME header was found, the total number of audio frames (AKA samples) 
 		// is known.  Ensure only that many are output
 		if(_foundLAMEHeader && [self totalFrames] < _samplesDecoded + (sampleCount - startingSample))
-			sampleCount = [self totalFrames] - _samplesDecoded;
+			sampleCount = (unsigned)([self totalFrames] - _samplesDecoded);
 		
 		// Output samples in 32-bit float PCM
 		unsigned channel, sample;

@@ -60,7 +60,7 @@
 			return nil;
 		}
 		
-		[self setFrameCount:[[self decoder] totalFrames]];
+		[self setFrameCount:(UInt32)[[self decoder] totalFrames]];
 	}
 	return self;
 }
@@ -77,7 +77,7 @@
 		}
 		
 		[self setStartingFrame:startingFrame];
-		[self setFrameCount:([[self decoder] totalFrames] - startingFrame)];
+		[self setFrameCount:(UInt32)([[self decoder] totalFrames] - startingFrame)];
 		
 		if(0 != [self startingFrame])
 			[self reset];
@@ -166,8 +166,8 @@
 {
 	NSParameterAssert(0 <= frame && frame < [self totalFrames]);
 	
-	_completedLoops				= frame / [self frameCount];
-	_framesReadInCurrentLoop	= frame % [self frameCount];
+	_completedLoops				= (NSUInteger) frame / [self frameCount];
+	_framesReadInCurrentLoop	=     (UInt32) frame % [self frameCount];
 	_totalFramesRead			= frame;
 	
 	[[self decoder] seekToFrame:[self startingFrame] + _framesReadInCurrentLoop];
@@ -183,7 +183,7 @@
 	if([self loopCount] < [self completedLoops])
 		return 0;
 	
-	UInt32	framesRemaining		= [self startingFrame] + [self frameCount] - [[self decoder] currentFrame];
+	UInt32	framesRemaining		= (UInt32)([self startingFrame] + [self frameCount] - [[self decoder] currentFrame]);
 	UInt32	framesToRead		= (frameCount < framesRemaining ? frameCount : framesRemaining);
 	UInt32	framesRead			= 0;
 	
