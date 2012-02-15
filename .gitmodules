@@ -1,3 +1,6 @@
 [submodule "ThirdParty/IconFamily-git"]
 	path = ThirdParty/IconFamily-git
 	url = https://github.com/JanX2/IconFamily.git
+[submodule "ThirdParty/ShortcutRecorder"]
+	path = ThirdParty/ShortcutRecorder
+	url = git@github.com:JanX2/ShortcutRecorder.git
