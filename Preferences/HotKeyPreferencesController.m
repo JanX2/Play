@@ -19,7 +19,7 @@
  */
 
 #import "HotKeyPreferencesController.h"
-#import "PTKeyCombo.h"
+#import <PTHotKey/PTKeyCombo.h>
 #import "PlayApplicationDelegate.h"
 
 #import "ShortcutRecorder/ShortcutRecorder.h"

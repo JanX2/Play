@@ -28,9 +28,9 @@
 #import "AudioStream.h"
 #import "AudioMetadataWriter.h"
 #import "PreferencesController.h"
-#import "PTHotKey.h"
-#import "PTHotKeyCenter.h"
-#import "PTKeyCombo.h"
+#import <PTHotKey/PTKeyCombo.h>
+#import <PTHotKey/PTHotKeyCenter.h>
+#import <PTHotKey/PTHotKey.h>
 #import "AppleRemote.h"
 #import "IntegerToDoubleRoundingValueTransformer.h"
 
