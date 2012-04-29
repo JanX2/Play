@@ -261,6 +261,11 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 	}
 }
 
+- (NSString *) currentStreamURLString
+{
+	return [[self currentStreamURL] absoluteString];
+}
+
 - (NSURL *) currentStreamURL
 {
     NSURL* originalURL;

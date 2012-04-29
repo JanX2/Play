@@ -426,7 +426,10 @@
 				<cocoa key="id"/>
 			</property>
 			<property name="URL" code="url " description="The url representing this track" type="text" access="r">
-				<cocoa key="url"/>
+				<cocoa key="currentStreamURLString"/>
+			</property>
+			<property name="file" code="file" description="The file representing this track" type="file" access="r">
+				<cocoa key="currentStreamURL"/>
 			</property>
 			<property name="date added" code="dtad" description="The date this track was added to the library" type="date" access="r">
 				<cocoa key="dateAdded"/>
@@ -476,7 +479,9 @@
 			<property name="track number" code="tnum" description="The number of this track" type="integer">
 				<cocoa key="trackNumber"/>
 			</property>
-			<property name="total tracks" code="ttot" description="The total number of tracks on the album containing this track" type="integer"/>
+			<property name="total tracks" code="ttot" description="The total number of tracks on the album containing this track" type="integer">
+				<cocoa key="trackTotal"/>
+			</property>
 			<property name="disc number" code="dnum" description="The number of the disc containing this track" type="integer">
 				<cocoa key="discNumber"/>
 			</property>
