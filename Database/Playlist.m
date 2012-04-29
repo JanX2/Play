@@ -279,6 +279,21 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 
 @implementation Playlist (ScriptingAdditions)
 
+- (NSUInteger) countOfTracks
+{
+	return [self countOfStreams];
+}
+
+- (AudioStream *) objectInTracksAtIndex:(NSUInteger)thisIndex
+{
+	return [self objectInStreamsAtIndex:thisIndex];	
+}
+
+- (void) getTracks:(id *)buffer range:(NSRange)range
+{
+	[self getStreams:buffer range:range];	
+}
+
 - (void) handleEnqueueScriptCommand:(NSScriptCommand *)command
 {
 	[self loadStreams];
