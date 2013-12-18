@@ -425,7 +425,7 @@
 			<property name="id" code="ID  " description="The unique ID of this track" type="integer" access="r">
 				<cocoa key="id"/>
 			</property>
-			<property name="URL" code="url " description="The url representing this track" type="text" access="r">
+			<property name="URL" code="URL " description="The url representing this track" type="text" access="r">
 				<cocoa key="currentStreamURLString"/>
 			</property>
 			<property name="file" code="file" description="The file representing this track" type="file" access="r">
