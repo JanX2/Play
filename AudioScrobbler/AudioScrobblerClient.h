@@ -24,7 +24,7 @@
 
 @interface AudioScrobblerClient : NSObject
 {
-	NSInteger			_socket;
+	int			_socket;
 	BOOL		_doPortStepping;
 	in_port_t	_port;
 }
