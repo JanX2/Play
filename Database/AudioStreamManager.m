@@ -707,7 +707,7 @@
 	NSParameterAssert(NULL != statement);
 	
 	AudioStream		*stream			= nil;
-	unsigned		objectID;
+	intptr_t		objectID;
 	
 	// The ID should never be NULL
 	NSAssert(SQLITE_NULL != sqlite3_column_type(statement, 0), @"No ID found for stream");
@@ -720,7 +720,7 @@
 	stream = [[AudioStream alloc] init];
 	
 	// Stream ID and location
-	[stream initValue:[NSNumber numberWithUnsignedInt:objectID] forKey:ObjectIDKey]; 
+	[stream initValue:@(objectID) forKey:ObjectIDKey];
 //	getColumnValue(statement, 0, stream, ObjectIDKey, eObjectTypeUnsignedInt); // We could use the __COUNTER__ gcc macro here...
 	getColumnValue(statement, 1, stream, StreamURLKey, eObjectTypeURL);
 	getColumnValue(statement, 2, stream, StreamURLBookmarkKey, eObjectTypeBlob);
