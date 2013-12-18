@@ -1,7 +1,7 @@
 #include "Version.xcconfig"
 
-SDKROOT = macosx10.6
-MACOSX_DEPLOYMENT_TARGET = 10.5
+//SDKROOT = macosx10.6
+MACOSX_DEPLOYMENT_TARGET = 10.7
 GCC_VERSION = com.apple.compilers.llvm.clang.1_0
 
 PREBINDING = NO
