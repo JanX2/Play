@@ -562,10 +562,10 @@
 		8C590A130CD6EE860062E77C /* LoopableRegionDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoopableRegionDecoder.h; path = Audio/Decoders/LoopableRegionDecoder.h; sourceTree = "<group>"; };
 		8C590A140CD6EE860062E77C /* LoopableRegionDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoopableRegionDecoder.m; path = Audio/Decoders/LoopableRegionDecoder.m; sourceTree = "<group>"; };
 		8C590B080CD8061B0062E77C /* AudioDecoderMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioDecoderMethods.h; path = Audio/Decoders/AudioDecoderMethods.h; sourceTree = "<group>"; };
-		8C5BD5F80B7EFBF3000DE945 /* IconFamily.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IconFamily.h; path = ThirdParty/IconFamily/IconFamily.h; sourceTree = "<group>"; };
-		8C5BD5F90B7EFBF3000DE945 /* IconFamily.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = IconFamily.m; path = ThirdParty/IconFamily/IconFamily.m; sourceTree = "<group>"; };
-		8C5BD5FA0B7EFBF3000DE945 /* NSString+CarbonFSRefCreation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSString+CarbonFSRefCreation.h"; path = "ThirdParty/IconFamily/NSString+CarbonFSRefCreation.h"; sourceTree = "<group>"; };
-		8C5BD5FB0B7EFBF3000DE945 /* NSString+CarbonFSRefCreation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSString+CarbonFSRefCreation.m"; path = "ThirdParty/IconFamily/NSString+CarbonFSRefCreation.m"; sourceTree = "<group>"; };
+		8C5BD5F80B7EFBF3000DE945 /* IconFamily.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IconFamily.h; sourceTree = "<group>"; };
+		8C5BD5F90B7EFBF3000DE945 /* IconFamily.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = IconFamily.m; sourceTree = "<group>"; };
+		8C5BD5FA0B7EFBF3000DE945 /* NSString+CarbonFSRefCreation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSString+CarbonFSRefCreation.h"; sourceTree = "<group>"; };
+		8C5BD5FB0B7EFBF3000DE945 /* NSString+CarbonFSRefCreation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSString+CarbonFSRefCreation.m"; sourceTree = "<group>"; };
 		8C5BDC1F0B7EFF09000DE945 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		8C5E0E710BEEF45E006E045D /* replaygain_analysis.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = replaygain_analysis.c; path = ThirdParty/replaygain_analysis/replaygain_analysis.c; sourceTree = "<group>"; };
 		8C5E0E720BEEF45E006E045D /* replaygain_analysis.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = replaygain_analysis.h; path = ThirdParty/replaygain_analysis/replaygain_analysis.h; sourceTree = "<group>"; };
@@ -1154,6 +1154,7 @@
 				8C5BD5FB0B7EFBF3000DE945 /* NSString+CarbonFSRefCreation.m */,
 			);
 			name = IconFamily;
+			path = "ThirdParty/IconFamily-git/source/Classes";
 			sourceTree = "<group>";
 		};
 		8C5E0E5D0BEEF312006E045D /* Gain Analysis */ = {
