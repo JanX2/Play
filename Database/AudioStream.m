@@ -349,7 +349,7 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 
 - (IBAction) refreshPath:(id)sender
 {
-	[self currentStreamURL];
+	self.currentStreamURL = self.currentStreamURL;
 }
 
 - (NSString *) trackString
