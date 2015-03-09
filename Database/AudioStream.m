@@ -284,7 +284,9 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 				// test if the file still exists
 				resolvedFileURL = [NSURL URLByResolvingBookmarkData:bookmarkData
 															options:(NSURLBookmarkResolutionWithoutUI | NSURLBookmarkResolutionWithoutMounting)
-													  relativeToURL:nil bookmarkDataIsStale:NULL error:NULL];
+													  relativeToURL:nil
+												bookmarkDataIsStale:NULL
+															  error:NULL];
 				if (resolvedFileURL) {
 					[self setCurrentStreamURL:resolvedFileURL];
 					return resolvedFileURL;
