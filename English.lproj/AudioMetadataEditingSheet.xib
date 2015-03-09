@@ -134,7 +134,7 @@
 						<object class="NSTextField" id="77295839">
 							<reference key="NSNextResponder" ref="804690"/>
 							<int key="NSvFlags">286</int>
-							<string key="NSFrame">{{110, 60.000003402883358}, {430, 44}}</string>
+							<string key="NSFrame">{{110, 59.999994961114275}, {430, 44}}</string>
 							<reference key="NSSuperview" ref="804690"/>
 							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
@@ -494,10 +494,10 @@
 												<object class="NSMutableString" key="NSContents">
 													<characters key="NS.bytes"/>
 												</object>
-												<object class="NSFont" key="NSSupport" id="28">
+												<object class="NSFont" key="NSSupport" id="922021975">
 													<bool key="IBIsSystemFont">YES</bool>
 													<double key="NSSize">12</double>
-													<int key="NSfFlags">4883</int>
+													<int key="NSfFlags">787</int>
 												</object>
 												<object class="NSColor" key="NSBackgroundColor">
 													<int key="NSColorSpace">3</int>
@@ -733,7 +733,7 @@
 												<int key="NSCellFlags">75497472</int>
 												<int key="NSCellFlags2">0</int>
 												<reference key="NSContents" ref="715911505"/>
-												<reference key="NSSupport" ref="28"/>
+												<reference key="NSSupport" ref="922021975"/>
 												<object class="NSColor" key="NSBackgroundColor">
 													<int key="NSColorSpace">3</int>
 													<bytes key="NSWhite">MC4zMzMzMzI5OQA</bytes>
@@ -817,7 +817,7 @@
 												<int key="NSCellFlags">75497472</int>
 												<int key="NSCellFlags2">0</int>
 												<reference key="NSContents" ref="419750466"/>
-												<reference key="NSSupport" ref="28"/>
+												<reference key="NSSupport" ref="922021975"/>
 												<object class="NSColor" key="NSBackgroundColor">
 													<int key="NSColorSpace">3</int>
 													<bytes key="NSWhite">MC4zMzMzMzI5OQA</bytes>
@@ -901,7 +901,7 @@
 												<object class="NSMutableString" key="NSContents">
 													<characters key="NS.bytes"/>
 												</object>
-												<reference key="NSSupport" ref="28"/>
+												<reference key="NSSupport" ref="922021975"/>
 												<object class="NSColor" key="NSBackgroundColor">
 													<int key="NSColorSpace">3</int>
 													<bytes key="NSWhite">MC4zMzMzMzI5OQA</bytes>
@@ -1004,7 +1004,7 @@
 												<int key="NSCellFlags">75497472</int>
 												<int key="NSCellFlags2">0</int>
 												<reference key="NSContents" ref="821413125"/>
-												<reference key="NSSupport" ref="28"/>
+												<reference key="NSSupport" ref="922021975"/>
 												<object class="NSColor" key="NSBackgroundColor">
 													<int key="NSColorSpace">3</int>
 													<bytes key="NSWhite">MC4zMzMzMzI5OQA</bytes>
