@@ -287,7 +287,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		[NSNumber numberWithFloat:72], @"bitrate",
 		nil];
 	
-	NSDictionary *streamTableColumnOrderArray = [NSArray arrayWithObjects:
+	NSArray *streamTableColumnOrderArray = [NSArray arrayWithObjects:
 		@"title", @"artist", @"albumTitle", @"genre", @"track", @"formatDescription", nil];
 
 	// Setup play queue column defaults
@@ -343,7 +343,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		[NSNumber numberWithFloat:72], @"bitrate",
 		nil];
 	
-	NSDictionary *playQueueColumnOrderArray = [NSArray arrayWithObjects:
+	NSArray *playQueueColumnOrderArray = [NSArray arrayWithObjects:
 		@"nowPlaying", @"title", @"artist", @"albumTitle", @"genre", @"track", @"formatDescription", nil];
 	
 	NSDictionary *tableDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
