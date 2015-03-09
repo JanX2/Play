@@ -1153,7 +1153,6 @@
 								<string key="NSPlaceholderString">/Music</string>
 								<reference key="NSControlView" ref="339794231"/>
 								<array class="NSMutableArray" key="NSPathComponentCells"/>
-								<int key="NSPathStyle">1</int>
 								<reference key="NSDelegate" ref="339794231"/>
 							</object>
 							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>

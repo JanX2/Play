@@ -277,7 +277,6 @@
 										</object>
 									</object>
 								</array>
-								<int key="NSPathStyle">1</int>
 								<reference key="NSDelegate" ref="465981410"/>
 							</object>
 							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
