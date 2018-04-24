@@ -134,7 +134,7 @@
 							<reference key="NSNextResponder" ref="1006"/>
 							<nil key="NSNibTouchBar"/>
 							<int key="NSvFlags">298</int>
-							<string key="NSFrame">{{271, 80}, {155, 22}}</string>
+							<string key="NSFrame">{{271, 77}, {155, 25}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<string key="NSClassName">SRRecorderControl</string>
 						</object>
@@ -142,7 +142,7 @@
 							<reference key="NSNextResponder" ref="1006"/>
 							<nil key="NSNibTouchBar"/>
 							<int key="NSvFlags">298</int>
-							<string key="NSFrame">{{271, 50}, {155, 22}}</string>
+							<string key="NSFrame">{{271, 47}, {155, 25}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<string key="NSClassName">SRRecorderControl</string>
 						</object>
@@ -150,7 +150,7 @@
 							<reference key="NSNextResponder" ref="1006"/>
 							<nil key="NSNibTouchBar"/>
 							<int key="NSvFlags">298</int>
-							<string key="NSFrame">{{271, 20}, {155, 22}}</string>
+							<string key="NSFrame">{{271, 17}, {155, 25}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<string key="NSClassName">SRRecorderControl</string>
 						</object>
