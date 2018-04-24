@@ -45,7 +45,6 @@
 #import "CTBadge.h"
 
 #import <AudioToolbox/AudioToolbox.h>
-#import <QuickTime/QuickTime.h>
 
 #define kMaximumStreamsForContextMenuAction 10
 #define BUFFER_LENGTH 4096
