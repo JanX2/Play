@@ -20,9 +20,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SRRecorderControl;
+#import <ShortcutRecorder/ShortcutRecorder.h>
 
-@interface HotKeyPreferencesController : NSWindowController
+
+@interface HotKeyPreferencesController : NSWindowController <SRRecorderControlDelegate, SRValidatorDelegate>
 {
 	IBOutlet SRRecorderControl		*_playPauseShortcutRecorder;
 	IBOutlet SRRecorderControl		*_nextStreamShortcutRecorder;

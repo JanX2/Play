@@ -19,82 +19,176 @@
  */
 
 #import "HotKeyPreferencesController.h"
-#import <PTHotKey/PTKeyCombo.h>
 #import "PlayApplicationDelegate.h"
 
-#import "ShortcutRecorder/ShortcutRecorder.h"
+#import <PTHotKey/PTHotKeyCenter.h>
 
-@implementation HotKeyPreferencesController
+
+@implementation HotKeyPreferencesController {
+	SRValidator *_validator;
+}
+
+
+#pragma mark SRRecorderControlDelegate
+
+- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder
+	   canRecordShortcut:(NSDictionary *)aShortcut
+{
+	__autoreleasing NSError *error = nil;
+	
+	BOOL isTaken =
+	[_validator isKeyCode:[aShortcut[SRShortcutKeyCode] unsignedShortValue]
+			andFlagsTaken:[aShortcut[SRShortcutModifierFlagsKey] unsignedIntegerValue]
+					error:&error];
+	
+	if (isTaken) {
+		NSBeep();
+		
+		NSWindow *window = aRecorder.window;
+		[window presentError:error
+			  modalForWindow:window
+					delegate:nil
+		  didPresentSelector:NULL
+				 contextInfo:NULL];
+	}
+	
+	return !isTaken;
+}
+
+- (BOOL)shortcutRecorderShouldBeginRecording:(SRRecorderControl *)aRecorder
+{
+	[[PTHotKeyCenter sharedCenter] pause];
+	return YES;
+}
+
+- (void)shortcutRecorderDidEndRecording:(SRRecorderControl *)aRecorder
+{
+	[[PTHotKeyCenter sharedCenter] resume];
+}
+
+- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder shouldUnconditionallyAllowModifierFlags:(NSEventModifierFlags)aModifierFlags forKeyCode:(unsigned short)aKeyCode
+{
+	if ((aModifierFlags & aRecorder.requiredModifierFlags) != aRecorder.requiredModifierFlags) {
+		return NO;
+	}
+	
+	if ((aModifierFlags & aRecorder.allowedModifierFlags) != aModifierFlags) {
+		return NO;
+	}
+	
+	switch (aKeyCode) {
+		case kVK_F1:
+		case kVK_F2:
+		case kVK_F3:
+		case kVK_F4:
+		case kVK_F5:
+		case kVK_F6:
+		case kVK_F7:
+		case kVK_F8:
+		case kVK_F9:
+		case kVK_F10:
+		case kVK_F11:
+		case kVK_F12:
+		case kVK_F13:
+		case kVK_F14:
+		case kVK_F15:
+		case kVK_F16:
+		case kVK_F17:
+		case kVK_F18:
+		case kVK_F19:
+		case kVK_F20:
+			return YES;
+		default:
+			return NO;
+	}
+}
+
+
+#pragma mark SRValidatorDelegate
+
+- (BOOL)shortcutValidator:(SRValidator *)aValidator
+				isKeyCode:(unsigned short)aKeyCode
+			andFlagsTaken:(NSEventModifierFlags)aFlags
+				   reason:(NSString **)outReason
+{
+#define IS_TAKEN(aRecorder) (recorder != (aRecorder) && SRShortcutEqualToShortcut(shortcut, [(aRecorder) objectValue]))
+	
+	SRRecorderControl *recorder = (SRRecorderControl *)self.window.firstResponder;
+	
+	if (![recorder isKindOfClass:[SRRecorderControl class]]) {
+		return NO;
+	}
+	
+	NSDictionary *shortcut = SRShortcutWithCocoaModifierFlagsAndKeyCode(aFlags, aKeyCode);
+	
+	if (IS_TAKEN(_playPauseShortcutRecorder) ||
+		IS_TAKEN(_previousStreamShortcutRecorder) ||
+		IS_TAKEN(_nextStreamShortcutRecorder)
+		) {
+		*outReason = NSLocalizedString(@"The shortcut is already used. To use your shortcut, first remove or change the other shortcut.", @"shortcut already in use error message");
+		return YES;
+	}
+	else {
+		return NO;
+	}
+	
+#undef IS_TAKEN
+}
+
+
+- (BOOL)shortcutValidatorShouldCheckSystemShortcuts:(SRValidator *)aValidator
+{
+	return YES;
+}
+
+- (BOOL)shortcutValidatorShouldCheckMenu:(SRValidator *)aValidator
+{
+	return YES;
+}
+
+
+#pragma mark NSObject
 
 - (id) init
 {
 	if((self = [super initWithWindowNibName:@"HotKeyPreferences"])) {
 	}
+	
 	return self;
 }
 
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
-	NSDictionary	*dictionary		= [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"playPauseHotKey"];
-	PTKeyCombo		*keyCombo		= nil;
-	KeyCombo		combo;
-
-	if(nil != dictionary) {
-		keyCombo = [[PTKeyCombo alloc] initWithPlistRepresentation:dictionary];
-		combo.flags = [_playPauseShortcutRecorder carbonToCocoaFlags:[keyCombo modifiers]];
-		combo.code	= [keyCombo keyCode];
-		[_playPauseShortcutRecorder setKeyCombo:combo];
-		[keyCombo release];
-	}
-
-	dictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"playNextStreamHotKey"];
+	[super awakeFromNib];
 	
-	if(nil != dictionary) {
-		keyCombo = [[PTKeyCombo alloc] initWithPlistRepresentation:dictionary];
-		combo.flags = [_nextStreamShortcutRecorder carbonToCocoaFlags:[keyCombo modifiers]];
-		combo.code	= [keyCombo keyCode];
-		[_nextStreamShortcutRecorder setKeyCombo:combo];
-		[keyCombo release];
-	}
-
-	dictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"playPreviousStreamHotKey"];
-	
-	if(nil != dictionary) {
-		keyCombo = [[PTKeyCombo alloc] initWithPlistRepresentation:dictionary];
-		combo.flags = [_previousStreamShortcutRecorder carbonToCocoaFlags:[keyCombo modifiers]];
-		combo.code	= [keyCombo keyCode];
-		[_previousStreamShortcutRecorder setKeyCombo:combo];
-		[keyCombo release];
-	}
+	[self initKeyBindingsController];
 }
 
-@end
-
-@implementation HotKeyPreferencesController (ShortcutRecorderDelegateMethods)
-
-- (void) shortcutRecorder:(SRRecorderControl *)aRecorder keyComboDidChange:(KeyCombo)newKeyCombo
+- (void)initKeyBindingsController
 {
-	if(aRecorder == _playPauseShortcutRecorder) {
-		PTKeyCombo *keyCombo = [PTKeyCombo keyComboWithKeyCode:[aRecorder keyCombo].code
-													 modifiers:[aRecorder cocoaToCarbonFlags:[aRecorder keyCombo].flags]];
-		[[NSUserDefaults standardUserDefaults] setObject:[keyCombo plistRepresentation] forKey:@"playPauseHotKey"];
+	[self prepareShortcutRecorder:_playPauseShortcutRecorder
+						   forKey:@"playPauseHotKey"];
+	
+	[self prepareShortcutRecorder:_previousStreamShortcutRecorder
+						   forKey:@"playNextStreamHotKey"];
+	
+	[self prepareShortcutRecorder:_nextStreamShortcutRecorder
+						   forKey:@"playPreviousStreamHotKey"];
+	
+	_validator = [[SRValidator alloc] initWithDelegate:self];
+}
 
-		[(PlayApplicationDelegate *)[[NSApplication sharedApplication] delegate] registerPlayPauseHotKey:keyCombo];
-	}
-	else if(aRecorder == _nextStreamShortcutRecorder) {
-		PTKeyCombo *keyCombo = [PTKeyCombo keyComboWithKeyCode:[aRecorder keyCombo].code
-													 modifiers:[aRecorder cocoaToCarbonFlags:[aRecorder keyCombo].flags]];
-		[[NSUserDefaults standardUserDefaults] setObject:[keyCombo plistRepresentation] forKey:@"playNextStreamHotKey"];
-		
-		[(PlayApplicationDelegate *)[[NSApplication sharedApplication] delegate] registerPlayNextStreamHotKey:keyCombo];
-	}
-	else if(aRecorder == _previousStreamShortcutRecorder) {
-		PTKeyCombo *keyCombo = [PTKeyCombo keyComboWithKeyCode:[aRecorder keyCombo].code
-													 modifiers:[aRecorder cocoaToCarbonFlags:[aRecorder keyCombo].flags]];
-		[[NSUserDefaults standardUserDefaults] setObject:[keyCombo plistRepresentation] forKey:@"playPreviousStreamHotKey"];
-		
-		[(PlayApplicationDelegate *)[[NSApplication sharedApplication] delegate] registerPlayPreviousStreamHotKey:keyCombo];
-	}
+- (void)prepareShortcutRecorder:(SRRecorderControl *)shortcutRecorder
+						 forKey:(NSString *)key;
+{
+	NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
+	
+	NSString *keyPath = [NSString stringWithFormat:@"values.%@", key];
+	
+	[shortcutRecorder bind:NSValueBinding
+				  toObject:defaults
+			   withKeyPath:keyPath
+				   options:nil];
 }
 
 @end

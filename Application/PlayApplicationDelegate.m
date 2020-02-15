@@ -30,7 +30,7 @@
 #import "PreferencesController.h"
 #import <PTHotKey/PTKeyCombo.h>
 #import <PTHotKey/PTHotKeyCenter.h>
-#import <PTHotKey/PTHotKey.h>
+#import <PTHotKey/PTHotKey+ShortcutRecorder.h>
 #import "AppleRemote.h"
 #import "IntegerToDoubleRoundingValueTransformer.h"
 
@@ -99,24 +99,18 @@
 	// Register hot keys
 	NSDictionary *dictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"playPauseHotKey"];
 	if(nil != dictionary) {
-		PTKeyCombo *keyCombo = [[PTKeyCombo alloc] initWithPlistRepresentation:dictionary];
-		[self registerPlayPauseHotKey:keyCombo];
-		[keyCombo release];
+		[self registerPlayPauseHotKey:dictionary];
 	}
 
 	dictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"playNextStreamHotKey"];
 	if(nil != dictionary) {
-		PTKeyCombo *keyCombo = [[PTKeyCombo alloc] initWithPlistRepresentation:dictionary];
-		[self registerPlayNextStreamHotKey:keyCombo];
-		[keyCombo release];
+		[self registerPlayNextStreamHotKey:dictionary];
 	}
 	
 	dictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"playPreviousStreamHotKey"];
 	if(nil != dictionary) {
-		PTKeyCombo *keyCombo = [[PTKeyCombo alloc] initWithPlistRepresentation:dictionary];
-		[self registerPlayPreviousStreamHotKey:keyCombo];
-		[keyCombo release];
-	}	
+		[self registerPlayPreviousStreamHotKey:dictionary];
+	}
 }
 
 
@@ -183,7 +177,24 @@
 											 selector:@selector(streamsDidChange:) 
 												 name:AudioStreamsDidChangeNotification
 											   object:nil];
-
+    
+    
+    [[NSUserDefaults standardUserDefaults] addObserver:self
+                                            forKeyPath:@"playPauseHotKey"
+                                               options:NSKeyValueObservingOptionNew
+                                               context:NULL];
+    
+    [[NSUserDefaults standardUserDefaults] addObserver:self
+                                            forKeyPath:@"playNextStreamHotKey"
+                                               options:NSKeyValueObservingOptionNew
+                                               context:NULL];
+    
+    [[NSUserDefaults standardUserDefaults] addObserver:self
+                                            forKeyPath:@"playPreviousStreamHotKey"
+                                               options:NSKeyValueObservingOptionNew
+                                               context:NULL];
+    
+    
 	// Check for and send crash reports
 	[SFBCrashReporter checkForNewCrashes];
 }
@@ -199,6 +210,10 @@
 
 	// Just unregister for all notifications
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"playPauseHotKey"];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"playNextStreamHotKey"];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"playPreviousStreamHotKey"];
+
 	
 	// Stop listening for remote control events
 	[_remoteControl stopListening:aNotification];
@@ -272,47 +287,60 @@
 	[[AudioLibrary library] jumpToNowPlaying:self];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	NSDictionary *changeDict = change;
+	NSDictionary *dictionary = changeDict[@"new"];
+	
+    if ([keyPath isEqualToString:@"playPauseHotKey"]) {
+		[self registerPlayPauseHotKey:dictionary];
+	}
+    else if ([keyPath isEqualToString:@"playNextStreamHotKey"]) {
+		[self registerPlayNextStreamHotKey:dictionary];
+	}
+    else if ([keyPath isEqualToString:@"playPreviousStreamHotKey"]) {
+        [self registerPlayPreviousStreamHotKey:dictionary];
+    }
+}
+
 @end
 
 @implementation PlayApplicationDelegate (HotKeyMethods)
 
-- (void) registerPlayPauseHotKey:(PTKeyCombo *)keyCombo
+- (void) registerPlayPauseHotKey:(NSDictionary *)keyCombo
 {
 	[[PTHotKeyCenter sharedCenter] unregisterHotKey:[[PTHotKeyCenter sharedCenter] hotKeyWithIdentifier:@"playPause"]];
 	
-	PTHotKey *playPauseHotKey = [[PTHotKey alloc] initWithIdentifier:@"playPause" keyCombo:keyCombo];
+	PTHotKey *hotKey = [PTHotKey hotKeyWithIdentifier:@"playPause"
+											 keyCombo:keyCombo
+											   target:[AudioLibrary library]
+											   action:@selector(playPause:)];
 	
-	[playPauseHotKey setTarget:[AudioLibrary library]];
-	[playPauseHotKey setAction:@selector(playPause:)];
-	
-	[[PTHotKeyCenter sharedCenter] registerHotKey:playPauseHotKey];
-	[playPauseHotKey release];
+	[[PTHotKeyCenter sharedCenter] registerHotKey:hotKey];
 }
 
-- (void) registerPlayNextStreamHotKey:(PTKeyCombo *)keyCombo
+- (void) registerPlayNextStreamHotKey:(NSDictionary *)keyCombo
 {
 	[[PTHotKeyCenter sharedCenter] unregisterHotKey:[[PTHotKeyCenter sharedCenter] hotKeyWithIdentifier:@"nextStream"]];
 	
-	PTHotKey *nextStreamHotKey = [[PTHotKey alloc] initWithIdentifier:@"nextStream" keyCombo:keyCombo];
+	PTHotKey *hotKey = [PTHotKey hotKeyWithIdentifier:@"nextStream"
+											 keyCombo:keyCombo
+											   target:[AudioLibrary library]
+											   action:@selector(playNextStream:)];
 	
-	[nextStreamHotKey setTarget:[AudioLibrary library]];
-	[nextStreamHotKey setAction:@selector(playNextStream:)];
-	
-	[[PTHotKeyCenter sharedCenter] registerHotKey:nextStreamHotKey];
-	[nextStreamHotKey release];
+	[[PTHotKeyCenter sharedCenter] registerHotKey:hotKey];
 }
 
-- (void) registerPlayPreviousStreamHotKey:(PTKeyCombo *)keyCombo
+- (void) registerPlayPreviousStreamHotKey:(NSDictionary *)keyCombo
 {
 	[[PTHotKeyCenter sharedCenter] unregisterHotKey:[[PTHotKeyCenter sharedCenter] hotKeyWithIdentifier:@"previousStream"]];
 	
-	PTHotKey *previousStreamHotKey = [[PTHotKey alloc] initWithIdentifier:@"previousStream" keyCombo:keyCombo];
+	PTHotKey *hotKey = [PTHotKey hotKeyWithIdentifier:@"previousStream"
+											 keyCombo:keyCombo
+											   target:[AudioLibrary library]
+											   action:@selector(playPreviousStream:)];
 	
-	[previousStreamHotKey setTarget:[AudioLibrary library]];
-	[previousStreamHotKey setAction:@selector(playPreviousStream:)];
-	
-	[[PTHotKeyCenter sharedCenter] registerHotKey:previousStreamHotKey];
-	[previousStreamHotKey release];
+	[[PTHotKeyCenter sharedCenter] registerHotKey:hotKey];
 }
 
 @end

@@ -39,9 +39,9 @@
 @end
 
 @interface PlayApplicationDelegate (HotKeyMethods)
-- (void) registerPlayPauseHotKey:(PTKeyCombo *)keyCombo;
-- (void) registerPlayNextStreamHotKey:(PTKeyCombo *)keyCombo;
-- (void) registerPlayPreviousStreamHotKey:(PTKeyCombo *)keyCombo;
+- (void) registerPlayPauseHotKey:(NSDictionary *)keyCombo;
+- (void) registerPlayNextStreamHotKey:(NSDictionary *)keyCombo;
+- (void) registerPlayPreviousStreamHotKey:(NSDictionary *)keyCombo;
 @end
 
 @interface PlayApplicationDelegate (LibraryWrapperMethods)
