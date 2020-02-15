@@ -20,19 +20,27 @@
 
 #import "MusepackPropertiesReader.h"
 #import "AudioStream.h"
-#include <mpcdec/mpcdec.h>
+#include <mpc/mpcdec.h>
 
 @implementation MusepackPropertiesReader
 
 - (BOOL) readProperties:(NSError **)error
 {
 	NSMutableDictionary				*propertiesDictionary;
+#ifdef MPC_OLD_API
 	mpc_reader_file					reader_file;
 	mpc_decoder						decoder;
+#else
+	mpc_reader						reader_file;
+	mpc_demux *						demux;
+	//mpc_decoder	*					decoder;
+#endif
 	mpc_streaminfo					streaminfo;
 	int								result;
+#ifdef MPC_OLD_API
 	mpc_int32_t						intResult;
 	mpc_bool_t						boolResult;
+#endif
 	
 	NSString	*path	= [[self valueForKey:StreamURLKey] path];
 	FILE		*file	= fopen([path fileSystemRepresentation], "r");
@@ -53,13 +61,21 @@
 		return NO;
 	}
 	
+#ifdef MPC_OLD_API
 	mpc_reader_setup_file_reader(&reader_file, file);
-	
+
 	// Get input file information
 	mpc_streaminfo_init(&streaminfo);
 	intResult = mpc_streaminfo_read(&streaminfo, &reader_file.reader);
+	if(ERROR_CODE_OK != intResult)
+#else
+	mpc_reader_init_stdio_stream(&reader_file, file);
 	
-	if(ERROR_CODE_OK != intResult) {
+	demux = mpc_demux_init(&reader_file);
+	
+	if(!demux)
+#endif
+	{
 		if(nil != error) {
 			NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
 			
@@ -78,10 +94,17 @@
 		return NO;
 	}
 	
+#ifdef MPC_OLD_API
 	// Set up the decoder
 	mpc_decoder_setup(&decoder, &reader_file.reader);
 	boolResult = mpc_decoder_initialize(&decoder, &streaminfo);
 	NSAssert(YES == boolResult, NSLocalizedStringFromTable(@"Unable to intialize the Musepack decoder.", @"Errors", @""));
+#else
+	// Set up the demuxer
+	mpc_demux_get_info(demux, &streaminfo);
+	//decoder = mpc_decoder_init(&streaminfo);
+	//NSAssert(decoder == NULL, NSLocalizedStringFromTable(@"Unable to intialize the Musepack decoder.", @"Errors", @""));
+#endif
 	
 	propertiesDictionary = [NSMutableDictionary dictionary];
 	
@@ -107,7 +130,12 @@
 	
 	[self setValue:propertiesDictionary forKey:@"properties"];
 	
-	result = fclose(file);	
+#ifndef MPC_OLD_API
+	//mpc_decoder_exit(decoder);
+	mpc_demux_exit(demux);
+#endif
+	
+	result = fclose(file);
 	NSAssert1(EOF != result, @"Unable to close the input file (%s).", strerror(errno));	
 	
 	return YES;

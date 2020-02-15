@@ -46,13 +46,24 @@
 			return nil;
 		}
 		
+#ifdef MPC_OLD_API
 		mpc_reader_setup_file_reader(&_reader_file, _file);
 		
 		// Get input file information
 		mpc_streaminfo streaminfo;
 		mpc_streaminfo_init(&streaminfo);
+		
 		mpc_int32_t intResult = mpc_streaminfo_read(&streaminfo, &_reader_file.reader);
-		if(ERROR_CODE_OK != intResult) {
+		if(ERROR_CODE_OK != intResult)
+#else
+		mpc_reader_init_stdio_stream(&reader_file, _file);
+		
+		demux = mpc_demux_init(&reader_file);
+		
+		// Get input file information
+		if(!demux)
+#endif
+		{
 			if(nil != error) {
 				NSMutableDictionary *errorDictionary = [NSMutableDictionary dictionary];
 				
@@ -69,10 +80,17 @@
 		}
 		
 		// Set up the decoder
+#ifdef MPC_OLD_API
 		mpc_decoder_setup(&_decoder, &_reader_file.reader);
 		mpc_bool_t boolResult = mpc_decoder_initialize(&_decoder, &streaminfo);
 		NSAssert(YES == boolResult, NSLocalizedStringFromTable(@"Unable to intialize the Musepack decoder.", @"Errors", @""));
-		
+#else
+		mpc_streaminfo streaminfo;
+		mpc_demux_get_info(demux, &streaminfo);
+		//decoder = mpc_decoder_init(&streaminfo);
+		//NSAssert(decoder == NULL, NSLocalizedStringFromTable(@"Unable to intialize the Musepack decoder.", @"Errors", @""));
+#endif
+	
 		// MPC doesn't have default channel mappings so for now only support mono and stereo
 		/*	if(1 != streaminfo.channels && 2 != streaminfo.channels) {
 			if(nil != error) {
@@ -121,6 +139,11 @@
 
 - (void) dealloc
 {
+#ifndef MPC_OLD_API
+	//mpc_decoder_exit(decoder);
+	mpc_demux_exit(demux);
+#endif
+	
 	if(_file)
 		fclose(_file), _file = NULL;
 	
@@ -143,7 +166,12 @@
 {
 	NSParameterAssert(0 <= frame && frame < [self totalFrames]);
 	
+#ifdef MPC_OLD_API
 	mpc_bool_t result = mpc_decoder_seek_sample(&_decoder, frame);
+#else
+	mpc_bool_t result = mpc_demux_seek_sample(demux, frame);
+#endif
+
 	if(result)
 		_currentFrame = frame;
 	
@@ -192,6 +220,7 @@
 			break;
 		
 		// Decode one frame of MPC data
+#ifdef MPC_OLD_API
 		mpc_uint32_t framesDecoded = mpc_decoder_decode(&_decoder, buffer, 0, 0);
 		if((mpc_uint32_t)-1 == framesDecoded) {
 			NSLog(@"%@", NSLocalizedStringFromTable(@"Musepack decoding error.", @"Errors", @""));
@@ -201,6 +230,24 @@
 		// End of input
 		if(0 == framesDecoded)
 			break;
+#else
+		mpc_frame_info frame = (mpc_frame_info){
+			.buffer = buffer,
+		};
+		
+		mpc_status err = mpc_demux_decode(demux, &frame);
+		
+		if(err != MPC_STATUS_OK) {
+			NSLog(@"%@", NSLocalizedStringFromTable(@"Musepack decoding error.", @"Errors", @""));
+			break;
+		}
+		
+		// End of input
+		if((mpc_int32_t)-1 == frame.bits)
+			break;
+			
+		mpc_uint32_t framesDecoded = frame.samples;
+#endif
 		
 #ifdef MPC_FIXED_POINT
 #error "Fixed point not yet supported"

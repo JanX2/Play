@@ -20,7 +20,7 @@
 
 #import "MP4MetadataReader.h"
 #import "AudioStream.h"
-#include <mp4v2/mp4.h>
+#include <mp4v2/mp4v2.h>
 
 @implementation MP4MetadataReader
 
@@ -28,7 +28,7 @@
 {
 	NSMutableDictionary				*metadataDictionary;
 	NSString						*path					= [_url path];
-	MP4FileHandle					mp4FileHandle			= MP4Read([path fileSystemRepresentation], 0);
+	MP4FileHandle					mp4FileHandle			= MP4Read([path fileSystemRepresentation]);
 	
 	if(MP4_INVALID_FILE_HANDLE == mp4FileHandle) {
 		if(nil != error) {
@@ -46,70 +46,70 @@
 		return NO;
 	}
 	
-	char			*s									= NULL;
 	u_int16_t		trackNumber, totalTracks;
-	u_int16_t		bpm, discNumber, discTotal;
-	u_int8_t		compilation;
 	
 	metadataDictionary = [NSMutableDictionary dictionary];
 
+	const MP4Tags* new_tags = MP4TagsAlloc();
+	MP4TagsFetch(new_tags, mp4FileHandle);
+	
 	// Album title
-	if(MP4GetMetadataAlbum(mp4FileHandle, &s))
-		[metadataDictionary setValue:[NSString stringWithUTF8String:s] forKey:MetadataAlbumTitleKey];
+	if(new_tags->album)
+		[metadataDictionary setValue:[NSString stringWithUTF8String:new_tags->album] forKey:MetadataAlbumTitleKey];
 	
 	// Artist
-	if(MP4GetMetadataArtist(mp4FileHandle, &s))
-		[metadataDictionary setValue:[NSString stringWithUTF8String:s] forKey:MetadataArtistKey];
+	if(new_tags->artist)
+		[metadataDictionary setValue:[NSString stringWithUTF8String:new_tags->artist] forKey:MetadataArtistKey];
 
 	// Album Artist
-	if(MP4GetMetadataAlbumArtist(mp4FileHandle, &s))
-		[metadataDictionary setValue:[NSString stringWithUTF8String:s] forKey:MetadataAlbumArtistKey];
+	if(new_tags->albumArtist)
+		[metadataDictionary setValue:[NSString stringWithUTF8String:new_tags->albumArtist] forKey:MetadataAlbumArtistKey];
 	
 	// Genre
-	if(MP4GetMetadataGenre(mp4FileHandle, &s))
-		[metadataDictionary setValue:[NSString stringWithUTF8String:s] forKey:MetadataGenreKey];
+	if(new_tags->genre)
+		[metadataDictionary setValue:[NSString stringWithUTF8String:new_tags->genre] forKey:MetadataGenreKey];
 	
 	// Year
-	if(MP4GetMetadataYear(mp4FileHandle, &s))
-		[metadataDictionary setValue:[NSString stringWithUTF8String:s] forKey:MetadataDateKey];
+	if((new_tags->releaseDate) && (strlen(new_tags->releaseDate) > 0))
+		[metadataDictionary setValue:[NSString stringWithUTF8String:new_tags->releaseDate] forKey:MetadataDateKey];
 	
 	// Composer
-	if(MP4GetMetadataWriter(mp4FileHandle, &s))
-		[metadataDictionary setValue:[NSString stringWithUTF8String:s] forKey:MetadataComposerKey];
+	if(new_tags->composer)
+		[metadataDictionary setValue:[NSString stringWithUTF8String:new_tags->composer] forKey:MetadataComposerKey];
 	
 	// Comment
-	if(MP4GetMetadataComment(mp4FileHandle, &s))
-		[metadataDictionary setValue:[NSString stringWithUTF8String:s] forKey:MetadataCommentKey];
+	if(new_tags->comments)
+		[metadataDictionary setValue:[NSString stringWithUTF8String:new_tags->comments] forKey:MetadataCommentKey];
 	
 	// Track title
-	if(MP4GetMetadataName(mp4FileHandle, &s))
-		[metadataDictionary setValue:[NSString stringWithUTF8String:s] forKey:MetadataTitleKey];
+	if(new_tags->name)
+		[metadataDictionary setValue:[NSString stringWithUTF8String:new_tags->name] forKey:MetadataTitleKey];
 	
 	// Track number
-	if(MP4GetMetadataTrack(mp4FileHandle, &trackNumber, &totalTracks)) {
+	if(new_tags->track) {
 		if(0 != trackNumber)
-			[metadataDictionary setValue:[NSNumber numberWithInteger:(NSInteger)trackNumber] forKey:MetadataTrackNumberKey];
+			[metadataDictionary setValue:[NSNumber numberWithInteger:(NSInteger)new_tags->track->index] forKey:MetadataTrackNumberKey];
 		
 		if(0 != totalTracks)
-			[metadataDictionary setValue:[NSNumber numberWithInteger:(NSInteger)totalTracks] forKey:MetadataTrackTotalKey];
+			[metadataDictionary setValue:[NSNumber numberWithInteger:(NSInteger)new_tags->track->total] forKey:MetadataTrackTotalKey];
 	}
 	
 	// Disc number
-	if(MP4GetMetadataDisk(mp4FileHandle, &discNumber, &discTotal)) {
-		if(0 != discNumber)
-			[metadataDictionary setValue:[NSNumber numberWithInteger:(NSInteger)discNumber] forKey:MetadataDiscNumberKey];
+	if(new_tags->disk) {
+		if(0 != new_tags->disk->index)
+			[metadataDictionary setValue:[NSNumber numberWithInteger:(NSInteger)new_tags->disk->index] forKey:MetadataDiscNumberKey];
 
-		if(0 != discTotal)
-			[metadataDictionary setValue:[NSNumber numberWithInteger:(NSInteger)discTotal] forKey:MetadataDiscTotalKey];
+		if(0 != new_tags->disk->total)
+			[metadataDictionary setValue:[NSNumber numberWithInteger:(NSInteger)new_tags->disk->total] forKey:MetadataDiscTotalKey];
 	}
 	
 	// Compilation
-	if(MP4GetMetadataCompilation(mp4FileHandle, &compilation))
-		[metadataDictionary setValue:[NSNumber numberWithBool:YES] forKey:MetadataCompilationKey];
+	if(new_tags->compilation)
+		[metadataDictionary setValue:[NSNumber numberWithBool:(BOOL)(new_tags->compilation)] forKey:MetadataCompilationKey];
 
 	// BPM
-	if(MP4GetMetadataTempo(mp4FileHandle, &bpm))
-		[metadataDictionary setValue:[NSNumber numberWithInteger:(NSInteger)bpm] forKey:MetadataBPMKey];
+	if(new_tags->tempo)
+		[metadataDictionary setValue:[NSNumber numberWithInteger:(NSInteger)new_tags->tempo] forKey:MetadataBPMKey];
 	
 	// Album art
 /*	artCount = MP4GetMetadataCoverArtCount(mp4FileHandle);
@@ -122,6 +122,7 @@
 		}
 	}*/
 	
+#if 0
 	// ReplayGain
 	u_int8_t *rawValue;
 	u_int32_t rawValueSize;
@@ -170,8 +171,10 @@
 		[metadataDictionary setValue:[NSNumber numberWithDouble:[value doubleValue]] forKey:ReplayGainAlbumPeakKey];
 		[value release];
 	}
+#endif
 	
-	MP4Close(mp4FileHandle);	
+	MP4TagsFree(new_tags);
+	MP4Close(mp4FileHandle, 0);
 	
 	[self setValue:metadataDictionary forKey:@"metadata"];
 	

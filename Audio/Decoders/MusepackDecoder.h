@@ -21,13 +21,19 @@
 #import <Cocoa/Cocoa.h>
 #import "AudioDecoder.h"
 
-#include <mpcdec/mpcdec.h>
+#include <mpc/mpcdec.h>
 
 @interface MusepackDecoder : AudioDecoder
 {
 	FILE				*_file;
-	mpc_reader_file		_reader_file;
-	mpc_decoder			_decoder;
+#ifdef MPC_OLD_API
+	mpc_reader_file		reader_file;
+	mpc_decoder			decoder;
+#else
+	mpc_reader			reader_file;
+	mpc_demux *			demux;
+	//mpc_decoder	*		decoder;
+#endif
 	
 	AudioBufferList		*_bufferList;
 	

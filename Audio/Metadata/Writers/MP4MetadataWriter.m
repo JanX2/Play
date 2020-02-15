@@ -21,14 +21,14 @@
 #import "MP4MetadataWriter.h"
 #import "AudioStream.h"
 #import "UtilityFunctions.h"
-#include <mp4v2/mp4.h>
+#include <mp4v2/mp4v2.h>
 
 @implementation MP4MetadataWriter
 
 - (BOOL) writeMetadata:(id)metadata error:(NSError **)error
 {
 	NSString		*path			= [_url path];
-	MP4FileHandle	mp4FileHandle	= MP4Modify([path fileSystemRepresentation], 0, 0);
+	MP4FileHandle	mp4FileHandle	= MP4Modify([path fileSystemRepresentation], 0);
 	BOOL			result			= NO;
 
 	if(MP4_INVALID_FILE_HANDLE == mp4FileHandle) {
@@ -47,110 +47,98 @@
 		return NO;
 	}
 	
+	// NOTE: The following is now taking advantage of the fact that calling a method on nill will return nil.
+	
 	// Album title
 	NSString *album = [metadata valueForKey:MetadataAlbumTitleKey];
-	if(nil == album)
-		result = MP4DeleteMetadataAlbum(mp4FileHandle);
-	else
-		result = MP4SetMetadataAlbum(mp4FileHandle, [album UTF8String]);
+	result = MP4TagsSetAlbum(mp4FileHandle, [album UTF8String]);
 	
 	// Artist
 	NSString *artist = [metadata valueForKey:MetadataArtistKey];
-	if(nil == artist)
-		result = MP4DeleteMetadataArtist(mp4FileHandle);
-	else
-		result = MP4SetMetadataArtist(mp4FileHandle, [artist UTF8String]);
+	result = MP4TagsSetArtist(mp4FileHandle, [artist UTF8String]);
 
 	// Album Artist
 	NSString *albumArtist = [metadata valueForKey:MetadataAlbumArtistKey];
-	if(nil == albumArtist)
-		result = MP4DeleteMetadataAlbumArtist(mp4FileHandle);
-	else	
-		result = MP4SetMetadataAlbumArtist(mp4FileHandle, [albumArtist UTF8String]);
+	result = MP4TagsSetAlbumArtist(mp4FileHandle, [albumArtist UTF8String]);
 	
 	// Composer
 	NSString *composer = [metadata valueForKey:MetadataComposerKey];
-	if(nil == composer)
-		result = MP4DeleteMetadataWriter(mp4FileHandle);
-	else	
-		result = MP4SetMetadataWriter(mp4FileHandle, [composer UTF8String]);
+	result = MP4TagsSetComposer(mp4FileHandle, [composer UTF8String]);
 	
 	// Genre
 	NSString *genre = [metadata valueForKey:MetadataGenreKey];
-	if(nil == genre)
-		result = MP4DeleteMetadataGenre(mp4FileHandle);
-	else	
-		result = MP4SetMetadataGenre(mp4FileHandle, [genre UTF8String]);
+	result = MP4TagsSetGenre(mp4FileHandle, [genre UTF8String]);
 	
 	// Year
 	NSString *date = [metadata valueForKey:MetadataDateKey];
-	if(nil == date)
-		result = MP4DeleteMetadataYear(mp4FileHandle);
-	else	
-		result = MP4SetMetadataYear(mp4FileHandle, [date UTF8String]);
+	result = MP4TagsSetReleaseDate(mp4FileHandle, [date UTF8String]);
 	
 	// Comment
 	NSString *comment = [metadata valueForKey:MetadataCommentKey];
-	if(nil == comment)
-		result = MP4DeleteMetadataComment(mp4FileHandle);
-	else	
-		result = MP4SetMetadataComment(mp4FileHandle, [comment UTF8String]);
+	result = MP4TagsSetComments(mp4FileHandle, [comment UTF8String]);
 	
 	// Track title
 	NSString *title = [metadata valueForKey:MetadataTitleKey];
-	if(nil == title)
-		result = MP4DeleteMetadataName(mp4FileHandle);
-	else	
-		result = MP4SetMetadataName(mp4FileHandle, [title UTF8String]);
+	result = MP4TagsSetName(mp4FileHandle, [title UTF8String]);
 	
 	// Track number
 	NSNumber *trackNumber	= [metadata valueForKey:MetadataTrackNumberKey];
 	NSNumber *trackTotal	= [metadata valueForKey:MetadataTrackTotalKey];
+	MP4TagTrack trackMeta = (MP4TagTrack){
+		.index = (nil == trackNumber ? 0 : [trackNumber unsignedIntegerValue]),
+		.total = (nil == trackTotal ? 0 : [trackTotal unsignedIntegerValue])
+	};
 	if(nil == trackNumber && nil == trackTotal)
-		result = MP4DeleteMetadataTrack(mp4FileHandle);
+		result = MP4TagsSetTrack(mp4FileHandle, NULL);
 	else
-		result = MP4SetMetadataTrack(mp4FileHandle,
-									 (nil == trackNumber ? 0 : [trackNumber unsignedIntegerValue]),
-									 (nil == trackTotal ? 0 : [trackTotal unsignedIntegerValue]));
+		result = MP4TagsSetTrack(mp4FileHandle, &trackMeta);
 	
 	// Compilation
-	NSNumber *compilation = [metadata valueForKey:MetadataCompilationKey];
-	if(nil == compilation)
-		result = MP4DeleteMetadataCompilation(mp4FileHandle);
-	else	
-		result = MP4SetMetadataCompilation(mp4FileHandle, [compilation boolValue]);
+	NSNumber *compilationNum = [metadata valueForKey:MetadataCompilationKey];
+	if(nil == compilationNum)
+		result = MP4TagsSetCompilation(mp4FileHandle, NULL);
+	else {
+		uint8_t compilation = (uint8_t)[compilationNum boolValue];
+		result = MP4TagsSetCompilation(mp4FileHandle, &compilation);
+	}
+	
 	
 	// Disc number
 	NSNumber *discNumber	= [metadata valueForKey:MetadataDiscNumberKey];
 	NSNumber *discTotal		= [metadata valueForKey:MetadataDiscTotalKey];
+	MP4TagDisk discMeta = (MP4TagDisk){
+		.index = (nil == discNumber ? 0 : [discNumber unsignedIntegerValue]),
+		.total = (nil == discTotal ? 0 : [discTotal unsignedIntegerValue])
+	};
 	if(nil == discNumber && nil == discTotal)
-		result = MP4DeleteMetadataDisk(mp4FileHandle);
-	else	
-		result = MP4SetMetadataDisk(mp4FileHandle,
-									(nil == discNumber ? 0 : [discNumber unsignedIntegerValue]),
-									(nil == discTotal ? 0 : [discTotal unsignedIntegerValue]));
+		result = MP4TagsSetDisk(mp4FileHandle, NULL);
+	else
+		result = MP4TagsSetDisk(mp4FileHandle, &discMeta);
 	
 	// BPM
-	NSNumber *bpm = [metadata valueForKey:MetadataBPMKey];
-	if(nil == bpm)
-		result = MP4DeleteMetadataTempo(mp4FileHandle);
-	else	
-		result = MP4SetMetadataTempo(mp4FileHandle, [bpm unsignedShortValue]);
+	NSNumber *bpmNum = [metadata valueForKey:MetadataBPMKey];
+	if(nil == bpmNum)
+		result = MP4TagsSetTempo(mp4FileHandle, NULL);
+	else {
+		uint16_t tempo = (uint16_t)[bpmNum unsignedShortValue];
+		result = MP4TagsSetTempo(mp4FileHandle, &tempo);
+	}
 	
 	// Album art
 /*	NSImage *albumArt = [metadata valueForKey:@"albumArt"];
 	if(nil != albumArt) {
 		NSData *data = getPNGDataForImage(albumArt); 
-		MP4SetMetadataCoverArt(mp4FileHandle, (u_int8_t *)[data bytes], [data length]);
+		MP4TagsSetCoverArt(mp4FileHandle, (u_int8_t *)[data bytes], [data length]);
 	}*/
 	
+#if 0
 	// ReplayGain
 	NSNumber *referenceLoudness = [metadata valueForKey:ReplayGainReferenceLoudnessKey];
 	if(nil == referenceLoudness)
 		MP4DeleteMetadataFreeForm(mp4FileHandle, "replaygain_reference_loudness", NULL);
 	else {
 		const char *value = [[NSString stringWithFormat:@"%2.1f dB", [referenceLoudness doubleValue]] UTF8String];
-		result = MP4SetMetadataFreeForm(mp4FileHandle, "replaygain_reference_loudness", (const u_int8_t *)value, strlen(value), NULL);
+		result = MP4TagsSetFreeForm(mp4FileHandle, "replaygain_reference_loudness", (const u_int8_t *)value, strlen(value), NULL);
 	}
 
 	NSNumber *trackGain = [metadata valueForKey:ReplayGainTrackGainKey];
@@ -158,7 +146,7 @@
 		MP4DeleteMetadataFreeForm(mp4FileHandle, "replaygain_track_gain", NULL);
 	else {
 		const char *value = [[NSString stringWithFormat:@"%+2.2f dB", [trackGain doubleValue]] UTF8String];
-		result = MP4SetMetadataFreeForm(mp4FileHandle, "replaygain_track_gain", (const u_int8_t *)value, strlen(value), NULL);
+		result = MP4TagsSetFreeForm(mp4FileHandle, "replaygain_track_gain", (const u_int8_t *)value, strlen(value), NULL);
 	}
 
 	NSNumber *trackPeak = [metadata valueForKey:ReplayGainTrackPeakKey];
@@ -166,7 +154,7 @@
 		MP4DeleteMetadataFreeForm(mp4FileHandle, "repaaygain_track_peak", NULL);
 	else {
 		const char *value = [[NSString stringWithFormat:@"%1.8f", [trackPeak doubleValue]] UTF8String];
-		result = MP4SetMetadataFreeForm(mp4FileHandle, "replaygain_track_peak", (const u_int8_t *)value, strlen(value), NULL);
+		result = MP4TagsSetFreeForm(mp4FileHandle, "replaygain_track_peak", (const u_int8_t *)value, strlen(value), NULL);
 	}
 
 	NSNumber *albumGain = [metadata valueForKey:ReplayGainAlbumGainKey];
@@ -174,7 +162,7 @@
 		MP4DeleteMetadataFreeForm(mp4FileHandle, "replaygain_album_gain", NULL);
 	else {
 		const char *value = [[NSString stringWithFormat:@"%+2.2f dB", [albumGain doubleValue]] UTF8String];
-		result = MP4SetMetadataFreeForm(mp4FileHandle, "replaygain_album_gain", (const u_int8_t *)value, strlen(value), NULL);
+		result = MP4TagsSetFreeForm(mp4FileHandle, "replaygain_album_gain", (const u_int8_t *)value, strlen(value), NULL);
 	}
 
 	NSNumber *albumPeak = [metadata valueForKey:ReplayGainAlbumPeakKey];
@@ -182,8 +170,9 @@
 		MP4DeleteMetadataFreeForm(mp4FileHandle, "replaygain_album_peak", NULL);
 	else {
 		const char *value = [[NSString stringWithFormat:@"%1.8f", [albumPeak doubleValue]] UTF8String];
-		result = MP4SetMetadataFreeForm(mp4FileHandle, "replaygain_album_peak", (const u_int8_t *)value, strlen(value), NULL);
+		result = MP4TagsSetFreeForm(mp4FileHandle, "replaygain_album_peak", (const u_int8_t *)value, strlen(value), NULL);
 	}
+#endif
 	
 	// Make our mark
 	NSString *bundleShortVersionString	= [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
@@ -191,9 +180,9 @@
 //	NSString *applicationVersionString	= [NSString stringWithFormat:@"Play %@ (%@)", bundleShortVersionString, bundleVersion];
 	NSString *applicationVersionString	= [NSString stringWithFormat:@"Play %@", bundleShortVersionString];
 	
-	result = MP4SetMetadataTool(mp4FileHandle, [applicationVersionString UTF8String]);
+	result = MP4TagsSetEncodingTool(mp4FileHandle, [applicationVersionString UTF8String]);
 	
-	MP4Close(mp4FileHandle);
+	MP4Close(mp4FileHandle, 0);
 	
 	return YES;
 }
