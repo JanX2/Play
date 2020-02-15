@@ -65,8 +65,11 @@
 		3DC5905111DB73230053EBAD /* FastForwardDownTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903B11DB73230053EBAD /* FastForwardDownTemplate.pdf */; };
 		3DC5905211DB73230053EBAD /* ContinueTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903C11DB73230053EBAD /* ContinueTemplate.pdf */; };
 		3DC5905311DB73230053EBAD /* BrowserTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5903D11DB73230053EBAD /* BrowserTemplate.pdf */; };
+		3DCB695823F84FC7002E1F2D /* libcurl.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DCB695723F84FC7002E1F2D /* libcurl.tbd */; };
 		3DE12FB61177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql in Resources */ = {isa = PBXBuildFile; fileRef = 3DE12FB51177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql */; };
 		3DE12FC51177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql in Resources */ = {isa = PBXBuildFile; fileRef = 3DE12FC41177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql */; };
+		3DECCD1B23F843A1004528BB /* libexpat.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DECCD1823F843A0004528BB /* libexpat.tbd */; };
+		3DECCD1D23F843ED004528BB /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DECCD1C23F843ED004528BB /* libsqlite3.tbd */; };
 		8C06F0240B866F1900E8ADB6 /* CTGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C06F0220B866F1900E8ADB6 /* CTGradient.m */; };
 		8C06F02C0B866F2D00E8ADB6 /* CTBadge_1.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8C06F0260B866F2D00E8ADB6 /* CTBadge_1.pdf */; };
 		8C06F02D0B866F2D00E8ADB6 /* CTBadge_3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8C06F0270B866F2D00E8ADB6 /* CTBadge_3.pdf */; };
@@ -82,10 +85,6 @@
 		8C0CF0610CE807B10086CAFB /* upgrade_database_for_cue_sheets.sql in Resources */ = {isa = PBXBuildFile; fileRef = 8C0CF0600CE807B10086CAFB /* upgrade_database_for_cue_sheets.sql */; };
 		8C0CF0830CE80EAB0086CAFB /* check_for_musicbrainz_support.sql in Resources */ = {isa = PBXBuildFile; fileRef = 8C0CF0820CE80EAB0086CAFB /* check_for_musicbrainz_support.sql */; };
 		8C0CF0860CE80F6B0086CAFB /* upgrade_database_for_musicbrainz.sql in Resources */ = {isa = PBXBuildFile; fileRef = 8C0CF0850CE80F6B0086CAFB /* upgrade_database_for_musicbrainz.sql */; };
-		8C0CF21A0CE8298F0086CAFB /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C0CF2190CE8298F0086CAFB /* sqlite3.framework */; };
-		8C0CF21D0CE829A00086CAFB /* sqlite3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8C0CF2190CE8298F0086CAFB /* sqlite3.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		8C0CF23C0CE82BE70086CAFB /* libcurl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C0CF23B0CE82BE70086CAFB /* libcurl.framework */; };
-		8C0CF23F0CE82BEF0086CAFB /* libcurl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8C0CF23B0CE82BE70086CAFB /* libcurl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8C16C6E00BCB1FEA00126A45 /* FileAdditionProgressSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C16C6DE0BCB1FEA00126A45 /* FileAdditionProgressSheet.m */; };
 		8C17F6E50B912006009200C4 /* WatchFolderNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C17F6E30B912006009200C4 /* WatchFolderNode.m */; };
 		8C17F7520B9128AC009200C4 /* GenresNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C17F7500B9128AC009200C4 /* GenresNode.m */; };
@@ -195,7 +194,7 @@
 		8C9C31C00B732EB600CE799A /* FLAC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C314D0B732EB600CE799A /* FLAC.framework */; };
 		8C9C31C10B732EB600CE799A /* mac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C314E0B732EB600CE799A /* mac.framework */; };
 		8C9C31C20B732EB600CE799A /* mp4v2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C314F0B732EB600CE799A /* mp4v2.framework */; };
-		8C9C31C30B732EB600CE799A /* mpcdec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C31500B732EB600CE799A /* mpcdec.framework */; };
+		8C9C31C30B732EB600CE799A /* mpc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C31500B732EB600CE799A /* mpc.framework */; };
 		8C9C31C40B732EB600CE799A /* ogg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C31510B732EB600CE799A /* ogg.framework */; };
 		8C9C31C50B732EB600CE799A /* taglib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C31520B732EB600CE799A /* taglib.framework */; };
 		8C9C31C60B732EB600CE799A /* vorbis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C31530B732EB600CE799A /* vorbis.framework */; };
@@ -203,7 +202,7 @@
 		8C9C31C80B732EC200CE799A /* FLAC.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C314D0B732EB600CE799A /* FLAC.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8C9C31C90B732EC200CE799A /* mac.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C314E0B732EB600CE799A /* mac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8C9C31CA0B732EC200CE799A /* mp4v2.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C314F0B732EB600CE799A /* mp4v2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		8C9C31CB0B732EC200CE799A /* mpcdec.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C31500B732EB600CE799A /* mpcdec.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		8C9C31CB0B732EC200CE799A /* mpc.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C31500B732EB600CE799A /* mpc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8C9C31CC0B732EC200CE799A /* ogg.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C31510B732EB600CE799A /* ogg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8C9C31CD0B732EC200CE799A /* taglib.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C31520B732EB600CE799A /* taglib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8C9C31CE0B732EC200CE799A /* vorbis.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9C31530B732EB600CE799A /* vorbis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -312,14 +311,10 @@
 		8CF257C00BF543FA00A8520E /* PlasticButtonPressed_Middle.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CF257AF0BF543FA00A8520E /* PlasticButtonPressed_Middle.png */; };
 		8CF257C10BF543FA00A8520E /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CF257B00BF543FA00A8520E /* plus.png */; };
 		8CF538230C4E93D1002E59E7 /* PUIDUtilities.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8CF538210C4E93D1002E59E7 /* PUIDUtilities.mm */; };
-		8CF538BC0C4EA1F2002E59E7 /* expat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF538B60C4EA1F2002E59E7 /* expat.framework */; };
-		8CF538BD0C4EA1FE002E59E7 /* expat.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF538B60C4EA1F2002E59E7 /* expat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8CF539570C4EDB43002E59E7 /* discid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF539510C4EDB43002E59E7 /* discid.framework */; };
 		8CF539580C4EDB43002E59E7 /* musicbrainz3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF539520C4EDB43002E59E7 /* musicbrainz3.framework */; };
 		8CF539590C4EDB4E002E59E7 /* musicbrainz3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF539520C4EDB43002E59E7 /* musicbrainz3.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8CF539760C4EDB56002E59E7 /* discid.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF539510C4EDB43002E59E7 /* discid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		8CF539820C4EDBAF002E59E7 /* neon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF5397F0C4EDBAE002E59E7 /* neon.framework */; };
-		8CF539830C4EDBB5002E59E7 /* neon.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF5397F0C4EDBAE002E59E7 /* neon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8CFBD2BB0CD910E6009A57C9 /* MPEGPropertiesReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CFBD2BA0CD910E6009A57C9 /* MPEGPropertiesReader.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -375,18 +370,14 @@
 				3D50A2B91162CDEC002A5832 /* RBSplitView.framework in Copy Frameworks */,
 				3277A965104648B0006777F8 /* SFBAudioUnitUI.framework in Copy Frameworks */,
 				3277A966104648B0006777F8 /* SFBCrashReporter.framework in Copy Frameworks */,
-				8C0CF23F0CE82BEF0086CAFB /* libcurl.framework in Copy Frameworks */,
-				8C0CF21D0CE829A00086CAFB /* sqlite3.framework in Copy Frameworks */,
 				8C84BAD00C619F7400D8D221 /* ofa1.framework in Copy Frameworks */,
-				8CF539830C4EDBB5002E59E7 /* neon.framework in Copy Frameworks */,
 				8CF539760C4EDB56002E59E7 /* discid.framework in Copy Frameworks */,
 				8CF539590C4EDB4E002E59E7 /* musicbrainz3.framework in Copy Frameworks */,
-				8CF538BD0C4EA1FE002E59E7 /* expat.framework in Copy Frameworks */,
 				8C5574E70BBC1FB40047B89C /* mad.framework in Copy Frameworks */,
 				8C9C31C80B732EC200CE799A /* FLAC.framework in Copy Frameworks */,
 				8C9C31C90B732EC200CE799A /* mac.framework in Copy Frameworks */,
 				8C9C31CA0B732EC200CE799A /* mp4v2.framework in Copy Frameworks */,
-				8C9C31CB0B732EC200CE799A /* mpcdec.framework in Copy Frameworks */,
+				8C9C31CB0B732EC200CE799A /* mpc.framework in Copy Frameworks */,
 				8C9C31CC0B732EC200CE799A /* ogg.framework in Copy Frameworks */,
 				8C9C31CD0B732EC200CE799A /* taglib.framework in Copy Frameworks */,
 				8C9C31CE0B732EC200CE799A /* vorbis.framework in Copy Frameworks */,
@@ -465,8 +456,11 @@
 		3DC5903B11DB73230053EBAD /* FastForwardDownTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = FastForwardDownTemplate.pdf; path = Images/FastForwardDownTemplate.pdf; sourceTree = "<group>"; };
 		3DC5903C11DB73230053EBAD /* ContinueTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ContinueTemplate.pdf; path = Images/ContinueTemplate.pdf; sourceTree = "<group>"; };
 		3DC5903D11DB73230053EBAD /* BrowserTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = BrowserTemplate.pdf; path = Images/BrowserTemplate.pdf; sourceTree = "<group>"; };
+		3DCB695723F84FC7002E1F2D /* libcurl.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurl.tbd; path = usr/lib/libcurl.tbd; sourceTree = SDKROOT; };
 		3DE12FB51177D30500DB4982 /* upgrade_database_for_NSURL_bookmarks.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = upgrade_database_for_NSURL_bookmarks.sql; path = SQL/upgrade_database_for_NSURL_bookmarks.sql; sourceTree = "<group>"; };
 		3DE12FC41177DACD00DB4982 /* check_for_NSURL_bookmarks_support.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = check_for_NSURL_bookmarks_support.sql; path = SQL/check_for_NSURL_bookmarks_support.sql; sourceTree = "<group>"; };
+		3DECCD1823F843A0004528BB /* libexpat.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libexpat.tbd; path = usr/lib/libexpat.tbd; sourceTree = SDKROOT; };
+		3DECCD1C23F843ED004528BB /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		8C06F0210B866F1900E8ADB6 /* CTGradient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CTGradient.h; path = ThirdParty/CTGradient/CTGradient.h; sourceTree = "<group>"; };
 		8C06F0220B866F1900E8ADB6 /* CTGradient.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = CTGradient.m; path = ThirdParty/CTGradient/CTGradient.m; sourceTree = "<group>"; };
 		8C06F0260B866F2D00E8ADB6 /* CTBadge_1.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CTBadge_1.pdf; sourceTree = "<group>"; };
@@ -487,8 +481,6 @@
 		8C0CF0600CE807B10086CAFB /* upgrade_database_for_cue_sheets.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = upgrade_database_for_cue_sheets.sql; path = SQL/upgrade_database_for_cue_sheets.sql; sourceTree = "<group>"; };
 		8C0CF0820CE80EAB0086CAFB /* check_for_musicbrainz_support.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = check_for_musicbrainz_support.sql; path = SQL/check_for_musicbrainz_support.sql; sourceTree = "<group>"; };
 		8C0CF0850CE80F6B0086CAFB /* upgrade_database_for_musicbrainz.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = upgrade_database_for_musicbrainz.sql; path = SQL/upgrade_database_for_musicbrainz.sql; sourceTree = "<group>"; };
-		8C0CF2190CE8298F0086CAFB /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = Frameworks/sqlite3.framework; sourceTree = "<group>"; };
-		8C0CF23B0CE82BE70086CAFB /* libcurl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libcurl.framework; path = Frameworks/libcurl.framework; sourceTree = "<group>"; };
 		8C16C6DD0BCB1FEA00126A45 /* FileAdditionProgressSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileAdditionProgressSheet.h; path = AudioLibrary/FileAdditionProgressSheet.h; sourceTree = "<group>"; };
 		8C16C6DE0BCB1FEA00126A45 /* FileAdditionProgressSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileAdditionProgressSheet.m; path = AudioLibrary/FileAdditionProgressSheet.m; sourceTree = "<group>"; };
 		8C17F6E20B912006009200C4 /* WatchFolderNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WatchFolderNode.h; path = Browser/WatchFolderNode.h; sourceTree = "<group>"; };
@@ -641,7 +633,7 @@
 		8C9C314D0B732EB600CE799A /* FLAC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAC.framework; path = Frameworks/FLAC.framework; sourceTree = "<group>"; };
 		8C9C314E0B732EB600CE799A /* mac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mac.framework; path = Frameworks/mac.framework; sourceTree = "<group>"; };
 		8C9C314F0B732EB600CE799A /* mp4v2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mp4v2.framework; path = Frameworks/mp4v2.framework; sourceTree = "<group>"; };
-		8C9C31500B732EB600CE799A /* mpcdec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mpcdec.framework; path = Frameworks/mpcdec.framework; sourceTree = "<group>"; };
+		8C9C31500B732EB600CE799A /* mpc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mpc.framework; path = Frameworks/mpc.framework; sourceTree = "<group>"; };
 		8C9C31510B732EB600CE799A /* ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ogg.framework; path = Frameworks/ogg.framework; sourceTree = "<group>"; };
 		8C9C31520B732EB600CE799A /* taglib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = taglib.framework; path = Frameworks/taglib.framework; sourceTree = "<group>"; };
 		8C9C31530B732EB600CE799A /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = Frameworks/vorbis.framework; sourceTree = "<group>"; };
@@ -828,10 +820,8 @@
 		8CF257B00BF543FA00A8520E /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = ThirdParty/AIPlasticButton/plus.png; sourceTree = "<group>"; };
 		8CF538200C4E93D1002E59E7 /* PUIDUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PUIDUtilities.h; path = Utilities/PUIDUtilities.h; sourceTree = "<group>"; };
 		8CF538210C4E93D1002E59E7 /* PUIDUtilities.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PUIDUtilities.mm; path = Utilities/PUIDUtilities.mm; sourceTree = "<group>"; };
-		8CF538B60C4EA1F2002E59E7 /* expat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = expat.framework; path = Frameworks/expat.framework; sourceTree = "<group>"; };
 		8CF539510C4EDB43002E59E7 /* discid.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = discid.framework; path = Frameworks/discid.framework; sourceTree = "<group>"; };
 		8CF539520C4EDB43002E59E7 /* musicbrainz3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = musicbrainz3.framework; path = Frameworks/musicbrainz3.framework; sourceTree = "<group>"; };
-		8CF5397F0C4EDBAE002E59E7 /* neon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = neon.framework; path = Frameworks/neon.framework; sourceTree = "<group>"; };
 		8CFBD2B90CD910E6009A57C9 /* MPEGPropertiesReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPEGPropertiesReader.h; path = Audio/Properties/MPEGPropertiesReader.h; sourceTree = "<group>"; };
 		8CFBD2BA0CD910E6009A57C9 /* MPEGPropertiesReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPEGPropertiesReader.m; path = Audio/Properties/MPEGPropertiesReader.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -843,13 +833,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DCB695823F84FC7002E1F2D /* libcurl.tbd in Frameworks */,
+				3DECCD1D23F843ED004528BB /* libsqlite3.tbd in Frameworks */,
+				3DECCD1B23F843A1004528BB /* libexpat.tbd in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				8C9C2EC90B73137A00CE799A /* Growl.framework in Frameworks */,
 				8C9C2EEB0B7313E800CE799A /* Sparkle.framework in Frameworks */,
 				8C9C31C00B732EB600CE799A /* FLAC.framework in Frameworks */,
 				8C9C31C10B732EB600CE799A /* mac.framework in Frameworks */,
 				8C9C31C20B732EB600CE799A /* mp4v2.framework in Frameworks */,
-				8C9C31C30B732EB600CE799A /* mpcdec.framework in Frameworks */,
+				8C9C31C30B732EB600CE799A /* mpc.framework in Frameworks */,
 				8C9C31C40B732EB600CE799A /* ogg.framework in Frameworks */,
 				8C9C31C50B732EB600CE799A /* taglib.framework in Frameworks */,
 				8C9C31C60B732EB600CE799A /* vorbis.framework in Frameworks */,
@@ -863,15 +856,11 @@
 				8CE632040C161E5E0073ADC3 /* CoreAudioKit.framework in Frameworks */,
 				8C2957EB0C26E64800C155A7 /* QuickTime.framework in Frameworks */,
 				8C98ABDD0C46EBA6004F7BF6 /* Accelerate.framework in Frameworks */,
-				8CF538BC0C4EA1F2002E59E7 /* expat.framework in Frameworks */,
 				8CF539570C4EDB43002E59E7 /* discid.framework in Frameworks */,
 				8CF539580C4EDB43002E59E7 /* musicbrainz3.framework in Frameworks */,
-				8CF539820C4EDBAF002E59E7 /* neon.framework in Frameworks */,
 				8C84BACF0C619F6800D8D221 /* ofa1.framework in Frameworks */,
 				8CA662AA0C8E3EA100E03092 /* SystemConfiguration.framework in Frameworks */,
 				8C55A8C00CA5B9EF00C7B3F9 /* IOKit.framework in Frameworks */,
-				8C0CF21A0CE8298F0086CAFB /* sqlite3.framework in Frameworks */,
-				8C0CF23C0CE82BE70086CAFB /* libcurl.framework in Frameworks */,
 				3277A960104648A4006777F8 /* SFBAudioUnitUI.framework in Frameworks */,
 				3277A961104648A4006777F8 /* SFBCrashReporter.framework in Frameworks */,
 				3D50A2B81162CDDD002A5832 /* RBSplitView.framework in Frameworks */,
@@ -987,18 +976,17 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3DCB695723F84FC7002E1F2D /* libcurl.tbd */,
+				3DECCD1C23F843ED004528BB /* libsqlite3.tbd */,
+				3DECCD1823F843A0004528BB /* libexpat.tbd */,
 				3D50A2B71162CDDD002A5832 /* RBSplitView.framework */,
 				3277A95E104648A4006777F8 /* SFBAudioUnitUI.framework */,
 				3277A95F104648A4006777F8 /* SFBCrashReporter.framework */,
-				8C0CF23B0CE82BE70086CAFB /* libcurl.framework */,
-				8C0CF2190CE8298F0086CAFB /* sqlite3.framework */,
 				8C55A8BD0CA5B9EF00C7B3F9 /* IOKit.framework */,
 				8CA662A70C8E3EA100E03092 /* SystemConfiguration.framework */,
 				8C84BACA0C619F6800D8D221 /* ofa1.framework */,
-				8CF5397F0C4EDBAE002E59E7 /* neon.framework */,
 				8CF539510C4EDB43002E59E7 /* discid.framework */,
 				8CF539520C4EDB43002E59E7 /* musicbrainz3.framework */,
-				8CF538B60C4EA1F2002E59E7 /* expat.framework */,
 				8C98ABD40C46EBA6004F7BF6 /* Accelerate.framework */,
 				8C2957C60C26E64800C155A7 /* QuickTime.framework */,
 				8CE631FE0C161E5E0073ADC3 /* CoreAudioKit.framework */,
@@ -1011,7 +999,7 @@
 				8C9C314D0B732EB600CE799A /* FLAC.framework */,
 				8C9C314E0B732EB600CE799A /* mac.framework */,
 				8C9C314F0B732EB600CE799A /* mp4v2.framework */,
-				8C9C31500B732EB600CE799A /* mpcdec.framework */,
+				8C9C31500B732EB600CE799A /* mpc.framework */,
 				8C9C31510B732EB600CE799A /* ogg.framework */,
 				8C9C31520B732EB600CE799A /* taglib.framework */,
 				8C9C31530B732EB600CE799A /* vorbis.framework */,
@@ -2299,8 +2287,6 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_FAST_OBJC_DISPATCH = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -2319,10 +2305,10 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = Play;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/ThirdParty/libofa/include\"";
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -2337,9 +2323,7 @@
 					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					__MACOSX__,
@@ -2354,10 +2338,10 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = Play;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/ThirdParty/libofa/include\"";
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -2365,7 +2349,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 32FF2424104338C30069EB9B /* Base.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -2389,7 +2373,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 32FF2424104338C30069EB9B /* Base.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
