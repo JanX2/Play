@@ -4,28 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
-	<key>UTImportedTypeDeclarations</key>
-	<array>
-		<dict>
-			<key>UTTypeIdentifier</key>
-			<string>org.xiph.flac</string>
-			<key>UTTypeReferenceURL</key>
-			<string>http://flac.sourceforge.net</string>
-			<key>UTTypeDescription</key>
-			<string>FLAC Audio</string>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.audio</string>
-			</array>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>flac</string>
-				</array>
-			</dict>
-		</dict>
-	</array>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -194,7 +172,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>Generic</string>
 			<key>CFBundleTypeName</key>
-			<string>Monkey&apos;s Audio</string>
+			<string>Monkey's Audio</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
@@ -325,7 +303,7 @@
 	<key>CFBundleIconFile</key>
 	<string>Play</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.sbooth.Play</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -365,13 +343,35 @@
 	</array>
 	<key>OSAScriptingDefinition</key>
 	<string>Play.sdef</string>
+	<key>SFBCrashReporterCrashSubmissionURL</key>
+	<string>http://sbooth.org/Play/handle_crash_report.php</string>
 	<key>SUEnableSystemProfiling</key>
 	<true/>
 	<key>SUFeedURL</key>
 	<string>http://sbooth.org/Play/appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
-	<key>SFBCrashReporterCrashSubmissionURL</key>
-	<string>http://sbooth.org/Play/handle_crash_report.php</string>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.audio</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>FLAC Audio</string>
+			<key>UTTypeIdentifier</key>
+			<string>org.xiph.flac</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://flac.sourceforge.net</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>flac</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>
