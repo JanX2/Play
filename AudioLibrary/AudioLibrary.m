@@ -640,6 +640,8 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	[_browserDrawer toggle:sender];
 }
 
+// Based on https://stackoverflow.com/a/20027805
+// from https://stackoverflow.com/questions/925020/how-to-expand-and-collapse-parts-of-nssplitview-programmatically
 - (IBAction) togglePlayQueue:(id)sender
 {
 	NSView *subView = _playQueueSubView;
