@@ -92,7 +92,6 @@
 
 #include "SFMT.h"
 
-#import "RBSplitView/RBSplitView.h"
 
 // ========================================
 // The global instance
@@ -604,10 +603,12 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		return YES;
 	}
 	else if([menuItem action] == @selector(togglePlayQueue:)) {
-		if([[_splitView subviewWithIdentifier:@"playQueue"] isCollapsed])
+		if ([_splitView isSubviewCollapsed:_playQueueSubView]) {
 			[menuItem setTitle:NSLocalizedStringFromTable(@"Show Play Queue", @"Menus", @"")];
-		else
+		}
+		else {
 			[menuItem setTitle:NSLocalizedStringFromTable(@"Hide Play Queue", @"Menus", @"")];
+		}
 		return YES;
 	}
 	else if([menuItem action] == @selector(clearPlayQueue:))
@@ -641,11 +642,33 @@ NSString * const	PlayQueueKey								= @"playQueue";
 
 - (IBAction) togglePlayQueue:(id)sender
 {
-	RBSplitSubview *subView = [_splitView subviewWithIdentifier:@"playQueue"];
-	if([subView isCollapsed])
-		[subView expand];
-	else
-		[subView collapse];
+	NSView *subView = _playQueueSubView;
+	NSSplitView *splitView = _splitView;
+	BOOL wantCollapsed = ![_splitView isSubviewCollapsed:_playQueueSubView];
+
+	SEL selector_10_11 = NSSelectorFromString(@"_setArrangedView:isCollapsed:");
+	SEL selector_10_10 = NSSelectorFromString(@"_setSubview:isCollapsed:");
+	
+	SEL selector;
+	if ([splitView respondsToSelector:selector_10_11]) {
+		selector = selector_10_11;
+	}
+	else if ([splitView respondsToSelector:selector_10_10]) {
+		selector = selector_10_10;
+	}
+	else {
+		return;
+	}
+	
+	NSMethodSignature *signature = [NSSplitView instanceMethodSignatureForSelector:selector];
+	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+	invocation.target = splitView;
+	invocation.selector = selector;
+	[invocation setArgument:&subView atIndex:2];
+	[invocation setArgument:&wantCollapsed atIndex:3];
+	[invocation invoke];
+	
+	[splitView adjustSubviews];
 }
 
 - (IBAction) addCurrentTracksToPlayQueue:(id)sender
@@ -713,9 +736,9 @@ NSString * const	PlayQueueKey								= @"playQueue";
 - (IBAction) jumpToNowPlaying:(id)sender
 {
 	if(nil != [self nowPlaying] && 0 != [self countOfPlayQueue]) {
-		RBSplitSubview *subView = [_splitView subviewWithIdentifier:@"playQueue"];
-		if([subView isCollapsed])
-			[subView expandWithAnimation];
+		if ([_splitView isSubviewCollapsed:_playQueueSubView]) {
+			[self togglePlayQueue:sender];
+		}
 		[self scrollNowPlayingToVisible];
 		[_playQueueController setSelectionIndex:[self playbackIndex]];
 	}

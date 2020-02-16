@@ -7,10 +7,12 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AudioLibrary">
             <connections>
+                <outlet property="_audioStreamsSubView" destination="599" id="DUu-BW-2X1"/>
                 <outlet property="_browserController" destination="422" id="424"/>
                 <outlet property="_browserDrawer" destination="302" id="336"/>
                 <outlet property="_browserOutlineView" destination="369" id="378"/>
                 <outlet property="_playQueueController" destination="522" id="620"/>
+                <outlet property="_playQueueSubView" destination="598" id="J5w-K3-oLR"/>
                 <outlet property="_playQueueTable" destination="601" id="619"/>
                 <outlet property="_splitView" destination="597" id="645"/>
                 <outlet property="_streamController" destination="8" id="420"/>
@@ -21,7 +23,7 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Play" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="library" animationBehavior="default" id="5" userLabel="Window">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="247" y="193" width="800" height="600"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
@@ -30,11 +32,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView id="597" customClass="RBSplitView">
+                    <customView id="597" customClass="NSSplitView">
                         <rect key="frame" x="20" y="20" width="760" height="466"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <customView identifier="audioStreams" id="599" customClass="RBSplitSubview">
+                            <customView identifier="audioStreams" id="599" userLabel="Audio Streams Sub View">
                                 <rect key="frame" x="0.0" y="179" width="760" height="287"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
@@ -46,7 +48,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" autosaveColumns="NO" rowHeight="14" headerView="1099" id="13" customClass="AudioStreamTableView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="1671" height="251"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="1671" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -476,7 +478,6 @@
                                                     </connections>
                                                 </tableView>
                                             </subviews>
-                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </clipView>
                                         <scroller key="horizontalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="1098">
                                             <rect key="frame" x="1" y="274" width="758" height="11"/>
@@ -493,37 +494,15 @@
                                     </scrollView>
                                 </subviews>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="collapsed">
-                                        <bool key="value" value="NO"/>
-                                    </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="canCollapse">
                                         <bool key="value" value="NO"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="minDimension">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="tag">
-                                        <integer key="value" value="0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="hasSplitView">
-                                        <bool key="value" value="YES"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="position">
-                                        <integer key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="identifier" value="audioStreams"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="dimension">
-                                        <real key="value" value="287"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="canAdjust">
                                         <bool key="value" value="YES"/>
                                     </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="maxDimension">
-                                        <real key="value" value="1000000"/>
-                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </customView>
-                            <customView identifier="playQueue" id="598" customClass="RBSplitSubview">
+                            <customView identifier="playQueue" id="598" userLabel="Play Queue Sub View">
                                 <rect key="frame" x="0.0" y="0.0" width="760" height="171"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
@@ -531,7 +510,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="760" height="171"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" id="FXT-OR-sa0">
-                                            <rect key="frame" x="1" y="23" width="758" height="136"/>
+                                            <rect key="frame" x="1" y="0.0" width="758" height="159"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" autosaveColumns="NO" rowHeight="14" headerView="1096" id="601" customClass="PlayQueueTableView">
@@ -1032,7 +1011,6 @@
                                                     </connections>
                                                 </tableView>
                                             </subviews>
-                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </clipView>
                                         <scroller key="horizontalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="1095">
                                             <rect key="frame" x="1" y="159" width="758" height="11"/>
@@ -1049,88 +1027,17 @@
                                     </scrollView>
                                 </subviews>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="collapsed">
-                                        <bool key="value" value="NO"/>
-                                    </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="canCollapse">
                                         <bool key="value" value="YES"/>
                                     </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="minDimension">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="tag">
-                                        <integer key="value" value="0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="hasSplitView">
-                                        <bool key="value" value="YES"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="position">
-                                        <integer key="value" value="0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="identifier" value="playQueue"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="dimension">
-                                        <real key="value" value="171"/>
-                                    </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="canAdjust">
                                         <bool key="value" value="YES"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="maxDimension">
-                                        <real key="value" value="1000000"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </customView>
                         </subviews>
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="number" keyPath="fromImage">
-                                <bool key="value" value="NO"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="maxDimension">
-                                <real key="value" value="1000000"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="collapsed">
-                                <bool key="value" value="NO"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="canCollapse">
-                                <bool key="value" value="NO"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="minDimension">
-                                <real key="value" value="1"/>
-                            </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="string" keyPath="autosaveName" value="splitView"/>
-                            <userDefinedRuntimeAttribute type="number" keyPath="tag">
-                                <integer key="value" value="0"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="hasSplitView">
-                                <bool key="value" value="NO"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="position">
-                                <integer key="value" value="0"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="string" keyPath="identifier" value=""/>
-                            <userDefinedRuntimeAttribute type="number" keyPath="isCoupled">
-                                <bool key="value" value="NO"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="numberOfSubviews">
-                                <integer key="value" value="2"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="dimension">
-                                <real key="value" value="760"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="notCoupled">
-                                <bool key="value" value="YES"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="dividerThickness">
-                                <real key="value" value="8"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="canAdjust">
-                                <bool key="value" value="NO"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="vertical">
-                                <bool key="value" value="NO"/>
-                            </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="delegate" destination="-2" id="617"/>
@@ -1214,7 +1121,7 @@
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="30">
-                        <rect key="frame" x="17" y="538" width="766" height="17"/>
+                        <rect key="frame" x="17" y="538" width="765" height="17"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="Artist Name" id="1036">
                             <font key="font" metaFont="system"/>
@@ -1230,7 +1137,7 @@
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="28">
-                        <rect key="frame" x="17" y="516" width="766" height="14"/>
+                        <rect key="frame" x="17" y="516" width="765" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="Album Title" id="1035">
                             <font key="font" metaFont="smallSystem"/>
@@ -1953,7 +1860,6 @@
                                 </connections>
                             </outlineView>
                         </subviews>
-                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </clipView>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="1101">
                         <rect key="frame" x="1" y="-30" width="233" height="15"/>

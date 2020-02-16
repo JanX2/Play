@@ -40,8 +40,6 @@
 		3D0E8FA714EC088700515B29 /* PTHotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0E8F9814EC084D00515B29 /* PTHotKey.framework */; };
 		3D0E8FE914EC08EC00515B29 /* ShortcutRecorder.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0E8F9414EC084D00515B29 /* ShortcutRecorder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3D0E8FEA14EC08EC00515B29 /* PTHotKey.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0E8F9814EC084D00515B29 /* PTHotKey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		3D50A2B81162CDDD002A5832 /* RBSplitView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D50A2B71162CDDD002A5832 /* RBSplitView.framework */; };
-		3D50A2B91162CDEC002A5832 /* RBSplitView.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3D50A2B71162CDDD002A5832 /* RBSplitView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3DAFB8211178CACD0049C73C /* PointerWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DAFB8201178CACD0049C73C /* PointerWrapper.m */; };
 		3DC5903E11DB73230053EBAD /* StopTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5902811DB73230053EBAD /* StopTemplate.pdf */; };
 		3DC5903F11DB73230053EBAD /* StopDownTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC5902911DB73230053EBAD /* StopDownTemplate.pdf */; };
@@ -367,7 +365,6 @@
 			files = (
 				3D0E8FE914EC08EC00515B29 /* ShortcutRecorder.framework in Copy Frameworks */,
 				3D0E8FEA14EC08EC00515B29 /* PTHotKey.framework in Copy Frameworks */,
-				3D50A2B91162CDEC002A5832 /* RBSplitView.framework in Copy Frameworks */,
 				3277A965104648B0006777F8 /* SFBAudioUnitUI.framework in Copy Frameworks */,
 				3277A966104648B0006777F8 /* SFBCrashReporter.framework in Copy Frameworks */,
 				8C84BAD00C619F7400D8D221 /* ofa1.framework in Copy Frameworks */,
@@ -431,7 +428,6 @@
 		32FF2396104336FC0069EB9B /* Version.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		32FF2424104338C30069EB9B /* Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		3D0E8F8A14EC084C00515B29 /* ShortcutRecorder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutRecorder.xcodeproj; path = ThirdParty/ShortcutRecorder/ShortcutRecorder.xcodeproj; sourceTree = "<group>"; };
-		3D50A2B71162CDDD002A5832 /* RBSplitView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RBSplitView.framework; path = Frameworks/RBSplitView.framework; sourceTree = "<group>"; };
 		3DAFB81F1178CACD0049C73C /* PointerWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointerWrapper.h; path = Utilities/PointerWrapper.h; sourceTree = "<group>"; };
 		3DAFB8201178CACD0049C73C /* PointerWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PointerWrapper.m; path = Utilities/PointerWrapper.m; sourceTree = "<group>"; };
 		3DC5902811DB73230053EBAD /* StopTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = StopTemplate.pdf; path = Images/StopTemplate.pdf; sourceTree = "<group>"; };
@@ -863,7 +859,6 @@
 				8C55A8C00CA5B9EF00C7B3F9 /* IOKit.framework in Frameworks */,
 				3277A960104648A4006777F8 /* SFBAudioUnitUI.framework in Frameworks */,
 				3277A961104648A4006777F8 /* SFBCrashReporter.framework in Frameworks */,
-				3D50A2B81162CDDD002A5832 /* RBSplitView.framework in Frameworks */,
 				3D0E8FA514EC087600515B29 /* ShortcutRecorder.framework in Frameworks */,
 				3D0E8FA714EC088700515B29 /* PTHotKey.framework in Frameworks */,
 			);
@@ -979,7 +974,6 @@
 				3DCB695723F84FC7002E1F2D /* libcurl.tbd */,
 				3DECCD1C23F843ED004528BB /* libsqlite3.tbd */,
 				3DECCD1823F843A0004528BB /* libexpat.tbd */,
-				3D50A2B71162CDDD002A5832 /* RBSplitView.framework */,
 				3277A95E104648A4006777F8 /* SFBAudioUnitUI.framework */,
 				3277A95F104648A4006777F8 /* SFBCrashReporter.framework */,
 				8C55A8BD0CA5B9EF00C7B3F9 /* IOKit.framework */,

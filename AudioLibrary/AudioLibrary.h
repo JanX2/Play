@@ -26,7 +26,6 @@
 @class AudioStreamTableView, AudioStreamArrayController;
 @class BrowserOutlineView, BrowserTreeController;
 @class BrowserNode;
-@class RBSplitView;
 
 // ========================================
 // Notification Names
@@ -87,8 +86,10 @@ extern NSString * const		PlayQueueKey;
 	IBOutlet AudioStreamTableView			*_streamTable;
 
 	IBOutlet BrowserOutlineView				*_browserOutlineView;
-	IBOutlet RBSplitView					*_splitView;
-	
+	IBOutlet NSSplitView					*_splitView;
+	IBOutlet NSView							*_audioStreamsSubView;
+	IBOutlet NSView							*_playQueueSubView;
+
 	IBOutlet NSDrawer						*_browserDrawer;
 	
 	@private
