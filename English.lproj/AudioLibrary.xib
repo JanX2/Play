@@ -1799,7 +1799,7 @@
         <drawer trailingOffset="15" id="302" userLabel="Browser Drawer">
             <size key="contentSize" width="250" height="568"/>
             <size key="minContentSize" width="50" height="50"/>
-            <size key="maxContentSize" width="600" height="400"/>
+            <size key="maxContentSize" width="100000" height="100000"/>
             <connections>
                 <outlet property="contentView" destination="303" id="314"/>
                 <outlet property="delegate" destination="-2" id="316"/>
@@ -1815,7 +1815,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" id="ywJ-Bc-n2H">
                         <rect key="frame" x="1" y="1" width="248" height="498"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="browser" rowHeight="16" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="370" id="369" customClass="BrowserOutlineView">
                                 <rect key="frame" x="0.0" y="0.0" width="248" height="18"/>
