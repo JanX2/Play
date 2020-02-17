@@ -116,7 +116,6 @@
 		8C220A700BB8A35700808450 /* SmartPlaylistCriterion.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C220A6C0BB8A35700808450 /* SmartPlaylistCriterion.m */; };
 		8C220A720BB8A35700808450 /* SmartPlaylistInformationSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C220A6E0BB8A35700808450 /* SmartPlaylistInformationSheet.m */; };
 		8C220CC90BB978C100808450 /* MostPopularNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C220CC70BB978C100808450 /* MostPopularNode.m */; };
-		8C2957EB0C26E64800C155A7 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C2957C60C26E64800C155A7 /* QuickTime.framework */; };
 		8C2B356A0C18EEEC000E28B9 /* DSPPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C2B35680C18EEEC000E28B9 /* DSPPreferencesController.m */; };
 		8C2B35980C19042A000E28B9 /* DSPPreferencesToolbarImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C2B35970C19042A000E28B9 /* DSPPreferencesToolbarImage.png */; };
 		8C2D524B0B802115005C3426 /* SQLiteUtilityFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D52490B802115005C3426 /* SQLiteUtilityFunctions.m */; };
@@ -853,7 +852,6 @@
 				8C55786E0BBCD97C0047B89C /* QuartzCore.framework in Frameworks */,
 				8C5838750BDFD44000E43C9E /* CoreAudio.framework in Frameworks */,
 				8CE632040C161E5E0073ADC3 /* CoreAudioKit.framework in Frameworks */,
-				8C2957EB0C26E64800C155A7 /* QuickTime.framework in Frameworks */,
 				8C98ABDD0C46EBA6004F7BF6 /* Accelerate.framework in Frameworks */,
 				8CF539570C4EDB43002E59E7 /* discid.framework in Frameworks */,
 				8CF539580C4EDB43002E59E7 /* musicbrainz3.framework in Frameworks */,
