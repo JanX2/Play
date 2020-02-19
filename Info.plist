@@ -172,7 +172,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>Generic</string>
 			<key>CFBundleTypeName</key>
-			<string>Monkey's Audio</string>
+			<string>Monkey&apos;s Audio</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
