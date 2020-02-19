@@ -344,11 +344,11 @@
 	<key>OSAScriptingDefinition</key>
 	<string>Play.sdef</string>
 	<key>SFBCrashReporterCrashSubmissionURL</key>
-	<string>http://sbooth.org/Play/handle_crash_report.php</string>
+	<string>https://www.geheimwerk.de/Play/handle_crash_report.php</string>
 	<key>SUEnableSystemProfiling</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>http://sbooth.org/Play/appcast.xml</string>
+	<string>https://www.geheimwerk.de/Play/appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>UTImportedTypeDeclarations</key>
