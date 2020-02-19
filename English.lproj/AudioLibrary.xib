@@ -493,14 +493,6 @@
                                         </tableHeaderView>
                                     </scrollView>
                                 </subviews>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="canCollapse">
-                                        <bool key="value" value="NO"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="canAdjust">
-                                        <bool key="value" value="YES"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </customView>
                             <customView identifier="playQueue" id="598" userLabel="Play Queue Sub View">
                                 <rect key="frame" x="0.0" y="0.0" width="760" height="171"/>
@@ -1026,14 +1018,6 @@
                                         </tableHeaderView>
                                     </scrollView>
                                 </subviews>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="canCollapse">
-                                        <bool key="value" value="YES"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="canAdjust">
-                                        <bool key="value" value="YES"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </customView>
                         </subviews>
                         <userDefinedRuntimeAttributes>
