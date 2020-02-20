@@ -19,6 +19,7 @@
  */
 
 #import "PlaylistInformationSheet.h"
+#import "Playlist.h"
 #import "AudioLibrary.h"
 
 @implementation PlaylistInformationSheet
@@ -29,18 +30,10 @@
 		BOOL result = [NSBundle loadNibNamed:@"PlaylistInformationSheet" owner:self];
 		if(NO == result) {
 			NSLog(@"Missing resource: \"PlaylistInformationSheet.nib\".");
-			[self release];
 			return nil;
 		}
 	}
 	return self;
-}
-
-- (void) dealloc
-{
-	[_playlist release], _playlist = nil;
-	
-	[super dealloc];
 }
 
 - (void) awakeFromNib
@@ -52,8 +45,7 @@
 	[numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	
 	[_playCountTextField setFormatter:numberFormatter];
-	[numberFormatter release];
-
+	
 	// Dates
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setDateStyle:NSDateFormatterFullStyle];
@@ -62,7 +54,6 @@
 	[_dateCreatedTextField setFormatter:dateFormatter];
 	[_firstPlayedTextField setFormatter:dateFormatter];
 	[_lastPlayedTextField setFormatter:dateFormatter];
-	[dateFormatter release];
 }
 
 - (NSWindow *) sheet
@@ -87,8 +78,7 @@
 
 - (void) setPlaylist:(Playlist *)playlist
 {
-	[_playlist release];
-	_playlist = [playlist retain];
+	_playlist = playlist;
 }
 
 /*- (NSUndoManager *) windowWillReturnUndoManager:(NSWindow *)sender

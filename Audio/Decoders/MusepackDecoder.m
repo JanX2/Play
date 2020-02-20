@@ -42,7 +42,6 @@
 											 code:AudioDecoderFileNotFoundError 
 										 userInfo:errorDictionary];
 			}
-			[self release];
 			return nil;
 		}
 		
@@ -75,7 +74,6 @@
 											 code:AudioDecoderFileFormatNotRecognizedError 
 										 userInfo:errorDictionary];
 			}
-			[self release];
 			return nil;
 		}
 		
@@ -145,16 +143,14 @@
 #endif
 	
 	if(_file)
-		fclose(_file), _file = NULL;
+		fclose(_file);
 	
 	if(_bufferList) {
-		unsigned i;
+		UInt32 i;
 		for(i = 0; i < _bufferList->mNumberBuffers; ++i)
-			free(_bufferList->mBuffers[i].mData), _bufferList->mBuffers[i].mData = NULL;	
-		free(_bufferList), _bufferList = NULL;
+			free(_bufferList->mBuffers[i].mData);
+		free(_bufferList);
 	}
-	
-	[super dealloc];
 }
 
 - (SInt64)			totalFrames						{ return _totalFrames; }

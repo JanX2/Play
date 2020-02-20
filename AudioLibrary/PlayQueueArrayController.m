@@ -169,7 +169,6 @@ NSString * const PlayQueueTableMovedRowsPboardType	= @"org.sbooth.Play.AudioLibr
 		
 		[NSApp endSheet:[progressSheet sheet]];
 		[[progressSheet sheet] close];
-		[progressSheet release];
 		
 		if(result) {
 			NSMutableArray	*streams		= [NSMutableArray array];

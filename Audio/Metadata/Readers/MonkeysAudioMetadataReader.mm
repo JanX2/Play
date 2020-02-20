@@ -44,7 +44,7 @@ getAPETag(CAPETag		*f,
 	
 	free(tagName);
 	
-	return [result autorelease];
+	return result;
 }
 
 @implementation MonkeysAudioMetadataReader

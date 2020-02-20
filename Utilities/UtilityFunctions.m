@@ -145,7 +145,6 @@ getBuiltinExtensions(void)
 	@synchronized(sBuiltinExtensions) {
 		if(nil == sBuiltinExtensions) {
 			sBuiltinExtensions = [NSArray arrayWithObjects:@"ogg", @"flac", @"ape", @"wv", @"mpc", nil];
-			[sBuiltinExtensions retain];
 		}
 	}
 	
@@ -164,7 +163,6 @@ getCoreAudioExtensions(void)
 			err		= AudioFileGetGlobalInfo(kAudioFileGlobalInfo_AllExtensions, 0, NULL, &size, &sCoreAudioExtensions);
 			NSCAssert2(noErr == err, @"The call to %@ failed (%@).", @"AudioFileGetGlobalInfo", UTCreateStringForOSType(err));
 			
-			[sCoreAudioExtensions retain];
 		}
 	}
 	
@@ -178,7 +176,6 @@ getAudioExtensions(void)
 		if(nil == sAudioExtensions) {
 			sAudioExtensions = [NSMutableArray arrayWithArray:getCoreAudioExtensions()];
 			[(NSMutableArray *)sAudioExtensions addObjectsFromArray:getBuiltinExtensions()];
-			[sAudioExtensions retain];
 		}
 	}
 	
@@ -210,7 +207,7 @@ getBitmapDataForImage(NSImage					*image,
 	if(nil == bitmapRep) {
 		size = [image size];
 		[image lockFocus];
-		bitmapRep = [[[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect(0, 0, size.width, size.height)] autorelease];
+		bitmapRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect(0, 0, size.width, size.height)];
 		[image unlockFocus];
 	}
 	

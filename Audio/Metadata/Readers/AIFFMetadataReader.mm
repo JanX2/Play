@@ -153,7 +153,6 @@
 	 NSImage				*image	= [[NSImage alloc] initWithData:[NSData dataWithBytes:bv.data() length:bv.size()]];
 	 if(nil != image) {
 	 [metadataDictionary setValue:[image TIFFRepresentation] forKey:@"albumArt"];
-	 [image release];
 	 }
 	 }*/
 	

@@ -99,7 +99,8 @@ deallocate_slice_buffer(ScheduledAudioSlice **sliceBuffer, NSUInteger numberOfSl
 	for(i = 0; i < numberOfSlicesInBuffer; ++i)
 		deallocate_slice(*sliceBuffer + i);
 	
-	free(*sliceBuffer), *sliceBuffer = NULL;
+	free(*sliceBuffer);
+	*sliceBuffer = NULL;
 }
 
 static void
@@ -136,12 +137,12 @@ clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSUInteger numberOfSlicesIn
 
 + (ScheduledAudioRegion *) scheduledAudioRegionWithDecoder:(id <AudioDecoderMethods>)decoder
 {
-	return [[[ScheduledAudioRegion alloc] initWithDecoder:decoder] autorelease];
+	return [[ScheduledAudioRegion alloc] initWithDecoder:decoder];
 }
 
 + (ScheduledAudioRegion *) scheduledAudioRegionWithDecoder:(id <AudioDecoderMethods>)decoder startTime:(AudioTimeStamp)startTime
 {
-	return [[[ScheduledAudioRegion alloc] initWithDecoder:decoder startTime:startTime] autorelease];
+	return [[ScheduledAudioRegion alloc] initWithDecoder:decoder startTime:startTime];
 }
 
 - (id) initWithDecoder:(id <AudioDecoderMethods>)decoder
@@ -172,11 +173,7 @@ clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSUInteger numberOfSlicesIn
 
 - (void) dealloc
 {
-	[_decoder release], _decoder = nil;
-	
 	deallocate_slice_buffer(&_sliceBuffer, [self numberOfSlicesInBuffer]);
-	
-	[super dealloc];
 }
 
 #pragma mark Properties
@@ -190,7 +187,7 @@ clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSUInteger numberOfSlicesIn
 	_startTime = startTime;
 }
 
-- (id <AudioDecoderMethods>)	decoder						{ return [[_decoder retain] autorelease]; }
+- (id <AudioDecoderMethods>)	decoder						{ return _decoder; }
 
 - (void) setDecoder:(id <AudioDecoderMethods>)decoder
 {
@@ -198,8 +195,7 @@ clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSUInteger numberOfSlicesIn
 	NSParameterAssert(kAudioFormatFlagsNativeFloatPacked & [decoder format].mFormatFlags);
 	NSParameterAssert(kAudioFormatFlagIsNonInterleaved & [decoder format].mFormatFlags);
 	
-	[_decoder release];
-	_decoder = [decoder retain];	
+	_decoder = decoder;	
 }
 
 - (SInt64)			framesScheduled							{ return _framesScheduled; }

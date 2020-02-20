@@ -54,8 +54,7 @@
 	
 	IntegerToDoubleRoundingValueTransformer *rounder = [[IntegerToDoubleRoundingValueTransformer alloc] init];
 	[NSValueTransformer setValueTransformer:rounder forName:@"IntegerToDoubleRoundingValueTransformer"];
-	[rounder release];
-
+	
 	NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
 	if(nil != defaultsPath) {
 		NSDictionary *initialValuesDictionary = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];		
@@ -135,7 +134,7 @@
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	// Register services
-	[[NSApplication sharedApplication] setServicesProvider:[[[ServicesProvider alloc] init] autorelease]];
+	[[NSApplication sharedApplication] setServicesProvider:[[ServicesProvider alloc] init]];
 
 	// Start listening for remote control events
 	_remoteControl = [[AppleRemote alloc] initWithDelegate:self];
@@ -215,7 +214,7 @@
 	
 	// Stop listening for remote control events
 	[_remoteControl stopListening:aNotification];
-	[_remoteControl release], _remoteControl = nil;
+	_remoteControl = nil;
 	
 	// Save the play queue
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"rememberPlayQueue"]) {

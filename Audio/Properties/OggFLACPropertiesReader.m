@@ -26,13 +26,14 @@
 static FLAC__StreamDecoderWriteStatus 
 writeCallback(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)
 {
+	OggFLACPropertiesReader	*source				= (__bridge_transfer OggFLACPropertiesReader *)client_data;
 	return FLAC__STREAM_DECODER_WRITE_STATUS_ABORT;
 }
 
 static void
 metadataCallback(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)
 {
-	OggFLACPropertiesReader	*source				= (OggFLACPropertiesReader *)client_data;
+	OggFLACPropertiesReader	*source				= (__bridge_transfer OggFLACPropertiesReader *)client_data;
 	//	const FLAC__StreamMetadata_CueSheet		*cueSheet			= NULL;
 	//	FLAC__StreamMetadata_CueSheet_Track		*currentTrack		= NULL;
 	//	FLAC__StreamMetadata_CueSheet_Index		*currentIndex		= NULL;
@@ -69,7 +70,9 @@ metadataCallback(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata 
 
 static void
 errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)
-{}
+{
+	OggFLACPropertiesReader	*source				= (__bridge_transfer OggFLACPropertiesReader *)client_data;
+}
 
 @implementation OggFLACPropertiesReader
 
@@ -80,13 +83,6 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 		return self;
 	}
 	return nil;
-}
-
-- (void) dealloc
-{
-	[_localProperties release],		_localProperties = nil;
-	
-	[super dealloc];
 }
 
 - (BOOL) readProperties:(NSError **)error
@@ -106,7 +102,7 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 													 writeCallback, 
 													 metadataCallback, 
 													 errorCallback,
-													 self);
+													 (__bridge_retained void *)(self));
 	NSAssert1(FLAC__STREAM_DECODER_INIT_STATUS_OK == status, @"FLAC__stream_decoder_init_file failed: %s", FLAC__stream_decoder_get_resolved_state_string(flac));
 	
 	/*

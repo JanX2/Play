@@ -45,9 +45,9 @@ NSString * const	WatchFolderStreamsKey						= @"streams";
 	[folder initValuesForKeysWithDictionary:keyedValues];
 	
 	if(NO == [[[CollectionManager manager] watchFolderManager] insertWatchFolder:folder])
-		[folder release], folder = nil;
+		folder = nil;
 	
-	return [folder autorelease];
+	return folder;
 }
 
 - (id) init
@@ -57,18 +57,11 @@ NSString * const	WatchFolderStreamsKey						= @"streams";
 	return self;
 }
 
-- (void) dealloc
-{
-	[_streams release], _streams = nil;
-	
-	[super dealloc];
-}
-
 #pragma mark Stream Management
 
 - (NSArray *) streams
 {
-	return [[_streams retain] autorelease];
+	return _streams;
 }
 
 - (AudioStream *) streamAtIndex:(NSUInteger)thisIndex
@@ -88,7 +81,7 @@ NSString * const	WatchFolderStreamsKey						= @"streams";
 	return [_streams objectAtIndex:thisIndex];
 }
 
-- (void) getStreams:(id *)buffer range:(NSRange)range
+- (void) getStreams:(__unsafe_unretained id *)buffer range:(NSRange)range
 {
 	return [_streams getObjects:buffer range:range];
 }
@@ -160,7 +153,7 @@ NSString * const	WatchFolderStreamsKey						= @"streams";
 																												 key:@"watch folders" 
 																											uniqueID:[self valueForKey:ObjectIDKey]];
 	
-	return [selfSpecifier autorelease];
+	return selfSpecifier;
 }
 
 @end

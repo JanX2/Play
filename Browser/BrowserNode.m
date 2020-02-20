@@ -49,21 +49,21 @@
 + (id) nodeWithName:(NSString *)name
 {
 	BrowserNode *result = [[BrowserNode alloc] initWithName:name];
-	return [result autorelease];
+	return result;
 }
 
 + (id) nodeWithIcon:(NSImage *)icon
 {
 	BrowserNode *result = [[BrowserNode alloc] init];
 	[result setIcon:icon];
-	return [result autorelease];
+	return result;
 }
 
 + (id) nodeWithName:(NSString *)name icon:(NSImage *)icon
 {
 	BrowserNode *result = [[BrowserNode alloc] initWithName:name];
 	[result setIcon:icon];
-	return [result autorelease];
+	return result;
 }
 
 - (id) init
@@ -79,7 +79,7 @@
 	
 	if((self = [super init])) {
 		_children = [[NSMutableArray alloc] init];
-		_name = [name retain];
+		_name = name;
 	}
 	return self;
 }
@@ -87,13 +87,6 @@
 - (void) dealloc
 {
 	[self removeAllChildren];
-	
-	[_children release], _children = nil;
-	
-	[_name release], _name = nil;
-	[_icon release], _icon = nil;
-	
-	[super dealloc];
 }
 
 - (NSComparisonResult) compare:(BrowserNode *)node
@@ -105,13 +98,12 @@
 
 - (NSString *) name
 {
-	return [[_name retain] autorelease];
+	return _name;
 }
 
 - (void) setName:(NSString *)name
 {
-	[_name release];
-	_name = [name retain];
+	_name = name;
 }
 
 - (BOOL) nameIsEditable
@@ -121,13 +113,12 @@
 
 - (NSImage *) icon
 {
-	return [[_icon retain] autorelease];
+	return _icon;
 }
 
 - (void) setIcon:(NSImage *)icon
 {
-	[_icon release];
-	_icon = [icon retain];
+	_icon = icon;
 }
 
 #pragma mark Relationship traversal
@@ -142,7 +133,7 @@
 
 - (BrowserNode *) parent
 {
-	return [[_parent retain] autorelease];
+	return _parent;
 }
 
 - (NSUInteger) childCount
@@ -297,7 +288,7 @@
 	return [_children objectAtIndex:thisIndex];
 }
 
-- (void) getChildren:(id *)buffer range:(NSRange)range
+- (void) getChildren:(__unsafe_unretained id *)buffer range:(NSRange)range
 {
 	return [_children getObjects:buffer range:range];
 }

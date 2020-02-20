@@ -180,7 +180,7 @@ buildMusicBrainzResultArray(MusicBrainz::Query &q, MusicBrainz::TrackResultList 
 		delete track;
 	}
 	
-	return [resultArray autorelease];
+	return resultArray;
 }
 
 NSArray *

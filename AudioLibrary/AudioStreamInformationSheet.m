@@ -28,7 +28,6 @@
 		BOOL result = [NSBundle loadNibNamed:@"AudioStreamInformationSheet" owner:self];
 		if(NO == result) {
 			NSLog(@"Missing resource: \"AudioStreamInformationSheet.nib\".");
-			[self release];
 			return nil;
 		}
 	}
@@ -46,23 +45,20 @@
 	[_channelsTextField setFormatter:numberFormatter];
 	[_playCountTextField setFormatter:numberFormatter];
 	[_skipCountTextField setFormatter:numberFormatter];
-	[numberFormatter release];
-
+	
 	// Sample Rate
 	NSNumberFormatter *sampleRateFormatter = [[NSNumberFormatter alloc] init];
 	[sampleRateFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	[sampleRateFormatter setPositiveSuffix:NSLocalizedStringFromTable(@" Hz", @"Formats", @"")];
 	
 	[_sampleRateTextField setFormatter:sampleRateFormatter];
-	[sampleRateFormatter release];
-
+	
 	// Sample Size
 	NSNumberFormatter *sampleSizeFormatter = [[NSNumberFormatter alloc] init];
 	[sampleSizeFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	[sampleSizeFormatter setPositiveSuffix:NSLocalizedStringFromTable(@" bits", @"Formats", @"")];
 	
 	[_sampleSizeTextField setFormatter:sampleSizeFormatter];
-	[sampleSizeFormatter release];
 	
 	// Bitrate
 	NSNumberFormatter *bitrateFormatter = [[NSNumberFormatter alloc] init];
@@ -73,8 +69,7 @@
 	[bitrateFormatter setPositiveSuffix:NSLocalizedStringFromTable(@" bps", @"Formats", @"")];
 
 	[_bitrateTextField setFormatter:bitrateFormatter];
-	[bitrateFormatter release];
-
+	
 	// Dates
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setDateStyle:NSDateFormatterFullStyle];
@@ -84,8 +79,7 @@
 	[_firstPlayedTextField setFormatter:dateFormatter];
 	[_lastPlayedTextField setFormatter:dateFormatter];
 	[_lastSkippedTextField setFormatter:dateFormatter];	
-	[dateFormatter release];
-
+	
 	// Decibel values
 	NSNumberFormatter *decibelFormatter = [[NSNumberFormatter alloc] init];
 	[decibelFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -96,7 +90,6 @@
 	[_referenceLoudnessTextField setFormatter:decibelFormatter];
 	[_trackGainTextField setFormatter:decibelFormatter];
 	[_albumGainTextField setFormatter:decibelFormatter];
-	[decibelFormatter release];
 	
 	// Peaks
 	NSNumberFormatter *peakFormatter = [[NSNumberFormatter alloc] init];
@@ -105,12 +98,11 @@
 	
 	[_trackPeakTextField setFormatter:peakFormatter];
 	[_albumPeakTextField setFormatter:peakFormatter];
-	[peakFormatter release];	
 }
 
 - (NSWindow *) sheet
 {
-	return [[_sheet retain] autorelease];
+	return _sheet;
 }
 
 - (IBAction) ok:(id)sender
@@ -141,7 +133,6 @@
 			image	= [[NSImage alloc] initWithContentsOfFile:[filenames objectAtIndex:i]];
 			if(nil != image) {
 //				[_stream setValue:[image TIFFRepresentation] forKeyPath:@"albumArt"];
-				[image release];
 			}
 		}
 	}		

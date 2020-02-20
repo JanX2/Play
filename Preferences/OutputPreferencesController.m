@@ -31,12 +31,6 @@
 	return self;
 }
 
-- (void) dealloc
-{
-	[_outputDevices release], _outputDevices = nil;
-	[super dealloc];
-}
-
 - (void) awakeFromNib
 {
 	UInt32 specifierSize = 0;

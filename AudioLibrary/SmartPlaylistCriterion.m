@@ -53,21 +53,11 @@ enum {
 		BOOL result = [NSBundle loadNibNamed:@"SmartPlaylistCriterion" owner:self];
 		if(NO == result) {
 			NSLog(@"Missing resource: \"SmartPlaylistCriterion.nib\".");
-			[self release];
 			return nil;
 		}
 	}
 	
 	return self;
-}
-
-- (void) dealloc
-{
-	[_view release],			_view = nil;
-	[_keyPath release],			_keyPath = nil;
-	[_searchTerm release],		_searchTerm = nil;
-	
-	[super dealloc];
 }
 
 - (void) awakeFromNib
@@ -79,8 +69,6 @@ enum {
 	
 	[[_dateCriterionViewPrototype viewWithTag:SearchTermControlTag] setFormatter:dateFormatter];
 	
-	[dateFormatter release];
-
 	// Set localized number formatters
 	NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
 	[numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -92,8 +80,6 @@ enum {
 	[[_decimalCriterionViewPrototype viewWithTag:SearchTermControlTag] setFormatter:numberFormatter];
 	[[_floatCriterionViewPrototype viewWithTag:SearchTermControlTag] setFormatter:numberFormatter];
 	[[_doubleCriterionViewPrototype viewWithTag:SearchTermControlTag] setFormatter:numberFormatter];
-	
-	[numberFormatter release];
 	
 	// Reasonable defaults
 	_predicateType	= NSEqualToPredicateOperatorType;
@@ -120,7 +106,7 @@ enum {
 
 - (NSView *) view
 {
-	return [[_view retain] autorelease];
+	return _view;
 }
 
 - (NSAttributeType) attributeType
@@ -190,13 +176,12 @@ enum {
 
 - (NSString *) keyPath
 {
-	return [[_keyPath retain] autorelease];
+	return _keyPath;
 }
 
 - (void) setKeyPath:(NSString *)keyPath
 {
-	[_keyPath release];
-	_keyPath = [keyPath retain];
+	_keyPath = keyPath;
 	
 	// First determine the object type of the keyPath that was selected
 	NSPopUpButton	*popUpButton		= [[self view] viewWithTag:KeyPathPopupButtonTag];
@@ -222,13 +207,12 @@ enum {
 
 - (id) searchTerm
 {
-	return [[_searchTerm retain] autorelease];
+	return _searchTerm;
 }
 
 - (void) setSearchTerm:(id)searchTerm
 {
-	[_searchTerm release];
-	_searchTerm = [searchTerm retain];
+	_searchTerm = searchTerm;
 }
 
 - (NSPredicate *) predicate
@@ -266,8 +250,7 @@ enum {
 
 - (void) setView:(NSView *)view
 {
-	[_view release];
-	_view = [view retain];
+	_view = view;
 }
 
 - (void) setupKeyPathPopUpButton
@@ -301,7 +284,7 @@ enum {
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:[self displayNameForKeyPath:keyPath]];
 			[menuItem setRepresentedObject:[self propertiesDictionaryForKeyPath:keyPath]];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 		}
 	}
 }
@@ -325,32 +308,32 @@ enum {
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is equal to", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSEqualToPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is not equal to", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSNotEqualToPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is less than", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSLessThanPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is less than or equal to", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSLessThanOrEqualToPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is greater than", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSGreaterThanPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is greater than or equal to", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSGreaterThanOrEqualToPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			break;
 			
@@ -358,32 +341,32 @@ enum {
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSEqualToPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is not", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSNotEqualToPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"contains", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSInPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"starts with", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSBeginsWithPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"ends with", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSEndsWithPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"matches", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSMatchesPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			break;
 			
@@ -391,12 +374,12 @@ enum {
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSEqualToPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is not", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSNotEqualToPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 
 			break;
 			
@@ -404,32 +387,32 @@ enum {
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSEqualToPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is not", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSNotEqualToPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is before", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSLessThanPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is or is before", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSLessThanOrEqualToPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is after", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSGreaterThanPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 			
 			menuItem = [[NSMenuItem alloc] init];
 			[menuItem setTitle:NSLocalizedStringFromTable(@"is or is after", @"SmartPlaylistCriteria", @"")];
 			[menuItem setTag:NSGreaterThanOrEqualToPredicateOperatorType];
-			[buttonMenu addItem:[menuItem autorelease]];
+			[buttonMenu addItem:menuItem];
 
 			break;
 			

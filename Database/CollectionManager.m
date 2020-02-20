@@ -142,25 +142,12 @@ static CollectionManager *collectionManagerInstance = nil;
 
 + (CollectionManager *) manager
 {
-	@synchronized(self) {
-		if(nil == collectionManagerInstance) {
-			// assignment not done here
-			[[self alloc] init];
-		}
-	}
-	return collectionManagerInstance;
-}
-
-+ (id) allocWithZone:(NSZone *)zone
-{
-    @synchronized(self) {
-        if(nil == collectionManagerInstance) {
-			// assignment and return on first allocation
-            collectionManagerInstance = [super allocWithZone:zone];
-			return collectionManagerInstance;
-        }
-    }
-    return nil;
+    static dispatch_once_t onceToken;
+    static CollectionManager *collectionManagerInstance = nil;
+    dispatch_once(&onceToken, ^{
+        collectionManagerInstance = [[self alloc] init];
+    });
+    return collectionManagerInstance;
 }
 
 - (id) init
@@ -170,68 +157,49 @@ static CollectionManager *collectionManagerInstance = nil;
 	return self;
 }
 
-- (void) dealloc
-{
-	[_sql release], _sql = nil;
-	[_streamManager release], _streamManager = nil;
-	[_playlistManager release], _playlistManager = nil;
-	[_smartPlaylistManager release], _smartPlaylistManager = nil;
-	[_watchFolderManager release], _watchFolderManager = nil;
-
-	[_undoManager release], _undoManager = nil;
-
-	[super dealloc];
-}
-
-- (id) 			copyWithZone:(NSZone *)zone			{ return self; }
-- (id) 			retain								{ return self; }
-- (NSUInteger) 	retainCount							{ return NSUIntegerMax;  /* denotes an object that cannot be released */ }
-- (oneway void) release								{ /* do nothing */ }
-- (id) 			autorelease							{ return self; }
-
 - (AudioStreamManager *) streamManager
 {
-	@synchronized(self) {
-		if(nil == _streamManager)
-			_streamManager = [[AudioStreamManager alloc] init];
-	}
-	return _streamManager;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _streamManager = [[AudioStreamManager alloc] init];
+    });
+    return _streamManager;
 }
 
 - (PlaylistManager *) playlistManager
 {
-	@synchronized(self) {
-		if(nil == _playlistManager)
-			_playlistManager = [[PlaylistManager alloc] init];
-	}
-	return _playlistManager;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _playlistManager = [[PlaylistManager alloc] init];
+    });
+    return _playlistManager;
 }
 
 - (SmartPlaylistManager *) smartPlaylistManager
 {
-	@synchronized(self) {
-		if(nil == _smartPlaylistManager)
-			_smartPlaylistManager = [[SmartPlaylistManager alloc] init];
-	}
-	return _smartPlaylistManager;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _smartPlaylistManager = [[SmartPlaylistManager alloc] init];
+    });
+    return _smartPlaylistManager;
 }
 
 - (WatchFolderManager *) watchFolderManager
 {
-	@synchronized(self) {
-		if(nil == _watchFolderManager)
-			_watchFolderManager = [[WatchFolderManager alloc] init];
-	}
-	return _watchFolderManager;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _watchFolderManager = [[WatchFolderManager alloc] init];
+    });
+    return _watchFolderManager;
 }
 
 - (NSUndoManager *) undoManager
 {
-	@synchronized(self) {
-		if(nil == _undoManager)
-			_undoManager = [[NSUndoManager alloc] init];
-	}
-	return _undoManager;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _undoManager = [[NSUndoManager alloc] init];
+    });
+    return _undoManager;
 }
 
 - (void) reset
@@ -319,7 +287,6 @@ static CollectionManager *collectionManagerInstance = nil;
 		
 		// Display the alert
 		[alert runModal];
-		[alert release];
 		
 		if(NO == [self connectToDatabase:databasePath error:error])
 			return NO;
@@ -350,7 +317,6 @@ static CollectionManager *collectionManagerInstance = nil;
 		
 		// Display the alert
 		[alert runModal];
-		[alert release];
 		
 		if(NO == [self connectToDatabase:databasePath error:error])
 			return NO;

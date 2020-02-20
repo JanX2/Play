@@ -13,7 +13,7 @@
 
 + (PointerWrapper *) pointerWrapperWithPointer: (sqlite3_stmt *) pointer
 {
-    return [[[PointerWrapper alloc] initWithPointer:pointer] autorelease];
+    return [[PointerWrapper alloc] initWithPointer:pointer];
 }
 
 - (PointerWrapper *) initWithPointer: (sqlite3_stmt *) pointer

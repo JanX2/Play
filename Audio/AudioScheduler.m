@@ -61,51 +61,49 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 	NSCParameterAssert(NULL != userData);
 	NSCParameterAssert(NULL != slice);
 	
-	NSAutoreleasePool		*pool		= [[NSAutoreleasePool alloc] init];
-	NSArray					*dataArray	= (NSArray *)userData;
-	AudioScheduler			*scheduler	= (AudioScheduler *)[dataArray objectAtIndex:0];
-	ScheduledAudioRegion	*region		= (ScheduledAudioRegion *)[dataArray objectAtIndex:1];
-
+	@autoreleasepool {
+		NSArray					*dataArray	= (__bridge_transfer NSArray *)userData;
+		AudioScheduler			*scheduler	= (AudioScheduler *)[dataArray objectAtIndex:0];
+		ScheduledAudioRegion	*region		= (ScheduledAudioRegion *)[dataArray objectAtIndex:1];
+		
 #if DEBUG
-	if(kScheduledAudioSliceFlag_BeganToRenderLate & slice->mFlags)
-		NSLog(@"AudioScheduler error: kScheduledAudioSliceFlag_BeganToRenderLate (starting sample %"PRId64 ")", (SInt64)slice->mTimeStamp.mSampleTime);
+		if(kScheduledAudioSliceFlag_BeganToRenderLate & slice->mFlags)
+			NSLog(@"AudioScheduler error: kScheduledAudioSliceFlag_BeganToRenderLate (starting sample %"PRId64 ")", (SInt64)slice->mTimeStamp.mSampleTime);
 #endif
-
-	// Determine if this render represents a  new region
-	if(/*(kScheduledAudioSliceFlag_BeganToRender & slice->mFlags) &&*/ nil == [scheduler regionBeingRendered]) {
-
-		// Update the scheduler
-		[scheduler setRegionBeingRendered:region];
-
-		// Notify the delegate
-		if(nil != [scheduler delegate] && [[scheduler delegate] respondsToSelector:@selector(audioSchedulerStartedRenderingRegion:)])
-			[[scheduler delegate] performSelectorOnMainThread:@selector(audioSchedulerStartedRenderingRegion:)
-												   withObject:[NSDictionary dictionaryWithObjectsAndKeys:scheduler, AudioSchedulerObjectKey, [scheduler regionBeingRendered], ScheduledAudioRegionObjectKey, nil]
-												waitUntilDone:NO];
-	}
-
-	// Record the number of frames rendered
-//	if(kScheduledAudioSliceFlag_BeganToRender & slice->mFlags)
+		
+		// Determine if this render represents a  new region
+		if(/*(kScheduledAudioSliceFlag_BeganToRender & slice->mFlags) &&*/ nil == [scheduler regionBeingRendered]) {
+			
+			// Update the scheduler
+			[scheduler setRegionBeingRendered:region];
+			
+			// Notify the delegate
+			if(nil != [scheduler delegate] && [[scheduler delegate] respondsToSelector:@selector(audioSchedulerStartedRenderingRegion:)])
+				[[scheduler delegate] performSelectorOnMainThread:@selector(audioSchedulerStartedRenderingRegion:)
+													   withObject:[NSDictionary dictionaryWithObjectsAndKeys:scheduler, AudioSchedulerObjectKey, [scheduler regionBeingRendered], ScheduledAudioRegionObjectKey, nil]
+													waitUntilDone:NO];
+		}
+		
+		// Record the number of frames rendered
+		//	if(kScheduledAudioSliceFlag_BeganToRender & slice->mFlags)
 		[scheduler renderedAdditionalFrames:slice->mNumberFrames];
-
-	// Signal the scheduling thread that a slice is available for filling
-	semaphore_signal([scheduler semaphore]);
-
-	// Determine if region rendering is complete
-	if([[scheduler regionBeingRendered] atEnd] && [[scheduler regionBeingRendered] framesRendered] == [[scheduler regionBeingRendered] framesScheduled]) {
-
-		// Notify the delegate
-		if(nil != [scheduler delegate] && [[scheduler delegate] respondsToSelector:@selector(audioSchedulerFinishedRenderingRegion:)])
-			[[scheduler delegate] performSelectorOnMainThread:@selector(audioSchedulerFinishedRenderingRegion:)
-												   withObject:[NSDictionary dictionaryWithObjectsAndKeys:scheduler, AudioSchedulerObjectKey, [scheduler regionBeingRendered], ScheduledAudioRegionObjectKey, nil]
-												waitUntilDone:NO];
-
-		// Update the scheduler
-		[scheduler setRegionBeingRendered:nil];
+		
+		// Signal the scheduling thread that a slice is available for filling
+		semaphore_signal([scheduler semaphore]);
+		
+		// Determine if region rendering is complete
+		if([[scheduler regionBeingRendered] atEnd] && [[scheduler regionBeingRendered] framesRendered] == [[scheduler regionBeingRendered] framesScheduled]) {
+			
+			// Notify the delegate
+			if(nil != [scheduler delegate] && [[scheduler delegate] respondsToSelector:@selector(audioSchedulerFinishedRenderingRegion:)])
+				[[scheduler delegate] performSelectorOnMainThread:@selector(audioSchedulerFinishedRenderingRegion:)
+													   withObject:[NSDictionary dictionaryWithObjectsAndKeys:scheduler, AudioSchedulerObjectKey, [scheduler regionBeingRendered], ScheduledAudioRegionObjectKey, nil]
+													waitUntilDone:NO];
+			
+			// Update the scheduler
+			[scheduler setRegionBeingRendered:nil];
+		}
 	}
-
-	[dataArray release];
-	[pool release];
 }
 
 @implementation AudioScheduler
@@ -116,7 +114,6 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 		kern_return_t result = semaphore_create(mach_task_self(), &_semaphore, SYNC_POLICY_FIFO, 0);		
 		if(KERN_SUCCESS != result) {
 			mach_error("Couldn't create semaphore", result);
-			[self release];
 			return nil;
 		}
 		
@@ -133,14 +130,6 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 {
 	if([self isScheduling])
 		[self stopScheduling];
-
-	[_regionBeingScheduled release], _regionBeingScheduled = nil;
-	[_regionBeingRendered release], _regionBeingRendered = nil;
-
-	[_scheduledAudioRegions release], _scheduledAudioRegions = nil;
-	_delegate = nil;
-
-	[super dealloc];
 }
 
 - (NSUInteger) numberOfSlicesInBuffer
@@ -224,7 +213,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 			NSLog(@"Cannot unschedule the current ScheduledAudioRegion while scheduling audio slices");
 		else
 			// This operation is thread safe as long as the scheduling thread isn't active
-			[_regionBeingScheduled release], _regionBeingScheduled = nil;
+			_regionBeingScheduled = nil;
 		
 		return;
 	}
@@ -236,12 +225,12 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 
 - (ScheduledAudioRegion *) regionBeingScheduled
 {
-	return [[_regionBeingScheduled retain] autorelease];
+	return _regionBeingScheduled;
 }
 
 - (ScheduledAudioRegion *) regionBeingRendered
 {
-	return [[_regionBeingRendered retain] autorelease];
+	return _regionBeingRendered;
 }
 
 - (void) startScheduling
@@ -363,12 +352,12 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 
 - (void) setRegionBeingScheduled:(ScheduledAudioRegion *)region
 {
-	[_regionBeingScheduled release], _regionBeingScheduled = [region retain];
+	_regionBeingScheduled = region;
 }
 
 - (void) setRegionBeingRendered:(ScheduledAudioRegion *)region
 {
-	[_regionBeingRendered release], _regionBeingRendered = [region retain];
+	_regionBeingRendered = region;
 }
 
 - (BOOL)			keepScheduling					{ return _keepScheduling; }
@@ -385,9 +374,8 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 	[[self regionBeingRendered] renderedAdditionalFrames:frameCount];
 }
 
-- (void) processSlicesInThread:(id)dummy
+- (void) processSlicesInThread
 {
-	NSAutoreleasePool		*pool				= [[NSAutoreleasePool alloc] init];
 	mach_timespec_t			timeout				= { 2, 0 };
 	ScheduledAudioSlice		*slice				= NULL;
 	UInt32					frameCount			= 0;
@@ -466,7 +454,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 					slice->mTimeStamp.mFlags		= kAudioTimeStampSampleTimeValid;
 					slice->mTimeStamp.mSampleTime	= [self scheduledStartTime].mSampleTime + [self framesScheduled];
 					slice->mCompletionProc			= scheduledAudioSliceCompletionProc;
-					slice->mCompletionProcUserData	= (void *)array;
+					slice->mCompletionProcUserData	= (__bridge_retained void *)array;
 					slice->mFlags					= 0;
 					slice->mNumberFrames			= frameCount;
 					
@@ -477,7 +465,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 															   slice, 
 															   sizeof(ScheduledAudioSlice));
 					if(noErr != err) {
-						NSLog(@"AudioScheduler: Unable to schedule audio slice: %ld", err);
+						NSLog(@"AudioScheduler: Unable to schedule audio slice: %d", (int)err);
 						slice->mFlags = kScheduledAudioSliceFlag_Complete;
 						continue;
 					}
@@ -503,8 +491,13 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 	// Notify the delegate that scheduling has stopped
 	if(nil != [self delegate] && [[self delegate] respondsToSelector:@selector(audioSchedulerStoppedScheduling:)])
 		[[self delegate] performSelectorOnMainThread:@selector(audioSchedulerStoppedScheduling:) withObject:self waitUntilDone:NO];
-	
-	[pool release];
+}
+
+- (void) processSlicesInThread:(id)dummy
+{
+	@autoreleasepool {
+		[self processSlicesInThread];
+	}
 }
 
 - (void) setThreadPolicy

@@ -41,25 +41,12 @@ NSString * const	AdvancedPreferencesToolbarItemIdentifier					= @"org.sbooth.Pla
 
 + (PreferencesController *) sharedPreferences
 {
-	@synchronized(self) {
-		if(nil == sharedPreferences) {
-			// assignment not done here
-			[[self alloc] init];
-		}
-	}
-	return sharedPreferences;
-}
-
-+ (id) allocWithZone:(NSZone *)zone
-{
-    @synchronized(self) {
-        if(nil == sharedPreferences) {
-			// assignment and return on first allocation
-            sharedPreferences = [super allocWithZone:zone];
-			return sharedPreferences;
-        }
-    }
-    return nil;
+    static dispatch_once_t onceToken;
+    static PreferencesController *sharedPreferences = nil;
+    dispatch_once(&onceToken, ^{
+        sharedPreferences = [[PreferencesController alloc] init];
+    });
+    return sharedPreferences;
 }
 
 - (id) init
@@ -70,11 +57,6 @@ NSString * const	AdvancedPreferencesToolbarItemIdentifier					= @"org.sbooth.Pla
 	return nil;
 }
 
-- (id)			copyWithZone:(NSZone *)zone						{ return self; }
-- (id)			retain											{ return self; }
-- (NSUInteger)	retainCount										{ return NSUIntegerMax;  /* denotes an object that cannot be released */ }
-- (oneway void)	release											{ /* do nothing */ }
-- (id)			autorelease										{ return self; }
 
 - (void) awakeFromNib
 {
@@ -85,7 +67,6 @@ NSString * const	AdvancedPreferencesToolbarItemIdentifier					= @"org.sbooth.Pla
 	
 	[[self window] setShowsToolbarButton:NO];
     [[self window] setToolbar:toolbar];
-	[toolbar release];
 }
 
 - (void) windowDidLoad
@@ -143,16 +124,13 @@ NSString * const	AdvancedPreferencesToolbarItemIdentifier					= @"org.sbooth.Pla
 	newFrameRect		= NSMakeRect(NSMinX(windowFrame), NSMaxY(windowFrame) - newWindowHeight, newWindowWidth, newWindowHeight);
 	newWindowFrame		= [NSWindow frameRectForContentRect:newFrameRect styleMask:[myWindow styleMask]];
 	
-	[myWindow setContentView:[[[NSView alloc] init] autorelease]];
+	[myWindow setContentView:[[NSView alloc] init]];
 	[myWindow setTitle:[[self toolbar:toolbar itemForItemIdentifier:itemIdentifier willBeInsertedIntoToolbar:NO] label]];
 	[myWindow setFrame:newWindowFrame display:YES animate:[myWindow isVisible]];
-	[myWindow setContentView:[prefView retain]];
+	[myWindow setContentView:prefView];
 	
 	// Save the selected pane
 	[[NSUserDefaults standardUserDefaults] setObject:itemIdentifier forKey:@"selectedPreferencePane"];
-	
-	// FIXME: Leaking
-	//[prefPaneObject release];
 }
 
 @end
@@ -164,7 +142,7 @@ NSString * const	AdvancedPreferencesToolbarItemIdentifier					= @"org.sbooth.Pla
     NSToolbarItem *toolbarItem = nil;
 	
     if([itemIdentifier isEqualToString:GeneralPreferencesToolbarItemIdentifier]) {
-        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
+        toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		
 		[toolbarItem setLabel:NSLocalizedStringFromTable(@"General", @"Preferences", @"")];
 		[toolbarItem setPaletteLabel:NSLocalizedStringFromTable(@"General", @"Preferences", @"")];		
@@ -175,7 +153,7 @@ NSString * const	AdvancedPreferencesToolbarItemIdentifier					= @"org.sbooth.Pla
 		[toolbarItem setAction:@selector(selectPreferencePaneUsingToolbar:)];
 	}
     else if([itemIdentifier isEqualToString:HotKeyPreferencesToolbarItemIdentifier]) {
-        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
+        toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		
 		[toolbarItem setLabel:NSLocalizedStringFromTable(@"Hot Keys", @"Preferences", @"")];
 		[toolbarItem setPaletteLabel:NSLocalizedStringFromTable(@"Hot Keys", @"Preferences", @"")];
@@ -186,7 +164,7 @@ NSString * const	AdvancedPreferencesToolbarItemIdentifier					= @"org.sbooth.Pla
 		[toolbarItem setAction:@selector(selectPreferencePaneUsingToolbar:)];
 	}
     else if([itemIdentifier isEqualToString:OutputPreferencesToolbarItemIdentifier]) {
-        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
+        toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		
 		[toolbarItem setLabel:NSLocalizedStringFromTable(@"Output", @"Preferences", @"")];
 		[toolbarItem setPaletteLabel:NSLocalizedStringFromTable(@"Output", @"Preferences", @"")];
@@ -197,7 +175,7 @@ NSString * const	AdvancedPreferencesToolbarItemIdentifier					= @"org.sbooth.Pla
 		[toolbarItem setAction:@selector(selectPreferencePaneUsingToolbar:)];
 	}
     else if([itemIdentifier isEqualToString:DSPPreferencesToolbarItemIdentifier]) {
-        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
+        toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		
 		[toolbarItem setLabel:NSLocalizedStringFromTable(@"DSP", @"Preferences", @"")];
 		[toolbarItem setPaletteLabel:NSLocalizedStringFromTable(@"DSP", @"Preferences", @"")];
@@ -208,7 +186,7 @@ NSString * const	AdvancedPreferencesToolbarItemIdentifier					= @"org.sbooth.Pla
 		[toolbarItem setAction:@selector(selectPreferencePaneUsingToolbar:)];
 	}
     else if([itemIdentifier isEqualToString:AdvancedPreferencesToolbarItemIdentifier]) {
-        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
+        toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		
 		[toolbarItem setLabel:NSLocalizedStringFromTable(@"Advanced", @"Preferences", @"")];
 		[toolbarItem setPaletteLabel:NSLocalizedStringFromTable(@"Advanced", @"Preferences", @"")];

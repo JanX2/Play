@@ -62,8 +62,6 @@
 	int result = ov_clear(&_vf); 
 	if(0 != result)
 		NSLog(@"ov_clear failed");
-	
-	[super dealloc];
 }
 
 - (SInt64)			totalFrames						{ return ov_pcm_total(&_vf, -1); }

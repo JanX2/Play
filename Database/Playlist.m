@@ -45,9 +45,9 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 	[playlist initValuesForKeysWithDictionary:keyedValues];
 	
 	if(NO == [[[CollectionManager manager] playlistManager] insertPlaylist:playlist])
-		[playlist release], playlist = nil;
+		playlist = nil;
 	
-	return [playlist autorelease];
+	return playlist;
 }
 
 - (id) init
@@ -57,18 +57,11 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 	return self;
 }
 
-- (void) dealloc
-{
-	[_streams release], _streams = nil;
-	
-	[super dealloc];
-}
-
 #pragma mark Stream Management
 
 - (NSArray *) streams
 {
-	return [[_streams retain] autorelease];
+	return _streams;
 }
 
 - (AudioStream *) streamAtIndex:(NSUInteger)thisIndex
@@ -197,7 +190,7 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 	return [_streams objectAtIndex:thisIndex];
 }
 
-- (void) getStreams:(id *)buffer range:(NSRange)range
+- (void) getStreams:(__unsafe_unretained id *)buffer range:(NSRange)range
 {
 	return [_streams getObjects:buffer range:range];
 }
@@ -289,7 +282,7 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 	return [self objectInStreamsAtIndex:thisIndex];	
 }
 
-- (void) getTracks:(id *)buffer range:(NSRange)range
+- (void) getTracks:(__unsafe_unretained id *)buffer range:(NSRange)range
 {
 	[self getStreams:buffer range:range];	
 }
@@ -309,7 +302,7 @@ NSString * const	StatisticsDateCreatedKey				= @"dateCreated";
 																												 key:@"playlists" 
 																											uniqueID:[self valueForKey:ObjectIDKey]];
 	
-	return [selfSpecifier autorelease];
+	return selfSpecifier;
 }
 
 @end

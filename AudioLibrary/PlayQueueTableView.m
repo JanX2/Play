@@ -39,7 +39,6 @@
 	[self registerForDraggedTypes:[NSArray arrayWithObjects:PlayQueueTableMovedRowsPboardType, AudioStreamPboardType, NSFilenamesPboardType, NSURLPboardType, iTunesPboardType, nil]];
 	NSFormatter *formatter = [[SecondsFormatter alloc] init];
 	[[[self tableColumnWithIdentifier:@"duration"] dataCell] setFormatter:formatter];
-	[formatter release];
 	_highlightedRow = -1;
 }
 
@@ -121,8 +120,6 @@
 		[highlightImage compositeToPoint:NSMakePoint(rowRect.origin.x, rowRect.origin.y + [highlightImage size].height)
 							   operation:NSCompositeSourceAtop
 								fraction:1.0f];
-		
-		[highlightImage release];
 	}
 }
 

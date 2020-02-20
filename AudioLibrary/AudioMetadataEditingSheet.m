@@ -30,7 +30,6 @@
 		BOOL result = [NSBundle loadNibNamed:@"AudioMetadataEditingSheet" owner:self];
 		if(NO == result) {
 			NSLog(@"Missing resource: \"AudioMetadataEditingSheet.nib\".");
-			[self release];
 			return nil;
 		}
 	}
@@ -48,12 +47,11 @@
 	[_discNumberTextField setFormatter:numberFormatter];
 	[_discTotalTextField setFormatter:numberFormatter];
 	[_bpmTextField setFormatter:numberFormatter];
-	[numberFormatter release];
 }
 
 - (NSWindow *) sheet
 {
-	return [[_sheet retain] autorelease];
+	return _sheet;
 }
 
 - (IBAction) ok:(id)sender
@@ -97,7 +95,7 @@
 			[result addObject:stream];
 	}
 	
-	return [result autorelease];
+	return result;
 }
 
 - (NSArray *) genres

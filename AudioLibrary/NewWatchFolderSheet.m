@@ -28,20 +28,10 @@
 		BOOL result = [NSBundle loadNibNamed:@"NewWatchFolderSheet" owner:self];
 		if(NO == result) {
 			NSLog(@"Missing resource: \"NewWatchFolderSheet.nib\".");
-			[self release];
 			return nil;
 		}		
 	}
 	return self;
-}
-
-- (void) dealloc
-{
-	[_name release], _name = nil;
-	[_url release], _url = nil;
-	[_owner release], _owner = nil;
-	
-	[super dealloc];
 }
 
 - (NSWindow *) sheet

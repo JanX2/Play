@@ -66,8 +66,6 @@
 {
 	[[[CollectionManager manager] streamManager] removeObserver:self forKeyPath:@"streams"];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[super dealloc];
 }
 
 - (void) loadStreams

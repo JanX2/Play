@@ -33,13 +33,6 @@
 	[self exposeBinding:@"streams"];
 }
 
-- (void) dealloc
-{
-	[_streams release], _streams = nil;
-	
-	[super dealloc];
-}
-
 - (void) loadStreams
 {}
 
@@ -58,7 +51,7 @@
 
 - (NSUInteger)		countOfStreams											{ return [[self streamsArray] count]; }
 - (AudioStream *)	objectInStreamsAtIndex:(NSUInteger)thisIndex			{ return [[self streamsArray] objectAtIndex:thisIndex]; }
-- (void)			getStreams:(id *)buffer range:(NSRange)aRange			{ return [[self streamsArray] getObjects:buffer range:aRange]; }
+- (void)			getStreams:(__unsafe_unretained id *)buffer range:(NSRange)aRange			{ return [[self streamsArray] getObjects:buffer range:aRange]; }
 
 #pragma mark KVC Mutators
 

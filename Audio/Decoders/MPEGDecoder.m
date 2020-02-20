@@ -109,7 +109,6 @@ audio_linear_round(unsigned int bits,
 										 userInfo:errorDictionary];
 			}
 			
-			[self release];
 			return nil;
 		}
 		
@@ -119,7 +118,6 @@ audio_linear_round(unsigned int bits,
 		
 		// Scan file to determine sample rate, channels, total frames, etc
 		if(NO == [self scanFile]) {
-			[self release];
 			return nil;
 		}
 		
@@ -158,17 +156,15 @@ audio_linear_round(unsigned int bits,
 	mad_frame_finish(&_mad_frame);
 	mad_stream_finish(&_mad_stream);
 	
-	free(_inputBuffer), _inputBuffer = NULL;
-	fclose(_file), _file = NULL;
+	free(_inputBuffer);
+	fclose(_file);
 	
 	if(_bufferList) {
 		NSUInteger i;
 		for(i = 0; i < _bufferList->mNumberBuffers; ++i)
-			free(_bufferList->mBuffers[i].mData), _bufferList->mBuffers[i].mData = NULL;	
-		free(_bufferList), _bufferList = NULL;
+			free(_bufferList->mBuffers[i].mData);	
+		free(_bufferList);
 	}
-	
-	[super dealloc];
 }
 
 - (SInt64)			totalFrames						{ return _totalFrames; }

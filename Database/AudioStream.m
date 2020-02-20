@@ -134,9 +134,9 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 	[stream updateURLBookmark];
 	
 	if(NO == [[[CollectionManager manager] streamManager] insertStream:stream])
-		[stream release], stream = nil;
+		stream = nil;
 	
-	return [stream autorelease];
+	return stream;
 }
 
 - (IBAction) resetPlayCount:(id)sender
@@ -547,7 +547,7 @@ NSString * const	IsPlayingKey							= @"isPlaying";
 																													 key:@"tracks" 
 																												uniqueID:[self valueForKey:ObjectIDKey]];
 	
-	return [selfSpecifier autorelease];
+	return selfSpecifier;
 }
 
 @end

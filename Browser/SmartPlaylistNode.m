@@ -38,7 +38,7 @@
 	NSParameterAssert(nil != playlist);
 	
 	if((self = [super initWithName:[playlist valueForKey:PlaylistNameKey]])) {
-		_playlist = [playlist retain];
+		_playlist = playlist;
 
 		[_playlist addObserver:self forKeyPath:PlaylistNameKey options:NSKeyValueObservingOptionNew context:NULL];
 		[_playlist addObserver:self forKeyPath:SmartPlaylistPredicateKey options:NSKeyValueObservingOptionNew context:NULL];
@@ -78,10 +78,6 @@
 	[_playlist removeObserver:self forKeyPath:SmartPlaylistPredicateKey];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[_playlist release], _playlist = nil;
-	
-	[super dealloc];
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -96,8 +92,7 @@
 
 - (void) setName:(NSString *)name
 {
-	[_name release];
-	_name = [name retain];
+	_name = name;
 	
 	// Avoid an infinite loop- this can be called from bindings as well as from observeValueForKeyPath:
 	if(NO == [name isEqualToString:[[self smartPlaylist] valueForKey:PlaylistNameKey]]) {
@@ -135,7 +130,7 @@
 
 - (NSUInteger)		countOfStreams											{ return [[self smartPlaylist] countOfStreams]; }
 - (AudioStream *)	objectInStreamsAtIndex:(NSUInteger)thisIndex			{ return [[self smartPlaylist] objectInStreamsAtIndex:thisIndex]; }
-- (void)			getStreams:(id *)buffer range:(NSRange)aRange			{ return [[self smartPlaylist] getStreams:buffer range:aRange]; }
+- (void)			getStreams:(__unsafe_unretained id *)buffer range:(NSRange)aRange			{ return [[self smartPlaylist] getStreams:buffer range:aRange]; }
 
 #pragma mark KVC Mutators Overrides
 

@@ -38,21 +38,11 @@ const float CTSmallLabelSize = 11.0f;
   return self;
   }
 
-- (void)dealloc
-  {
-  if(badgeColor != nil)
-	[badgeColor release];
-  if(labelColor != nil)
-    [labelColor release];
-  
-  [super dealloc];
-  }
-
 + (CTBadge *)systemBadge
   {
   id newInstance = [[[self class] alloc] init];
   
-  return [newInstance autorelease];
+  return newInstance;
   }
 
 + (CTBadge *)badgeWithColor:(NSColor *)badgeColor labelColor:(NSColor *)labelColor;
@@ -62,7 +52,7 @@ const float CTSmallLabelSize = 11.0f;
   [newInstance setBadgeColor:badgeColor];
   [newInstance setLabelColor:labelColor];
   
-  return [newInstance autorelease];
+  return newInstance;
   }
 #pragma mark -
 
@@ -70,19 +60,11 @@ const float CTSmallLabelSize = 11.0f;
 #pragma mark Appearance
 - (void)setBadgeColor:(NSColor *)theColor;
   {
-  if(badgeColor != nil)
-	[badgeColor release];
-  
   badgeColor = theColor;
-  [badgeColor retain];
   }
 - (void)setLabelColor:(NSColor *)theColor;
   {
-  if(labelColor != nil)
-	[labelColor release];
-  
   labelColor = theColor;
-  [labelColor retain];
   }
 
 - (NSColor *)badgeColor
@@ -184,15 +166,12 @@ const float CTSmallLabelSize = 11.0f;
 	  [theShadow setShadowBlurRadius:shadowBlurRadius];
 	  [theShadow setShadowColor:[[NSColor blackColor] colorWithAlphaComponent:shadowOpacity]];
 	  [theShadow set];
-	  [theShadow release];
 	  [badgeImage compositeToPoint:NSZeroPoint operation:NSCompositeSourceOver];
 	[NSGraphicsContext restoreGraphicsState];
   [image unlockFocus];
   
-  [label release];
-  [badgeImage release];
   
-  return [image autorelease];
+  return image;
   }
 
 
@@ -207,7 +186,7 @@ const float CTSmallLabelSize = 11.0f;
 	  [badgeImage compositeToPoint:NSMakePoint(128-dx-badgeSize.width,128-dy-badgeSize.height) operation:NSCompositeSourceOver];  
   [overlayImage unlockFocus];
   
-  return [overlayImage autorelease];
+  return overlayImage;
   }
 
 - (void)badgeApplicationDockIconWithValue:(unsigned)value insetX:(float)dx y:(float)dy
@@ -248,7 +227,6 @@ const float CTSmallLabelSize = 11.0f;
   NSMutableParagraphStyle *pStyle = [[NSMutableParagraphStyle alloc] init];[pStyle setAlignment:NSCenterTextAlignment];
   NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:[self labelColor], NSForegroundColorAttributeName,
 																		  labelFont        , NSFontAttributeName           , nil];
-  [pStyle release];
   
   //Label stuff
   NSString *label;
@@ -259,8 +237,6 @@ const float CTSmallLabelSize = 11.0f;
 	label = [[NSString alloc] initWithUTF8String:"\xe2\x88\x9e"];
   
   NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:label attributes:attributes];
-  [label release];
-  [attributes release];
   
   return attributedString;
   }

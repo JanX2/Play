@@ -141,7 +141,7 @@ NSString *const AudioMetadataWriterErrorDomain = @"org.sbooth.Play.ErrorDomain.A
 		return nil;
 	}
 	
-	return [result autorelease];
+	return result;
 }
 
 - (BOOL)			writeMetadata:(id)metadata error:(NSError **)error			{ return NO; }

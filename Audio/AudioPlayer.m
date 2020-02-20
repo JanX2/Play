@@ -143,7 +143,7 @@ myAUEventListenerProc(void						*inCallbackRefCon,
 					  UInt64					inEventHostTime,
 					  Float32					inParameterValue)
 {
-//	AudioPlayer *myself = (AudioPlayer *)inCallbackRefCon;
+	AudioPlayer *myself = (__bridge_transfer AudioPlayer *)inCallbackRefCon;
 	
 	if(kAudioUnitEvent_ParameterValueChange == inEvent->mEventType) {
 	}
@@ -159,7 +159,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 								   AudioDevicePropertyID   inPropertyID,
 								   void*                   inClientData)
 {
-	AudioPlayer *myself = (AudioPlayer *)inClientData;
+	AudioPlayer *myself = (__bridge_transfer AudioPlayer *)inClientData;
 	
 	if(kAudioDevicePropertyNominalSampleRate == inPropertyID)
 		[myself outputDeviceSampleRateChanged];
@@ -206,14 +206,13 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 - (id) init
 {
 	if((self = [super init])) {
-		_runLoop = [[NSRunLoop currentRunLoop] retain];
+		_runLoop = [NSRunLoop currentRunLoop];
 		
-		OSStatus err = AUEventListenerCreate(myAUEventListenerProc, self,
+		OSStatus err = AUEventListenerCreate(myAUEventListenerProc, (__bridge_retained void * _Nullable)(self),
 											 CFRunLoopGetCurrent(), kCFRunLoopDefaultMode,
 											 0.1f, 0.1f,
 											 &_auEventListener);
 		if(noErr != err) {
-			[self release];
 			return nil;
 		}		
 		
@@ -245,7 +244,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 - (void) dealloc
 {
-	[_timer invalidate], _timer = nil;
+	[_timer invalidate];
 
 	if([self outputDeviceIsHogged])
 		[self stopHoggingOutputDevice];
@@ -259,15 +258,10 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 	[[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self 
 																 forKeyPath:@"values.outputAudioDeviceUID"];
-		
-	[_runLoop release], _runLoop = nil;
-	[_scheduler release], _scheduler = nil;
-	
-	[super dealloc];
 }
 
-- (AudioLibrary *)		owner									{ return [[_owner retain] autorelease]; }
-- (void)				setOwner:(AudioLibrary *)owner			{ [_owner release], _owner = [owner retain]; }
+- (AudioLibrary *)		owner									{ return _owner; }
+- (void)				setOwner:(AudioLibrary *)owner			{ _owner = owner; }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -1391,11 +1385,11 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			[auDictionary setValue:[NSNumber numberWithUnsignedLong:desc.componentSubType] forKey:AUSubTypeKey];
 			[auDictionary setValue:[NSNumber numberWithUnsignedLong:desc.componentManufacturer] forKey:AUManufacturerKey];
 
-			NSString *auNameAndManufacturer = (NSString *)CFStringCreateWithPascalString(kCFAllocatorDefault, (ConstStr255Param)(*componentNameHandle), kCFStringEncodingUTF8);
-			[auDictionary setValue:[auNameAndManufacturer autorelease] forKey:AUNameAndManufacturerStringKey];
+			NSString *auNameAndManufacturer = (NSString *)CFBridgingRelease(CFStringCreateWithPascalString(kCFAllocatorDefault, (ConstStr255Param)(*componentNameHandle), kCFStringEncodingUTF8));
+			[auDictionary setValue:auNameAndManufacturer forKey:AUNameAndManufacturerStringKey];
 
-			NSString *auInformation = (NSString *)CFStringCreateWithPascalString(kCFAllocatorDefault, (ConstStr255Param)(*componentInformationHandle), kCFStringEncodingUTF8);
-			[auDictionary setValue:[auInformation autorelease] forKey:AUInformationStringKey];
+			NSString *auInformation = (NSString *)CFBridgingRelease(CFStringCreateWithPascalString(kCFAllocatorDefault, (ConstStr255Param)(*componentInformationHandle), kCFStringEncodingUTF8));
+			[auDictionary setValue:auInformation forKey:AUInformationStringKey];
 
 			UInt32 thisIndex = [auNameAndManufacturer rangeOfString:@":" options:NSLiteralSearch].location;
 			if(NSNotFound != thisIndex) {
@@ -1430,7 +1424,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			}
 			
 			if(nil != iconImage)
-				[auDictionary setValue:[iconImage autorelease] forKey:AUIconKey];
+				[auDictionary setValue:iconImage forKey:AUIconKey];
 		}
 
 		DisposeHandle(componentNameHandle);
@@ -1442,7 +1436,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		[effects addObject:auDictionary];
 	}
 	
-	return [effects autorelease];
+	return effects;
 }
 
 - (NSArray *) availableEffects
@@ -1477,11 +1471,11 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			[auDictionary setValue:[NSNumber numberWithUnsignedLong:cd.componentSubType] forKey:AUSubTypeKey];
 			[auDictionary setValue:[NSNumber numberWithUnsignedLong:cd.componentManufacturer] forKey:AUManufacturerKey];
 			
-			NSString *auNameAndManufacturer = (NSString *)CFStringCreateWithPascalString(kCFAllocatorDefault, (ConstStr255Param)(*componentNameHandle), kCFStringEncodingUTF8);
-			[auDictionary setValue:[auNameAndManufacturer autorelease] forKey:AUNameAndManufacturerStringKey];
+			NSString *auNameAndManufacturer = (NSString *)CFBridgingRelease(CFStringCreateWithPascalString(kCFAllocatorDefault, (ConstStr255Param)(*componentNameHandle), kCFStringEncodingUTF8));
+			[auDictionary setValue:auNameAndManufacturer forKey:AUNameAndManufacturerStringKey];
 			
-			NSString *auInformation = (NSString *)CFStringCreateWithPascalString(kCFAllocatorDefault, (ConstStr255Param)(*componentInformationHandle), kCFStringEncodingUTF8);
-			[auDictionary setValue:[auInformation autorelease] forKey:AUInformationStringKey];
+			NSString *auInformation = (NSString *)CFBridgingRelease(CFStringCreateWithPascalString(kCFAllocatorDefault, (ConstStr255Param)(*componentInformationHandle), kCFStringEncodingUTF8));
+			[auDictionary setValue:auInformation forKey:AUInformationStringKey];
 			
 			UInt32 colonIndex = [auNameAndManufacturer rangeOfString:@":" options:NSLiteralSearch].location;
 			if(NSNotFound != colonIndex) {
@@ -1516,7 +1510,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 			}
 			
 			if(nil != iconImage)
-				[auDictionary setValue:[iconImage autorelease] forKey:AUIconKey];
+				[auDictionary setValue:iconImage forKey:AUIconKey];
 		}
 		
 		DisposeHandle(componentNameHandle);
@@ -1528,7 +1522,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		effectAU = FindNextComponent(effectAU, &desc);
 	}
 
-	return [effects autorelease];
+	return effects;
 }
 
 - (AudioUnit) audioUnitForAUNode:(AUNode)node
@@ -1758,7 +1752,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 - (AudioScheduler *) scheduler
 {
-	return [[_scheduler retain] autorelease];
+	return _scheduler;
 }
 
 - (BOOL) canPlay
@@ -1792,7 +1786,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 
 - (NSRunLoop *)	runLoop
 {
-	return [[_runLoop retain] autorelease];
+	return _runLoop;
 }
 
 - (void) setIsPlaying:(BOOL)playing
@@ -2034,7 +2028,7 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 		return status;
 	}
 
-	return AudioDeviceAddPropertyListener(deviceID, 0, NO, kAudioDevicePropertyNominalSampleRate, myAudioDevicePropertyListenerProc, self);
+	return AudioDeviceAddPropertyListener(deviceID, 0, NO, kAudioDevicePropertyNominalSampleRate, myAudioDevicePropertyListenerProc, (__bridge_retained void * _Nullable)(self));
 }
 
 - (OSStatus) stopListeningForSampleRateChangesOnOutputDevice
@@ -2103,7 +2097,6 @@ myAudioDevicePropertyListenerProc( AudioDeviceID           inDevice,
 	
 	// Display the alert
 	[alert beginSheetModalForWindow:[[self owner] window] modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
-	[alert release];
 	
 #if DEBUG
 	NSLog(@"External sample rate change: %f (stream sample rate %f)", sampleRate, [self format].mSampleRate);

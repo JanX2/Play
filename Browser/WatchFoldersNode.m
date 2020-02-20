@@ -46,8 +46,6 @@
 - (void) dealloc
 {
 	[[[CollectionManager manager] watchFolderManager] removeObserver:self forKeyPath:@"watchFolders"];
-	
-	[super dealloc];
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -102,11 +100,10 @@
 
 - (void) removeObjectFromChildrenAtIndex:(NSUInteger)thisIndex
 {
-	WatchFolderNode *node = (WatchFolderNode *)[[self childAtIndex:thisIndex] retain];
+	WatchFolderNode *node = (WatchFolderNode *)[self childAtIndex:thisIndex];
 	
 	[super removeObjectFromChildrenAtIndex:thisIndex];
 	[[node watchFolder] delete];
-	[node release];
 }
 
 @end
@@ -125,7 +122,7 @@
 	for(folder in watchFolders) {
 		node = [[WatchFolderNode alloc] initWithWatchFolder:folder];
 		[node setParent:self];
-		[_children addObject:[node autorelease]];
+		[_children addObject:node];
 	}
 	[self didChangeValueForKey:@"children"];
 }

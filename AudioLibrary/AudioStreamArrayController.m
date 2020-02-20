@@ -138,7 +138,6 @@ NSString * const iTunesPboardType						= @"CorePasteboardFlavorType 0x6974756E";
 		
 		[NSApp endSheet:[progressSheet sheet]];
 		[[progressSheet sheet] close];
-		[progressSheet release];
 		
 		return result;
 	}
@@ -190,9 +189,9 @@ NSString * const iTunesPboardType						= @"CorePasteboardFlavorType 0x6974756E";
 			removeIndex = thisIndex;
 			--insertIndex;
 		}
-		object = [[objects objectAtIndex:removeIndex] retain];
+		object = [objects objectAtIndex:removeIndex];
 		[self removeObjectAtArrangedObjectIndex:removeIndex];
-		[self insertObject:[object autorelease] atArrangedObjectIndex:insertIndex];
+		[self insertObject:object atArrangedObjectIndex:insertIndex];
 		
 		thisIndex = [indexSet indexLessThanIndex:thisIndex];
 	}

@@ -93,9 +93,6 @@
 - (void) dealloc
 {
 	delete SELF_DECOMPRESSOR;
-	_decompressor = NULL;
-	
-	[super dealloc];
 }
 
 - (SInt64)			totalFrames							{ return _totalFrames; }

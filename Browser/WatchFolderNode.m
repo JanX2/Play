@@ -34,7 +34,7 @@
 	NSParameterAssert(nil != folder);
 
 	if((self = [super initWithName:[folder valueForKey:WatchFolderNameKey]])) {
-		_watchFolder = [folder retain];
+		_watchFolder = folder;
 		
 		NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[[_watchFolder valueForKey:WatchFolderURLKey] path]];
 		[icon setSize:NSMakeSize(16.0f, 16.0f)];
@@ -51,8 +51,6 @@
 	[_watchFolder removeObserver:self forKeyPath:WatchFolderNameKey];
 	[_watchFolder removeObserver:self forKeyPath:WatchFolderURLKey];
 	[_watchFolder removeObserver:self forKeyPath:WatchFolderStreamsKey];
-	
-	[super dealloc];
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -72,8 +70,7 @@
 
 - (void) setName:(NSString *)name
 {
-	[_name release];
-	_name = [name retain];
+	_name = name;
 	
 	// Avoid an infinite loop- this can be called from bindings as well as from observeValueForKeyPath:
 	if(NO == [name isEqualToString:[[self watchFolder] valueForKey:WatchFolderNameKey]]) {
@@ -113,7 +110,7 @@
 
 - (NSUInteger)		countOfStreams											{ return [[self watchFolder] countOfStreams]; }
 - (AudioStream *)	objectInStreamsAtIndex:(NSUInteger)thisIndex			{ return [[self watchFolder] objectInStreamsAtIndex:thisIndex]; }
-- (void)			getStreams:(id *)buffer range:(NSRange)aRange			{ return [[self watchFolder] getStreams:buffer range:aRange]; }
+- (void)			getStreams:(__unsafe_unretained id *)buffer range:(NSRange)aRange			{ return [[self watchFolder] getStreams:buffer range:aRange]; }
 
 #pragma mark KVC Mutators Overrides
 

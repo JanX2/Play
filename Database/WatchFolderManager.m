@@ -63,21 +63,7 @@
 
 - (void) dealloc
 {
-	NSFreeMapTable(_registeredFolders), _registeredFolders = NULL;	
-	
-	[_sql release], _sql = nil;
-	
-	[_cachedFolders release], _cachedFolders = nil;
-	
-	[_insertedFolders release], _insertedFolders = nil;
-	[_updatedFolders release], _updatedFolders = nil;
-	[_deletedFolders release], _deletedFolders = nil;
-	
-	[_folderKeys release], _folderKeys = nil;
-	
-	_db = NULL;
-	
-	[super dealloc];
+	NSFreeMapTable(_registeredFolders);
 }
 
 #pragma mark WatchFolder support
@@ -86,7 +72,7 @@
 {
 	@synchronized(self) {
 		if(nil == _cachedFolders)
-			_cachedFolders = [[self fetchWatchFolders] retain];
+			_cachedFolders = [self fetchWatchFolders];
 	}
 	return _cachedFolders;
 }
@@ -95,7 +81,7 @@
 {
 	NSParameterAssert(nil != objectID);
 	
-	WatchFolder *folder = (WatchFolder *)NSMapGet(_registeredFolders, (void *)[objectID unsignedIntegerValue]);
+	WatchFolder *folder = (__bridge WatchFolder *)NSMapGet(_registeredFolders, (void *)[objectID unsignedIntegerValue]);
 	if(nil != folder)
 		return folder;
 	
@@ -244,7 +230,7 @@
 {
 	[self willChangeValueForKey:@"watchFolders"];
 	NSResetMapTable(_registeredFolders);
-	[_cachedFolders release], _cachedFolders = nil;
+	_cachedFolders = nil;
 	[self didChangeValueForKey:@"watchFolders"];
 }
 
@@ -347,8 +333,6 @@
 	}
 	
 	_updating = NO;
-	
-	[indexes release];
 }
 
 - (void) cancelUpdate
@@ -506,7 +490,7 @@
 	NSLog(@"Loaded %ld watch folders in %f seconds (%f per second)", (long)[folders count], elapsed, (double)[folders count] / elapsed);
 #endif
 	
-	return [folders autorelease];
+	return folders;
 }
 
 - (WatchFolder *) loadWatchFolder:(sqlite3_stmt *)statement
@@ -518,7 +502,7 @@
 	NSAssert(SQLITE_NULL != sqlite3_column_type(statement, 0), @"No ID found for folder");
 	objectID = sqlite3_column_int(statement, 0);
 	
-	folder = (WatchFolder *)NSMapGet(_registeredFolders, (void *)objectID);
+	folder = (__bridge WatchFolder *)NSMapGet(_registeredFolders, (void *)(intptr_t)objectID);
 	if(nil != folder)
 		return folder;
 	
@@ -531,9 +515,9 @@
 	getColumnValue(statement, 2, folder, WatchFolderNameKey, eObjectTypeString);
 		
 	// Register the object	
-	NSMapInsert(_registeredFolders, (void *)objectID, (void *)folder);
+	NSMapInsert(_registeredFolders, (void *)(intptr_t)objectID, (__bridge void *)folder);
 	
-	return [folder autorelease];
+	return folder;
 }
 
 #pragma mark WatchFolders
@@ -567,7 +551,7 @@
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to clear sql statement bindings (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 		// Register the object	
-		NSMapInsert(_registeredFolders, (void *)[[folder valueForKey:ObjectIDKey] unsignedIntegerValue], (void *)folder);
+		NSMapInsert(_registeredFolders, (void *)[[folder valueForKey:ObjectIDKey] unsignedIntegerValue], (__bridge void *)folder);
 	}
 	
 	@catch(NSException *exception) {

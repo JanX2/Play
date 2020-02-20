@@ -97,8 +97,8 @@ extern NSString * const		PlayQueueKey;
 	
 	NSInteger				playPauseButtonState;
 	NSString				*playPauseButtonTooltip;
-	NSImage					*playPauseButtonImage;
-	NSImage					*playPauseButtonAlternateImage;
+	NSImage					*__weak playPauseButtonImage;
+	NSImage					*__weak playPauseButtonAlternateImage;
 	
 	BOOL					_randomPlayback;
 	BOOL					_loopPlayback;
@@ -232,7 +232,7 @@ extern NSString * const		PlayQueueKey;
 
 - (NSUInteger)		countOfPlayQueue;
 - (AudioStream *)	objectInPlayQueueAtIndex:(NSUInteger)thisIndex;
-- (void)			getPlayQueue:(id *)buffer range:(NSRange)aRange;
+- (void)			getPlayQueue:(__unsafe_unretained id *)buffer range:(NSRange)aRange;
 
 - (void)			insertObject:(AudioStream *)stream inPlayQueueAtIndex:(NSUInteger)thisIndex;
 - (void)			removeObjectFromPlayQueueAtIndex:(NSUInteger)thisIndex;
@@ -262,8 +262,8 @@ extern NSString * const		PlayQueueKey;
 - (BOOL)		playButtonEnabled;
 @property (nonatomic, assign) NSInteger playPauseButtonState;
 @property (nonatomic,   copy) NSString *playPauseButtonTooltip;
-@property (nonatomic, assign) NSImage *playPauseButtonImage;
-@property (nonatomic, assign) NSImage *playPauseButtonAlternateImage;
+@property (nonatomic, weak) NSImage *playPauseButtonImage;
+@property (nonatomic, weak) NSImage *playPauseButtonAlternateImage;
 
 - (BOOL)		canPlayNextStream;
 - (BOOL)		canPlayPreviousStream;

@@ -58,27 +58,20 @@
 
 @implementation ImageAndTextCell
 
-- (void)dealloc {
-    [image release];
-    image = nil;
-    [super dealloc];
-}
-
 - copyWithZone:(NSZone *)zone {
     ImageAndTextCell *cell = (ImageAndTextCell *)[super copyWithZone:zone];
-    cell->image = [image retain];
+    cell->image = image;
     return cell;
 }
 
 - (void)setImage:(NSImage *)anImage {
     if (anImage != image) {
-        [image release];
-        image = [anImage retain];
+        image = anImage;
     }
 }
 
 - (NSImage *)image {
-    return [[image retain] autorelease];
+    return image;
 }
 
 - (NSRect)imageFrameForCellFrame:(NSRect)cellFrame {

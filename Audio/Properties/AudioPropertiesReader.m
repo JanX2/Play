@@ -130,20 +130,12 @@ NSString *const AudioPropertiesReaderErrorDomain	= @"org.sbooth.Play.ErrorDomain
 		return nil;
 	}
 	
-	return [result autorelease];
-}
-
-- (void) dealloc
-{
-	[_url release], _url = nil;
-	[_properties release], _properties = nil;
-
-	[super dealloc];
+	return result;
 }
 
 - (BOOL)			readProperties:(NSError **)error		{ return YES; }
 
-- (NSDictionary *)	properties								{ return [[_properties retain] autorelease]; }
+- (NSDictionary *)	properties								{ return _properties; }
 - (NSDictionary *)	cueSheet								{ return [_properties valueForKey:AudioPropertiesCueSheetKey]; }
 
 @end

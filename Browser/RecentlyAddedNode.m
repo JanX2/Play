@@ -73,8 +73,6 @@
 {
 	[[[CollectionManager manager] streamManager] removeObserver:self forKeyPath:StatisticsDateAddedKey];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[super dealloc];
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -97,8 +95,6 @@
 	[self willChangeValueForKey:@"streams"];
 	[[self streamsArray] replaceObjectsInRange:NSMakeRange(0, [[self streamsArray] count]) withObjectsFromArray:filteredStreams range:NSMakeRange(0, count)];
 	[self didChangeValueForKey:@"streams"];
-	
-	[descriptor release];
 }
 
 - (void) refreshStreams
@@ -113,8 +109,6 @@
 	[self willChangeValueForKey:@"streams"];
 	[[self streamsArray] replaceObjectsInRange:NSMakeRange(0, [[self streamsArray] count]) withObjectsFromArray:filteredStreams range:NSMakeRange(0, count)];
 	[self didChangeValueForKey:@"streams"];
-
-	[descriptor release];
 }
 
 #pragma mark KVC Mutator Overrides

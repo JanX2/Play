@@ -61,21 +61,7 @@
 
 - (void) dealloc
 {
-	NSFreeMapTable(_registeredPlaylists), _registeredPlaylists = NULL;	
-	
-	[_sql release], _sql = nil;
-	
-	[_cachedPlaylists release], _cachedPlaylists = nil;
-	
-	[_insertedPlaylists release], _insertedPlaylists = nil;
-	[_updatedPlaylists release], _updatedPlaylists = nil;
-	[_deletedPlaylists release], _deletedPlaylists = nil;
-	
-	[_playlistKeys release], _playlistKeys = nil;
-	
-	_db = NULL;
-	
-	[super dealloc];
+	NSFreeMapTable(_registeredPlaylists);	
 }
 
 #pragma mark SmartPlaylist support
@@ -84,7 +70,7 @@
 {
 	@synchronized(self) {
 		if(nil == _cachedPlaylists)
-			_cachedPlaylists = [[self fetchSmartPlaylists] retain];
+			_cachedPlaylists = [self fetchSmartPlaylists];
 	}
 	return _cachedPlaylists;
 }
@@ -93,7 +79,7 @@
 {
 	NSParameterAssert(nil != objectID);
 	
-	SmartPlaylist *playlist = (SmartPlaylist *)NSMapGet(_registeredPlaylists, (void *)[objectID unsignedIntValue]);
+	SmartPlaylist *playlist = (__bridge SmartPlaylist *)NSMapGet(_registeredPlaylists, (void *)[objectID unsignedIntegerValue]);
 	if(nil != playlist)
 		return playlist;
 	
@@ -242,7 +228,7 @@
 {
 	[self willChangeValueForKey:@"smartPlaylists"];
 	NSResetMapTable(_registeredPlaylists);
-	[_cachedPlaylists release], _cachedPlaylists = nil;
+	_cachedPlaylists = nil;
 	[self didChangeValueForKey:@"smartPlaylists"];
 }
 
@@ -345,8 +331,6 @@
 	}
 	
 	_updating = NO;
-	
-	[indexes release];
 }
 
 - (void) cancelUpdate
@@ -505,7 +489,7 @@
 	NSLog(@"Loaded %ld smart playlists in %f seconds (%f per second)", (long)[playlists count], elapsed, (double)[playlists count] / elapsed);
 #endif
 	
-	return [playlists autorelease];
+	return playlists;
 }
 
 - (SmartPlaylist *) loadSmartPlaylist:(sqlite3_stmt *)statement
@@ -517,14 +501,14 @@
 	NSAssert(SQLITE_NULL != sqlite3_column_type(statement, 0), @"No ID found for playlist");
 	objectID = sqlite3_column_int(statement, 0);
 	
-	playlist = (SmartPlaylist *)NSMapGet(_registeredPlaylists, (void *)objectID);
+	playlist = (__bridge SmartPlaylist *)NSMapGet(_registeredPlaylists, (void *)(intptr_t)objectID);
 	if(nil != playlist)
 		return playlist;
 	
 	playlist = [[SmartPlaylist alloc] init];
 	
 	// Playlist ID and name
-	[playlist initValue:[NSNumber numberWithUnsignedInt:objectID] forKey:ObjectIDKey];
+	[playlist initValue:[NSNumber numberWithUnsignedInteger:objectID] forKey:ObjectIDKey];
 	//	getColumnValue(statement, 0, playlist, ObjectIDKey, eObjectTypeUnsignedInt);
 	getColumnValue(statement, 1, playlist, PlaylistNameKey, eObjectTypeString);
 	getColumnValue(statement, 2, playlist, SmartPlaylistPredicateKey, eObjectTypePredicate);
@@ -536,9 +520,9 @@
 	getColumnValue(statement, 6, playlist, StatisticsPlayCountKey, eObjectTypeUnsignedInt);
 	
 	// Register the object	
-	NSMapInsert(_registeredPlaylists, (void *)objectID, (void *)playlist);
+	NSMapInsert(_registeredPlaylists, (void *)(intptr_t)objectID, (__bridge void *)playlist);
 	
-	return [playlist autorelease];
+	return playlist;
 }
 
 #pragma mark SmartPlaylists
@@ -579,7 +563,7 @@
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to clear sql statement bindings (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 		// Register the object	
-		NSMapInsert(_registeredPlaylists, (void *)[[playlist valueForKey:ObjectIDKey] unsignedIntValue], (void *)playlist);
+		NSMapInsert(_registeredPlaylists, (void *)[[playlist valueForKey:ObjectIDKey] unsignedIntegerValue], (__bridge void *)playlist);
 	}
 	
 	@catch(NSException *exception) {
@@ -683,7 +667,7 @@
 #endif
 	
 	// Deregister the object
-	NSMapRemove(_registeredPlaylists, (void *)objectID);
+	NSMapRemove(_registeredPlaylists, (void *)(intptr_t)objectID);
 }
 
 - (NSArray *) smartPlaylistKeys

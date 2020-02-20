@@ -158,7 +158,7 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 		return nil;
 	}
 	
-	return [result autorelease];
+	return result;
 }
 
 - (id) init
@@ -187,14 +187,7 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 	return self;
 }
 
-- (void) dealloc
-{
-	[_url release], _url = nil;
-
-	[super dealloc];
-}
-
-- (NSURL *)							URL					{ return [[_url retain] autorelease]; }
+- (NSURL *)							URL					{ return _url; }
 - (AudioStreamBasicDescription)		format				{ return _format; }
 - (AudioChannelLayout)				channelLayout		{ return _channelLayout; }
 
@@ -211,7 +204,7 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 	if(noErr != err)
 		NSLog(@"AudioFormatGetProperty (kAudioFormatProperty_FormatName) failed: %ld", (long)err);
 	
-	return [description autorelease];
+	return description;
 }
 
 /*- (BOOL) hasChannelLayout
@@ -232,7 +225,7 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 	if(noErr != err)
 		NSLog(@"AudioFormatGetProperty (kAudioFormatProperty_ChannelLayoutName) failed: %ld", (long)err);
 			
-	return [description autorelease];
+	return description;
 }
 
 - (UInt32) readAudio:(AudioBufferList *)bufferList frameCount:(UInt32)frameCount
@@ -260,7 +253,7 @@ NSString *const AudioDecoderErrorDomain = @"org.sbooth.Play.ErrorDomain.AudioDec
 	if(noErr != err)
 		return nil;	
 	
-	return [sourceFormatName autorelease];
+	return sourceFormatName;
 }
 
 - (SInt64)			totalFrames								{ return 0; }

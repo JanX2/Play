@@ -38,13 +38,6 @@
 	return self;
 }
 
-- (void) dealloc
-{
-	[_audioUnitUIEditor release], _audioUnitUIEditor = nil;
-	[_effects release], _effects = nil;
-	[super dealloc];
-}
-
 - (void) awakeFromNib
 {
 	NSArray *effects		= [[[AudioLibrary library] player] availableEffects];
@@ -62,7 +55,7 @@
 			[menuItem setTarget:self];
 			[menuItem setAction:@selector(addEffect:)];
 			
-			[auMenu addItem:[menuItem autorelease]];
+			[auMenu addItem:menuItem];
 		}
 	}
 	else {
@@ -83,15 +76,15 @@
 				[menuItem setTarget:self];
 				[menuItem setAction:@selector(addEffect:)];
 				
-				[manufacturerSubMenu addItem:[menuItem autorelease]];
+				[manufacturerSubMenu addItem:menuItem];
 			}
 			
-			[manufacturerMenuItem setSubmenu:[manufacturerSubMenu autorelease]];
-			[auMenu addItem:[manufacturerMenuItem autorelease]];
+			[manufacturerMenuItem setSubmenu:manufacturerSubMenu];
+			[auMenu addItem:manufacturerMenuItem];
 		}		
 	}
 	
-	[_addEffectButton setMenu:[auMenu autorelease]];
+	[_addEffectButton setMenu:auMenu];
 	
 	[_removeEffectButton bind:@"enabled" toObject:_effectsArrayController withKeyPath:@"selectedObjects.@count" options:nil];
 	
@@ -103,7 +96,7 @@
 	ImageAndTextCell	*imageAndTextCell	= [[ImageAndTextCell alloc] init];
 	
 	[imageAndTextCell setLineBreakMode:NSLineBreakByTruncatingTail];
-	[tableColumn setDataCell:[imageAndTextCell autorelease]];
+	[tableColumn setDataCell:imageAndTextCell];
 }
 
 - (IBAction) addEffect:(id)sender
@@ -126,7 +119,7 @@
 	[nodeInfo setValue:[NSNumber numberWithInt:node] forKey:AUNodeKey];
 	
 	[self willChangeValueForKey:@"effects"];
-	[_effects addObject:[nodeInfo autorelease]];
+	[_effects addObject:nodeInfo];
 	[self didChangeValueForKey:@"effects"];
 }
 

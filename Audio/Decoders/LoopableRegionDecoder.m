@@ -36,27 +36,24 @@
 
 + (id) decoderWithURL:(NSURL *)URL startingFrame:(SInt64)startingFrame error:(NSError **)error
 {
-	return [[[LoopableRegionDecoder alloc] initWithURL:URL startingFrame:startingFrame error:error] autorelease];
+	return [[LoopableRegionDecoder alloc] initWithURL:URL startingFrame:startingFrame error:error];
 }
 
 + (id) decoderWithURL:(NSURL *)URL startingFrame:(SInt64)startingFrame frameCount:(NSUInteger)frameCount error:(NSError **)error
 {
-	return [[[LoopableRegionDecoder alloc] initWithURL:URL startingFrame:startingFrame frameCount:frameCount error:error] autorelease];
+	return [[LoopableRegionDecoder alloc] initWithURL:URL startingFrame:startingFrame frameCount:frameCount error:error];
 }
 
 + (id) decoderWithURL:(NSURL *)URL startingFrame:(SInt64)startingFrame frameCount:(NSUInteger)frameCount loopCount:(NSUInteger)loopCount error:(NSError **)error
 {
-	return [[[LoopableRegionDecoder alloc] initWithURL:URL startingFrame:startingFrame frameCount:frameCount loopCount:loopCount error:error] autorelease];
+	return [[LoopableRegionDecoder alloc] initWithURL:URL startingFrame:startingFrame frameCount:frameCount loopCount:loopCount error:error];
 }
 
 - (id) initWithURL:(NSURL *)URL error:(NSError **)error
 {
 	if((self = [super init])) {
 		_decoder = [AudioDecoder decoderWithURL:URL error:error];
-		if(nil != _decoder)
-			[_decoder retain];
-		else {
-			[self release];
+		if(nil == _decoder) {
 			return nil;
 		}
 		
@@ -69,10 +66,7 @@
 {
 	if((self = [super init])) {
 		_decoder = [AudioDecoder decoderWithURL:URL error:error];
-		if(nil != _decoder)
-			[_decoder retain];
-		else {
-			[self release];
+		if(nil == _decoder) {
 			return nil;
 		}
 		
@@ -89,10 +83,7 @@
 {
 	if((self = [super init])) {
 		_decoder = [AudioDecoder decoderWithURL:URL error:error];
-		if(nil != _decoder)
-			[_decoder retain];
-		else {
-			[self release];
+		if(nil == _decoder) {
 			return nil;
 		}
 
@@ -109,10 +100,7 @@
 {
 	if((self = [super init])) {
 		_decoder = [AudioDecoder decoderWithURL:URL error:error];
-		if(nil != _decoder)
-			[_decoder retain];
-		else {
-			[self release];
+		if(nil == _decoder) {
 			return nil;
 		}
 
@@ -124,13 +112,6 @@
 			[self reset];
 	}
 	return self;
-}
-
-- (void) dealloc
-{
-	[_decoder release], _decoder = nil;
-	
-	[super dealloc];
 }
 
 - (NSUInteger)		loopCount								{ return _loopCount; }
@@ -231,6 +212,6 @@
 @end
 
 @implementation LoopableRegionDecoder (Private)
-- (AudioDecoder *)	decoder									{ return [[_decoder retain] autorelease]; }
+- (AudioDecoder *)	decoder									{ return _decoder; }
 
 @end

@@ -167,9 +167,6 @@
 					else if(NSOrderedSame == [key caseInsensitiveCompare:@"MUSICBRAINZ_ID"])
 						[metadataDictionary setValue:value forKey:MetadataMusicBrainzIDKey];
 
-					[key release];
-					[value release];
-					
 					fieldName	= NULL;
 					fieldValue	= NULL;
 				}
@@ -179,7 +176,6 @@
 				picture = [[NSImage alloc] initWithData:[NSData dataWithBytes:block->data.picture.data length:block->data.picture.data_length]];
 				if(nil != picture) {
 					[metadataDictionary setValue:[picture TIFFRepresentation] forKey:@"albumArt"];
-					[picture release];
 				}
 				break;
 				

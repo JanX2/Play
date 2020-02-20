@@ -28,7 +28,6 @@
 		BOOL result = [NSBundle loadNibNamed:@"FileAdditionProgressSheet" owner:self];
 		if(NO == result) {
 			NSLog(@"Missing resource: \"FileAdditionProgressSheet.nib\".");
-			[self release];
 			return nil;
 		}
 	}

@@ -178,42 +178,28 @@ static Genres *sharedGenres = nil;
 			NSLocalizedStringFromTable(@"JPop", @"Genres", @""),
 			NSLocalizedStringFromTable(@"Synthpop", @"Genres", @""),
 			nil];
-		_genres = [[_unsortedGenres sortedArrayUsingSelector:@selector(compare:)] retain];
+		_genres = [_unsortedGenres sortedArrayUsingSelector:@selector(compare:)];
 	}
 	return self;
 }
 
 + (NSArray *) sharedGenres
 {
-	@synchronized(self) {
-		if(nil == sharedGenres)
-			sharedGenres = [[self alloc] init];
-	}
-	return [sharedGenres valueForKey:@"genres"];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedGenres = [[self alloc] init];
+    });
+    return [sharedGenres valueForKey:@"genres"];
 }
+
 
 + (NSArray *) unsortedGenres
 {
-	@synchronized(self) {
-		if(nil == sharedGenres)
-			sharedGenres = [[self alloc] init];
-	}
-	return [sharedGenres valueForKey:@"unsortedGenres"];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedGenres = [[self alloc] init];
+    });
+    return [sharedGenres valueForKey:@"unsortedGenres"];
 }
-
-+ (id) allocWithZone:(NSZone *)zone
-{
-    @synchronized(self) {
-        if(nil == sharedGenres)
-            return [super allocWithZone:zone];
-    }
-    return sharedGenres;
-}
-
-- (id) copyWithZone:(NSZone *)zone								{ return self; }
-- (id) retain													{ return self; }
-- (NSUInteger) retainCount										{ return NSUIntegerMax;  /* denotes an object that cannot be released */ }
-- (oneway void) release											{ /* do nothing */ }
-- (id) autorelease												{ return self; }
 
 @end

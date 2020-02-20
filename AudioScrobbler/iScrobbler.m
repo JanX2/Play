@@ -119,7 +119,7 @@
 	// We could round here if we don't want the fractional digits
 	[userInfo setObject:[NSNumber numberWithDouble:durationInMilliseconds] forKey:@"Total Time"];
 
-	return [[userInfo retain] autorelease];
+	return userInfo;
 }
 
 @end

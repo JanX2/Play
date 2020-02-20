@@ -97,7 +97,7 @@
 // KVC Accessors
 - (NSUInteger) 		countOfChildren;
 - (BrowserNode *) 	objectInChildrenAtIndex:(NSUInteger)thisIndex;
-- (void) 			getChildren:(id *)buffer range:(NSRange)range;
+- (void) 			getChildren:(__unsafe_unretained id *)buffer range:(NSRange)range;
 
 // ========================================
 // KVC Mutators

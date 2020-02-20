@@ -113,7 +113,7 @@ scanMSF(NSScanner		*scanner,
 + (id) cueSheetWithURL:(NSURL *)URL error:(NSError **)error
 {
 	CueSheetParser *cueSheetParser = [[CueSheetParser alloc] initWithURL:URL error:error];
-	return [cueSheetParser autorelease];
+	return cueSheetParser;
 }
 
 - (id) initWithURL:(NSURL *)URL error:(NSError **)error
@@ -121,9 +121,8 @@ scanMSF(NSScanner		*scanner,
 	NSParameterAssert(nil != URL);
 
 	if((self = [super init])) {
-		_URL = [URL retain];
+		_URL = URL;
 		if(NO == [self parse:error]) {
-			[self release];
 			return nil;
 		}
 	}
@@ -131,17 +130,9 @@ scanMSF(NSScanner		*scanner,
 	return self;
 }
 
-- (void) dealloc
-{
-	[_URL release], _URL = nil;
-	[_cueSheetTracks release], _cueSheetTracks = nil;
-	
-	[super dealloc];
-}
-
 - (NSArray *) cueSheetTracks
 {
-	return [[_cueSheetTracks retain] autorelease];
+	return _cueSheetTracks;
 }
 
 @end

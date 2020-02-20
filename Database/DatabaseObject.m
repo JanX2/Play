@@ -29,16 +29,6 @@ NSString * const	ObjectIDKey								= @"id";
 
 @implementation DatabaseObject
 
-- (void) dealloc
-{
-	[_supportedKeys release], _supportedKeys = nil;
-	
-	[_savedValues release], _savedValues = nil;
-	[_changedValues release], _changedValues = nil;
-	
-	[super dealloc];
-}
-
 - (id) valueForKey:(NSString *)key
 {
 	if([[self supportedKeys] containsObject:key]) {
@@ -171,12 +161,12 @@ NSString * const	ObjectIDKey								= @"id";
 
 - (NSDictionary *) changedValues
 {
-	return [[_changedValues retain] autorelease];
+	return _changedValues;
 }
 
 - (NSDictionary *) savedValues
 {
-	return [[_savedValues retain] autorelease];
+	return _savedValues;
 }
 
 - (void) synchronizeSavedValuesWithChangedValues
@@ -184,7 +174,6 @@ NSString * const	ObjectIDKey								= @"id";
 	if([self hasChanges]) {
 		NSDictionary *changedValuesCopy = [[self changedValues] copy];
 		[self initValuesForKeysWithDictionary:changedValuesCopy];
-		[changedValuesCopy release];
 	}
 }
 

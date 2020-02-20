@@ -85,7 +85,6 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 	[self registerForDraggedTypes:[NSArray arrayWithObjects:AudioStreamTableMovedRowsPboardType, AudioStreamPboardType, NSFilenamesPboardType, NSURLPboardType, iTunesPboardType, nil]];
 	NSFormatter *formatter = [[SecondsFormatter alloc] init];
 	[[[self tableColumnWithIdentifier:@"duration"] dataCell] setFormatter:formatter];
-	[formatter release];
 }
 
 - (BOOL) validateMenuItem:(NSMenuItem *)menuItem
@@ -305,7 +304,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 		[genericIcon compositeToPoint:NSZeroPoint operation:NSCompositeDestinationOver fraction:0.75f];
 		[dragImage unlockFocus];
 				
-		return [dragImage autorelease];
+		return dragImage;
 	}
 	return [super dragImageForRowsWithIndexes:dragRows tableColumns:tableColumns event:dragEvent offset:dragImageOffset];
 }
@@ -396,14 +395,14 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 	AudioStreamInformationSheet *streamInformationSheet = [[AudioStreamInformationSheet alloc] init];
 	NSArrayController *streamController = [streamInformationSheet valueForKey:@"streamController"];
 	NSArray *streams = [[_streamController arrangedObjects] copy];
-	[streamController setContent:[streams autorelease]];
+	[streamController setContent:streams];
 	[streamController setSelectionIndex:[_streamController selectionIndex]];
 
 	[[NSApplication sharedApplication] beginSheet:[streamInformationSheet sheet] 
 								   modalForWindow:[self window] 
 									modalDelegate:self 
 								   didEndSelector:@selector(showStreamInformationSheetDidEnd:returnCode:contextInfo:) 
-									  contextInfo:streamInformationSheet];
+									  contextInfo:(__bridge_retained void * _Null_unspecified)(streamInformationSheet)];
 }
 
 - (IBAction) resetPlayCount:(id)sender
@@ -451,7 +450,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 	
 	NSArrayController *streamController = [metadataEditingSheet valueForKey:@"streamController"];
 	NSArray *streams = [[_streamController arrangedObjects] copy];
-	[streamController setContent:[streams autorelease]];
+	[streamController setContent:streams];
 	[streamController setSelectionIndexes:[_streamController selectionIndexes]];
 		
 	[[CollectionManager manager] beginUpdate];
@@ -460,7 +459,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 								   modalForWindow:[self window] 
 									modalDelegate:self 
 								   didEndSelector:@selector(showMetadataEditingSheetDidEnd:returnCode:contextInfo:) 
-									  contextInfo:metadataEditingSheet];
+									  contextInfo:(__bridge_retained void * _Null_unspecified)(metadataEditingSheet)];
 }
 
 - (IBAction) rescanMetadata:(id)sender
@@ -565,7 +564,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 	}
 	
 	NSArray *streams = [[_streamController selectedObjects] copy];
-	[self performPUIDCalculationForStreams:[streams autorelease]];
+	[self performPUIDCalculationForStreams:streams];
 }
 
 - (IBAction) lookupTrackInMusicBrainz:(id)sender
@@ -601,7 +600,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 								   modalForWindow:[self window] 
 									modalDelegate:self 
 								   didEndSelector:@selector(showMusicBrainzMatchesSheetDidEnd:returnCode:contextInfo:) 
-									  contextInfo:matchesSheet];
+									  contextInfo:(__bridge_retained void * _Null_unspecified)(matchesSheet)];
 	
 	[matchesSheet search:sender];
 }
@@ -642,7 +641,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 								   modalForWindow:[self window] 
 									modalDelegate:self 
 								   didEndSelector:@selector(showMusicBrainzSearchSheetDidEnd:returnCode:contextInfo:) 
-									  contextInfo:searchSheet];
+									  contextInfo:(__bridge_retained void * _Null_unspecified)(searchSheet)];
 
 	[searchSheet search:sender];
 }
@@ -773,7 +772,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 								   modalForWindow:[self window] 
 									modalDelegate:self 
 								   didEndSelector:@selector(showFileConversionSheetDidEnd:returnCode:contextInfo:) 
-									  contextInfo:fileConversionSheet];
+									  contextInfo:(__bridge_retained void * _Null_unspecified)(fileConversionSheet)];
 #endif
 #if 0
 	// Create a decoder for the desired stream
@@ -985,7 +984,7 @@ dumpASBD(const AudioStreamBasicDescription *asbd)
 	[view addItemWithTitle:@"bar"];
 	[view addItemWithTitle:@"fnord"];
 	
-	[savePanel setAccessoryView:[view autorelease]];
+	[savePanel setAccessoryView:view];
 	
 	if(NSOKButton == [savePanel runModal]) {
 		
@@ -1230,15 +1229,14 @@ bail:
 
 - (void) showStreamInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	AudioStreamInformationSheet *streamInformationSheet = (AudioStreamInformationSheet *)contextInfo;
+	AudioStreamInformationSheet *streamInformationSheet = (__bridge_transfer AudioStreamInformationSheet *)contextInfo;
 	
 	[sheet orderOut:self];
-	[streamInformationSheet release];
 }
 
 - (void) showMetadataEditingSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	AudioMetadataEditingSheet *metadataEditingSheet = (AudioMetadataEditingSheet *)contextInfo;
+	AudioMetadataEditingSheet *metadataEditingSheet = (__bridge_transfer AudioMetadataEditingSheet *)contextInfo;
 	
 	[sheet orderOut:self];
 	
@@ -1254,13 +1252,11 @@ bail:
 	}
 	else if(NSCancelButton == returnCode)
 		[[CollectionManager manager] cancelUpdate];
-	
-	[metadataEditingSheet release];
 }
 
 - (void) showMusicBrainzMatchesSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	MusicBrainzMatchesSheet *matchesSheet = (MusicBrainzMatchesSheet *)contextInfo;
+	MusicBrainzMatchesSheet *matchesSheet = (__bridge_transfer MusicBrainzMatchesSheet *)contextInfo;
 	
 	[sheet orderOut:self];
 	
@@ -1291,13 +1287,11 @@ bail:
 			[_streamController rearrangeObjects];
 		}
 	}
-	
-	[matchesSheet release];
 }
 
 - (void) showMusicBrainzSearchSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	MusicBrainzSearchSheet *searchSheet = (MusicBrainzSearchSheet *)contextInfo;
+	MusicBrainzSearchSheet *searchSheet = (__bridge_transfer MusicBrainzSearchSheet *)contextInfo;
 	
 	[sheet orderOut:self];
 	
@@ -1312,17 +1306,14 @@ bail:
 		
 		[_streamController rearrangeObjects];
 	}
-	
-	[searchSheet release];
 }
 
 #if 0
 - (void) showFileConversionSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	FileConversionSheet *fileConversionSheet = (FileConversionSheet *)contextInfo;
+	FileConversionSheet *fileConversionSheet = (__bridge_transfer FileConversionSheet *)contextInfo;
 	
 	[sheet orderOut:self];
-	[fileConversionSheet release];
 }
 #endif
 
@@ -1351,7 +1342,6 @@ bail:
 	
 	[NSApp endSheet:[progressSheet sheet]];
 	[[progressSheet sheet] close];
-	[progressSheet release];
 }
 
 - (void) performPUIDCalculationForStreams:(NSArray *)streams
@@ -1379,7 +1369,6 @@ bail:
 	
 	[NSApp endSheet:[progressSheet sheet]];
 	[[progressSheet sheet] close];
-	[progressSheet release];
 }
 
 @end

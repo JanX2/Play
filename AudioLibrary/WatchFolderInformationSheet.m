@@ -29,18 +29,10 @@
 		BOOL result = [NSBundle loadNibNamed:@"WatchFolderInformationSheet" owner:self];
 		if(NO == result) {
 			NSLog(@"Missing resource: \"WatchFolderInformationSheet.nib\".");
-			[self release];
 			return nil;
 		}
 	}
 	return self;
-}
-
-- (void) dealloc
-{
-	[_watchFolder release], _watchFolder = nil;
-	
-	[super dealloc];
 }
 
 - (NSWindow *) sheet
@@ -87,8 +79,7 @@
 
 - (void) setWatchFolder:(WatchFolder *)watchFolder
 {
-	[_watchFolder release];
-	_watchFolder = [watchFolder retain];
+	_watchFolder = watchFolder;
 	
 	if(nil != watchFolder)
 		[_folderImageView setImage:[[NSWorkspace sharedWorkspace] iconForFile:[[_watchFolder valueForKey:WatchFolderURLKey] path]]];

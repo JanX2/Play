@@ -30,7 +30,7 @@
 static FLAC__StreamDecoderWriteStatus 
 writeCallback(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)
 {
-	FLACDecoder			*source			= (FLACDecoder *)client_data;
+	FLACDecoder			*source			= (__bridge_transfer FLACDecoder *)client_data;
 	AudioBufferList		*bufferList		= [source bufferList];
 	
 	// Avoid segfaults
@@ -57,7 +57,7 @@ writeCallback(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, cons
 static void
 metadataCallback(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)
 {
-	FLACDecoder		*source		= (FLACDecoder *)client_data;
+	FLACDecoder		*source		= (__bridge_transfer FLACDecoder *)client_data;
 	
 	switch(metadata->type) {
 		case FLAC__METADATA_TYPE_STREAMINFO:	[source setStreamInfo:metadata->data.stream_info];			break;
@@ -68,7 +68,7 @@ metadataCallback(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata 
 static void
 errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)
 {
-	//	FLACDecoder		*source		= (FLACDecoder *)client_data;	
+	FLACDecoder		*source		= (__bridge_transfer FLACDecoder *)client_data;
 	//	@throw [FLACException exceptionWithReason:[NSString stringWithCString:FLAC__StreamDecoderErrorStatusString[status] encoding:NSASCIIStringEncoding] userInfo:nil];
 }
 
@@ -89,7 +89,7 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 																			  writeCallback, 
 																			  metadataCallback, 
 																			  errorCallback,
-																			  self);
+																			  (__bridge_retained void *)(self));
 		NSAssert1(FLAC__STREAM_DECODER_INIT_STATUS_OK == status, @"FLAC__stream_decoder_init_file failed: %s", FLAC__stream_decoder_get_resolved_state_string(_flac));
 		
 		// Process metadata
@@ -142,16 +142,14 @@ errorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus
 	FLAC__bool result = FLAC__stream_decoder_finish(_flac);
 	NSAssert1(YES == result, @"FLAC__stream_decoder_finish failed: %s", FLAC__stream_decoder_get_resolved_state_string(_flac));
 	
-	FLAC__stream_decoder_delete(_flac), _flac = NULL;
+	FLAC__stream_decoder_delete(_flac);
 	
 	if(_bufferList) {
 		NSUInteger i;
 		for(i = 0; i < _bufferList->mNumberBuffers; ++i)
-			free(_bufferList->mBuffers[i].mData), _bufferList->mBuffers[i].mData = NULL;	
-		free(_bufferList), _bufferList = NULL;
+			free(_bufferList->mBuffers[i].mData);
+		free(_bufferList);
 	}
-	
-	[super dealloc];	
 }
 
 - (SInt64)			totalFrames						{ return _streamInfo.total_samples; }

@@ -31,13 +31,7 @@
 {
 	AIPlasticButton	*newButton = [[[self class] allocWithZone:zone] initWithFrame:[self frame]];
 	
-	[newButton setMenu:[[[self menu] copy] autorelease]];
-	[newButton->plasticCaps retain];
-	[newButton->plasticMiddle retain];
-	[newButton->plasticPressedCaps retain];
-	[newButton->plasticPressedMiddle retain];
-	[newButton->plasticDefaultCaps retain];
-	[newButton->plasticDefaultMiddle retain];
+	[newButton setMenu:[[self menu] copy]];
 
 	return(newButton);
 }
@@ -52,12 +46,12 @@
 //		Class myClass = [self class];
     
 		//Load images
-		plasticCaps          = [[NSImage imageNamed:@"PlasticButtonNormal_Caps"/*    forClass:myClass*/] retain];
-		plasticMiddle        = [[NSImage imageNamed:@"PlasticButtonNormal_Middle"/*  forClass:myClass*/] retain];
-		plasticPressedCaps   = [[NSImage imageNamed:@"PlasticButtonPressed_Caps"/*   forClass:myClass*/] retain];
-		plasticPressedMiddle = [[NSImage imageNamed:@"PlasticButtonPressed_Middle"/* forClass:myClass*/] retain];
-		plasticDefaultCaps   = [[NSImage imageNamed:@"PlasticButtonDefault_Caps"/*   forClass:myClass*/] retain];
-		plasticDefaultMiddle = [[NSImage imageNamed:@"PlasticButtonDefault_Middle"/* forClass:myClass*/] retain];
+		plasticCaps          = [NSImage imageNamed:@"PlasticButtonNormal_Caps"/*    forClass:myClass*/];
+		plasticMiddle        = [NSImage imageNamed:@"PlasticButtonNormal_Middle"/*  forClass:myClass*/];
+		plasticPressedCaps   = [NSImage imageNamed:@"PlasticButtonPressed_Caps"/*   forClass:myClass*/];
+		plasticPressedMiddle = [NSImage imageNamed:@"PlasticButtonPressed_Middle"/* forClass:myClass*/];
+		plasticDefaultCaps   = [NSImage imageNamed:@"PlasticButtonDefault_Caps"/*   forClass:myClass*/];
+		plasticDefaultMiddle = [NSImage imageNamed:@"PlasticButtonDefault_Middle"/* forClass:myClass*/];
 		
 		[plasticCaps setFlipped:YES];
 		[plasticMiddle setFlipped:YES];
@@ -190,7 +184,7 @@
 	if(!arrowPath){
 		NSRect frame = [self frame];
 		
-		arrowPath = [[NSBezierPath bezierPath] retain];
+		arrowPath = [NSBezierPath bezierPath];
 		[arrowPath moveToPoint:NSMakePoint(NSWidth(frame)-PLASTIC_ARROW_XOFFSET, NSHeight(frame)-PLASTIC_ARROW_YOFFSET)];
 		[arrowPath relativeLineToPoint:NSMakePoint( PLASTIC_ARROW_WIDTH, 0)];
 		[arrowPath relativeLineToPoint:NSMakePoint(-(PLASTIC_ARROW_WIDTH/2.0f), (PLASTIC_ARROW_WIDTH/2.0f))];
@@ -203,7 +197,7 @@
 //If our frame changes, release and clear the arrowPath cache so it will be recalculated when we next draw.
 - (void)setFrame:(NSRect)inFrame
 {
-	[arrowPath release]; arrowPath = nil;
+	arrowPath = nil;
 	
 	[super setFrame:inFrame];
 }
@@ -256,19 +250,6 @@
 - (BOOL)isOpaque
 {
     return NO;
-}
-
-- (void)dealloc
-{
-    [plasticCaps release];
-    [plasticMiddle release];
-    [plasticPressedCaps release];
-    [plasticPressedMiddle release];
-    [plasticDefaultCaps release];
-    [plasticDefaultMiddle release];    
-	[arrowPath release];
-	
-    [super dealloc];
 }
 
 @end

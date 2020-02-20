@@ -375,24 +375,11 @@ NSString * const	PlayQueueKey								= @"playQueue";
 
 + (AudioLibrary *) library
 {
-	@synchronized(self) {
-		if(nil == libraryInstance)
-			// assignment not done here
-			[[self alloc] init];
-	}
-	return libraryInstance;
-}
-
-+ (id) allocWithZone:(NSZone *)zone
-{
-    @synchronized(self) {
-        if(nil == libraryInstance) {
-			// assignment and return on first allocation
-            libraryInstance = [super allocWithZone:zone];
-			return libraryInstance;
-        }
-    }
-    return nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        libraryInstance = [[self alloc] init];
+    });
+    return libraryInstance;
 }
 
 - (id) init
@@ -424,7 +411,6 @@ NSString * const	PlayQueueKey								= @"playQueue";
 				if(nil != error)
 					[[NSApplication sharedApplication] presentError:error];
 
-				[self release];
 				return nil;
 			}
 			
@@ -432,7 +418,6 @@ NSString * const	PlayQueueKey								= @"playQueue";
 				if(nil != error)
 					[[NSApplication sharedApplication] presentError:error];
 				
-				[self release];
 				return nil;
 			}
 		}
@@ -485,43 +470,9 @@ NSString * const	PlayQueueKey								= @"playQueue";
 
 	[[CollectionManager manager] disconnectFromDatabase:nil];
 
-	[_player release], _player = nil;
-
-	[_streamTableVisibleColumns release], _streamTableVisibleColumns = nil;
-	[_streamTableHiddenColumns release], _streamTableHiddenColumns = nil;
-	[_streamTableHeaderContextMenu release], _streamTableHeaderContextMenu = nil;
-	[_streamTableSavedSortDescriptors release], _streamTableSavedSortDescriptors = nil;
-	[_playQueueTableVisibleColumns release], _playQueueTableVisibleColumns = nil;
-	[_playQueueTableHiddenColumns release], _playQueueTableHiddenColumns = nil;
-	[_playQueueTableHeaderContextMenu release], _playQueueTableHeaderContextMenu = nil;
-	
-	[_playQueue release], _playQueue = nil;
-	
-	[_libraryNode release], _libraryNode = nil;
-	[_artistsNode release], _artistsNode = nil;
-	[_albumsNode release], _albumsNode = nil;
-	[_composersNode release], _composersNode = nil;
-	[_genresNode release], _genresNode = nil;
-	[_mostPopularNode release], _mostPopularNode = nil;
-	[_highestRatedNode release], _highestRatedNode = nil;
-	[_recentlyAddedNode release], _recentlyAddedNode = nil;
-	[_recentlyPlayedNode release], _recentlyPlayedNode = nil;
-	[_recentlySkippedNode release], _recentlySkippedNode = nil;
-	[_playlistsNode release], _playlistsNode = nil;
-	[_smartPlaylistsNode release], _smartPlaylistsNode = nil;
-	
-	self.playPauseButtonTooltip = nil;
 	self.playPauseButtonImage = [NSImage imageNamed:@"PlayButtonTemplate"];
 	self.playPauseButtonAlternateImage = [NSImage imageNamed:@"PlayButtonDownTemplate"];
-	
-	[super dealloc];
 }
-
-- (id) 			copyWithZone:(NSZone *)zone			{ return self; }
-- (id) 			retain								{ return self; }
-- (NSUInteger) 	retainCount							{ return NSUIntegerMax;  /* denotes an object that cannot be released */ }
-- (oneway void)	release								{ /* do nothing */ }
-- (id) 			autorelease							{ return self; }
 
 - (AudioPlayer *) player
 {
@@ -529,7 +480,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		_player = [[AudioPlayer alloc] init];
 		[_player setOwner:self];
 	}
-	return [[_player retain] autorelease];
+	return _player;
 }
 
 - (void) awakeFromNib
@@ -644,7 +595,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 // from https://stackoverflow.com/questions/925020/how-to-expand-and-collapse-parts-of-nssplitview-programmatically
 - (IBAction) togglePlayQueue:(id)sender
 {
-	NSView *subView = _playQueueSubView;
+	__unsafe_unretained NSView *subView = _playQueueSubView;
 	NSSplitView *splitView = _splitView;
 	BOOL wantCollapsed = ![_splitView isSubviewCollapsed:_playQueueSubView];
 
@@ -1073,7 +1024,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 								   modalForWindow:[self window] 
 									modalDelegate:self 
 								   didEndSelector:@selector(showNewWatchFolderSheetDidEnd:returnCode:contextInfo:) 
-									  contextInfo:newWatchFolderSheet];
+									  contextInfo:(__bridge_retained void * _Null_unspecified)(newWatchFolderSheet)];
 }
 
 #pragma mark Playback Control
@@ -1480,7 +1431,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	return [_playQueue objectAtIndex:thisIndex];
 }
 
-- (void) getPlayQueue:(id *)buffer range:(NSRange)aRange
+- (void) getPlayQueue:(__unsafe_unretained id *)buffer range:(NSRange)aRange
 {
 	return [_playQueue getObjects:buffer range:aRange];
 }
@@ -1604,7 +1555,6 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	[indexesToRemove addIndexesInRange:NSMakeRange(0, [self countOfPlayQueue])];
 	[indexesToRemove removeIndexes:[_playQueueController selectionIndexes]];
 	[_playQueueController removeObjectsAtArrangedObjectIndexes:indexesToRemove];
-	[indexesToRemove release];
 }
 
 #pragma mark Properties
@@ -1697,11 +1647,11 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		sortDescriptors = (NSArray *)[NSKeyedUnarchiver unarchiveObjectWithData:sortDescriptorData];
 	else
 		sortDescriptors = [NSArray arrayWithObjects:
-//			[[[NSSortDescriptor alloc] initWithKey:MetadataArtistKey ascending:YES] autorelease],
-			[[[NSSortDescriptor alloc] initWithKey:MetadataAlbumTitleKey ascending:YES] autorelease],
-			[[[NSSortDescriptor alloc] initWithKey:PropertiesDataFormatKey ascending:YES] autorelease],
-			[[[NSSortDescriptor alloc] initWithKey:MetadataDiscNumberKey ascending:YES] autorelease],
-			[[[NSSortDescriptor alloc] initWithKey:MetadataTrackNumberKey ascending:YES] autorelease],
+//			[[NSSortDescriptor alloc] initWithKey:MetadataArtistKey ascending:YES],
+			[[NSSortDescriptor alloc] initWithKey:MetadataAlbumTitleKey ascending:YES],
+			[[NSSortDescriptor alloc] initWithKey:PropertiesDataFormatKey ascending:YES],
+			[[NSSortDescriptor alloc] initWithKey:MetadataDiscNumberKey ascending:YES],
+			[[NSSortDescriptor alloc] initWithKey:MetadataTrackNumberKey ascending:YES],
 			nil];
 	
 	[_streamController setSortDescriptors:sortDescriptors];
@@ -1868,8 +1818,8 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	// Don't do anything except possibly save the sort descriptors if the user selected nothing
 	if(nil == node) {
 		if(NO == [oldStreamsNode streamsAreOrdered]) {
-			[_streamTableSavedSortDescriptors release], _streamTableSavedSortDescriptors = nil;
-			_streamTableSavedSortDescriptors = [[_streamController sortDescriptors] retain];
+			_streamTableSavedSortDescriptors = nil;
+			_streamTableSavedSortDescriptors = [_streamController sortDescriptors];
 			[_streamController setSortDescriptors:@[]];
 		}
 		return;
@@ -1896,8 +1846,8 @@ NSString * const	PlayQueueKey								= @"playQueue";
 			}
 			else if(NO == [oldStreamsNode streamsAreOrdered]) {
 				if([newStreamsNode streamsAreOrdered]) {
-					[_streamTableSavedSortDescriptors release], _streamTableSavedSortDescriptors = nil;
-					_streamTableSavedSortDescriptors = [[_streamController sortDescriptors] retain];
+					_streamTableSavedSortDescriptors = nil;
+					_streamTableSavedSortDescriptors = [_streamController sortDescriptors];
 					[_streamController setSortDescriptors:@[]];
 				}
 			}
@@ -1911,8 +1861,8 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		}
 	}
 	else if([[oldStreamsNode exposedBindings] containsObject:@"streams"] && NO == [oldStreamsNode streamsAreOrdered]) {
-		[_streamTableSavedSortDescriptors release], _streamTableSavedSortDescriptors = nil;
-		_streamTableSavedSortDescriptors = [[_streamController sortDescriptors] retain];
+		_streamTableSavedSortDescriptors = nil;
+		_streamTableSavedSortDescriptors = [_streamController sortDescriptors];
 		[_streamController setSortDescriptors:@[]];
 	}
 }
@@ -2013,7 +1963,6 @@ NSString * const	PlayQueueKey								= @"playQueue";
 
 		[NSApp endSheet:[progressSheet sheet]];
 		[[progressSheet sheet] close];
-		[progressSheet release];
 
 #if SQL_DEBUG
 		clock_t end = clock();
@@ -2029,7 +1978,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 
 - (void) showNewWatchFolderSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	NewWatchFolderSheet *newWatchFolderSheet = (NewWatchFolderSheet *)contextInfo;
+	NewWatchFolderSheet *newWatchFolderSheet = (__bridge_transfer NewWatchFolderSheet *)contextInfo;
 	
 	[sheet orderOut:self];
 	
@@ -2048,8 +1997,6 @@ NSString * const	PlayQueueKey								= @"playQueue";
 			NSLog(@"Unable to create the watch folder.");
 		}
 	}
-	
-	[newWatchFolderSheet release];
 }
 
 @end
@@ -2417,9 +2364,9 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	[browserRoot addChild:_genresNode];
 	[browserRoot addChild:_playlistsNode];
 	[browserRoot addChild:_smartPlaylistsNode];
-	[browserRoot addChild:[watchFoldersNode autorelease]];
+	[browserRoot addChild:watchFoldersNode];
 
-	[_browserController setContent:[browserRoot autorelease]];
+	[_browserController setContent:browserRoot];
 
 	// Select the LibraryNode
 	[self browseLibrary:self];
@@ -2429,7 +2376,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	ImageAndTextCell	*imageAndTextCell	= [[ImageAndTextCell alloc] init];
 	
 	[imageAndTextCell setLineBreakMode:NSLineBreakByTruncatingTail];
-	[tableColumn setDataCell:[imageAndTextCell autorelease]];
+	[tableColumn setDataCell:imageAndTextCell];
 }
 
 - (void) saveBrowserStateToDefaults
@@ -2496,7 +2443,6 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	[[[_streamTable tableColumnWithIdentifier:@"lastPlayed"] dataCell] setFormatter:dateFormatter];
 	[[[_streamTable tableColumnWithIdentifier:@"lastSkipped"] dataCell] setFormatter:dateFormatter];
 	
-	[dateFormatter release];
 	
 	// Set localized number formatters
 	NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
@@ -2508,7 +2454,6 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	[[[_streamTable tableColumnWithIdentifier:@"bpm"] dataCell] setFormatter:numberFormatter];
 	[[[_streamTable tableColumnWithIdentifier:@"bitrate"] dataCell] setFormatter:numberFormatter];
 	
-	[numberFormatter release];
 
 	[[_streamTable headerView] setMenu:_streamTableHeaderContextMenu];
 	
@@ -2580,8 +2525,6 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	[[[_playQueueTable tableColumnWithIdentifier:@"lastPlayed"] dataCell] setFormatter:dateFormatter];
 	[[[_playQueueTable tableColumnWithIdentifier:@"lastSkipped"] dataCell] setFormatter:dateFormatter];
 	
-	[dateFormatter release];
-
 	// Set localized number formatters
 	NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
 	[numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -2591,8 +2534,6 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	[[[_playQueueTable tableColumnWithIdentifier:@"skipCount"] dataCell] setFormatter:numberFormatter];
 	[[[_playQueueTable tableColumnWithIdentifier:@"bpm"] dataCell] setFormatter:numberFormatter];
 	[[[_playQueueTable tableColumnWithIdentifier:@"bitrate"] dataCell] setFormatter:numberFormatter];
-	
-	[numberFormatter release];
 	
 	[[_playQueueTable headerView] setMenu:_playQueueTableHeaderContextMenu];
 	
@@ -2655,62 +2596,61 @@ NSString * const	PlayQueueKey								= @"playQueue";
 {
 	NSParameterAssert(nil != watchFolder);
 	
-	NSAutoreleasePool	*pool				= [[NSAutoreleasePool alloc] init];
-	NSURL				*url				= [watchFolder valueForKey:WatchFolderURLKey];
-	NSMutableSet		*libraryFilenames	= [NSMutableSet set];
-	
-	// Attempt to set the thread's priority (should be low)
+	@autoreleasepool {
+		NSURL				*url				= [watchFolder valueForKey:WatchFolderURLKey];
+		NSMutableSet		*libraryFilenames	= [NSMutableSet set];
+		
+		// Attempt to set the thread's priority (should be low)
 /*	BOOL result = [NSThread setThreadPriority:0.2];
-	if(NO == result) {
-		NSLog(@"Unable to set thread priority");
-	}*/
-	
-	for(AudioStream *stream in [[[CollectionManager manager] streamManager] streamsContainedByURL:url])
-		[libraryFilenames addObject:[[stream valueForKey:StreamURLKey] path]];
-	
-	// Next iterate through and see what is actually in the directory
-	NSMutableSet	*physicalFilenames	= [NSMutableSet set];
-	NSArray			*allowedTypes		= getAudioExtensions();
-	NSString		*path				= [url path];
-	NSString		*filename			= nil;
-	BOOL			isDir;
-	
-	BOOL result = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
-	if(NO == result || NO == isDir) {
-		NSLog(@"Unable to locate folder \"%@\".", path);
-		return;
-	}
-	
-	NSDirectoryEnumerator *directoryEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:path];
-	
-	while((filename = [directoryEnumerator nextObject])) {
-		if([allowedTypes containsObject:[filename pathExtension]]) {
-			[physicalFilenames addObject:[path stringByAppendingPathComponent:filename]];
+		if(NO == result) {
+			NSLog(@"Unable to set thread priority");
+		}*/
+		
+		for(AudioStream *stream in [[[CollectionManager manager] streamManager] streamsContainedByURL:url])
+			[libraryFilenames addObject:[[stream valueForKey:StreamURLKey] path]];
+		
+		// Next iterate through and see what is actually in the directory
+		NSMutableSet	*physicalFilenames	= [NSMutableSet set];
+		NSArray			*allowedTypes		= getAudioExtensions();
+		NSString		*path				= [url path];
+		NSString		*filename			= nil;
+		BOOL			isDir;
+		
+		BOOL result = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
+		if(NO == result || NO == isDir) {
+			NSLog(@"Unable to locate folder \"%@\".", path);
+			return;
 		}
-	}
-	
-	// Determine if any files were deleted
-	NSMutableSet *removedFilenames = [NSMutableSet setWithSet:libraryFilenames];
-	[removedFilenames minusSet:physicalFilenames];
-	
-	// Determine if any files were added
-	NSMutableSet *addedFilenames = [NSMutableSet setWithSet:physicalFilenames];
-	[addedFilenames minusSet:libraryFilenames];
-	
-	if(0 != [addedFilenames count]) {
+		
+		NSDirectoryEnumerator *directoryEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:path];
+		
+		while((filename = [directoryEnumerator nextObject])) {
+			if([allowedTypes containsObject:[filename pathExtension]]) {
+				[physicalFilenames addObject:[path stringByAppendingPathComponent:filename]];
+			}
+		}
+		
+		// Determine if any files were deleted
+		NSMutableSet *removedFilenames = [NSMutableSet setWithSet:libraryFilenames];
+		[removedFilenames minusSet:physicalFilenames];
+		
+		// Determine if any files were added
+		NSMutableSet *addedFilenames = [NSMutableSet setWithSet:physicalFilenames];
+		[addedFilenames minusSet:libraryFilenames];
+		
+		if(0 != [addedFilenames count]) {
 //		[self performSelectorOnMainThread:@selector(addFiles:) withObject:[addedFilenames allObjects] waitUntilDone:YES];
-		[self addFiles:[addedFilenames allObjects]];
-	}
-	
-	if(0 != [removedFilenames count]) {
+			[self addFiles:[addedFilenames allObjects]];
+		}
+		
+		if(0 != [removedFilenames count]) {
 //		[self performSelectorOnMainThread:@selector(removeFiles:) withObject:[removedFilenames allObjects] waitUntilDone:YES];
-		[self removeFiles:[removedFilenames allObjects]];
+			[self removeFiles:[removedFilenames allObjects]];
+		}
+		
+		// Force a refresh
+		[watchFolder loadStreams];
 	}
-	
-	// Force a refresh
-	[watchFolder loadStreams];
-	
-	[pool release];
 }
 
 #pragma mark Stream Table Management
@@ -2874,7 +2814,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	return [[[[CollectionManager manager] streamManager] streams] objectAtIndex:thisIndex];	
 }
 
-- (void) getTracks:(id *)buffer range:(NSRange)range
+- (void) getTracks:(__unsafe_unretained id *)buffer range:(NSRange)range
 {
 	[[[[CollectionManager manager] streamManager] streams] getObjects:buffer range:range];	
 }
@@ -2894,7 +2834,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	return [[[[CollectionManager manager] playlistManager] playlists] objectAtIndex:thisIndex];	
 }
 
-- (void) getPlaylists:(id *)buffer range:(NSRange)range
+- (void) getPlaylists:(__unsafe_unretained id *)buffer range:(NSRange)range
 {
 	[[[[CollectionManager manager] playlistManager] playlists] getObjects:buffer range:range];	
 }
@@ -2914,7 +2854,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	return [[[[CollectionManager manager] smartPlaylistManager] smartPlaylists] objectAtIndex:thisIndex];	
 }
 
-- (void) getSmartPlaylists:(id *)buffer range:(NSRange)range
+- (void) getSmartPlaylists:(__unsafe_unretained id *)buffer range:(NSRange)range
 {
 	[[[[CollectionManager manager] smartPlaylistManager] smartPlaylists] getObjects:buffer range:range];	
 }
@@ -2934,7 +2874,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	return [[[[CollectionManager manager] watchFolderManager] watchFolders] objectAtIndex:thisIndex];	
 }
 
-- (void) getWatchFolders:(id *)buffer range:(NSRange)range
+- (void) getWatchFolders:(__unsafe_unretained id *)buffer range:(NSRange)range
 {
 	[[[[CollectionManager manager] watchFolderManager] watchFolders] getObjects:buffer range:range];	
 }
@@ -2952,7 +2892,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 																								  containerSpecifier:appSpecifier 
 																												 key:@"library"];
 	
-	return [selfSpecifier autorelease];
+	return selfSpecifier;
 }
 
 @end

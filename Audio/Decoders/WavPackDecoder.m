@@ -44,7 +44,6 @@
 											 code:AudioDecoderFileNotFoundError 
 										 userInfo:errorDictionary];
 			}
-			[self release];
 			return nil;
 		}
 		
@@ -77,9 +76,7 @@
 - (void) dealloc
 {
 	if(_wpc)
-		WavpackCloseFile(_wpc), _wpc = NULL;
-	
-	[super dealloc];
+		WavpackCloseFile(_wpc);
 }
 
 - (SInt64)			totalFrames							{ return _totalFrames; }

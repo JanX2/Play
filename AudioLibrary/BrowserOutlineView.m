@@ -21,6 +21,8 @@
 #import "BrowserOutlineView.h"
 #import "BrowserTreeController.h"
 #import "AudioStreamCollectionNode.h"
+#import "PlaylistNode.h"
+#import "SmartPlaylistNode.h"
 #import "WatchFolderNode.h"
 #import "CollectionManager.h"
 #import "AudioStream.h"
@@ -117,7 +119,7 @@ static CGFloat heightOffset	= 3.0f;
 	[genericIcon compositeToPoint:NSZeroPoint operation:NSCompositeDestinationOver fraction:0.75f];
 	[dragImage unlockFocus];
 	
-	return [dragImage autorelease];
+	return dragImage;
 }
 
 - (NSMenu *) menuForEvent:(NSEvent *)event
@@ -234,7 +236,7 @@ static CGFloat heightOffset	= 3.0f;
 									   modalForWindow:[[AudioLibrary library] window] 
 										modalDelegate:self 
 									   didEndSelector:@selector(showPlaylistInformationSheetDidEnd:returnCode:contextInfo:) 
-										  contextInfo:playlistInformationSheet];
+										  contextInfo:(__bridge_retained void * _Null_unspecified)playlistInformationSheet];
 	}
 	else if([_browserController selectedNodeIsSmartPlaylist]) {
 		SmartPlaylistInformationSheet *playlistInformationSheet = [[SmartPlaylistInformationSheet alloc] init];
@@ -247,7 +249,7 @@ static CGFloat heightOffset	= 3.0f;
 									   modalForWindow:[[AudioLibrary library] window] 
 										modalDelegate:self 
 									   didEndSelector:@selector(showSmartPlaylistInformationSheetDidEnd:returnCode:contextInfo:) 
-										  contextInfo:playlistInformationSheet];
+										  contextInfo:(__bridge_retained void * _Null_unspecified)(playlistInformationSheet)];
 	}
 	else if([_browserController selectedNodeIsWatchFolder]) {
 		WatchFolderInformationSheet *watchFolderInformationSheet = [[WatchFolderInformationSheet alloc] init];
@@ -260,7 +262,7 @@ static CGFloat heightOffset	= 3.0f;
 									   modalForWindow:[[AudioLibrary library] window] 
 										modalDelegate:self 
 									   didEndSelector:@selector(showWatchFolderInformationSheetDidEnd:returnCode:contextInfo:) 
-										  contextInfo:watchFolderInformationSheet];
+										  contextInfo:(__bridge_retained void * _Null_unspecified)watchFolderInformationSheet];
 	}
 }
 
@@ -306,7 +308,7 @@ static CGFloat heightOffset	= 3.0f;
 
 - (void) showPlaylistInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	PlaylistInformationSheet *playlistInformationSheet = (PlaylistInformationSheet *)contextInfo;
+	PlaylistInformationSheet *playlistInformationSheet = (__bridge_transfer PlaylistInformationSheet *)contextInfo;
 	
 	[sheet orderOut:self];
 	
@@ -316,13 +318,11 @@ static CGFloat heightOffset	= 3.0f;
 		[[CollectionManager manager] cancelUpdate];
 		// TODO: refresh affected objects
 	}
-	
-	[playlistInformationSheet release];
 }
 
 - (void) showSmartPlaylistInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	SmartPlaylistInformationSheet *playlistInformationSheet = (SmartPlaylistInformationSheet *)contextInfo;
+	SmartPlaylistInformationSheet *playlistInformationSheet = (__bridge_transfer SmartPlaylistInformationSheet *)contextInfo;
 	
 	[sheet orderOut:self];
 	
@@ -332,13 +332,11 @@ static CGFloat heightOffset	= 3.0f;
 		[[CollectionManager manager] cancelUpdate];
 		// TODO: refresh affected objects
 	}
-	
-	[playlistInformationSheet release];
 }
 
 - (void) showWatchFolderInformationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	WatchFolderInformationSheet *watchFolderInformationSheet = (WatchFolderInformationSheet *)contextInfo;
+	WatchFolderInformationSheet *watchFolderInformationSheet = (__bridge_transfer WatchFolderInformationSheet *)contextInfo;
 	
 	[sheet orderOut:self];
 	
@@ -348,8 +346,6 @@ static CGFloat heightOffset	= 3.0f;
 		[[CollectionManager manager] cancelUpdate];
 		// TODO: refresh affected objects
 	}
-	
-	[watchFolderInformationSheet release];
 }
 
 @end

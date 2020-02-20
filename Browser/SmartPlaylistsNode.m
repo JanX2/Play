@@ -46,8 +46,6 @@
 - (void) dealloc
 {
 	[[[CollectionManager manager] smartPlaylistManager] removeObserver:self forKeyPath:@"smartPlaylists"];
-	
-	[super dealloc];
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -102,7 +100,7 @@
 
 - (void) removeObjectFromChildrenAtIndex:(NSUInteger)thisIndex
 {
-	SmartPlaylistNode *node = (SmartPlaylistNode *)[[self childAtIndex:thisIndex] retain];
+	SmartPlaylistNode *node = (SmartPlaylistNode *)[self childAtIndex:thisIndex];
 	
 	/*	if([node isPlaying]) {
 	[[AudioLibrary library] stop:self];
@@ -110,7 +108,6 @@
 	
 	[super removeObjectFromChildrenAtIndex:thisIndex];
 	[[node smartPlaylist] delete];
-	[node release];
 }
 
 @end
@@ -129,7 +126,7 @@
 	for(playlist in playlists) {
 		node = [[SmartPlaylistNode alloc] initWithSmartPlaylist:playlist];
 		[node setParent:self];
-		[_children addObject:[node autorelease]];
+		[_children addObject:node];
 	}
 	[self didChangeValueForKey:@"children"];
 }

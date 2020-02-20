@@ -41,9 +41,6 @@
 	
 	[_audioSlicesInBufferTextField setFormatter:audioSlicesFormatter];
 	[_audioFramesPerSliceTextField setFormatter:audioFramesFormatter];
-	
-	[audioSlicesFormatter release];
-	[audioFramesFormatter release];
 }
 
 @end

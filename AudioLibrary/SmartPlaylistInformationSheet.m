@@ -34,21 +34,12 @@
 		BOOL result = [NSBundle loadNibNamed:@"SmartPlaylistInformationSheet" owner:self];
 		if(NO == result) {
 			NSLog(@"Missing resource: \"SmartPlaylistInformationSheet.nib\".");
-			[self release];
 			return nil;
 		}
 
 		_predicateType	= NSOrPredicateType;
 	}
 	return self;
-}
-
-- (void) dealloc
-{
-	[_playlist release], _playlist = nil;
-	[_criteria release], _criteria = nil;
-	
-	[super dealloc];
 }
 
 - (void) awakeFromNib
@@ -63,7 +54,6 @@
 	[numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	
 	[_playCountTextField setFormatter:numberFormatter];
-	[numberFormatter release];
 	
 	// Dates
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -73,12 +63,11 @@
 	[_dateCreatedTextField setFormatter:dateFormatter];
 	[_firstPlayedTextField setFormatter:dateFormatter];
 	[_lastPlayedTextField setFormatter:dateFormatter];
-	[dateFormatter release];
 }
 
 - (NSWindow *) sheet
 {
-	return [[_sheet retain] autorelease];
+	return _sheet;
 }
 
 - (IBAction) ok:(id)sender
@@ -102,13 +91,12 @@
 
 - (SmartPlaylist *) smartPlaylist
 {
-	return [[_playlist retain] autorelease];
+	return _playlist;
 }
 
 - (void) setSmartPlaylist:(SmartPlaylist *)playlist
 {
-	[_playlist release];
-	_playlist = [playlist retain];
+	_playlist = playlist;
 	
 	NSComparisonPredicate		*comparisonPredicate;
 	NSExpression				*left, *right;
@@ -144,7 +132,7 @@
 					}
 				}
 				
-				[self addCriterion:[criterion autorelease]];
+				[self addCriterion:criterion];
 			}
 		}
 		else if([playlistPredicate isKindOfClass:[NSComparisonPredicate class]]) {
@@ -166,7 +154,7 @@
 				[criterion setSearchTerm:[right constantValue]];					
 			}
 			
-			[self addCriterion:[criterion autorelease]];
+			[self addCriterion:criterion];
 		}		
 	}
 }
@@ -202,7 +190,7 @@
 {
 	SmartPlaylistCriterion *criterion = [[SmartPlaylistCriterion alloc] init];
 	
-	[self addCriterion:[criterion autorelease]];
+	[self addCriterion:criterion];
 }
 
 - (IBAction) remove:(id)sender
@@ -296,7 +284,7 @@
 	if(nil == _criteria)
 		_criteria = [[NSMutableArray alloc] init];
 
-	return [[_criteria retain] autorelease];
+	return _criteria;
 }
 
 @end

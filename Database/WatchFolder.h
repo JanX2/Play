@@ -50,7 +50,7 @@ extern NSString * const		WatchFolderStreamsKey;
 // KVC Accessors
 - (NSUInteger)		countOfStreams;
 - (AudioStream *)	objectInStreamsAtIndex:(NSUInteger)thisIndex;
-- (void)			getStreams:(id *)buffer range:(NSRange)range;
+- (void)			getStreams:(__unsafe_unretained id *)buffer range:(NSRange)range;
 
 @end
 

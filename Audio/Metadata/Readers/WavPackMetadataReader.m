@@ -40,7 +40,7 @@ getWavPackTag(WavpackContext	*wpc,
 		result = [[NSString alloc] initWithBytesNoCopy:tagValue length:len encoding:NSUTF8StringEncoding freeWhenDone:YES];
 	}
 	
-	return [result autorelease];
+	return result;
 }
 
 @implementation WavPackMetadataReader

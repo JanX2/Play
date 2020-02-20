@@ -70,8 +70,6 @@
 {
 	[[[CollectionManager manager] streamManager] removeObserver:self forKeyPath:MetadataAlbumTitleKey];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[super dealloc];
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -101,7 +99,7 @@
 	for(NSString *album in albums) {
 		node = [[AlbumNode alloc] initWithName:album];
 		[node setParent:self];
-		[_children addObject:[node autorelease]];
+		[_children addObject:node];
 	}
 	[self didChangeValueForKey:@"children"];
 }

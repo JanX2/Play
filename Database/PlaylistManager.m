@@ -63,21 +63,7 @@
 
 - (void) dealloc
 {
-	NSFreeMapTable(_registeredPlaylists), _registeredPlaylists = NULL;	
-	
-	[_sql release], _sql = nil;
-	
-	[_cachedPlaylists release], _cachedPlaylists = nil;
-	
-	[_insertedPlaylists release], _insertedPlaylists = nil;
-	[_updatedPlaylists release], _updatedPlaylists = nil;
-	[_deletedPlaylists release], _deletedPlaylists = nil;
-	
-	[_playlistKeys release], _playlistKeys = nil;
-	
-	_db = NULL;
-	
-	[super dealloc];
+	NSFreeMapTable(_registeredPlaylists);
 }
 
 #pragma mark Playlist support
@@ -86,7 +72,7 @@
 {
 	@synchronized(self) {
 		if(nil == _cachedPlaylists)
-			_cachedPlaylists = [[self fetchPlaylists] retain];
+			_cachedPlaylists = [self fetchPlaylists];
 	}
 	return _cachedPlaylists;
 }
@@ -95,7 +81,7 @@
 {
 	NSParameterAssert(nil != objectID);
 	
-	Playlist *playlist = (Playlist *)NSMapGet(_registeredPlaylists, (void *)[objectID unsignedIntValue]);
+	Playlist *playlist = (__bridge Playlist *)NSMapGet(_registeredPlaylists, (void *)[objectID unsignedIntegerValue]);
 	if(nil != playlist)
 		return playlist;
 	
@@ -244,7 +230,7 @@
 {
 	[self willChangeValueForKey:@"playlists"];
 	NSResetMapTable(_registeredPlaylists);
-	[_cachedPlaylists release], _cachedPlaylists = nil;
+	_cachedPlaylists = nil;
 	[self didChangeValueForKey:@"playlists"];
 }
 
@@ -347,8 +333,6 @@
 	}
 	
 	_updating = NO;
-	
-	[indexes release];
 }
 
 - (void) cancelUpdate
@@ -527,19 +511,19 @@
 	NSLog(@"Loaded %ld playlists in %f seconds (%f per second)", (long)[playlists count], elapsed, (double)[playlists count] / elapsed);
 #endif
 	
-	return [playlists autorelease];
+	return playlists;
 }
 
 - (Playlist *) loadPlaylist:(sqlite3_stmt *)statement
 {
 	Playlist		*playlist		= nil;
-	unsigned		objectID;
+	intptr_t		objectID;
 	
 	// The ID should never be NULL
 	NSAssert(SQLITE_NULL != sqlite3_column_type(statement, 0), @"No ID found for playlist");
 	objectID = sqlite3_column_int(statement, 0);
 	
-	playlist = (Playlist *)NSMapGet(_registeredPlaylists, (void *)objectID);
+	playlist = (__bridge Playlist *)NSMapGet(_registeredPlaylists, (void *)(intptr_t)objectID);
 	if(nil != playlist)
 		return playlist;
 	
@@ -557,9 +541,9 @@
 	getColumnValue(statement, 5, playlist, StatisticsPlayCountKey, eObjectTypeUnsignedInt);
 	
 	// Register the object	
-	NSMapInsert(_registeredPlaylists, (void *)objectID, (void *)playlist);
+	NSMapInsert(_registeredPlaylists, (void *)(intptr_t)objectID, (__bridge void *)playlist);
 	
-	return [playlist autorelease];
+	return playlist;
 }
 
 #pragma mark Playlists
@@ -599,7 +583,7 @@
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to clear sql statement bindings (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 		// Register the object	
-		NSMapInsert(_registeredPlaylists, (void *)[[playlist valueForKey:ObjectIDKey] unsignedIntValue], (void *)playlist);
+		NSMapInsert(_registeredPlaylists, (void *)[[playlist valueForKey:ObjectIDKey] unsignedIntegerValue], (__bridge void *)playlist);
 	}
 	
 	@catch(NSException *exception) {
@@ -672,7 +656,7 @@
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"delete_playlist"];
 	int				result			= SQLITE_OK;
-	unsigned		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntValue];
+	intptr_t		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntegerValue];
 	
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));
@@ -700,7 +684,7 @@
 #endif
 	
 	// Deregister the object
-	NSMapRemove(_registeredPlaylists, (void *)objectID);
+	NSMapRemove(_registeredPlaylists, (void *)(intptr_t)objectID);
 }
 
 // TODO: Would it be better to update the rows instead of deleting and re-inserting them?
@@ -711,7 +695,7 @@
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"delete_playlist_entries_for_playlist"];
 	int				result			= SQLITE_OK;
-	unsigned		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntValue];
+	intptr_t		objectID		= [[playlist valueForKey:ObjectIDKey] unsignedIntegerValue];
 	
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));

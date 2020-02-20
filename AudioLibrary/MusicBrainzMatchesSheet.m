@@ -30,34 +30,25 @@
 		BOOL result = [NSBundle loadNibNamed:@"MusicBrainzMatchesSheet" owner:self];
 		if(NO == result) {
 			NSLog(@"Missing resource: \"MusicBrainzMatchesSheet.nib\".");
-			[self release];
 			return nil;
 		}		
 	}
 	return self;
 }
 
-- (void) dealloc
-{
-	[_PUID release], _PUID = nil;
-	
-	[super dealloc];
-}
-
 - (NSWindow *) sheet
 {
-	return [[_sheet retain] autorelease];
+	return _sheet;
 }
 
 - (NSString *) PUID
 {
-	return [[_PUID retain] autorelease];
+	return _PUID;
 }
 
 - (void) setPUID:(NSString *)PUID
 {
-	[_PUID release];
-	_PUID = [PUID retain];
+	_PUID = PUID;
 }
 
 - (IBAction) ok:(id)sender

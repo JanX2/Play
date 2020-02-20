@@ -30,70 +30,55 @@
 		BOOL result = [NSBundle loadNibNamed:@"MusicBrainzSearchSheet" owner:self];
 		if(NO == result) {
 			NSLog(@"Missing resource: \"MusicBrainzSearchSheet.nib\".");
-			[self release];
 			return nil;
 		}		
 	}
 	return self;
 }
 
-- (void) dealloc
-{
-	[_title release], _title = nil;
-	[_artist release], _artist = nil;
-	[_albumTitle release], _albumTitle = nil;
-	[_duration release], _duration = nil;
-
-	[super dealloc];
-}
-
 - (NSWindow *) sheet
 {
-	return [[_sheet retain] autorelease];
+	return _sheet;
 }
 
 - (NSString *) title
 {
-	return [[_title retain] autorelease];
+	return _title;
 }
 
 - (void) setTitle:(NSString *)title
 {
-	[_title release];
-	_title = [title retain];
+	_title = title;
 }
 
 - (NSString *) artist
 {
-	return [[_artist retain] autorelease];
+	return _artist;
 }
 
 - (void) setArtist:(NSString *)artist
 {
-	[_artist release];
-	_artist = [artist retain];
+	_artist = artist;
 }
 
 - (NSString *) albumTitle
 {
-	return [[_albumTitle retain] autorelease];
+	return _albumTitle;
 }
 
 - (void) setAlbumTitle:(NSString *)albumTitle
 {
-	[_albumTitle release];
-	_albumTitle = [albumTitle retain];
+	_albumTitle = albumTitle;
 }
 
 - (NSNumber *) duration
 {
-	return [[_duration retain] autorelease];
+	return _duration;
 }
 
 - (void) setDuration:(NSNumber *)duration
 {
-	[_duration release];
-	_duration = [duration retain];
+	_duration = duration;
 }
 
 - (IBAction) ok:(id)sender

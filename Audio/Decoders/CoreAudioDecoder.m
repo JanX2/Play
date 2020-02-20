@@ -47,7 +47,6 @@
 											 code:AudioDecoderFileNotFoundError 
 										 userInfo:errorDictionary];
 			}
-			[self release];			
 			return nil;
 		}
 		
@@ -64,7 +63,6 @@
 											 code:AudioDecoderInputOutputError 
 										 userInfo:errorDictionary];
 			}
-			[self release];			
 			return nil;
 		}
 		
@@ -94,10 +92,7 @@
 		// Close the output file
 		OSStatus result = ExtAudioFileDispose(_extAudioFile);
 		NSAssert1(noErr == result, @"ExtAudioFileDispose failed: %@", UTCreateStringForOSType(result));
-		_extAudioFile = NULL;
 	}
-	
-	[super dealloc];
 }
 
 - (SInt64) totalFrames

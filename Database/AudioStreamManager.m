@@ -64,21 +64,7 @@
 
 - (void) dealloc
 {
-	NSFreeMapTable(_registeredStreams), _registeredStreams = NULL;	
-
-	[_sql release], _sql = nil;
-
-	[_cachedStreams release], _cachedStreams = nil;
-
-	[_insertedStreams release], _insertedStreams = nil;
-	[_updatedStreams release], _updatedStreams = nil;
-	[_deletedStreams release], _deletedStreams = nil;
-
-	[_streamKeys release], _streamKeys = nil;
-
-	_db = NULL;
-
-	[super dealloc];
+	NSFreeMapTable(_registeredStreams);
 }
 
 #pragma mark AudioStream support
@@ -87,7 +73,7 @@
 {
 	@synchronized(self) {
 		if(nil == _cachedStreams)
-			_cachedStreams = [[self fetchStreams] retain];
+			_cachedStreams = [self fetchStreams];
 	}
 	return _cachedStreams;
 }
@@ -133,14 +119,14 @@
 			[streams addObject:stream];
 	}
 	
-	return [streams autorelease];
+	return streams;
 }
 
 - (AudioStream *) streamForID:(NSNumber *)objectID
 {
 	NSParameterAssert(nil != objectID);
 	
-	AudioStream *stream = (AudioStream *)NSMapGet(_registeredStreams, (void *)[objectID unsignedIntegerValue]);
+	AudioStream *stream = (__bridge AudioStream *)NSMapGet(_registeredStreams, (void *)[objectID unsignedIntegerValue]);
 	if(nil != stream)
 		return stream;
 	
@@ -154,7 +140,7 @@
 	clock_t start = clock();
 #endif
 	
-	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":id"), [objectID unsignedIntegerValue]);
+	result = sqlite3_bind_int(statement, sqlite3_bind_parameter_index(statement, ":id"), [objectID unsignedIntValue]);
 	NSAssert1(SQLITE_OK == result, @"Unable to bind parameter to sql statement (%@).", [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 	
 	while(SQLITE_ROW == (result = sqlite3_step(statement)))
@@ -345,7 +331,7 @@
 {
 	[self willChangeValueForKey:@"streams"];
 	NSResetMapTable(_registeredStreams);
-	[_cachedStreams release], _cachedStreams = nil;
+	_cachedStreams = nil;
 	[self didChangeValueForKey:@"streams"];
 }
 
@@ -453,8 +439,6 @@
 	}
 		
 	_updating = NO;
-	
-	[indexes release];
 }
 
 - (void) cancelUpdate
@@ -537,7 +521,7 @@
 	NSLog(@"Loaded %ld streams in %f seconds (%f per second)", (long)[streams count], elapsed, (double)[streams count] / elapsed);
 #endif
 	
-	return [streams autorelease];
+	return streams;
 }
 
 @end
@@ -574,7 +558,7 @@
 			[streams addObject:stream];
 	}
 
-	return [streams autorelease];
+	return streams;
 }
 
 @end
@@ -699,7 +683,7 @@
 	NSLog(@"Loaded %ld streams in %f seconds (%f per second)", (long)[streams count], elapsed, (double)[streams count] / elapsed);
 #endif
 	
-	return [streams autorelease];
+	return streams;
 }
 
 - (AudioStream *) loadStream:(sqlite3_stmt *)statement
@@ -713,7 +697,7 @@
 	NSAssert(SQLITE_NULL != sqlite3_column_type(statement, 0), @"No ID found for stream");
 	objectID = sqlite3_column_int(statement, 0);
 	
-	stream = (AudioStream *)NSMapGet(_registeredStreams, (void *)objectID);
+	stream = (__bridge AudioStream *)NSMapGet(_registeredStreams, (void *)objectID);
 	if(nil != stream)
 		return stream;
 	
@@ -775,9 +759,9 @@
 	getColumnValue(statement, 42, stream, PropertiesBitrateKey, eObjectTypeDouble);
 	
 	// Register the object	
-	NSMapInsert(_registeredStreams, (void *)objectID, (void *)stream);
+	NSMapInsert(_registeredStreams, (void *)objectID, (__bridge void *)stream);
 	
-	return [stream autorelease];
+	return stream;
 }
 
 #pragma mark Streams
@@ -865,7 +849,7 @@
 		NSAssert1(SQLITE_OK == result, NSLocalizedStringFromTable(@"Unable to clear sql statement bindings (%@).", @"Database", @""), [NSString stringWithUTF8String:sqlite3_errmsg(_db)]);
 
 		// Register the object	
-		NSMapInsert(_registeredStreams, (void *)[[stream valueForKey:ObjectIDKey] unsignedIntegerValue], (void *)stream);
+		NSMapInsert(_registeredStreams, (void *)[[stream valueForKey:ObjectIDKey] unsignedIntegerValue], (__bridge void *)stream);
 	}
 	
 	@catch(NSException *exception) {
@@ -982,7 +966,7 @@
 	
 	sqlite3_stmt	*statement		= [self preparedStatementForAction:@"delete_stream"];
 	int				result			= SQLITE_OK;
-	unsigned		objectID		= [[stream valueForKey:ObjectIDKey] unsignedIntegerValue];
+	intptr_t		objectID		= [[stream valueForKey:ObjectIDKey] unsignedIntegerValue];
 	
 	NSAssert([self isConnectedToDatabase], NSLocalizedStringFromTable(@"Not connected to database", @"Database", @""));
 	NSAssert(NULL != statement, NSLocalizedStringFromTable(@"Unable to locate SQL.", @"Database", @""));

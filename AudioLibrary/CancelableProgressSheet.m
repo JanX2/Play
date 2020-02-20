@@ -28,7 +28,6 @@
 		BOOL result = [NSBundle loadNibNamed:@"CancelableProgressSheet" owner:self];
 		if(NO == result) {
 			NSLog(@"Missing resource: \"CancelableProgressSheet.nib\".");
-			[self release];
 			return nil;
 		}
 	}
@@ -37,7 +36,7 @@
 
 - (NSWindow *) sheet
 {
-	return [[_sheet retain] autorelease];
+	return _sheet;
 }
 
 - (void) setLegend:(NSString *)legend

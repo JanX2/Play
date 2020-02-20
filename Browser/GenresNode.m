@@ -70,8 +70,6 @@
 {
 	[[[CollectionManager manager] streamManager] removeObserver:self forKeyPath:MetadataGenreKey];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[super dealloc];
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -102,7 +100,7 @@
 	for(NSString *genre in genres) {
 		node = [[GenreNode alloc] initWithName:genre];
 		[node setParent:self];
-		[_children addObject:[node autorelease]];
+		[_children addObject:node];
 	}
 	
 	[self didChangeValueForKey:@"children"];
