@@ -28,13 +28,11 @@
 #import "AudioStream.h"
 #import "AudioMetadataWriter.h"
 #import "PreferencesController.h"
-#import <PTHotKey/PTKeyCombo.h>
-#import <PTHotKey/PTHotKeyCenter.h>
-#import <PTHotKey/PTHotKey+ShortcutRecorder.h>
 #import "AppleRemote.h"
 #import "IntegerToDoubleRoundingValueTransformer.h"
 
 #import <SFBCrashReporter/SFBCrashReporter.h>
+#import <ShortcutRecorder/ShortcutRecorder.h>
 
 @interface PlayApplicationDelegate (Private)
 - (void) playbackDidStart:(NSNotification *)aNotification;
@@ -309,38 +307,44 @@
 
 - (void) registerPlayPauseHotKey:(NSDictionary *)keyCombo
 {
-	[[PTHotKeyCenter sharedCenter] unregisterHotKey:[[PTHotKeyCenter sharedCenter] hotKeyWithIdentifier:@"playPause"]];
+	SRShortcut *shortcut = [SRShortcut shortcutWithDictionary:keyCombo];
 	
-	PTHotKey *hotKey = [PTHotKey hotKeyWithIdentifier:@"playPause"
-											 keyCombo:keyCombo
-											   target:[AudioLibrary library]
-											   action:@selector(playPause:)];
+	SRShortcutAction *action =
+	[SRShortcutAction shortcutActionWithShortcut:shortcut
+										  target:AudioLibrary.library
+										  action:@selector(playPause:)
+											 tag:0];
 	
-	[[PTHotKeyCenter sharedCenter] registerHotKey:hotKey];
+	[[SRGlobalShortcutMonitor sharedMonitor] addAction:action
+										   forKeyEvent:SRKeyEventTypeUp];
 }
 
 - (void) registerPlayNextStreamHotKey:(NSDictionary *)keyCombo
 {
-	[[PTHotKeyCenter sharedCenter] unregisterHotKey:[[PTHotKeyCenter sharedCenter] hotKeyWithIdentifier:@"nextStream"]];
+	SRShortcut *shortcut = [SRShortcut shortcutWithDictionary:keyCombo];
 	
-	PTHotKey *hotKey = [PTHotKey hotKeyWithIdentifier:@"nextStream"
-											 keyCombo:keyCombo
-											   target:[AudioLibrary library]
-											   action:@selector(playNextStream:)];
+	SRShortcutAction *action =
+	[SRShortcutAction shortcutActionWithShortcut:shortcut
+										  target:AudioLibrary.library
+										  action:@selector(playNextStream:)
+											 tag:0];
 	
-	[[PTHotKeyCenter sharedCenter] registerHotKey:hotKey];
+	[[SRGlobalShortcutMonitor sharedMonitor] addAction:action
+										   forKeyEvent:SRKeyEventTypeUp];
 }
 
 - (void) registerPlayPreviousStreamHotKey:(NSDictionary *)keyCombo
 {
-	[[PTHotKeyCenter sharedCenter] unregisterHotKey:[[PTHotKeyCenter sharedCenter] hotKeyWithIdentifier:@"previousStream"]];
+	SRShortcut *shortcut = [SRShortcut shortcutWithDictionary:keyCombo];
 	
-	PTHotKey *hotKey = [PTHotKey hotKeyWithIdentifier:@"previousStream"
-											 keyCombo:keyCombo
-											   target:[AudioLibrary library]
-											   action:@selector(playPreviousStream:)];
+	SRShortcutAction *action =
+	[SRShortcutAction shortcutActionWithShortcut:shortcut
+										  target:AudioLibrary.library
+										  action:@selector(playPreviousStream:)
+											 tag:0];
 	
-	[[PTHotKeyCenter sharedCenter] registerHotKey:hotKey];
+	[[SRGlobalShortcutMonitor sharedMonitor] addAction:action
+										   forKeyEvent:SRKeyEventTypeUp];
 }
 
 @end

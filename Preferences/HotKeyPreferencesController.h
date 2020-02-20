@@ -23,7 +23,7 @@
 #import <ShortcutRecorder/ShortcutRecorder.h>
 
 
-@interface HotKeyPreferencesController : NSWindowController <SRRecorderControlDelegate, SRValidatorDelegate>
+@interface HotKeyPreferencesController : NSWindowController <SRRecorderControlDelegate, SRShortcutValidatorDelegate>
 {
 	IBOutlet SRRecorderControl		*_playPauseShortcutRecorder;
 	IBOutlet SRRecorderControl		*_nextStreamShortcutRecorder;

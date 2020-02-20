@@ -21,11 +21,9 @@
 #import "HotKeyPreferencesController.h"
 #import "PlayApplicationDelegate.h"
 
-#import <PTHotKey/PTHotKeyCenter.h>
-
 
 @implementation HotKeyPreferencesController {
-	SRValidator *_validator;
+	SRShortcutValidator *_validator;
 }
 
 
@@ -37,8 +35,8 @@
 	__autoreleasing NSError *error = nil;
 	
 	BOOL isTaken =
-	[_validator isKeyCode:[aShortcut[SRShortcutKeyCode] unsignedShortValue]
-			andFlagsTaken:[aShortcut[SRShortcutModifierFlagsKey] unsignedIntegerValue]
+	[_validator isKeyCode:[aShortcut[SRShortcutKeyKeyCode] unsignedShortValue]
+			andFlagsTaken:[aShortcut[SRShortcutKeyModifierFlags] unsignedIntegerValue]
 					error:&error];
 	
 	if (isTaken) {
@@ -53,17 +51,6 @@
 	}
 	
 	return !isTaken;
-}
-
-- (BOOL)shortcutRecorderShouldBeginRecording:(SRRecorderControl *)aRecorder
-{
-	[[PTHotKeyCenter sharedCenter] pause];
-	return YES;
-}
-
-- (void)shortcutRecorderDidEndRecording:(SRRecorderControl *)aRecorder
-{
-	[[PTHotKeyCenter sharedCenter] resume];
 }
 
 - (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder shouldUnconditionallyAllowModifierFlags:(NSEventModifierFlags)aModifierFlags forKeyCode:(unsigned short)aKeyCode
@@ -104,9 +91,9 @@
 }
 
 
-#pragma mark SRValidatorDelegate
+#pragma mark SRShortcutValidatorDelegate
 
-- (BOOL)shortcutValidator:(SRValidator *)aValidator
+- (BOOL)shortcutValidator:(SRShortcutValidator *)aValidator
 				isKeyCode:(unsigned short)aKeyCode
 			andFlagsTaken:(NSEventModifierFlags)aFlags
 				   reason:(NSString **)outReason
@@ -136,12 +123,12 @@
 }
 
 
-- (BOOL)shortcutValidatorShouldCheckSystemShortcuts:(SRValidator *)aValidator
+- (BOOL)shortcutValidatorShouldCheckSystemShortcuts:(SRShortcutValidator *)aValidator
 {
 	return YES;
 }
 
-- (BOOL)shortcutValidatorShouldCheckMenu:(SRValidator *)aValidator
+- (BOOL)shortcutValidatorShouldCheckMenu:(SRShortcutValidator *)aValidator
 {
 	return YES;
 }
@@ -175,7 +162,7 @@
 	[self prepareShortcutRecorder:_nextStreamShortcutRecorder
 						   forKey:@"playPreviousStreamHotKey"];
 	
-	_validator = [[SRValidator alloc] initWithDelegate:self];
+	_validator = [[SRShortcutValidator alloc] initWithDelegate:self];
 }
 
 - (void)prepareShortcutRecorder:(SRRecorderControl *)shortcutRecorder
