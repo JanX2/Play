@@ -84,7 +84,7 @@
 		//f.tag()->setGenre(TagLib::String([genre UTF8String], TagLib::String::UTF8));
 		
  		// There is a bug in iTunes that will show numeric genres for ID3v2.4 genre tags
-		unsigned index = [[Genres unsortedGenres] indexOfObject:genre];
+		NSUInteger index = [[Genres unsortedGenres] indexOfObject:genre];
 		
 		frame = new TagLib::ID3v2::TextIdentificationFrame("TCON", TagLib::String::Latin1);
 		NSAssert(NULL != frame, @"Unable to allocate memory.");
@@ -93,7 +93,7 @@
 		if(NSNotFound == index)
 			frame->setText(TagLib::String([genre UTF8String], TagLib::String::UTF8));
 		else
-			frame->setText(TagLib::String([[NSString stringWithFormat:@"(%u)", index] UTF8String], TagLib::String::UTF8));
+			frame->setText(TagLib::String([[NSString stringWithFormat:@"(%lu)", (unsigned long)index] UTF8String], TagLib::String::UTF8));
 		
 		f.tag()->addFrame(frame);	
 	}
@@ -151,7 +151,7 @@
 		f.tag()->addFrame(frame);
 	}
 	else if(nil != trackNumber)
-		f.tag()->setTrack([trackNumber unsignedIntegerValue]);
+		f.tag()->setTrack([trackNumber unsignedIntValue]);
 	
 	// Compilation
 	// iTunes uses the TCMP frame for this, which isn't in the standard, but we'll use it for compatibility

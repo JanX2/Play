@@ -399,7 +399,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 {
 	if((self = [super initWithWindowNibName:@"AudioLibrary"])) {
 		// Seed random number generator
-		init_gen_rand(time(NULL));
+		init_gen_rand((uint32_t)time(NULL));
 		
 		if([[NSUserDefaults standardUserDefaults] boolForKey:@"useInMemoryDatabase"])
 			[[CollectionManager manager] connectToDatabase:@":memory:" error:nil];
@@ -1870,7 +1870,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		if(NO == [oldStreamsNode streamsAreOrdered]) {
 			[_streamTableSavedSortDescriptors release], _streamTableSavedSortDescriptors = nil;
 			_streamTableSavedSortDescriptors = [[_streamController sortDescriptors] retain];
-			[_streamController setSortDescriptors:nil];
+			[_streamController setSortDescriptors:@[]];
 		}
 		return;
 	}
@@ -1898,7 +1898,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 				if([newStreamsNode streamsAreOrdered]) {
 					[_streamTableSavedSortDescriptors release], _streamTableSavedSortDescriptors = nil;
 					_streamTableSavedSortDescriptors = [[_streamController sortDescriptors] retain];
-					[_streamController setSortDescriptors:nil];
+					[_streamController setSortDescriptors:@[]];
 				}
 			}
 			
@@ -1913,7 +1913,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	else if([[oldStreamsNode exposedBindings] containsObject:@"streams"] && NO == [oldStreamsNode streamsAreOrdered]) {
 		[_streamTableSavedSortDescriptors release], _streamTableSavedSortDescriptors = nil;
 		_streamTableSavedSortDescriptors = [[_streamController sortDescriptors] retain];
-		[_streamController setSortDescriptors:nil];
+		[_streamController setSortDescriptors:@[]];
 	}
 }
 
