@@ -156,10 +156,10 @@
 	[self prepareShortcutRecorder:_playPauseShortcutRecorder
 						   forKey:@"playPauseHotKey"];
 	
-	[self prepareShortcutRecorder:_previousStreamShortcutRecorder
+	[self prepareShortcutRecorder:_nextStreamShortcutRecorder
 						   forKey:@"playNextStreamHotKey"];
 	
-	[self prepareShortcutRecorder:_nextStreamShortcutRecorder
+	[self prepareShortcutRecorder:_previousStreamShortcutRecorder
 						   forKey:@"playPreviousStreamHotKey"];
 	
 	_validator = [[SRShortcutValidator alloc] initWithDelegate:self];
