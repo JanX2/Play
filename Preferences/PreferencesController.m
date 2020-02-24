@@ -42,7 +42,6 @@ NSString * const	AdvancedPreferencesToolbarItemIdentifier					= @"org.sbooth.Pla
 + (PreferencesController *) sharedPreferences
 {
     static dispatch_once_t onceToken;
-    static PreferencesController *sharedPreferences = nil;
     dispatch_once(&onceToken, ^{
         sharedPreferences = [[PreferencesController alloc] init];
     });

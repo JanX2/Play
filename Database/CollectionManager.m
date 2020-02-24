@@ -143,7 +143,6 @@ static CollectionManager *collectionManagerInstance = nil;
 + (CollectionManager *) manager
 {
     static dispatch_once_t onceToken;
-    static CollectionManager *collectionManagerInstance = nil;
     dispatch_once(&onceToken, ^{
         collectionManagerInstance = [[self alloc] init];
     });
