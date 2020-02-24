@@ -109,6 +109,8 @@
 		
 		return self;
 	}
+	
+	return nil;
 }
 
 - (void) dealloc {
@@ -492,7 +494,7 @@ static void QueueCallbackFunction(void* target,  IOReturn result, void* refcon, 
 				// add callback for async events			
 				ioReturnValue = (*queue)->createAsyncEventSource(queue, &eventSource);			
 				if (ioReturnValue == KERN_SUCCESS) {
-					ioReturnValue = (*queue)->setEventCallout(queue,QueueCallbackFunction, (__bridge_retained void *)(self), NULL);
+					ioReturnValue = (*queue)->setEventCallout(queue, QueueCallbackFunction, (__bridge_retained void *)(self), NULL);
 					if (ioReturnValue == KERN_SUCCESS) {
 						CFRunLoopAddSource(CFRunLoopGetCurrent(), eventSource, kCFRunLoopDefaultMode);
 						
