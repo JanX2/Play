@@ -4,3 +4,6 @@
 [submodule "ThirdParty/ShortcutRecorder"]
 	path = ThirdParty/ShortcutRecorder
 	url = git@github.com:JanX2/ShortcutRecorder.git
+[submodule "ThirdParty/RemoteControlWrapper"]
+	path = ThirdParty/RemoteControlWrapper
+	url = https://github.com/JanX2/apple_remote_control.git
