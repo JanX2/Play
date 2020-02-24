@@ -24,7 +24,7 @@
 void allocate_slice_for_asbd(const AudioStreamBasicDescription *asbd, ScheduledAudioSlice *slice, NSUInteger numberOfFramesPerSlice);
 void deallocate_slice(ScheduledAudioSlice *slice);
 ScheduledAudioSlice * allocate_slice_buffer_for_asbd(const AudioStreamBasicDescription *asbd, NSUInteger numberOfSlicesInBuffer, NSUInteger numberOfFramesPerSlice);
-void deallocate_slice_buffer(ScheduledAudioSlice **sliceBuffer, NSUInteger numberOfSlicesInBuffer);
+void deallocate_slice_buffer(ScheduledAudioSlice **sliceBuffer, NSArray<NSLock *> *sliceLocks, NSUInteger numberOfSlicesInBuffer);
 
 // ========================================
 // Helper functions
@@ -87,7 +87,7 @@ allocate_slice_buffer_for_asbd(const AudioStreamBasicDescription *asbd, NSUInteg
 }
 
 void
-deallocate_slice_buffer(ScheduledAudioSlice **sliceBuffer, NSUInteger numberOfSlicesInBuffer)
+deallocate_slice_buffer(ScheduledAudioSlice **sliceBuffer, NSArray<NSLock *> *sliceLocks, NSUInteger numberOfSlicesInBuffer)
 {
 	NSCParameterAssert(NULL != sliceBuffer);
 	NSCParameterAssert(0 < numberOfSlicesInBuffer);
@@ -96,8 +96,13 @@ deallocate_slice_buffer(ScheduledAudioSlice **sliceBuffer, NSUInteger numberOfSl
 		return;
 	
 	NSUInteger i;
-	for(i = 0; i < numberOfSlicesInBuffer; ++i)
+	for(i = 0; i < numberOfSlicesInBuffer; ++i) {
+		[sliceLocks[i] lock];
+
 		deallocate_slice(*sliceBuffer + i);
+		
+		[sliceLocks[i] unlock];
+	}
 	
 	free(*sliceBuffer);
 	*sliceBuffer = NULL;
@@ -117,7 +122,7 @@ clear_buffer_list(AudioBufferList *bufferList, NSUInteger numberOfFramesPerSlice
 }
 
 static void
-clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSUInteger numberOfSlicesInBuffer, NSUInteger numberOfFramesPerSlice)
+clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSArray<NSLock *> *sliceLocks, NSUInteger numberOfSlicesInBuffer, NSUInteger numberOfFramesPerSlice)
 {
 	NSCParameterAssert(NULL != sliceBuffer);
 	NSCParameterAssert(0 < numberOfSlicesInBuffer);
@@ -125,11 +130,22 @@ clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSUInteger numberOfSlicesIn
 	
 	NSUInteger i, j;
 	for(i = 0; i < numberOfSlicesInBuffer; ++i) {
+		[sliceLocks[i] lock];
+		
 		for(j = 0; j < sliceBuffer[i].mBufferList->mNumberBuffers; ++j)
 			clear_buffer_list(sliceBuffer[i].mBufferList, numberOfFramesPerSlice);
 		sliceBuffer[i].mFlags = kScheduledAudioSliceFlag_Complete;
+		
+		[sliceLocks[i] unlock];
 	}
 }
+
+@interface ScheduledAudioRegion ()
+
+@property (atomic, readwrite, assign) SInt64 framesScheduled;
+@property (atomic, readwrite, assign) SInt64 framesRendered;
+
+@end
 
 @implementation ScheduledAudioRegion
 
@@ -173,7 +189,7 @@ clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSUInteger numberOfSlicesIn
 
 - (void) dealloc
 {
-	deallocate_slice_buffer(&_sliceBuffer, [self numberOfSlicesInBuffer]);
+	deallocate_slice_buffer(&_sliceBuffer, _sliceLocks, [self numberOfSlicesInBuffer]);
 }
 
 #pragma mark Properties
@@ -187,6 +203,7 @@ clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSUInteger numberOfSlicesIn
 	_startTime = startTime;
 }
 
+/*
 - (id <AudioDecoderMethods>)	decoder						{ return _decoder; }
 
 - (void) setDecoder:(id <AudioDecoderMethods>)decoder
@@ -197,9 +214,8 @@ clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSUInteger numberOfSlicesIn
 	
 	_decoder = decoder;	
 }
+*/
 
-- (SInt64)			framesScheduled							{ return _framesScheduled; }
-- (SInt64)			framesRendered							{ return _framesRendered; }
 - (BOOL)			atEnd									{ return _atEnd; }
 
 - (NSUInteger) numberOfSlicesInBuffer
@@ -221,14 +237,54 @@ clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSUInteger numberOfSlicesIn
 	_framesPerSlice		= frameCount;
 	
 	// Allocate the buffers for the AudioScheduler to use
-	deallocate_slice_buffer(&_sliceBuffer, [self numberOfSlicesInBuffer]);
+	deallocate_slice_buffer(&_sliceBuffer, _sliceLocks, [self numberOfSlicesInBuffer]);
 	AudioStreamBasicDescription format = [[self decoder] format];
 	_sliceBuffer = allocate_slice_buffer_for_asbd(&format, [self numberOfSlicesInBuffer], [self numberOfFramesPerSlice]);
+	
+	NSMutableArray *sliceLocks = [NSMutableArray arrayWithCapacity:sliceCount];
+	for (NSUInteger i = 0; i < sliceCount; i += 1) {
+		[sliceLocks addObject:[[NSLock alloc] init]];
+	}
+	_sliceLocks = [sliceLocks copy];
+}
+
+- (void) lockSlice:(NSUInteger)sliceIndex;
+{
+	NSParameterAssert(sliceIndex < [self numberOfSlicesInBuffer]);
+
+	[_sliceLocks[sliceIndex] lock];
+}
+
+- (void) lockSliceWithReference:(ScheduledAudioSlice *)slice;
+{
+	ptrdiff_t offset = slice - _sliceBuffer;
+	NSUInteger sliceIndex = (NSUInteger)offset;
+	
+	//NSAssert(((_sliceBuffer + sliceIndex) == slice), @"Ref calc.");
+	
+	[self lockSlice:sliceIndex];
+}
+
+- (void) unlockSlice:(NSUInteger)sliceIndex;
+{
+	NSParameterAssert(sliceIndex < [self numberOfSlicesInBuffer]);
+
+	[_sliceLocks[sliceIndex] unlock];
+}
+
+- (void) unlockSliceWithReference:(ScheduledAudioSlice *)slice;
+{
+	ptrdiff_t offset = slice - _sliceBuffer;
+	NSUInteger sliceIndex = (NSUInteger)offset;
+	
+	//NSAssert(((_sliceBuffer + sliceIndex) == slice), @"Ref calc.");
+	
+	[self unlockSlice:sliceIndex];
 }
 
 - (void) clearSliceBuffer
 {
-	clear_slice_buffer(_sliceBuffer,[self numberOfSlicesInBuffer], [self numberOfFramesPerSlice]);
+	clear_slice_buffer(_sliceBuffer, _sliceLocks, [self numberOfSlicesInBuffer], [self numberOfFramesPerSlice]);
 }
 
 - (void) clearSlice:(NSUInteger)sliceIndex
@@ -238,13 +294,13 @@ clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSUInteger numberOfSlicesIn
 	clear_buffer_list(_sliceBuffer[sliceIndex].mBufferList, [self numberOfFramesPerSlice]);
 }
 
-- (void)			clearFramesScheduled					{ _framesScheduled = 0; }
-- (void)			clearFramesRendered						{ _framesRendered = 0; }
+- (void)			clearFramesScheduled					{ self.framesScheduled = 0; }
+- (void)			clearFramesRendered						{ self.framesRendered = 0; }
 
 - (UInt32) readAudioInSlice:(NSUInteger)sliceIndex
 {
 	NSParameterAssert(sliceIndex < [self numberOfSlicesInBuffer]);
-
+	
 	UInt32 framesRead = [[self decoder] readAudio:_sliceBuffer[sliceIndex].mBufferList frameCount:[self numberOfFramesPerSlice]];
 	
 	if(0 == framesRead)
@@ -267,17 +323,17 @@ clear_slice_buffer(ScheduledAudioSlice *sliceBuffer, NSUInteger numberOfSlicesIn
 
 - (void) scheduledAdditionalFrames:(UInt32)frameCount
 {
-	_framesScheduled += frameCount;
+	self.framesScheduled += frameCount;
 }
 
 - (void) renderedAdditionalFrames:(UInt32)frameCount
 {
-	_framesRendered += frameCount;
+	self.framesRendered += frameCount;
 }
 
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@ (%qi, %qi)", [self decoder], [self framesRendered], [self framesScheduled]];
+	return [NSString stringWithFormat:@"%@ (%qi, %qi)", [self decoder], self.framesRendered, self.framesScheduled];
 }
 
 @end

@@ -36,20 +36,13 @@ extern NSString * const		ScheduledAudioRegionObjectKey;		// ScheduledAudioRegion
 	NSUInteger				_numberSlices;
 	NSUInteger				_framesPerSlice;
 	
-	AudioUnit				_audioUnit;
-	
 	AudioTimeStamp			_scheduledStartTime;
-
-	SInt64					_framesScheduled;
-	SInt64					_framesRendered;
 
 	NSMutableArray			*_scheduledAudioRegions;
 
 	ScheduledAudioRegion	*_regionBeingScheduled;
 	ScheduledAudioRegion	*_regionBeingRendered;
 
-	BOOL					_keepScheduling;
-	BOOL					_scheduling;
 	semaphore_t				_semaphore;
 	
 	id						_delegate;
@@ -60,8 +53,7 @@ extern NSString * const		ScheduledAudioRegionObjectKey;		// ScheduledAudioRegion
 - (NSUInteger) numberOfFramesPerSlice;
 
 // The ScheduledSoundPlayer AudioUnit on which to schedule audio slices
-- (AudioUnit) audioUnit;
-- (void) setAudioUnit:(AudioUnit)audioUnit;
+@property (atomic, readwrite, assign) AudioUnit audioUnit;
 
 // An optional delegate to receive notifications
 - (id) delegate;
@@ -86,7 +78,7 @@ extern NSString * const		ScheduledAudioRegionObjectKey;		// ScheduledAudioRegion
 - (void) stopScheduling;
 
 // YES if this object is actively scheduling audio for rendering, NO otherwise
-- (BOOL) isScheduling;
+@property (atomic, readonly, assign, getter=isScheduling) BOOL scheduling;
 
 // YES if this object's scheduled audio is rendering, NO otherwise
 - (BOOL) isRendering;
@@ -101,8 +93,8 @@ extern NSString * const		ScheduledAudioRegionObjectKey;		// ScheduledAudioRegion
 - (AudioTimeStamp) currentPlayTime;
 
 // Query the number of audio frames scheduled and rendered (since startScheduling was called)
-- (SInt64) framesScheduled;
-- (SInt64) framesRendered;
+@property (atomic, readonly, assign) SInt64 framesScheduled;
+@property (atomic, readonly, assign) SInt64 framesRendered;
 
 @end
 

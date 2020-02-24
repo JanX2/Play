@@ -32,18 +32,31 @@ NSString * const	ScheduledAudioRegionObjectKey		= @"org.sbooth.Play.ScheduledAud
 // ========================================
 NSString * const	AudioSchedulerRunLoopMode			= @"org.sbooth.Play.AudioScheduler.RunLoopMode";
 
+
+// ========================================
+// Private properties
+// ========================================
+@interface AudioScheduler ()
+
+@property (atomic, readonly, assign) semaphore_t semaphore;
+
+@property (atomic, readwrite, assign) SInt64 framesScheduled;
+@property (atomic, readwrite, assign) SInt64 framesRendered;
+
+@property (atomic, readwrite, assign, getter=isScheduling, setter=scheduling:) BOOL scheduling;
+@property (atomic, readwrite, assign) BOOL keepScheduling;
+
+@end
+
 // ========================================
 // Private methods
 // ========================================
 @interface AudioScheduler (Private)
-- (semaphore_t) semaphore;
 
 - (NSMutableArray *) scheduledAudioRegions;
 
 - (void) setRegionBeingScheduled:(ScheduledAudioRegion *)region;
 - (void) setRegionBeingRendered:(ScheduledAudioRegion *)region;
-
-- (BOOL) keepScheduling;
 
 - (void) scheduledAdditionalFrames:(UInt32)frameCount;
 - (void) renderedAdditionalFrames:(UInt32)frameCount;
@@ -65,6 +78,8 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 		NSArray					*dataArray	= (__bridge_transfer NSArray *)userData;
 		AudioScheduler			*scheduler	= (AudioScheduler *)[dataArray objectAtIndex:0];
 		ScheduledAudioRegion	*region		= (ScheduledAudioRegion *)[dataArray objectAtIndex:1];
+		
+		[region lockSliceWithReference:slice];
 		
 #if DEBUG
 		if(kScheduledAudioSliceFlag_BeganToRenderLate & slice->mFlags)
@@ -88,11 +103,13 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 		//	if(kScheduledAudioSliceFlag_BeganToRender & slice->mFlags)
 		[scheduler renderedAdditionalFrames:slice->mNumberFrames];
 		
+		[region unlockSliceWithReference:slice];
+		
 		// Signal the scheduling thread that a slice is available for filling
 		semaphore_signal([scheduler semaphore]);
 		
 		// Determine if region rendering is complete
-		if([[scheduler regionBeingRendered] atEnd] && [[scheduler regionBeingRendered] framesRendered] == [[scheduler regionBeingRendered] framesScheduled]) {
+		if([[scheduler regionBeingRendered] atEnd] && (scheduler.regionBeingRendered.framesRendered == scheduler.regionBeingRendered.framesScheduled)) {
 			
 			// Notify the delegate
 			if(nil != [scheduler delegate] && [[scheduler delegate] respondsToSelector:@selector(audioSchedulerFinishedRenderingRegion:)])
@@ -106,7 +123,9 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 	}
 }
 
-@implementation AudioScheduler
+@implementation AudioScheduler {
+	AudioUnit				_audioUnit;
+}
 
 - (id) init
 {	
@@ -128,7 +147,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 
 - (void) dealloc
 {
-	if([self isScheduling])
+	if (self.isScheduling)
 		[self stopScheduling];
 }
 
@@ -154,7 +173,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 //	// Ensure the audio unit is a ScheduledSoundPlayer
 //	ComponentDescription componentDescription;
 //    componentDescription.componentType = 0;
-//	ComponentResult err = GetComponentInfo((Component)audioUnit,
+//	ComponentResult err = GetComponentInfo((Component)_audioUnit,
 //										   &componentDescription,
 //										   NULL,
 //										   NULL,
@@ -201,7 +220,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 		[[self scheduledAudioRegions] addObject:scheduledAudioRegion];
 	}
 
-	semaphore_signal([self semaphore]);
+	semaphore_signal(self.semaphore);
 }
 
 - (void) unscheduleAudioRegion:(ScheduledAudioRegion *)scheduledAudioRegion
@@ -209,7 +228,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 	NSParameterAssert(nil != scheduledAudioRegion);
 	
 	if([self regionBeingScheduled] == scheduledAudioRegion) {
-		if([self isScheduling])
+		if (self.isScheduling)
 			NSLog(@"Cannot unschedule the current ScheduledAudioRegion while scheduling audio slices");
 		else
 			// This operation is thread safe as long as the scheduling thread isn't active
@@ -235,13 +254,14 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 
 - (void) startScheduling
 {
-	if(NULL == [self audioUnit] || [self isScheduling])
+	if ((self.audioUnit == NULL) || self.isScheduling) {
 		return;
+	}
 
-	_framesScheduled		= 0;
-	_framesRendered			= 0;
-	_keepScheduling			= YES;
-	_scheduling				= YES;
+	self.framesScheduled	= 0;
+	self.framesRendered		= 0;
+	self.keepScheduling		= YES;
+	self.scheduling			= YES;
 	
 	[[self regionBeingScheduled] clearFramesScheduled];
 	[[self regionBeingScheduled] clearFramesRendered];
@@ -255,25 +275,25 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 
 - (void) stopScheduling
 {
-	if(NO == [self isScheduling])
+	if (self.isScheduling == NO)
 		return;
 	
 	// Signal the scheduling thread that it may exit
-	_keepScheduling = NO;
-	semaphore_signal([self semaphore]);
+	self.keepScheduling = NO;
+	semaphore_signal(self.semaphore);
 
 	// Wait for the thread to terminate
-	while([self isScheduling])
+	while(self.isScheduling)
 		[[NSRunLoop currentRunLoop] runMode:AudioSchedulerRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
 }
 
 - (void) reset
 {
-	if([self isScheduling])
+	if (self.isScheduling)
 		return;
 	
 	// Remove any scheduled slices by resetting the AUScheduledSoundPlayer
-	ComponentResult result = AudioUnitReset([self audioUnit],
+	ComponentResult result = AudioUnitReset(self.audioUnit,
 											kAudioUnitScope_Global, 
 											0);
 	if(noErr != result)
@@ -290,7 +310,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 
 - (void) clear
 {
-	if([self isScheduling])
+	if (self.isScheduling)
 		return;
 	
 	[self reset];
@@ -300,11 +320,6 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 	
 	// This is thread safe because the scheduling thread is inactive
 	[[self scheduledAudioRegions] removeAllObjects];
-}
-
-- (BOOL) isScheduling
-{
-	return _scheduling;
 }
 
 - (BOOL) isRendering
@@ -321,7 +336,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 	AudioTimeStamp		timeStamp	= { 0 };
 #pragma clang diagnostic pop
 	UInt32				dataSize	= sizeof(AudioTimeStamp);
-	ComponentResult		result		= AudioUnitGetProperty([self audioUnit],
+	ComponentResult		result		= AudioUnitGetProperty(self.audioUnit,
 														   kAudioUnitProperty_CurrentPlayTime,
 														   kAudioUnitScope_Global,
 														   0,
@@ -334,8 +349,6 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 	return timeStamp;
 }
 
-- (SInt64)			framesScheduled					{ return _framesScheduled; }
-- (SInt64)			framesRendered					{ return _framesRendered; }
 
 @end
 
@@ -360,17 +373,15 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 	_regionBeingRendered = region;
 }
 
-- (BOOL)			keepScheduling					{ return _keepScheduling; }
-
 - (void) scheduledAdditionalFrames:(UInt32)frameCount
 {
-	_framesScheduled += frameCount;
+	self.framesScheduled += frameCount;
 	[[self regionBeingScheduled] scheduledAdditionalFrames:frameCount];
 }
 
 - (void) renderedAdditionalFrames:(UInt32)frameCount
 {
-	_framesRendered += frameCount;
+	self.framesRendered += frameCount;
 	[[self regionBeingRendered] renderedAdditionalFrames:frameCount];
 }
 
@@ -390,7 +401,7 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 		[[self delegate] performSelectorOnMainThread:@selector(audioSchedulerStartedScheduling:) withObject:self waitUntilDone:NO];
 
 	// Outer scheduling loop, for looping over regions
-	while([self keepScheduling]) {
+	while (self.keepScheduling) {
 
 		// Grab the next ScheduledAudioRegion to work with
 		if(nil == [self regionBeingScheduled]) {
@@ -414,15 +425,16 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 		}
 		
 		// Inner scheduling loop, for processing an individual region
-		while([self keepScheduling] && nil != [self regionBeingScheduled] && NO == allFramesScheduled) {
+		while(self.keepScheduling && nil != [self regionBeingScheduled] && NO == allFramesScheduled) {
 
 			// Iterate through the slice buffer, scheduling audio as completed slices become available
 			for(i = 0; i < [[self regionBeingScheduled] numberOfSlicesInBuffer]; ++i) {
 				slice = [[self regionBeingScheduled] sliceAtIndex:i];
-				
+
 				// If the slice is marked as complete, re-use it
 				if(kScheduledAudioSliceFlag_Complete & slice->mFlags) {
-					
+					[self.regionBeingScheduled lockSlice:i];
+
 					// Prepare the slice
 					[[self regionBeingScheduled] clearSlice:i];
 					
@@ -448,21 +460,21 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 					// To handle the case where the file contains fewer frames than the buffer,
 					// pass the region and self to the callback proc to ensure that the callback
 					// knows the ScheduledAudioRegion the audio that was just rendered came from
-					NSArray *array = [[NSArray alloc] initWithObjects:self, [self regionBeingScheduled], nil];					
+					NSArray *array = [[NSArray alloc] initWithObjects:self, [self regionBeingScheduled], nil];
 					
 					// Schedule it
 					slice->mTimeStamp.mFlags		= kAudioTimeStampSampleTimeValid;
-					slice->mTimeStamp.mSampleTime	= [self scheduledStartTime].mSampleTime + [self framesScheduled];
+					slice->mTimeStamp.mSampleTime	= [self scheduledStartTime].mSampleTime + self.framesScheduled;
 					slice->mCompletionProc			= scheduledAudioSliceCompletionProc;
 					slice->mCompletionProcUserData	= (__bridge_retained void *)array;
 					slice->mFlags					= 0;
 					slice->mNumberFrames			= frameCount;
 					
-					ComponentResult err = AudioUnitSetProperty([self audioUnit],
-															   kAudioUnitProperty_ScheduleAudioSlice, 
-															   kAudioUnitScope_Global, 
+					ComponentResult err = AudioUnitSetProperty(self.audioUnit,
+															   kAudioUnitProperty_ScheduleAudioSlice,
+															   kAudioUnitScope_Global,
 															   0,
-															   slice, 
+															   slice,
 															   sizeof(ScheduledAudioSlice));
 					if(noErr != err) {
 						NSLog(@"AudioScheduler: Unable to schedule audio slice: %d", (int)err);
@@ -473,20 +485,22 @@ scheduledAudioSliceCompletionProc(void *userData, ScheduledAudioSlice *slice)
 #if EXTENDED_DEBUG
 					NSLog(@"AudioScheduler: Scheduling slice %"PRId32 " (%"PRId32 " frames) to start at sample %"PRId64 "", i, frameCount, (SInt64)slice->mTimeStamp.mSampleTime);
 #endif
+					
+					[self.regionBeingScheduled unlockSlice:i];
 
 					[self scheduledAdditionalFrames:frameCount];
 				}
 			}
 
 			// Sleep until we are signaled or the timeout happens
-			semaphore_timedwait([self semaphore], timeout);
+			semaphore_timedwait(self.semaphore, timeout);
 		}		
 
 		// Sleep until we are signaled or the timeout happens
-		semaphore_timedwait([self semaphore], timeout);
+		semaphore_timedwait(self.semaphore, timeout);
 	}
 	
-	_scheduling = NO;
+	self.scheduling = NO;
 	
 	// Notify the delegate that scheduling has stopped
 	if(nil != [self delegate] && [[self delegate] respondsToSelector:@selector(audioSchedulerStoppedScheduling:)])

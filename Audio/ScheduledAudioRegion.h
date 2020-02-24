@@ -27,19 +27,16 @@
 // AudioScheduler needs to use a decoder
 @interface ScheduledAudioRegion : NSObject
 {
-	id <AudioDecoderMethods>	_decoder;
 	BOOL						_atEnd;
 	
 	AudioTimeStamp				_startTime;
 	
 	ScheduledAudioSlice			*_sliceBuffer;
+	NSArray<NSLock *>			*_sliceLocks;
 
 	NSUInteger					_numberSlices;
 	NSUInteger					_framesPerSlice;
-
-	SInt64						_framesScheduled;
-	SInt64						_framesRendered;
-}	
+}
 
 + (ScheduledAudioRegion *) scheduledAudioRegionWithDecoder:(id <AudioDecoderMethods>)decoder;
 + (ScheduledAudioRegion *) scheduledAudioRegionWithDecoder:(id <AudioDecoderMethods>)decoder startTime:(AudioTimeStamp)startTime;
@@ -47,16 +44,15 @@
 - (id) initWithDecoder:(id <AudioDecoderMethods>)decoder;
 - (id) initWithDecoder:(id <AudioDecoderMethods>)decoder startTime:(AudioTimeStamp)startTime;
 
-- (id <AudioDecoderMethods>) decoder;
-- (void) setDecoder:(id <AudioDecoderMethods>)decoder;
+@property (atomic, readwrite, strong) id <AudioDecoderMethods> decoder;
 
 - (BOOL) atEnd;
 
 - (AudioTimeStamp) startTime;
 - (void) setStartTime:(AudioTimeStamp)startTime;
 
-- (SInt64) framesScheduled;
-- (SInt64) framesRendered;
+@property (atomic, readonly, assign) SInt64 framesScheduled;
+@property (atomic, readonly, assign) SInt64 framesRendered;
 
 - (NSUInteger) numberOfSlicesInBuffer;
 - (NSUInteger) numberOfFramesPerSlice;
@@ -72,6 +68,11 @@
 
 - (ScheduledAudioSlice *) buffer;
 - (ScheduledAudioSlice *) sliceAtIndex:(NSUInteger)sliceIndex;
+
+- (void) lockSlice:(NSUInteger)sliceIndex;
+- (void) lockSliceWithReference:(ScheduledAudioSlice *)slice;
+- (void) unlockSlice:(NSUInteger)sliceIndex;
+- (void) unlockSliceWithReference:(ScheduledAudioSlice *)slice;
 
 - (void) scheduledAdditionalFrames:(UInt32)frameCount;
 - (void) renderedAdditionalFrames:(UInt32)frameCount;
