@@ -32,7 +32,7 @@
 	AudioTimeStamp				_startTime;
 	
 	ScheduledAudioSlice			*_sliceBuffer;
-	NSArray<NSLock *>			*_sliceLocks;
+	NSArray<NSLock *>			*_sliceLocks; // TODO: Write wrapper object for slices that allows locking/unlocking.
 
 	NSUInteger					_numberSlices;
 	NSUInteger					_framesPerSlice;
