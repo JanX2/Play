@@ -63,7 +63,7 @@
 	return result;
 }
 
-- (BOOL) getObjectValue:(__unsafe_unretained id *)object forString:(NSString *)string errorDescription:(NSString  **)error
+- (BOOL)getObjectValue:(out id  _Nullable __autoreleasing *)object forString:(NSString *)string errorDescription:(out NSString * _Nullable __autoreleasing *)error
 {
 	NSScanner		*scanner		= nil;
 	BOOL			result			= NO;
