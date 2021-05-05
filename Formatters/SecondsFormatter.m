@@ -20,26 +20,29 @@
 
 #import "SecondsFormatter.h"
 
-#include <math.h>
-
 @implementation SecondsFormatter
 
 - (NSString *) stringForObjectValue:(id)object
 {
-	NSString		*result			= nil;
-	unsigned		days			= 0;
-	unsigned		hours			= 0;
-	
-	if(nil == object || NO == [object isKindOfClass:[NSNumber class]])
+	if (nil == object || NO == [object isKindOfClass:[NSNumber class]]) {
+		// Docs state: “Returns nil if object is not of the correct class.”
 		return nil;
+	}
 	
 	float floatValue = [object floatValue];
-	if(isnan(floatValue) || isinf(floatValue))
-		return nil;
 	
-	unsigned value			= (unsigned)floatValue;
-	unsigned seconds		= value % 60;
-	unsigned minutes		= value / 60;
+	if (isnan(floatValue)) { return @"NaN"; }
+	if (isinf(floatValue)) { return @"Inf"; }
+	
+	unsigned totalSeconds		= (unsigned)floatValue;
+	
+	unsigned seconds	= totalSeconds % 60;
+	unsigned minutes	= totalSeconds / 60;
+	unsigned hours		= 0;
+	unsigned days		= 0;
+	
+	seconds		= totalSeconds % 60;
+	minutes		= totalSeconds / 60;
 	
 	while(60 <= minutes) {
 		minutes -= 60;
@@ -50,15 +53,21 @@
 		hours -= 24;
 		++days;
 	}
-
-	if(0 < days)
+	
+	NSString *result = nil;
+	
+	if(0 < days) {
 		result = [NSString stringWithFormat:@"%u:%.2u:%.2u:%.2u", days, hours, minutes, seconds];
-	else if(0 < hours)
+	}
+	else if(0 < hours) {
 		result = [NSString stringWithFormat:@"%u:%.2u:%.2u", hours, minutes, seconds];
-	else if(0 < minutes)
+	}
+	else if(0 < minutes) {
 		result = [NSString stringWithFormat:@"%u:%.2u", minutes, seconds];
-	else
+	}
+	else {
 		result = [NSString stringWithFormat:@"0:%.2u", seconds];
+	}
 	
 	return result;
 }
@@ -68,8 +77,8 @@
 	NSScanner		*scanner		= nil;
 	BOOL			result			= NO;
 	int				value			= 0;
-	unsigned		seconds;
-
+	unsigned		seconds			= 0;
+	
 	scanner		= [NSScanner scannerWithString:string];
 	
 	while(NO == [scanner isAtEnd]) {
@@ -85,10 +94,12 @@
 		[scanner scanString:@":" intoString:NULL];
 	}
 	
-	if(result && NULL != object)
+	if(result && NULL != object) {
 		*object = [NSNumber numberWithUnsignedInt:seconds];
-	else if(NULL != error)
+	}
+	else if(NULL != error) {
 		*error = @"Couldn't convert value to seconds";
+	}
 	
 	return result;
 }
