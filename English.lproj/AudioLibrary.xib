@@ -48,7 +48,7 @@
                                             <rect key="frame" x="1" y="0.0" width="758" height="274"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" autosaveColumns="NO" rowHeight="14" headerView="1099" id="13" customClass="AudioStreamTableView">
+                                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" autosaveName="libraryTable" rowHeight="14" headerView="1099" id="13" customClass="AudioStreamTableView">
                                                     <rect key="frame" x="0.0" y="0.0" width="1671" height="251"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -483,7 +483,7 @@
                                             <rect key="frame" x="1" y="0.0" width="758" height="159"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" autosaveColumns="NO" rowHeight="14" headerView="1096" id="601" customClass="PlayQueueTableView">
+                                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" autosaveName="playQueueTable" rowHeight="14" headerView="1096" id="601" customClass="PlayQueueTableView">
                                                     <rect key="frame" x="0.0" y="0.0" width="1245" height="136"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>

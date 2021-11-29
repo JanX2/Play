@@ -350,7 +350,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		streamTableColumnSizesDictionary, @"streamTableColumnSizes",
 		streamTableColumnOrderArray, @"streamTableColumnOrder",
 		playQueueVisibleColumnsDictionary, @"playQueueTableColumnVisibility",
-		playQueueColumnSizesDictionary, @"playQueueTableColumnSizes",
+		//playQueueColumnSizesDictionary, @"playQueueTableColumnSizes",
 		playQueueColumnOrderArray, @"playQueueTableColumnOrder",
 		nil];
 	
@@ -1731,13 +1731,14 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		[self savePlayQueueTableColumnOrder];
 }
 
+/*
 - (void) tableViewColumnDidResize:(NSNotification *)aNotification
 {
 	if([aNotification object] == _streamTable) {
 		NSMutableDictionary		*sizes			= [NSMutableDictionary dictionary];
 		
 		for(id column in [_streamTable tableColumns])
-			[sizes setObject:[NSNumber numberWithDouble:(double)[column width]] forKey:[column identifier]];
+			[sizes setObject:@([column width]) forKey:[column identifier]];
 		
 		[[NSUserDefaults standardUserDefaults] setObject:sizes forKey:@"streamTableColumnSizes"];
 	}
@@ -1745,11 +1746,12 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		NSMutableDictionary		*sizes			= [NSMutableDictionary dictionary];
 		
 		for(id column in [_playQueueTable tableColumns])
-			[sizes setObject:[NSNumber numberWithDouble:(double)[column width]] forKey:[column identifier]];
+			[sizes setObject:@([column width]) forKey:[column identifier]];
 		
 		[[NSUserDefaults standardUserDefaults] setObject:sizes forKey:@"playQueueTableColumnSizes"];
 	}
 }
+ */
 
 /*- (void) configureTypeSelectTableView:(KFTypeSelectTableView *)tableView
 {
@@ -2427,7 +2429,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	
 	// Setup stream table columns
 	NSDictionary	*visibleDictionary	= [[NSUserDefaults standardUserDefaults] objectForKey:@"streamTableColumnVisibility"];
-	NSDictionary	*sizesDictionary	= [[NSUserDefaults standardUserDefaults] objectForKey:@"streamTableColumnSizes"];
+	//NSDictionary	*sizesDictionary	= [[NSUserDefaults standardUserDefaults] objectForKey:@"streamTableColumnSizes"];
 	NSArray			*orderArray			= [[NSUserDefaults standardUserDefaults] objectForKey:@"streamTableColumnOrder"];
 		
 	_streamTableVisibleColumns			= [[NSMutableSet alloc] init];
@@ -2482,7 +2484,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		[contextMenuItem setState:([[visibleDictionary objectForKey:[obj identifier]] boolValue] ? NSOnState : NSOffState)];
 		
 //		NSLog(@"setting width of %@ to %f", [obj identifier], [[sizesDictionary objectForKey:[obj identifier]] floatValue]);
-		[obj setWidth:(CGFloat)[[sizesDictionary objectForKey:[obj identifier]] doubleValue]];
+		//[obj setWidth:(CGFloat)[[sizesDictionary objectForKey:[obj identifier]] doubleValue]];
 		
 		if([[visibleDictionary objectForKey:[obj identifier]] boolValue])
 			[_streamTableVisibleColumns addObject:obj];
@@ -2510,7 +2512,7 @@ NSString * const	PlayQueueKey								= @"playQueue";
 	
 	// Setup stream table columns
 	NSDictionary	*visibleDictionary	= [[NSUserDefaults standardUserDefaults] objectForKey:@"playQueueTableColumnVisibility"];
-	NSDictionary	*sizesDictionary	= [[NSUserDefaults standardUserDefaults] objectForKey:@"playQueueTableColumnSizes"];
+	//NSDictionary	*sizesDictionary	= [[NSUserDefaults standardUserDefaults] objectForKey:@"playQueueTableColumnSizes"];
 
 	_playQueueTableVisibleColumns		= [[NSMutableSet alloc] init];
 	_playQueueTableHiddenColumns		= [[NSMutableSet alloc] init];
@@ -2561,8 +2563,9 @@ NSString * const	PlayQueueKey								= @"playQueue";
 		[contextMenuItem setRepresentedObject:obj];
 		[contextMenuItem setState:([[visibleDictionary objectForKey:[obj identifier]] boolValue] ? NSOnState : NSOffState)];
 		
-//		NSLog(@"setting width of %@ to %f", [obj identifier], [[sizesDictionary objectForKey:[obj identifier]] floatValue]);
-		[obj setWidth:(CGFloat)[[sizesDictionary objectForKey:[obj identifier]] doubleValue]];
+		//NSLog(@"setting width of %@ to %f", [obj identifier], [[sizesDictionary objectForKey:[obj identifier]] floatValue]);
+		//CGFloat width = (CGFloat)[[sizesDictionary objectForKey:[obj identifier]] doubleValue];
+		//[obj setWidth:width];
 		
 		if([[visibleDictionary objectForKey:[obj identifier]] boolValue])
 			[_playQueueTableVisibleColumns addObject:obj];
